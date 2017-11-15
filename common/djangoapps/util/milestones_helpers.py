@@ -344,6 +344,26 @@ def add_course_content_milestone(course_id, content_id, relationship, milestone)
     return milestones_api.add_course_content_milestone(course_id, content_id, relationship, milestone)
 
 
+def get_user_milestones(user, milestone):
+    #TODO: add description
+    #TODO: store in cache?
+    #TODO: this is duplicate
+
+    if not settings.FEATURES.get('MILESTONES_APP'):
+        return None
+    return milestones_api.get_user_milestones(serialize_user(user), milestone)
+
+
+def user_has_milestone(user, milestone):
+    #TODO: add description
+    #TODO: store in cache? potetial: cache[user_id]['milestones'][milestone_id]
+    #TODO: rename function is prereq met
+
+    if not settings.FEATURES.get('MILESTONES_APP'):
+        return None
+    return milestones_api.user_has_milestone(serialize_user(user), milestone) #is prereq met, given the prereq
+
+
 def get_course_content_milestones(course_id, content_id, relationship, user_id=None):
     """
     Client API operation adapter/wrapper
@@ -366,6 +386,9 @@ def get_course_content_milestones(course_id, content_id, relationship, user_id=N
             relationship=relationship,
             user={"id": user_id}
         )
+
+    if content_id is None:
+        return request_cache_dict[user_id][relationship]
 
     return [m for m in request_cache_dict[user_id][relationship] if m['content_id'] == unicode(content_id)]
 

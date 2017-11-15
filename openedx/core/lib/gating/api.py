@@ -182,6 +182,8 @@ def add_prerequisite(course_key, prereq_content_key):
         },
         propagate=False
     )
+    log.info(">>> course_key: %s", course_key)
+    log.info(">>> prereq_content_key: %s", prereq_content_key)
     milestones_api.add_course_content_milestone(course_key, prereq_content_key, 'fulfills', milestone)
 
 
