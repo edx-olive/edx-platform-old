@@ -26,12 +26,21 @@ from util.json_request import JsonResponse
 log = logging.getLogger(__name__)
 
 
+@ensure_csrf_cookie
+def home(request):
+    """
+    AMATX react-based home page view
+    """
+    return render_to_response("home.html")
+
 @login_required
 @ensure_csrf_cookie
 def index(request):
     '''
     Redirects to main page -- info page if user authenticated, or marketing if not
     '''
+    if settings.FEATURES.get("ENABLE_NEW_HOMEPAGE", False):
+        return redirect(reverse("home"))
 
     if request.user.is_authenticated():
         # Only redirect to dashboard if user has

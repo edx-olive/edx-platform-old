@@ -1,0 +1,10 @@
+<%namespace name='static' file='static_content.html'/>
+<%! main_css = "style-main-v1" %>
+<%static:css group='${self.attr.main_css}'/>
+<%static:webpack entry="commons"/>
+
+${static.renderReact(
+  component="Homepage",
+  id="home-page-root",
+  props={}
+)}
