@@ -194,8 +194,12 @@ def award_program_certificates(self, username):
                 )
             except Exception:  # pylint: disable=broad-except
                 # keep trying to award other certs, but retry the whole task to fix any missing entries
-                LOGGER.exception('Failed to award certificate for program %s to user %s', program_uuid, username)
-                retry = True
+                error_message = 'Failed to award certificate for program %s to user %s', program_uuid, username
+                if countdown < MAX_RETRIES:
+                    LOGGER.warning(error_message)
+                    retry = True
+                else:
+                    LOGGER.exception("Max retries exceeded. %s ", error_message)
 
         if retry:
             # N.B. This logic assumes that this task is idempotent
