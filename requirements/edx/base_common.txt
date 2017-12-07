@@ -1,0 +1,4 @@
+wrapt==1.10.5
+edx-opaque-keys==0.4.0
+requests==2.9.1
+mock==1.0.1
