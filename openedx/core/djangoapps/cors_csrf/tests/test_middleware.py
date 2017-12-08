@@ -5,11 +5,16 @@ Tests for the CORS CSRF middleware
 from mock import patch, Mock
 import ddt
 
+import django
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.exceptions import MiddlewareNotUsed, ImproperlyConfigured
 from django.http import HttpResponse
-from birdcage.v1_11.csrf import CsrfViewMiddleware
+
+if django.VERSION < (1, 11):
+    from birdcage.v1_11.csrf import CsrfViewMiddleware
+else:
+    from django.middleware.csrf import CsrfViewMiddleware
 
 from ..middleware import CorsCSRFMiddleware, CsrfCrossDomainCookieMiddleware
 
