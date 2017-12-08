@@ -1,0 +1,35 @@
+<%page args="course_overview, entitlement, dashboard_index" expression_filter="h"/>
+
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+%>
+
+<div class="wrapper-action-more">
+  ## NOTE: data-dashboard-index is required for dashboard/dropdown.js functionality
+  <button id="actions-dropdown-link-${dashboard_index}" 
+          class="action action-more" 
+          type="button" 
+          aria-haspopup="true" 
+          aria-expanded="false" 
+          aria-controls="actions-dropdown-${dashboard_index}" 
+          data-dashboard-index="${dashboard_index}">
+    <span class="sr">${_('Course options for {courseName}').format(courseName=course_overview.display_name_with_default)}</span>
+    <span class="fa fa-cog" aria-hidden="true"></span>
+  </button>
+
+  <div id="actions-dropdown-${dashboard_index}" class="actions-dropdown" tabindex="-1">
+    <ul id="actions-dropdown-list-${dashboard_index}" class="actions-dropdown-list" aria-label="${_('Available Actions')}" role="menu">
+      <li id="actions-item-unenroll-${dashboard_index}" class="actions-item" role="menuitem">
+        <a href="#unenroll-entitlement-modal" class="action js-action-unenroll-entitlement" rel="leanModal"
+          data-dashboard-index="${dashboard_index}"
+          data-course-name="${course_overview.display_name_with_default}"
+          data-course-number="${course_overview.number}"
+          data-entitlement-is-refundable="${entitlement.is_entitlement_refundable()}"
+          data-entitlement-api-endpoint="${reverse('entitlements_api:v1:enrollments', args=[unicode(entitlement.uuid)])}">
+          ${_('Unenroll')}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
