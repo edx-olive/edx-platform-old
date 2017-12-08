@@ -11,6 +11,8 @@ from django.test.utils import override_settings
 from django.core.exceptions import MiddlewareNotUsed, ImproperlyConfigured
 from django.http import HttpResponse
 
+# TODO: Remove Django 1.11 upgrade shim
+# SHIM: Remove birdcage references post-1.11 upgrade as it is only in place to help during that deployment
 if django.VERSION < (1, 11):
     from birdcage.v1_11.csrf import CsrfViewMiddleware
 else:

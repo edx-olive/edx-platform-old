@@ -50,6 +50,8 @@ from django.core.exceptions import ImproperlyConfigured, MiddlewareNotUsed
 
 from .helpers import is_cross_domain_request_allowed, skip_cross_domain_referer_check
 
+# TODO: Remove Django 1.11 upgrade shim
+# SHIM: Remove birdcage references post-1.11 upgrade as it is only in place to help during that deployment
 if django.VERSION < (1, 11):
     from birdcage.v1_11.csrf import CsrfViewMiddleware
 else:

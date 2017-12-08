@@ -8,6 +8,9 @@ Settings for load testing.
 
 from .aws import *
 
+# TODO: Remove Django 1.11 upgrade shim
+# SHIM: Remove birdcage references post-1.11 upgrade as it is only in place to help during that deployment
+
 # Disable CSRF for load testing
 EXCLUDE_CSRF = lambda elem: elem not in [
     'django.template.context_processors.csrf',

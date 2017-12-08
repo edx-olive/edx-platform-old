@@ -1228,6 +1228,8 @@ simplefilter('ignore')
 
 ################################# Middleware ###################################
 
+# TODO: Remove Django 1.11 upgrade shim
+# SHIM: Remove birdcage references post-1.11 upgrade as it is only in place to help during that deployment
 if django.VERSION < (1, 11):
     _csrf_middleware = 'birdcage.v1_11.csrf.CsrfViewMiddleware'
 else:
