@@ -176,6 +176,7 @@ define(['underscore'], function(_) {
     };
 
     var expectSettingsSectionsAndFieldsToBeRenderedWithMessage = function(accountSettingsView, fieldsAreRendered) {
+        var sectionFieldElements;
         var sectionsData = accountSettingsView.options.tabSections.aboutTabSections;
 
         var sectionElements = accountSettingsView.$('#aboutTabSections-tabpanel .section');
@@ -190,8 +191,7 @@ define(['underscore'], function(_) {
                     .trim()).toBe(String(sectionsData[sectionIndex].message));
             }
 
-            var sectionFieldElements = $(sectionElement).find('.u-field');
-
+            sectionFieldElements = $(sectionElement).find('.u-field');
             if (fieldsAreRendered === false) {
                 expect(sectionFieldElements.length).toBe(0);
             } else {

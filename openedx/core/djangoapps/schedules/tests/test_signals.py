@@ -1,5 +1,6 @@
 import datetime
 import ddt
+import pytest
 from mock import patch
 from pytz import utc
 
@@ -7,6 +8,7 @@ from course_modes.models import CourseMode
 from course_modes.tests.factories import CourseModeFactory
 from courseware.models import DynamicUpgradeDeadlineConfiguration
 from openedx.core.djangoapps.schedules.models import ScheduleExperience
+from openedx.core.djangoapps.schedules.signals import CREATE_SCHEDULE_WAFFLE_FLAG
 from openedx.core.djangoapps.site_configuration.tests.factories import SiteFactory
 from openedx.core.djangoapps.waffle_utils.testutils import override_waffle_flag
 from openedx.core.djangolib.testing.utils import skip_unless_lms
@@ -30,9 +32,9 @@ class CreateScheduleTests(SharedModuleStoreTestCase):
             course_id=course.id,
             mode=CourseMode.AUDIT,
         )
-        self.assertIsNotNone(enrollment.schedule)
-        self.assertIsNone(enrollment.schedule.upgrade_deadline)
-        self.assertEquals(enrollment.schedule.experience.experience_type, experience_type)
+        assert enrollment.schedule is not None
+        assert enrollment.schedule.upgrade_deadline is None
+        assert enrollment.schedule.experience.experience_type == experience_type
 
     def assert_schedule_not_created(self):
         course = _create_course_run(self_paced=True)
@@ -40,48 +42,61 @@ class CreateScheduleTests(SharedModuleStoreTestCase):
             course_id=course.id,
             mode=CourseMode.AUDIT,
         )
-        with self.assertRaises(Schedule.DoesNotExist):
+        with pytest.raises(Schedule.DoesNotExist, message="Expecting Schedule to not exist"):
             enrollment.schedule
 
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, True)
     def test_create_schedule(self, mock_get_current_site):
         site = SiteFactory.create()
         mock_get_current_site.return_value = site
         ScheduleConfigFactory.create(site=site)
         self.assert_schedule_created()
 
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, True)
     def test_no_current_site(self, mock_get_current_site):
         mock_get_current_site.return_value = None
         self.assert_schedule_not_created()
 
-    def test_schedule_config_enabled(self, mock_get_current_site):
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, True)
+    def test_schedule_config_disabled_waffle_enabled(self, mock_get_current_site):
+        site = SiteFactory.create()
+        mock_get_current_site.return_value = site
+        ScheduleConfigFactory.create(site=site, create_schedules=False)
+        self.assert_schedule_created()
+
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, False)
+    def test_schedule_config_enabled_waffle_disabled(self, mock_get_current_site):
         site = SiteFactory.create()
         mock_get_current_site.return_value = site
         ScheduleConfigFactory.create(site=site, create_schedules=True)
         self.assert_schedule_created()
 
-    def test_schedule_config_disabled(self, mock_get_current_site):
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, False)
+    def test_schedule_config_disabled_waffle_disabled(self, mock_get_current_site):
         site = SiteFactory.create()
         mock_get_current_site.return_value = site
         ScheduleConfigFactory.create(site=site, create_schedules=False)
         self.assert_schedule_not_created()
 
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, True)
     def test_schedule_config_creation_enabled_instructor_paced(self, mock_get_current_site):
         site = SiteFactory.create()
         mock_get_current_site.return_value = site
         ScheduleConfigFactory.create(site=site, enabled=True, create_schedules=True)
         course = _create_course_run(self_paced=False)
         enrollment = CourseEnrollmentFactory(course_id=course.id, mode=CourseMode.AUDIT)
-        with self.assertRaises(Schedule.DoesNotExist):
+        with pytest.raises(Schedule.DoesNotExist, message="Expecting Schedule to not exist"):
             enrollment.schedule
 
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, True)
     @patch('openedx.core.djangoapps.schedules.signals.course_has_highlights')
     def test_create_schedule_course_updates_experience(self, mock_course_has_highlights, mock_get_current_site):
         site = SiteFactory.create()
-        ScheduleConfigFactory.create(site=site, enabled=True, create_schedules=True)
         mock_course_has_highlights.return_value = True
         mock_get_current_site.return_value = site
         self.assert_schedule_created(experience_type=ScheduleExperience.EXPERIENCES.course_updates)
 
+    @override_waffle_flag(CREATE_SCHEDULE_WAFFLE_FLAG, True)
     @patch('analytics.track')
     @patch('random.random')
     @ddt.data(
@@ -103,10 +118,22 @@ class CreateScheduleTests(SharedModuleStoreTestCase):
         mock_get_current_site.return_value = schedule_config.site
         if expect_schedule_created:
             self.assert_schedule_created()
-            self.assertFalse(mock_track.called)
+            assert not mock_track.called
         else:
             self.assert_schedule_not_created()
             mock_track.assert_called_once()
+            assert mock_track.call_args[1].get('event') == 'edx.bi.schedule.suppressed'
+
+    @patch('openedx.core.djangoapps.schedules.signals.log.exception')
+    @patch('openedx.core.djangoapps.schedules.signals.Schedule.objects.create')
+    def test_create_schedule_error(self, mock_create_schedule, mock_log, mock_get_current_site):
+        site = SiteFactory.create()
+        mock_get_current_site.return_value = site
+        ScheduleConfigFactory.create(site=site)
+        mock_create_schedule.side_effect = ValueError('Fake error')
+        self.assert_schedule_not_created()
+        mock_log.assert_called_once()
+        assert 'Encountered error in creating a Schedule for CourseEnrollment' in mock_log.call_args[0][0]
 
 
 @ddt.ddt
@@ -123,9 +150,9 @@ class UpdateScheduleTests(SharedModuleStoreTestCase):
         DynamicUpgradeDeadlineConfiguration.objects.create(enabled=True, deadline_days=self.VERIFICATION_DEADLINE_DAYS)
 
     def assert_schedule_dates(self, schedule, expected_start):
-        self.assertEquals(_strip_secs(schedule.start), _strip_secs(expected_start))
-        self.assertEquals(
-            _strip_secs(schedule.upgrade_deadline),
+        assert _strip_secs(schedule.start) == _strip_secs(expected_start)
+        assert (
+            _strip_secs(schedule.upgrade_deadline) ==
             _strip_secs(expected_start) + datetime.timedelta(days=self.VERIFICATION_DEADLINE_DAYS),
         )
 

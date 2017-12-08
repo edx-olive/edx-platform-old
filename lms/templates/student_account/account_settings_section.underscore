@@ -12,7 +12,7 @@
             <div class="account-settings-section-message">
                 <div class="alert-message <%- section.messageType%>" aria-live="polite">
                     <i class="fa fa-info-circle message-icon <%- section.messageType %>" aria-hidden="true"></i>
-                    <span><%= section.message %></span>
+                    <span><%= HtmlUtils.ensureHtml(section.message) %></span>
                 </div>
             </div>
         <% } %>

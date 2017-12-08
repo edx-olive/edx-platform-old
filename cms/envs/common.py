@@ -442,7 +442,7 @@ MIDDLEWARE_CLASSES = [
     'openedx.core.djangoapps.header_control.middleware.HeaderControlMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'birdcage.v1_11.csrf.CsrfViewMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
 
     # Instead of SessionMiddleware, we use a more secure version
@@ -612,8 +612,8 @@ if not EDX_PLATFORM_REVISION:
         EDX_PLATFORM_REVISION = 'unknown'
 
 # Static content
-STATIC_URL = '/static/' + EDX_PLATFORM_REVISION + "/"
-STATIC_ROOT = ENV_ROOT / "staticfiles" / EDX_PLATFORM_REVISION
+STATIC_URL = '/static/studio/'
+STATIC_ROOT = ENV_ROOT / "staticfiles" / 'studio'
 
 STATICFILES_DIRS = [
     COMMON_ROOT / "static",
@@ -828,6 +828,7 @@ STATICFILES_IGNORE_PATTERNS = (
 PIPELINE_YUI_BINARY = 'yui-compressor'
 
 ################################# DJANGO-REQUIRE ###############################
+
 
 # The baseUrl to pass to the r.js optimizer, relative to STATIC_ROOT.
 REQUIRE_BASE_URL = "./"

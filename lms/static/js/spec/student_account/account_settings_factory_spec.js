@@ -173,6 +173,25 @@ define(['backbone',
             };
 
             var requests;
+            var accountInfoTab = {
+                BASIC_ACCOUNT_INFORMATION: 0,
+                ADDITIONAL_INFORMATION: 1
+            };
+            var basicAccountInfoFields = {
+                USERNAME: 0,
+                FULL_NAME: 1,
+                EMAIL_ADDRESS: 2,
+                PASSWORD: 3,
+                LANGUAGE: 4,
+                COUNTRY: 5,
+                TIMEZONE: 6
+            };
+            var additionalInfoFields = {
+                EDUCATION: 0,
+                GENDER: 1,
+                YEAR_OF_BIRTH: 2,
+                PREFERRED_LANGUAGE: 3
+            };
 
             beforeEach(function() {
                 setFixtures('<div class="wrapper-account-settings"></div>');
@@ -193,7 +212,6 @@ define(['backbone',
                 AjaxHelpers.respondWithError(requests, 500);
                 Helpers.expectLoadingErrorIsVisible(accountSettingsView, true);
             });
-
 
             it('shows loading error when UserPreferencesModel fails to load for enterprise learners', function() {
                 var accountSettingsView, request;
@@ -253,11 +271,14 @@ define(['backbone',
                 AjaxHelpers.respondWithJson(requests, {});  // Page viewed analytics event
 
                 sectionsData = accountSettingsView.options.tabSections.aboutTabSections;
-
-                expect(sectionsData[0].fields.length).toBe(7);
+                expect(sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields.length).toBe(7);
 
                 // Verify that username, name and email fields are readonly
-                textFields = [sectionsData[0].fields[0], sectionsData[0].fields[1], sectionsData[0].fields[2]];
+                textFields = [
+                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.USERNAME],
+                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.FULL_NAME],
+                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.EMAIL_ADDRESS]
+                ];
                 for (i = 0; i < textFields.length; i++) {
                     view = textFields[i].view;
 
@@ -271,7 +292,10 @@ define(['backbone',
                 }
 
                 // Verify un-editable country dropdown field
-                view = sectionsData[0].fields[5].view;
+                view = sectionsData[
+                    accountInfoTab.BASIC_ACCOUNT_INFORMATION
+                ].fields[basicAccountInfoFields.COUNTRY].view;
+
                 FieldViewsSpecHelpers.verifyReadonlyDropDownField(view, {
                     title: view.options.title,
                     valueAttribute: view.options.valueAttribute,
@@ -281,11 +305,11 @@ define(['backbone',
                     defaultValue: null
                 });
 
-                expect(sectionsData[1].fields.length).toBe(4);
+                expect(sectionsData[accountInfoTab.ADDITIONAL_INFORMATION].fields.length).toBe(4);
                 dropdownFields = [
-                    sectionsData[1].fields[0],
-                    sectionsData[1].fields[1],
-                    sectionsData[1].fields[2]
+                    sectionsData[accountInfoTab.ADDITIONAL_INFORMATION].fields[additionalInfoFields.EDUCATION],
+                    sectionsData[accountInfoTab.ADDITIONAL_INFORMATION].fields[additionalInfoFields.GENDER],
+                    sectionsData[accountInfoTab.ADDITIONAL_INFORMATION].fields[additionalInfoFields.YEAR_OF_BIRTH]
                 ];
                 _.each(dropdownFields, function(field) {
                     view = field.view;
@@ -293,9 +317,9 @@ define(['backbone',
                         title: view.options.title,
                         valueAttribute: view.options.valueAttribute,
                         helpMessage: '',
-                        validValue: Helpers.FIELD_OPTIONS[1][0],
-                        invalidValue1: Helpers.FIELD_OPTIONS[2][0],
-                        invalidValue2: Helpers.FIELD_OPTIONS[3][0],
+                        validValue: Helpers.FIELD_OPTIONS[1][0],    // dummy option for dropdown field
+                        invalidValue1: Helpers.FIELD_OPTIONS[2][0], // dummy option for dropdown field
+                        invalidValue2: Helpers.FIELD_OPTIONS[3][0], // dummy option for dropdown field
                         validationError: 'Nope, this will not do!',
                         defaultValue: null
                     }, requests);

@@ -447,6 +447,19 @@
         &.u-field-dropdown, &.editable-never &.mode-display {
           .u-field-value {
             margin-bottom: ($baseline);
+
+            .u-field-title {
+              font-size: 16px;
+              line-height: 22px;
+              margin-bottom: 18px;
+            }
+
+            .u-field-value-readonly {
+              font-size: 22px;
+              color: #636c72;
+              line-height: 30px;
+              white-space: nowrap;
+            }
           }
         }
       }
