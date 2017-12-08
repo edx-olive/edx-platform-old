@@ -21,7 +21,7 @@ from django.core.urlresolvers import reverse
   <div id="actions-dropdown-${dashboard_index}" class="actions-dropdown" tabindex="-1">
     <ul id="actions-dropdown-list-${dashboard_index}" class="actions-dropdown-list" aria-label="${_('Available Actions')}" role="menu">
       <li id="actions-item-unenroll-${dashboard_index}" class="actions-item" role="menuitem">
-        <a href="#unenroll-entitlement-modal" class="action js-action-unenroll-entitlement" rel="leanModal"
+        <a href="#unenroll-entitlement-modal" id="action-unenroll-entitlement-${dashboard_index}" class="action js-action-unenroll-entitlement" rel="leanModal"
           data-dashboard-index="${dashboard_index}"
           data-course-name="${course_overview.display_name_with_default}"
           data-course-number="${course_overview.number}"

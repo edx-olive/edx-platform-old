@@ -59,6 +59,11 @@ from student.models import CourseEnrollment
       isEdx: true
     });
   </%static:require_module>
+  <%static:require_module module_name="js/learner_dashboard/entitlement_unenrollment_factory" class_name="EntitlementUnenrollmentFactory">
+    EntitlementUnenrollmentFactory({
+      dashboardUrl: "${reverse('dashboard') | n, js_escaped_string}"
+    });
+  </%static:require_module>
   % if settings.FEATURES.get('ENABLE_DASHBOARD_SEARCH'):
     <%static:require_module module_name="course_search/js/dashboard_search_factory" class_name="DashboardSearchFactory">
         DashboardSearchFactory();
