@@ -1,0 +1,27 @@
+.wrapper-entitlement-action-more {
+    @extend .wrapper-action-more;
+
+    .entitlement-action {
+        @extend .action;
+    }
+
+    .entitlement-action-more {
+        @extend .action-more;
+    }
+}
+
+.entitlement-actions-dropdown {
+    @extend .actions-dropdown;
+
+    .entitlement-actions-dropdown-list {
+        @extend .actions-dropdown-list;
+
+        .entitlement-actions-item {
+            @extend .actions-item;
+
+            .entitlement-action {
+                @extend .action;
+            }
+        }
+    }
+}
