@@ -20,7 +20,7 @@
 
                 errorInfoSelector: '#unenroll-entitlement-error',
 
-                closeButtonSelector: '#unenroll-entitlement-modal .close-modal',
+                closeButtonSelector: '#unenroll-entitlement-modal .close-entitlement-modal',
 
                 mainPageSelector: '#dashboard-main',
 

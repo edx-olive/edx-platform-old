@@ -25,3 +25,40 @@
         }
     }
 }
+
+.entitlement-modal {
+    @extend .modal;
+
+    .entitlement-modal-inner-wrapper {
+        @extend .inner-wrapper;
+
+        .close-entitlement-modal {
+            @extend .close-modal;
+        }
+
+        .entitlement-unenroll-header {
+            @extend .unenroll-header;
+        }
+
+        .entitlement-modal-form-error {
+            @extend .modal-form-error;
+        }
+    }
+}
+
+.unenroll-entitlement-modal {
+    .wrapper-unenroll-entitlement-submit {
+        margin-bottom: 12px;
+        position: relative;
+        z-index: 2;
+        padding: $baseline ($baseline*2);
+
+        .unenroll-entitlement-submit {
+            display: block;
+            height: auto;
+            margin: 0 auto;
+            width: 100%;
+            white-space: normal;
+        }
+    }
+}
