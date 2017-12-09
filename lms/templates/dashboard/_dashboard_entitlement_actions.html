@@ -5,24 +5,36 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 %>
 
-<div class="wrapper-action-more">
-  ## NOTE: data-dashboard-index is required for dashboard/dropdown.js functionality
-  <button id="actions-dropdown-link-${dashboard_index}" 
-          class="action action-more" 
-          type="button" 
-          aria-haspopup="true" 
-          aria-expanded="false" 
-          aria-controls="actions-dropdown-${dashboard_index}" 
-          data-dashboard-index="${dashboard_index}">
+<div class="wrapper-entitlement-action-more">
+
+  ## NOTE: In order for the dropdown functionality provided by lms/static/js/dashboard/dropdown.js to work,
+  ##       this button must include 'id', 'data-dropdown-id', 'data-dropdown-button-id',
+  ##       and class='entitlement-action-more'.
+  <button id="entitlement-actions-dropdown-link-${dashboard_index}"
+          class="entitlement-action entitlement-action-more"
+          type="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="entitlement-actions-dropdown-${dashboard_index}"
+          data-dropdown-id="#entitlement-actions-dropdown-${dashboard_index}"
+          data-dropdown-button-id="#entitlement-actions-dropdown-link-${dashboard_index}">
     <span class="sr">${_('Course options for {courseName}').format(courseName=course_overview.display_name_with_default)}</span>
     <span class="fa fa-cog" aria-hidden="true"></span>
   </button>
 
-  <div id="actions-dropdown-${dashboard_index}" class="actions-dropdown" tabindex="-1">
-    <ul id="actions-dropdown-list-${dashboard_index}" class="actions-dropdown-list" aria-label="${_('Available Actions')}" role="menu">
-      <li id="actions-item-unenroll-${dashboard_index}" class="actions-item" role="menuitem">
-        <a href="#unenroll-entitlement-modal" id="action-unenroll-entitlement-${dashboard_index}" class="action js-action-unenroll-entitlement" rel="leanModal"
-          data-dashboard-index="${dashboard_index}"
+  <div id="entitlement-actions-dropdown-${dashboard_index}" class="entitlement-actions-dropdown" tabindex="-1">
+    <ul id="entitlement-actions-dropdown-list-${dashboard_index}" class="entitlement-actions-dropdown-list" aria-label="${_('Available Actions')}" role="menu">
+      <li id="entitlement-actions-item-unenroll-${dashboard_index}" class="entitlement-actions-item" role="menuitem">
+
+        ## NOTE: In order for the modal functionality provided by lms/static/js/leanModal.js to work,
+        ##       'href' must be set to be the 'id' of the modal that should be opened on click, and
+        ##       'rel' must be set to 'leanModal'. Also, in order to properly toggle the gear dropdown on
+        ##       click, this link will need to define 'data-dropdown-id' and 'data-dropdown-button-id'.
+        ##       Finally, class='js-action-unenroll-entitlement' needs to be set so that the
+        ##       EntitlementUnenrollView can find this link and properly attach click handlers.
+        <a href="#unenroll-entitlement-modal" id="action-unenroll-entitlement-${dashboard_index}" class="entitlement-action js-action-unenroll-entitlement" rel="leanModal"
+          data-dropdown-id="#entitlement-actions-dropdown-${dashboard_index}"
+          data-dropdown-button-id="#entitlement-actions-dropdown-link-${dashboard_index}"
           data-course-name="${course_overview.display_name_with_default}"
           data-course-number="${course_overview.number}"
           data-entitlement-is-refundable="${entitlement.is_entitlement_refundable()}"

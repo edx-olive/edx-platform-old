@@ -9,9 +9,15 @@ var edx = edx || {};
     // Generate the properties object to be passed along with business intelligence events.
     edx.dashboard.dropdown.toggleCourseActionsDropdownMenu = function(event) {
         // define variables for code legibility
-        var dashboardIndex = $(event.currentTarget).data().dashboardIndex,
-            $dropdown = $('#actions-dropdown-' + dashboardIndex),
-            dropdownButton = $('#actions-dropdown-link-' + dashboardIndex),
+        var $currentTarget = $(event.currentTarget),
+            dashboardIndex = $currentTarget.data().dashboardIndex,
+
+            dropdownId = $currentTarget.data('dropdownId') || '#actions-dropdown-' + dashboardIndex,
+            $dropdown = $(dropdownId),
+
+            dropdownButtonId = $currentTarget.data('dropdownButtonId') || '#actions-dropdown-link-' + dashboardIndex,
+            dropdownButton = $(dropdownButtonId),
+
             ariaExpandedState = (dropdownButton.attr('aria-expanded') === 'true'),
             menuItems = $dropdown.find('a');
 
@@ -76,14 +82,15 @@ var edx = edx || {};
         });
     };
 
-    edx.dashboard.dropdown.bindToggleButtons = function() {
-        $('.action-more').bind(
+    edx.dashboard.dropdown.bindToggleButtons = function(selector) {
+        $(selector).bind(
         'click',
         edx.dashboard.dropdown.toggleCourseActionsDropdownMenu
       );
     };
 
     $(document).ready(function() {
-        edx.dashboard.dropdown.bindToggleButtons();
+        edx.dashboard.dropdown.bindToggleButtons('.action-more');
+        edx.dashboard.dropdown.bindToggleButtons('.entitlement-action-more');
     });
 })(jQuery);
