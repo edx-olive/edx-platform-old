@@ -208,11 +208,13 @@
               .wrapper-course-actions {
                 flex-grow: 1;
 
-                .action {
+                .action,
+                .entitlement-action {
                   @include margin-right(0);
                 }
 
-                .wrapper-action-more {
+                .wrapper-action-more,
+                .wrapper-entitlement-action-more {
                   padding-top: 3px;
                 }
               }
@@ -222,7 +224,8 @@
           .course-actions {
 
             // UI: course item actions
-            .action {
+            .action,
+            .entitlement-action {
               @include box-sizing(border-box);
               @include margin-right($baseline/2);
               @include float(right);
@@ -256,13 +259,15 @@
             }
 
             // UI: general actions dropdown layout
-            .wrapper-action-more {
+            .wrapper-action-more,
+            .wrapper-entitlement-action-more {
               display: inline-block;
               position: relative;
 
               @include float(right);
 
-              .action-more {
+              .action-more,
+              .entitlement-action-more {
                 @include font-size(14);
 
                 box-shadow: none;
@@ -273,7 +278,8 @@
                 text-shadow: none;
               }
 
-              .actions-dropdown {
+              .actions-dropdown,
+              .entitlement-actions-dropdown {
                 @extend %ui-no-list;
                 @extend %ui-depth1;
 
@@ -291,7 +297,8 @@
                   pointer-events: auto;
                 }
 
-                .actions-dropdown-list {
+                .actions-dropdown-list,
+                .entitlement-actions-dropdown-list {
                   @extend %ui-no-list;
 
                   @include box-sizing(border-box);
@@ -336,7 +343,8 @@
                   }
                 }
 
-                .actions-item {
+                .actions-item,
+                .entitlement-actions-item {
                   @extend %t-title7;
 
                   display: block;
@@ -346,7 +354,8 @@
                     display: none;
                   }
 
-                  .action {
+                  .action,
+                  .entitlement-action {
                     @include margin-right(0);
 
                     &:hover, &:focus {
@@ -867,7 +876,8 @@
       }
 
       .actions {
-        .action {
+        .action,
+        .entitlement-action {
           @include float(left);
           @include margin(0, 15px, 0, 0);
 
@@ -971,7 +981,8 @@
         .actions-primary {
           @include float(right);
 
-          .action {
+          .action,
+          .entitlement-action {
                     @include margin(0, 0, ($baseline/2), ($baseline*0.75));
 
             float: none;
@@ -1275,7 +1286,8 @@
   .list-actions {
     @extend %ui-no-list;
 
-    .action {
+    .action,
+    .entitlement-action {
       @extend %t-weight4;
 
       display: block;
