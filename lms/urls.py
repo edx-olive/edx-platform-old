@@ -33,6 +33,7 @@ from lms.djangoapps.instructor.views import instructor_dashboard as instructor_d
 from lms.djangoapps.instructor_task import views as instructor_task_views
 from lms.djangoapps.staticbook import views as staticbook_views
 from lms.djangoapps.static_template_view import views as static_template_view_views
+from lms.djangoapps.learner_dashboard.views import program_listing
 from openedx.core.apidocs import api_info
 from openedx.core.djangoapps.auth_exchange.views import LoginWithAccessTokenView
 from openedx.core.djangoapps.catalog.models import CatalogIntegration
@@ -529,6 +530,12 @@ urlpatterns += [
         ),
         courseware_views.program_marketing,
         name='program_marketing_view',
+    ),
+
+    url(
+        r'^programs$',
+        program_listing,
+        name='programs',
     ),
 
     # For the instructor
