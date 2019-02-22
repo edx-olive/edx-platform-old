@@ -10009,11 +10009,38 @@ msgid ""
 "different username."
 msgstr "נראה כי {username} שייך לחשבון קיים. נסה שוב עם שם משתמש אחר."
 
+#. Translators: These instructions appear on the registration form,
+#. immediately
+#. below a field meant to hold the user's email address.
+#: openedx/core/djangoapps/user_api/api.py
+msgid "This is what you will use to login."
+msgstr "כתובת האי מייל תשמש אותך להתחברות."
+
 #. Translators: This label appears above a field on the registration form
 #. meant to confirm the user's email address.
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Confirm Email"
 msgstr ""
+
+#. Translators: This example name is used as a placeholder in
+#. a field on the registration form meant to hold the user's name.
+#: openedx/core/djangoapps/user_api/views.py
+msgid "Jane Q. Learner"
+msgstr "אז איך אמרת שקוראים לך?"
+
+#. Translators: These instructions appear on the registration form,
+#. immediately
+#. below a field meant to hold the user's public username.
+#: openedx/core/djangoapps/user_api/api.py
+msgid ""
+"The name that will identify you in your courses. It cannot be changed later."
+msgstr "זה יהיה הכינוי שלך המזהה שלך בקורסים. לא ניתן לשנות אותו מאוחר יותר."
+
+#. Translators: This example username is used as a placeholder in
+#. a field on the registration form meant to hold the user's username.
+#: openedx/core/djangoapps/user_api/views.py
+msgid "Jane_Q_Learner"
+msgstr "אז איך אמרת שקוראים לך?"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Please confirm your email."
@@ -10866,7 +10893,7 @@ msgstr "קורסים"
 #: cms/templates/login.html cms/templates/widgets/header.html
 #: themes/red-theme/cms/templates/login.html
 msgid "Sign In"
-msgstr "כניסה"
+msgstr "התחבר/י"
 
 #: cms/templates/login.html themes/red-theme/cms/templates/login.html
 msgid "Sign In to {studio_name}"
@@ -12265,7 +12292,7 @@ msgstr "המטרות להרשמה ל{platform_name}"
 
 #: lms/templates/signup_modal.html
 msgid "Already have an account?"
-msgstr "האם יש לך כבר חשבון? "
+msgstr "כבר נרשמת לכאן?"
 
 #: lms/templates/signup_modal.html
 msgid "Login."
@@ -14332,7 +14359,7 @@ msgstr "ניווט דפי מידע"
 
 #: lms/templates/courseware/info.html
 msgid "Course Tools"
-msgstr ""
+msgstr "כלים בקורס"
 
 #: lms/templates/courseware/news.html
 msgid "News - MITx 6.002x"
@@ -15166,6 +15193,10 @@ msgid ""
 "engaging, high-quality {platform_name} courses.  Note that you will not be "
 "able to log back into your account until you have activated it."
 msgstr ""
+"הי,\n"
+"עוד קליק אחד ואתם מתחילים ללמוד ב {platform_name}! \n"
+"בכדי להפעיל את החשבון שלכם, לחצו על הלינק הבא:\n"
+"(אנחנו עושים את זה בכדי שנדע בביטחון שזה אתם!)"
 
 #: lms/templates/emails/activation_email.txt
 msgid "Enjoy learning with {platform_name}."
