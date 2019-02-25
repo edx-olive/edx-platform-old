@@ -1779,6 +1779,10 @@ msgstr ""
 msgid "Bookmarked"
 msgstr "מסומן בסימניה"
 
+#: lms/templates/bookmark_button.html
+msgid "Bookmark this page"
+msgstr "סמן עמוד זה"
+
 #: common/lib/xmodule/xmodule/js/src/video/00_i18n.js
 #: common/lib/xmodule/xmodule/js/src/video/09_play_pause_control.js
 #: common/lib/xmodule/xmodule/js/src/video/09_play_skip_control.js
