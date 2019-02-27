@@ -4305,7 +4305,7 @@ msgstr "אירעה שגיאה."
 #. */
 #: lms/static/js/student_account/views/FormView.js
 msgid "(optional)"
-msgstr "(אופציונלי)"
+msgstr "(רשות)"
 
 #: lms/static/js/student_account/views/LoginView.js
 msgid "We couldn't sign you in."

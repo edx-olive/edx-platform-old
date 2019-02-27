@@ -10014,7 +10014,7 @@ msgstr "נראה כי {username} שייך לחשבון קיים. נסה שוב �
 #. below a field meant to hold the user's email address.
 #: openedx/core/djangoapps/user_api/api.py
 msgid "This is what you will use to login."
-msgstr "כתובת האי מייל תשמש אותך להתחברות."
+msgstr "כתובת האימייל תשמש אותך להתחברות."
 
 #. Translators: This label appears above a field on the registration form
 #. meant to confirm the user's email address.
@@ -10041,7 +10041,7 @@ msgstr "זה השם שיופיע בכל תעודות הסיום שלך"
 #: openedx/core/djangoapps/user_api/api.py
 msgid ""
 "The name that will identify you in your courses. It cannot be changed later."
-msgstr "זה יהיה הכינוי שלך המזהה שלך בקורסים. לא ניתן לשנות אותו מאוחר יותר."
+msgstr "זה יהיה הכינוי המזהה שלך בקורסים. לא ניתן לשנות אותו מאוחר יותר."
 
 #. Translators: This example username is used as a placeholder in
 #. a field on the registration form meant to hold the user's username.
