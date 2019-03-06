@@ -15222,8 +15222,7 @@ msgid ""
 "This email message was automatically sent by {lms_url} because someone "
 "attempted to create an account on {platform_name} using this email address."
 msgstr ""
-"הודעה זו נשלחה באופן אוטומטי על ידי {lms_url}, לאחר שנוצר חשבון"
-"{platform_name} באמצעות כתובת דואל זו."
+"הודעה זו נשלחה באופן אוטומטי על ידי {lms_url}, לאחר שנוצר חשבון ב{platform_name} באמצעות כתובת דוא\"ל זו."
 
 #: lms/templates/emails/activation_email_subject.txt
 msgid "Action Required: Activate your {platform_name} account"
