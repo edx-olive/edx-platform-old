@@ -1779,6 +1779,10 @@ msgstr ""
 msgid "Bookmarked"
 msgstr "מסומן בסימניה"
 
+#: lms/templates/bookmark_button.html
+msgid "Bookmark this page"
+msgstr "סמן עמוד זה"
+
 #: common/lib/xmodule/xmodule/js/src/video/00_i18n.js
 #: common/lib/xmodule/xmodule/js/src/video/09_play_pause_control.js
 #: common/lib/xmodule/xmodule/js/src/video/09_play_skip_control.js
@@ -3251,6 +3255,47 @@ msgstr "לא נמצאה אף תוצאה עבור \"%s\"."
 msgid "There was an error, try searching again."
 msgstr "אירעה שגיאה, נסה לחפש שוב."
 
+#: lms/static/js/discussions_management/views/discussions.js
+msgid "Cohorts"
+msgstr "קבוצות למידה"
+
+#: lms/static/js/discussions_management/views/discussions.js
+msgid ""
+"Use cohorts as the basis for dividing discussions. All learners, regardless "
+"of cohort, see the same discussion topics, but within divided topics, only "
+"members of the same cohort see and respond to each others’ posts. "
+msgstr ""
+"השתמשו ב'קבוצות למידה' שהגדרתם עבור חלוקת הדיונים. שימו לב שכל קבוצת למידה"
+"תהיה חשופה אך ורק לתוכן הדיון שלה  -הודעות ותגובות"
+
+#: lms/static/js/discussions_management/views/discussions.js
+msgid "Not divided"
+msgstr "לא מחולק"
+
+#: lms/static/js/discussions_management/views/discussions.js
+msgid ""
+"Discussions are unified; all learners interact with posts from other "
+"learners, regardless of the group they are in."
+msgstr ""
+"במצב זה כל הדיונים מאוחדים וכל הלומדים מתקשרים עם לומדים אחרים, ללא תלות"
+"באוכלוסייה שהוגדרה להם."
+
+#: lms/templates/instructor/instructor_dashboard_2/divided-discussions-course-wide.underscore
+msgid "Select the course-wide discussion topics that you want to divide."
+msgstr "בחרו את הנושאים לדיון שברצונך לחלק לפי אוכלוסיות."
+
+#: lms/templates/instructor/instructor_dashboard_2/divided-discussions-inline.underscore
+msgid "Specify whether content-specific discussion topics are divided."
+msgstr "ציינו אם נושאי הדיון הספציפיים מחולקים לפי אוכלוסיות."
+
+#: lms/templates/instructor/instructor_dashboard_2/divided-discussions-inline.underscore
+msgid "Always divide content-specific discussion topics"
+msgstr "חלקו באופן גורף את כל נושאי הדיונים לפי תוכן ספציפי"
+
+#: lms/templates/instructor/instructor_dashboard_2/divided-discussions-inline.underscore
+msgid "Divide the selected content-specific discussion topics"
+msgstr "חלקו את נושאי הדיונים מבוססי-התוכן שנבחרו"
+
 #: lms/static/js/edxnotes/views/notes_visibility_factory.js
 #: lms/static/js/edxnotes/views/search_box.js
 msgid ""
@@ -4253,6 +4298,14 @@ msgstr "טוען את הקורסים שלך"
 #: lms/static/js/student_account/views/RegisterView.js
 msgid "An error occurred."
 msgstr "אירעה שגיאה."
+
+#. Translators: This string is appended to optional field labels on the
+#. student login, registration, and
+#. profile forms.
+#. */
+#: lms/static/js/student_account/views/FormView.js
+msgid "(optional)"
+msgstr "(רשות)"
 
 #: lms/static/js/student_account/views/LoginView.js
 msgid "We couldn't sign you in."
@@ -7738,6 +7791,10 @@ msgstr ""
 " עליך להוריד את מידע פרופיל הקורס או תוצאות קבוצת הלמידה בעמוד "
 "{link_start}Data Download{link_end}."
 
+#: lms/templates/instructor/instructor_dashboard_2/discussions.underscore
+msgid "Specify whether discussion topics are divided"
+msgstr "יש לציין אם ישנה חלוקה לנושאי דיון"
+
 #: lms/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
 msgid "Used"
@@ -8110,6 +8167,18 @@ msgid "Register through edX"
 msgstr "הירשם דרך edX"
 
 #: lms/templates/student_account/login.underscore
+msgid "First time here?"
+msgstr "פעם ראשונה שלך כאן?"
+
+#: lms/templates/student_account/login.underscore
+msgid "Create an Account."
+msgstr "יצירת חשבון"
+
+#: lms/templates/student_account/login.underscore
+msgid "Sign In"
+msgstr "התחבר/י"
+
+#: lms/templates/student_account/login.underscore
 #: test_root/staticfiles/templates/student_account/login.underscore
 msgid ""
 "Sign in here using your email address and password, or use one of the "
@@ -8210,7 +8279,23 @@ msgstr "שדות חובה"
 #: lms/templates/student_account/register.underscore
 #: test_root/staticfiles/templates/student_account/register.underscore
 msgid "Already have an account?"
-msgstr "האם יש לך כבר חשבון?"
+msgstr "כבר נרשמת לכאן?"
+
+#: lms/templates/student_account/register.underscore
+msgid "Already have an {platformName} account?"
+msgstr "כבר יש לך חשבון  {platformName} ?"
+
+#: lms/templates/student_account/register.underscore
+msgid "Sign in."
+msgstr "התחבר/י"
+
+#: lms/templates/student_account/register.underscore
+msgid "Create an Account"
+msgstr "יצירת חשבון"
+
+#: lms/templates/student_account/register.underscore
+msgid "Create account"
+msgstr "צור חשבון"
 
 #: lms/templates/student_profile/badge.underscore
 #: test_root/staticfiles/templates/student_profile/badge.underscore
