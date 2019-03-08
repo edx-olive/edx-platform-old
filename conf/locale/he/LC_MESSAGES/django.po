@@ -15201,7 +15201,7 @@ msgid ""
 "able to log back into your account until you have activated it."
 msgstr ""
 "הי,\n"
-"עוד קליק אחד ואתם מתחילים ללמוד ב {platform_name}!\n"
+"עוד קליק אחד ואתם מתחילים ללמוד ב{platform_name}! \n"
 "בכדי להפעיל את החשבון שלכם, לחצו על הלינק הבא:\n"
 "אנחנו עושים את זה בכדי שנדע בביטחון שזה אתם!"
 
