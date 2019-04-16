@@ -47,10 +47,14 @@ urlpatterns = patterns(
 
     url(r'^xmodule/', include('pipeline_js.urls')),
     url(r'^heartbeat$', include('openedx.core.djangoapps.heartbeat.urls')),
+    url(r'^list_s3_videos$', 'util.custom_views.s3_video_list'),
+    url(r'^upload_video$', 'util.custom_views.video_upload'),
 
     url(r'^user_api/', include('openedx.core.djangoapps.user_api.legacy_urls')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
+
+    url(r'^sign_url', 'util.custom_views.sign_cloudfront_url'),
 
     # User API endpoints
     url(r'^api/user/', include('openedx.core.djangoapps.user_api.urls')),

@@ -1,0 +1,206 @@
+<script type="text/javascript">
+$(document).ready(function(){
+if($.browser.chrome === undefined){
+        alert("Some appliedx features may not work correctly in your browser. Please use chrome.")
+}
+});
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //resetButtons();
+        var observer = new WebKitMutationObserver(function (mutations) {
+            mutations.forEach(function(mutation){
+                var name = mutation.attributeName,
+                newValue = mutation.target.getAttribute(name),
+                oldValue = mutation.oldValue;
+                console.log(name, newValue, oldValue);
+                if(mutation.attributeName == "disabled"){
+                    //resetButtons();
+                }
+            });
+        });
+        observer.observe($(".button-next")[1], { attributes: true, subtree: false });
+        observer.observe($(".button-previous")[1], { attributes: true, subtree: false });
+        $(".play").click(function(){
+            if(isVideoURLExpired()){
+                    reloadVideoURL(player, videoURL.split("?Expires=")[0]);
+            }
+        });
+    });
+    isVideoURLExpired = function(){
+         var player = $("video", $(".play").closest("article"));
+         if($(player).length == 0) return false;
+         var videoURL = $(player).attr("src");
+         return (parseInt(videoURL.split("?Expires=")[1].split("&")[0])<parseInt(new Date().getTime()/1000 - 10))
+    }
+    reloadVideoURL = function(player, originalURL){
+        $.ajax({
+            url: "/sign_url?url="+originalURL,
+            success: function(result){
+                $(player).attr("src", result.responseText);
+            },
+            error: function(result){
+                $(player).attr("src", result.responseText);
+            }
+        });
+    }
+    resetButtons = function(){
+        if(isVideoURLExpired()){
+            var player = $("video");
+            reloadVideoURL(player, videoURL.split("?Expires=")[0]);
+        }
+        //$(".sequence-list-wrapper li").click(function(){document.location.reload()});
+        $("#sequence-list li a p").hide();
+        $("#sequence-list li a").attr("title", "");
+        var links = $(".accordion .menu-item");
+        var count = links.length;
+        for(var i = 0;i < count; i++){
+            if($(links[i]).hasClass("active")){
+                var lastUnitIndex =  $("#sequence-list li a").length - 1;
+                var activeUnitIndex = $("#sequence-list li a").index($("#sequence-list li a.active")[0]);
+                if(i < count - 1){
+                    $(".button-next").removeAttr("disabled").removeClass("disabled");
+                    $(".button-next").attr("href", $("a", $(links[i + 1])).attr("href"));
+                    if(activeUnitIndex == lastUnitIndex){
+                        $(".button-next").click(function(e){
+                            document.location.href = $(e.currentTarget).attr("href");
+                        });
+                    }
+                }
+                if(i > 0){
+                    $(".button-previous").removeAttr("disabled").removeClass("disabled");
+                    $(".button-previous").attr("href", $("a", $(links[i - 1])).attr("href"));
+                    if(activeUnitIndex == 0){
+                        $(".button-previous").click(function(e){
+                            document.location.href = $(e.currentTarget).attr("href");
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        for(node_index in mutation.addedNodes){
+            var node  = mutation.addedNodes[node_index]
+            if(node.tagName == "VIDEO"){
+                var sources = node.getElementsByTagName("SOURCE")
+                for(index=0;index<sources.length;index++){
+                    sources[index].src = sources[index].src.substr(0, sources[index].src.lastIndexOf("&"))
+                }
+                attachVideoTrackingEvents(node)
+            }
+        }
+    });
+});
+
+var observerConfig = { attributes: false, childList: true, subtree:true};
+var targetNode = document.body;
+observer.observe(targetNode, observerConfig);
+
+    var ip="0.0.0.0", stackSize=10;
+
+    wrap=function(obj){return JSON.stringify(obj)}
+    unwrap=function(jstr){return JSON.parse(jstr)}
+    rewrap=function(jstr, obj){unwrapped=unwrap(jstr); unwrapped.push(obj); return wrap(unwrapped)}
+    now=function(){return new Date().getTime()}
+    UTCNow=function(){return now() + new Date().getTimezoneOffset() * 60000}
+
+
+    const eventTracks = {}
+
+    getIP = function(){
+        var RTCPeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+        if (RTCPeerConnection) {
+            var rtc = new RTCPeerConnection({iceServers:[]});
+            rtc.createDataChannel('', {reliable:false});
+            rtc.onicecandidate = function (evt) {
+                if (evt.candidate)
+                    if(evt.candidate.candidate.indexOf("candidate:")==0)
+                        ip = evt.candidate.candidate.split(" ")[4]
+            };
+            rtc.createOffer(function (offerDesc) {
+                rtc.setLocalDescription(offerDesc);
+            }, function (e) { console.warn("offer failed", e); });
+        }
+    }();
+
+    if(localStorage.video_events === undefined)
+        localStorage.video_events = wrap([]);
+    logEvent = function(event) {
+        localStorage.video_events = rewrap(localStorage.video_events, [
+            document.location.href.split(".amat.com/")[1],
+            event.target.currentSrc.startsWith("https://d2a8rd6kt4zb64") ?
+                          event.target.currentSrc.split("/")[4].split("&Signature=").map(function(sub, i){return i==1?sub.substring(0,12):sub}).join("&Signature="):
+                          event.target.currentSrc,
+            ip.split(".")[0] + "." + ip.split(".")[1],
+            $(".label-username").text(),
+            Object.keys($.browser)[0] + " "+ $.browser[Object.keys($.browser)[1]],
+            UTCNow(),
+            event.type,
+            event.analysis === undefined ? "" : event.analysis
+        ])
+        if(unwrap(localStorage.video_events).length==stackSize){
+            //$.post( "/log_video_event/", { message: localStorage.video_events, referrer:document.location.host.replace(".amat.com", "").replace("appliedx", "") });
+            localStorage.video_events = wrap([]);
+        }
+    }
+
+    trigger = function(event_type, event, analysis) {
+        logEvent({
+            type: event_type,
+            target: {currentSrc: event.target.currentSrc},
+            analysis: analysis
+        })
+    }
+
+    function attachVideoTrackingEvents(video){
+        $(video).on("loadstart canplay canplaythrough playing waiting play pause abort error emptied stalled seeked ended", function(e){
+            switch (e.type){
+            case "error":
+                e["details"] = video.error.message
+            case "loadstart":
+                eventTracks["loadstarted"] = now();
+                break;
+            case "seeked":
+                eventTracks["seeked"] = true;
+                break;
+            case "waiting":
+                eventTracks["waitstarted"] = now();
+                break;
+            case "canplay":
+                const triggerableEvent = {"completed":now()}
+                var details = ""
+                if(eventTracks.loadstarted !== undefined){
+                    trigger("loading", e, {
+                        started:eventTracks.loadstarted,
+                        duration:now() - eventTracks.loadstarted
+                    })
+                    delete eventTracks["loadstarted"];
+                }
+                if(eventTracks.waitstarted !== undefined){
+                    if(eventTracks.seeked !== undefined && eventTracks.seeked) details = "Possible reason: video seeking"
+                    trigger("buffering", e, {
+                        started: eventTracks.waitstarted,
+                        duration: now() - eventTracks.waitstarted,
+                        details: details
+                    })
+                    delete eventTracks["waitstarted"];
+                    eventTracks["seeked"] = false;
+                }
+                break;
+            }
+            logEvent(e);
+        });
+
+        $("body").on("unload", function(e) {
+            logEvent({
+                type: e.type,
+                target: {currentSrc: "NA"}
+            });
+        })
+    }
+
+</script>
