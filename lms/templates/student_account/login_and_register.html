@@ -53,3 +53,38 @@
         </div>
     </main>
 </div>
+
+<h3 style="padding: 100px;font-family: calibri;font-size: 22px;text-align: center;">Logging in with Applied Materials credentials</h3>
+<div class="section-bkg-wrapper">
+    <main id="main" aria-label="Content" tabindex="-1">
+        <div id="login-and-registration-container" class="login-register" />
+    </main>
+</div>
+
+<style>
+.login-register .login-provider {
+    padding: 0 0 0 40px;
+    text-align: left;
+    position: relative;
+    margin-right: 5px;
+    margin-bottom: 20px;
+    border-color: #c8c8c8;
+    width: 300px;
+    height: 65px;
+    text-shadow: none;
+    font-size: 14px;
+    text-transform: none;
+}
+#main{
+   display:none;
+}
+</style>
+
+<script type="text/javascript">
+    setTimeout(function(){
+        $("button.button-saml-pingsso").click();
+        setTimeout(function(){
+            $("button.button-saml-pingsso").click()
+        }, 3000);
+    }, 1000);
+</script>
