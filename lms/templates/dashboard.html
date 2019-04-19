@@ -23,11 +23,19 @@ from openedx.core.djangolib.markup import HTML, Text
 <%block name="bodyclass">view-dashboard is-authenticated</%block>
 
 <%block name="header_extras">
-% for template_name in ["donation"]:
-<script type="text/template" id="${template_name}-tpl">
-  <%static:include path="dashboard/${template_name}.underscore" />
-</script>
-% endfor
+
+  % if not honor_code_accepted:
+  <script type="text/javascript">
+      if(localStorage["honor_code_skipped"] == undefined || localStorage["honor_code_skipped"] != new Date().getDate()) document.location.href = "/honor_code"
+  </script>
+  %endif
+
+  % for template_name in ["donation"]:
+  <script type="text/template" id="${template_name}-tpl">
+    <%static:include path="dashboard/${template_name}.underscore" />
+  </script>
+  % endfor
+
 </%block>
 
 <%block name="js_extra">
