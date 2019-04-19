@@ -874,6 +874,7 @@ def dashboard(request):
         'disable_courseware_js': True,
         'display_course_modes_on_dashboard': enable_verified_certificates and display_course_modes_on_dashboard,
         'display_sidebar_on_dashboard': display_sidebar_on_dashboard,
+        'honor_code_accepted': is_honor_code_accepted(request),
     }
 
     ecommerce_service = EcommerceService()
@@ -2899,3 +2900,14 @@ class LogoutView(TemplateView):
         })
 
         return context
+
+
+# TODO DRY (we already have it in `custom_views.py`)
+def is_honor_code_accepted(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    if user_profile.meta:
+        meta = json.loads(user_profile.meta)
+        if meta.get("honor_code_accepted_on"):
+            return True
+    return False

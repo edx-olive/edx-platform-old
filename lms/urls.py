@@ -60,6 +60,9 @@ urlpatterns = (
     # Feedback Form endpoint
     url(r'^submit_feedback$', 'util.views.submit_feedback'),
 
+    url(r'^honor_code$', 'student.custom_views.honorcode'),
+    url(r'^accept_honor_code$', 'student.custom_views.accept_honorcode'),
+
     # Enrollment API RESTful endpoints
     url(r'^api/enrollment/v1/', include('enrollment.urls')),
 

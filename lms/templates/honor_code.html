@@ -1,0 +1,67 @@
+<html>
+<head></head>
+<body>
+<style>
+.appliedx-hc-container{width: 550px;font-family:calibri;margin: 0px auto;position: relative;box-shadow: 3px 3px 25px #ccc;border-radius: 10px 100px 10px 100px}
+.appliedx-hc-logo{ margin: auto; width: 50%; margin: 15px; margin-left: 5%; box-shadow: 3px 3px 25px #fff; border: solid 2px #fff;}
+.appliedx-hc-title{ font-size: 18px; font-weight: bold; padding: 10px; border-width: 3px 0px 3px 0px; color: white; text-align: center; background: rgb(102,198, 66);}
+.appliedx-hc-content{padding: 10px;}
+.appliedx-hc-content li {font-weight: bold;}
+.appliedx-hc-btn{
+	padding: 10px; font-size: 18px;  width: 250px; border: solid 1px #ccc; text-align: center; margin-left: 250px; cursor:pointer;
+	background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%);
+}
+.appliedx-hc-btn:hover{ background: linear-gradient(to bottom, #b4e391 0%,#61c419 50%,#b4e391 100%);}
+@-webkit-keyframes rotate {from {-webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg);}}
+.spinner{ -webkit-animation-name: rotate; -webkit-animation-duration: 2s; -webkit-animation-iteration-count: infinite; -webkit-animation-timing-function: linear;}
+.appliedx-hc-loader{font-size: 1.5em;font-family: calibri; text-align: center; color: #cc8874;}
+</style>
+<script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script> 
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".appliedx-hc-btn").click(function(){
+		$.ajax({
+			url: "/accept_honor_code",
+			success: function(result){
+		        document.location.href = "/dashboard"
+			},
+			error: function(result){
+				document.location.href = "/dashboard"
+			}
+		});
+	});
+	setInterval(function(){
+		$(".appliedx-hc-loader").hide();
+		$(".appliedx-hc-container").show();
+	}, 5000);
+});
+</script>
+<div class="appliedx-hc-loader">appliedx Honor Code has been reinstated. Please accept the Honor Code to continue.
+<span tabindex="-1" class="spinner" style="transform: translate(-50%, -50%);position: absolute; z-index: 9; top: 100px; left: 46%; padding: 30px; border-radius: 25%; border: solid 12px #999; border-radius: 100%; border-top-color: white; border-bottom-color: white;"></span>
+</div>
+<div class="appliedx-hc-container" style="display:none">
+	<img src="https://appliedx/static/themes/stanford/images/appliedx%20logo.png" class="appliedx-hc-logo"/>
+	<div class="appliedx-hc-title">HONOR CODE</div>
+	<div class="appliedx-hc-content">By registering in an appliedx course, you agree to: 
+		<ol>
+			<li>Rely solely on your own work in connection with all assessments, problems, homework and assignments (unless collaboration is expressly permitted)</li>
+			<li>Acknowledge any and all external sources used in your work </li>
+			<li>Refrain from any activity that would fraudulently improve your results or disadvantage others in the course </li>
+		</ol>
+		<p>
+		The courses assigned to you as part of the Integrated Training Initiative teach best known methods for product development and delivery distilled from 30,000 man years of 	
+
+	Applied 	experience and are taught by your colleagues who are experts in the subject matter.  To check your FY16 training requirements click on this link.
+		</p>
+		<p>
+		We hope you will enjoy them and help us create a culture of learning and sharing knowledge at Applied.  This Honor Code is not intended to prohibit discussion of course 	
+
+	material. 	While you must submit work that is your own, you should feel free to discuss lectures or other course material with your Applied colleagues either in-person or 		
+
+online.
+		</p>
+		<div class="appliedx-hc-btn">Yes, I accept the honor code</div>
+	</div>
+</div>
+</body>
+</html>
