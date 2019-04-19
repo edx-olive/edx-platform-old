@@ -29,7 +29,10 @@ def honorcode(request):
 def accept_honorcode(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    meta = json.loads(user_profile.meta)
+    if user_profile.meta:
+        meta = json.loads(user_profile.meta)
+    else:
+        meta = {}
     accepted_on = datetime.datetime.now()
     meta["honor_code_accepted_on"] = str(accepted_on)
     user_profile.meta = json.dumps(meta)
