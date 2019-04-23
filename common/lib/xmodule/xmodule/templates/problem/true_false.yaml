@@ -1,0 +1,29 @@
+---
+metadata:
+    display_name: True or False
+    markdown: |
+       Conditional Statement
+       >>(T/F)<<
+       (x) True
+       ( ) False
+
+       [explanation]
+
+       [explanation]
+
+data: |
+   <problem>
+   <p>Conditional Statement</p>
+      <p>(T/F)</p>
+      <multiplechoiceresponse>
+       <choicegroup type="MultipleChoice">
+          <choice correct="true">True</choice>
+          <choice correct="false">False</choice>
+       </choicegroup>
+      </multiplechoiceresponse>
+    <solution>
+      <div class="detailed-solution">
+        <p>Explanation</p>
+      </div>
+    </solution>
+    </problem>
