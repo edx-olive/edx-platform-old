@@ -177,6 +177,7 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
           <hr class="divide" />
         % endif
 
+        % if request.user.is_superuser or (role["role"] == "admins" if role else False):
         <div class="group-settings schedule">
           <header>
             <h2 class="title-2">${_('Course Schedule')}</h2>
@@ -268,6 +269,7 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
           </div>
           % endif
         </div>
+        % endif
 
         % if about_page_editable:
         <div class="group-settings course_details">
