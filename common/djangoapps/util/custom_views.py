@@ -159,26 +159,24 @@ def get_video_metadata(filepath):
     lines = tmpf.readlines()
     tmpf.close()
     metadata = {}
-    l = None
     if lines:
         for l in lines:
             l = l.strip()
             if l.startswith('Duration'):
                 metadata['duration'] = re.search('Duration: (.*?),', l).group(0).split(':', 1)[1].strip(' ,')
                 metadata['bitrate'] = re.search('bitrate: (\d+ kb/s)', l).group(0).split(':')[1].strip()
-    if l:
-        if l.startswith('Stream #0.') and re.search('Video: (.*? \(.*?\)),? ', l) is not None:
-            metadata['video'] = {}
-            metadata['video']['codec'], metadata['video']['profile'] = \
-                [e.strip(' ,()') for e in re.search('Video: (.*? \(.*?\)),? ', l).group(0).split(':')[1].split('(')]
-            metadata['video']['resolution'] = re.search('([1-9]\d+x\d+)', l).group(1)
-            metadata['video']['bitrate'] = re.search('(\d+ kb/s)', l).group(1)
-            metadata['video']['fps'] = re.search('(\d+ fps)', l).group(1)
-        if l.startswith('Stream #0.') and re.search('Video: (.*? \(.*?\)),? ',l) is None:
-            metadata['audio'] = {}
-            metadata['audio']['codec'] = re.search('Audio: (.*?) ', l).group(1)
-            metadata['audio']['frequency'] = re.search(', (.*? Hz),', l).group(1)
-            metadata['audio']['bitrate'] = re.search(', (\d+ kb/s)', l).group(1)
+            if l.startswith('Stream #0') and re.search('Video: (.*? \(.*?\)),? ', l) is not None:
+                metadata['video'] = {}
+                metadata['video']['codec'], metadata['video']['profile'] = \
+                    [e.strip(' ,()') for e in re.search('Video: (.*? \(.*?\)),? ', l).group(0).split(':')[1].split('(')]
+                metadata['video']['resolution'] = re.search('([1-9]\d+x\d+)', l).group(1)
+                metadata['video']['bitrate'] = re.search('(\d+ kb/s)', l).group(1)
+                metadata['video']['fps'] = re.search('(\d+ fps)', l).group(1)
+            if l.startswith('Stream #0') and re.search('Video: (.*? \(.*?\)),? ',l) is None:
+                metadata['audio'] = {}
+                metadata['audio']['codec'] = re.search('Audio: (.*?) ', l).group(1)
+                metadata['audio']['frequency'] = re.search(', (.*? Hz),', l).group(1)
+                metadata['audio']['bitrate'] = re.search(', (\d+ kb/s)', l).group(1)
     return metadata
 
 
