@@ -309,7 +309,6 @@
             return ["mp4", ".mpeg", ".webm", ".ogg"];
         }
         $("#video-file-upload").change(function(){
-            debugger;  // TODO refactor (this was supposed to serve as timeout or smth)
             var filename = $("#video-file-upload")[0].files[0].name;
             maxRecommenedBitRate = getMaxRecommenedBitRate()
             maxAcceptableBitRate = getMaxAcceptableBitRate()
@@ -424,7 +423,6 @@
     }, 1000);
 
     showUploadPopup = function(data){
-        debugger;  // TODO refactor (this was supposed to serve as timeout or smth)
         if(data.status == "error"){
             alert(data.message);
             return;
