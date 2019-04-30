@@ -21,7 +21,7 @@ def sign_cloudfront_url(request):
     """
     Sign Cloudfront URL.
 
-    Used for third-party xblocks e.g. `vr_xblock`.
+    Used to upload videos (`vr_xblock`, default video).
     """
     url = request.GET['url']
     url = url.replace(" ", "+")

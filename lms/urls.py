@@ -62,6 +62,7 @@ urlpatterns = (
 
     url(r'^honor_code$', 'student.custom_views.honorcode'),
     url(r'^accept_honor_code$', 'student.custom_views.accept_honorcode'),
+    url(r'^GetEmpID/$', 'student.custom_views.GetEmployeeIDUsingDjangoID'),
 
     # Enrollment API RESTful endpoints
     url(r'^api/enrollment/v1/', include('enrollment.urls')),

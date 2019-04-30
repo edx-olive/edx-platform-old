@@ -15,18 +15,24 @@ Examples of html5 videos for manual testing:
 import copy
 import json
 import logging
+import os
+from path import Path as path
 import random
+import time
 from collections import OrderedDict
 from operator import itemgetter
 
 from pkg_resources import resource_string
 
+import boto
 from django.conf import settings
+from django.contrib.auth.models import User
 from lxml import etree
 from opaque_keys.edx.locator import AssetLocator
 from openedx.core.djangoapps.video_config.models import HLSPlaybackEnabledFlag
 from openedx.core.lib.cache_utils import memoize_in_request_cache
 from openedx.core.lib.license import LicenseMixin
+from urlparse import urlparse
 from xblock.core import XBlock
 from xblock.fields import ScopeIds
 from xblock.runtime import KvsFieldData
@@ -87,6 +93,12 @@ log = logging.getLogger(__name__)
 # Make '_' a no-op so we can scrape strings. Using lambda instead of
 #  `django.utils.translation.ugettext_noop` because Django cannot be imported in this file
 _ = lambda text: text
+
+
+def get_ext(filename):
+    # Prevent incorrectly parsing urls like 'http://abc.com/path/video.mp4?xxxx'.
+    path = urlparse(filename).path
+    return path.rpartition('.')[-1]
 
 
 @XBlock.wants('settings')
@@ -197,10 +209,35 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
         sorted_languages = OrderedDict(sorted_languages)
         return track_url, transcript_language, sorted_languages
 
+    def get_signed_url(self, url):
+        """
+        Sign Cloudfront URL.
+        """
+        SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
+        CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', "/edx/app/edxapp/"))
+        CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
+        with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
+            ENV_TOKENS = json.load(env_file)
+        aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
+        aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
+        s3 = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
+        cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
+        key_pair_id = ENV_TOKENS.get("SIGNING_KEY_ID")
+        priv_key_file = ENV_TOKENS.get("SIGNING_KEY_FILE")
+        expires = int(time.time()) + 600
+        django_user_id = int(self.descriptor.scope_ids.user_id)
+        django_user_obj = User.objects.get(id=django_user_id)
+        employee_id = django_user_obj.social_auth.get(provider="tpa-saml").uid.split(":")[1]
+        http_resource = url + "?user_id=" + str(employee_id)
+        dist = cf.get_all_distributions()[0].get_distribution()
+        http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
+        return http_signed_url
+
     def get_html(self):
         track_status = (self.download_track and self.track)
         transcript_download_format = self.transcript_download_format if not track_status else None
-        sources = filter(None, self.html5_sources)
+        # sources = filter(None, self.html5_sources)
+        sources = {get_ext(src): self.get_signed_url(src) for src in filter(None, self.html5_sources)}
 
         download_video_link = None
         branding_info = None
