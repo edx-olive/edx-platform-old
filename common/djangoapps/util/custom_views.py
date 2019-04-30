@@ -12,6 +12,9 @@ import boto
 from boto.exception import NoAuthHandlerFound
 from django.conf import settings
 from django.http import HttpResponse
+from opaque_keys.edx.keys import CourseKey
+from openedx.core.djangoapps.models.course_details import CourseDetails
+
 from edxmako.shortcuts import render_to_response
 from path import Path as path
 from rest_framework import status
@@ -207,3 +210,11 @@ def to_kilo_bits_per_second(raw):
     if denomination[1] == "B":
         value *= 8
     return value
+
+
+def yammer_group_id(request):
+    course_id = request.GET.get('course_id').replace(" ", "+")
+    ygid = CourseDetails.fetch_about_attribute(CourseKey.from_string(course_id), 'yammer')
+    if ygid is None:
+        ygid = "0"
+    return HttpResponse('{"ygid": "' + ygid + '"}')

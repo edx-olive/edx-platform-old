@@ -7,6 +7,8 @@ from cms.djangoapps.contentstore.views.organization import OrganizationListView
 
 from openassessment.fileupload import views_filesystem
 
+from contentstore.views import common_xblock_utils
+
 admin.autodiscover()
 
 # Pattern to match a course key or a library key
@@ -49,6 +51,7 @@ urlpatterns = patterns(
     url(r'^heartbeat$', include('openedx.core.djangoapps.heartbeat.urls')),
     url(r'^list_s3_videos$', 'util.custom_views.s3_video_list'),
     url(r'^upload_video$', 'util.custom_views.video_upload'),
+    url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
 
     url(r'^user_api/', include('openedx.core.djangoapps.user_api.legacy_urls')),
 
@@ -73,6 +76,9 @@ urlpatterns = patterns(
     url(r'^help_token/', include('help_tokens.urls')),
 
     url(r'^(?P<key>.+)/openassessment-filesystem-storage', views_filesystem.filesystem_storage, name='openassessment-filesystem-storage'),
+
+    url(r'^updatecommonsection/', common_xblock_utils.updatecommonsection, name='updatecommonsection'),
+    url(r'^get_commonsection/', common_xblock_utils.get_commonsection, name='getcommonsection'),
 )
 
 # restful api

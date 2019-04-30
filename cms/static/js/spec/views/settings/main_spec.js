@@ -47,7 +47,8 @@ define([
                 learning_info: [''],
                 instructor_info: {
                     'instructors': [{'name': '', 'title': '', 'organization': '', 'image': '', 'bio': ''}]
-                }
+                },
+                yammer : '',
             },
 
             mockSettingsPage = readFixtures('mock/mock-settings-page.underscore'),

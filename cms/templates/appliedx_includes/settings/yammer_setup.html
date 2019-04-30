@@ -1,0 +1,249 @@
+
+
+<%page args="course_display_name"/>
+<style>
+    .yammer-setup h3 {
+        text-align: center;
+        margin: 0px 10px 4px 0px;
+        width: 40%;
+        padding: 15px;
+        background: #009fe6;
+        border-color: #009fe6;
+        color: #fff;
+        border-radius: 5px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .yammer-setup li h3 {
+        margin: 40px 10px 4px 0px;
+    }
+
+    .yammer-setup h3:hover {
+        background: #33b2eb;
+        border-color: #33b2eb;
+        box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .yammer-setup li {
+        display: none;
+    }
+
+    #yammer-base-buttons .yammer-help {
+        padding: 21px;
+        background: #e9e9e9;
+        font-size: 14px;
+        border: solid 1px #ccc;
+        margin-bottom: 15px;
+    }
+
+    .yammer-setup #yammer-group-name {
+        padding-right: 80px;
+    }
+
+    .yammer-setup .embedded-control {
+        font-size: 12px;
+        padding: 9px;
+        border: solid 1px #ccc;
+        margin-top: -43px;
+        width: 60px;
+        float: right;
+        background: #eee;
+        line-height: 22px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .yammer-setup .embedded-button {
+        width: 250px;
+        background: #33b2eb;
+        color: white;
+        border-color: #33b2eb;
+        box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    #yammer-base-buttons #appliedx-custom-yammer {
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        font-size: 18px;
+        color: green;
+        height: 25px;
+    }
+</style>
+<script type="text/javascript">
+    YammerConnection = function (app_id) {
+        yam.config({appId: app_id});
+        do_platform_request = function (api, method, data, success, error) {
+            yam.platform.request({
+                url: "https://api.yammer.com/api/v1/" + api,
+                headers: {'accept': "application/json;odata=verbose"},
+                method: method,
+                data: data,
+                success: success,
+                error: error
+            });
+        }
+
+        platform_request = function (api, method, data, success, error) {
+            yam.platform.getLoginStatus(function (response) {
+                if (response.authResponse) {
+                    do_platform_request(api, method, data, success, error)
+                } else {
+                    yam.platform.login(function (response) {
+                        if (!response.authResponse) {
+                            do_platform_request(api, method, data, success, error)
+                        }
+                    });
+                }
+            });
+        }
+        this.create_yammer_group = function (group_name, is_private, success, error) {
+            platform_request("groups.json", "POST", {'name': group_name, 'private': is_private}, success, error);
+        }
+        this.get_group_members = function (group_id, success, error) {
+            platform_request("users/in_group/" + group_id + ".json", "GET", {}, success, error);
+        }
+    }
+</script>
+<hr class="divide"/>
+<section class="group-settings yammer-setup">
+    <header>
+        <h2 class="title-2">Yammer setup</h2>
+        <span class="tip">Yammer group for the dicussing the course</span>
+    </header>
+    <ol class="list-input">
+        <li class="field text" id="section-yammer-group-name">
+            <label for="yammer-group-name" class="">Yammer Group Name</label>
+            <input type="text" id="yammer-group-name"/>
+            <div class="embedded-control"><input type="checkbox" id="yammer-group-is-private">Private</div>
+            <span class="tip tip-stacked">This is the name of new yammer group which will be created.</span>
+            <h3 class="create-new-yammer-grp" disabled="disabled">Yes, create the group</h3>
+            <h3 class="yammer-go-back" style="float:right">No, let's go back</h3>
+            i
+        </li>
+        <li class="field text required" id="section-yammer-group-id">
+            <label for="appliedx-custom-yammer" class="">Yammer Group Id</label>
+            <input type="text" min="0" id="appliedx-custom-yammer" class="appliedx-custom-settings"
+                   data-filter-mapping="yammer" type="text" required/>
+            <div class="embedded-control embedded-button" id="btn-set-with-url"
+                 title="You can use URL to set the group, if you are not sure how to get group Id">Click here to use
+                group URL instead
+            </div>
+            <span class="tip tip-stacked">Enter the existing Yammer GroupID for this specific course.</span>
+            <h3 class="use-group-id" disabled="disabled">Yes, use this group</h3>
+            <h3 class="yammer-go-back" style="float:right">No, let's go back</h3>
+        </li>
+        <li class="field text" id="section-yammer-group-url">
+            <label for="yammer-group-url" class="">Yammer Group URL here, we will read the ID from it.</label>
+            <input type="text" id="yammer-group-url">
+            <span class="tip tip-stacked">Please enter the the URL of your existing yammer group.</span>
+            <h3 class="use-group-url" disabled="disabled">Yes, use this group</h3>
+            <h3 class="yammer-go-back" style="float:right">No, let's go back</h3>
+        </li>
+    </ol>
+    <div id="yammer-base-buttons">
+        <div class="yammer-help">
+            <h4>Yammer group Id for this course is <input id="appliedx-custom-yammer" class="appliedx-custom-settings"
+                                                          data-filter-mapping="yammer" type="text" value="not set"
+                                                          readonly="readonly"></input></h4>
+            <div id="yammer-help-intro">Setup yammer for your course by letting the studio know about the group under
+                which all the yammer discussions are grouped. You can choose to link an existing group or creating a new
+                one by clicking one of the buttons below.
+            </div>
+            <div id="yammer-help-save" style="display:none">Yammer group is set. Please save your changes once you are
+                done with all your changes. The settings will be lost if you do not save them.
+            </div>
+        </div>
+        <h3 class="create-new-yammer">Create a new group</h3>
+        <h3 class="use-existing-yammer" style="float:right">Use existing group</h3>
+    </div>
+</section>
+<script type="text/javascript" data-app-id="${yammer_id}"
+        src="https://c64.assets-yammer.com/assets/platform_js_sdk.js"></script>
+<script type="text/javascript">
+    setTimeout(function () {
+        $(".create-new-yammer").click(function () {
+            $(".yammer-setup li").hide();
+            $("#yammer-base-buttons").hide();
+            $("#section-yammer-group-name").show();
+        });
+        $(".use-existing-yammer").click(function () {
+            $(".yammer-setup li").hide();
+            $("#yammer-base-buttons").hide();
+            $("#section-yammer-group-id").show();
+            $(".embedded-button").animate({"width": "80%"}, 10).animate({"background-color": "rgb(111,111,111)"}, 1000).animate({
+                "width": "250px",
+                "background-color": "#33b2eb"
+            }, 1000)
+        });
+        $("#btn-set-with-url").click(function () {
+            $(".yammer-setup li").hide();
+            $("#section-yammer-group-url").show();
+        });
+        $(".create-new-yammer-grp").click(function () {
+            create_yammer_group($("#yammer-group-name").val(), $("#yammer-group-is-private").prop("checked"));
+        });
+
+        $(".yammer-go-back").click(function () {
+            $(".yammer-setup li").hide();
+            $("#yammer-base-buttons").show();
+        });
+        $(".use-group-id").click(function (e) {
+            set_group_id($("#appliedx-custom-yammer").val())
+        });
+        $("#appliedx-custom-yammer").on("keyup", function () {
+            var o, v = (o = $(this)).val();
+            o.val(v.replace(/[^\d]/g, ""));
+        });
+
+        $(".use-group-url").click(function () {
+            try {
+                var group_id = $("#yammer-group-url").val().split("feedId=")[1].split("&")[0];
+                if (parseInt(group_id) > 0) {
+                    set_group_id(group_id)
+                } else
+                    throwError("Invalid URL")
+            } catch (err) {
+                throwError("Invalid URL")
+            }
+        });
+
+        function set_group_id(group_id) {
+            $("input[data-filter-mapping='yammer']").val(group_id);
+            $(".yammer-setup li").hide();
+            $("#yammer-base-buttons").show();
+            $("#yammer-help-intro").hide();
+            $("#yammer-help-save").show();
+            $("#appliedx-custom-yammer").change();
+            $(".wrapper-notification").animate({"background-color": "#c77"}, 1000).animate({"background-color": "#323232"}, 3000)
+            $("#yammer-help-save").animate({"color": "red"}, 1000).animate({"color": "#444"}, 3000)
+        }
+
+        var connection = new YammerConnection("${yammer_id}")
+
+        function create_yammer_group(group_name, is_private) {
+            connection.create_yammer_group(group_name, is_private,
+                    function (group) {
+                        set_group_id(group.id)
+                    },
+                    function (error) {
+                        console.log(error)
+                    }
+            );
+        }
+
+        function get_group_members(group_id) {
+            connection.get_group_members(group_id,
+                    function (members) {
+                        console.log(members.users.length)
+                    },
+                    function (error) {
+                        console.log(error)
+                    }
+            );
+        }
+
+        $($("input[data-filter-mapping='yammer']")[1]).val() == "" && $($("input[data-filter-mapping='yammer']")[1]).val("not set")
+    }, 3000);
+</script>

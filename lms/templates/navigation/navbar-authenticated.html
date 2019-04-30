@@ -9,6 +9,8 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 %>
 
+<%include file="/appliedx_includes/navigation/opengraph.html"/>
+
 <ol class="left nav-global list-inline authenticated">
   <%block name="navigation_global_links_authenticated">
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
