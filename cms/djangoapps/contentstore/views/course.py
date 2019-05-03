@@ -1009,6 +1009,8 @@ def settings_handler(request, course_key_string):
             )
             self_paced_enabled = SelfPacedConfiguration.current().enabled
 
+            yammer_id = settings.FEATURES.get('YAMMER_ID', None)
+
             settings_context = {
                 'context_course': course_module,
                 'course_locator': course_key,
@@ -1029,7 +1031,8 @@ def settings_handler(request, course_key_string):
                 'is_prerequisite_courses_enabled': is_prerequisite_courses_enabled(),
                 'is_entrance_exams_enabled': is_entrance_exams_enabled(),
                 'self_paced_enabled': self_paced_enabled,
-                'enable_extended_course_details': enable_extended_course_details
+                'enable_extended_course_details': enable_extended_course_details,
+                'yammer_id': yammer_id,
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)

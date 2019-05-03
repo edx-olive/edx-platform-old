@@ -34,6 +34,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    this.$el.find('#course-name').val(this.model.get('run'));
                    this.$el.find('.set-date').datepicker({'dateFormat': 'm/d/yy'});
 
+                   // customizations
+                   this.$el.find('#' + this.fieldToSelectorMap['yammer']).val(this.model.get('yammer'));
+
         // Avoid showing broken image on mistyped/nonexistent image
                    this.$el.find('img').error(function() {
                        $(this).hide();
@@ -176,7 +179,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    'course_settings_learning_fields': 'course-settings-learning-fields',
                    'add_course_learning_info': 'add-course-learning-info',
                    'add_course_instructor_info': 'add-course-instructor-info',
-                   'course_learning_info': 'course-learning-info'
+                   'course_learning_info': 'course-learning-info',
+                   'yammer' : 'appliedx-custom-yammer'
                },
 
                addLearningFields: function() {
@@ -306,6 +310,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    case 'course-short-description':
                        this.setField(event);
                        break;
+                   case 'appliedx-custom-yammer':
+   	                   this.setField(event);
+   	                   break;
                    default: // Everything else is handled by datepickers and CodeMirror.
                        break;
                    }

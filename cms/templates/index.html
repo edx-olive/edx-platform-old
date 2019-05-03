@@ -26,8 +26,16 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
     % if user.is_active:
     <nav class="nav-actions" aria-label="${_('Page Actions')}">
       <h3 class="sr">${_("Page Actions")}</h3>
+      <%include file="/appliedx_includes/update_common_section.html" />
       <ul>
         <li class="nav-item">
+##           %for group in user.groups.all():
+##               %if group.name == 'Update_Common_Section':
+                  <a onclick="updatecommonsection()" href="#" class="button new-button update-section-button" title="${_('Update Common Section')}">
+                      <span class="icon fa fa-plus" aria-hidden="true"></span>${_('Update Common Section')}
+                  </a>
+##               %endif
+##     	  %endfor
           % if course_creator_status=='granted':
           <a href="#" class="button new-button new-course-button"><span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>
               ${_("New Course")}</a>
@@ -110,6 +118,7 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
                   )}</span>
                   <span class="tip tip-error is-hiding" id="tip-error-new-course-run"></span>
                 </li>
+                <%include file="/appliedx_includes/settings/yammer_setup.html" args="course_display_name=lang"/>
               </ol>
 
             </fieldset>

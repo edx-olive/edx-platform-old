@@ -34,6 +34,7 @@ from contentstore.utils import (
     is_currently_visible_to_students,
     is_self_paced
 )
+from contentstore.views.common_xblock_utils import create_common_xblock, create_yammer_discussion_page
 from contentstore.views.helpers import (
     create_xblock,
     get_parent_xblock,
@@ -195,7 +196,25 @@ def xblock_handler(request, usage_key_string):
                 fields=request.json.get('fields'),
             )
     elif request.method in ('PUT', 'POST'):
-        if 'duplicate_source_locator' in request.json:
+        if 'section_info' in request.json:
+            blk = None  # @todo fix default value or add else below, this could raise AttributeError
+            if request.json['section_info']['newintroductionsection'] is True:
+                blk = create_common_xblock('Introduction', request.user.email, request.json['section_info']['parent_value'])
+            elif request.json['section_info']['newyameersection'] is True:
+                '''yammer_block = create_xblock(                                                                                                                                                          
+                    parent_locator=request.json['section_info']['parent_value'],                                                                                                                          
+                    user=request.user,                                                                                                                                                                    
+                    category='static_tab',                                                                                                                                                                
+                    display_name='Yammer Discussion',                                                                                                                                                     
+                    boilerplate=None,                                                                                                                                                                     
+                )'''
+                blk = create_yammer_discussion_page(request)
+            elif request.json['section_info']['newcreditsection'] is True:
+                blk = create_common_xblock('Credit', request.user.email, request.json['section_info']['parent_value'])
+            return JsonResponse(
+                {"locator": unicode(blk.location), "courseKey": unicode(blk.location.course_key)}
+            )
+        elif 'duplicate_source_locator' in request.json:
             parent_usage_key = usage_key_with_run(request.json['parent_locator'])
             duplicate_source_usage_key = usage_key_with_run(request.json['duplicate_source_locator'])
 

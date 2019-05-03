@@ -119,12 +119,21 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <nav class="nav-actions" aria-label="${_('Page Actions')}">
             <h3 class="sr">${_("Page Actions")}</h3>
+            <%include file="/appliedx_includes/common_section.html" />
+
             <ul>
                 <li class="nav-item">
                     <a href="#" class="button button-new" data-category="chapter" data-parent="${context_course.location}" data-default-name="${_('Section')}" title="${_('Click to add a new section')}">
                         <span class="icon fa fa-plus" aria-hidden="true"></span>${_('New Section')}
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a  onclick="commonsection()" href="#" class="button" title="${_('Click to add a new common section')}">
+                        <span class="icon fa fa-plus" aria-hidden="true"></span>${_('Common Section')}
+                    </a>
+                </li>
+
                 %if reindex_link:
                     <li class="nav-item">
                         <a href="${reindex_link}" class="button button-reindex" data-category="reindex" title="${_('Reindex current course')}">

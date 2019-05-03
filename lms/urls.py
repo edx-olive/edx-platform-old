@@ -82,6 +82,8 @@ urlpatterns = (
     # Bookmarks API endpoints
     url(r'^api/bookmarks/', include('openedx.core.djangoapps.bookmarks.urls')),
 
+    url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
+
     # Profile Images API endpoints
     url(r'^api/profile_images/', include('openedx.core.djangoapps.profile_images.urls')),
 

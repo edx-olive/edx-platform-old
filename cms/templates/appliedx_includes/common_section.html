@@ -1,0 +1,324 @@
+<style>
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 465px;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */4
+}
+
+/* Modal Content */
+
+/*.modal-content {
+    background-color: #fefefe;
+    margin: 40px auto auto 382px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 35%;
+    height: 165px;
+}*/
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*.section-list label{
+  position: absolute; ;
+  left: 420px;
+  font-size: 19px;
+}*/
+
+
+#cs_modal{
+
+    width: 600px;
+
+    border: solid 8px #e6e6e6;
+
+    border-radius: 4px;
+
+    margin: auto;
+
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    text-align:left;
+
+}
+
+
+.cs-modal-title{
+
+    font-size: 21px;
+
+    font-family: calibri;
+
+    background: rgb(229,229,229);
+
+    padding: 10px;
+
+}
+
+.cs-modal-body{
+
+    padding: 10px;
+
+    font-size: 14px;
+
+    background: white;
+
+   height: 300px;
+
+}
+
+/*ul{
+
+    margin: 10px 0px;
+
+    padding: 10px;
+
+}*/
+
+
+#cs_modal li{
+
+    border: solid 1px #e6e6e6;
+
+    padding: 5px 10px;
+
+    margin-top: 10px;
+
+    color: #333;
+
+    height: 25px;
+
+}
+
+#cs_modal li.checked{
+
+    background: #f6f6f6;
+
+    box-shadow: 2px 2px 5px 0px #ccc;
+
+}
+
+#common-section-cancel-btn{
+
+    text-align: center;
+
+    margin: 25px 10px 4px 0px;
+
+    width: 40%;
+
+    background: #009fe6;
+
+    border-color: #009fe6;
+
+    color: #fff;
+
+    border-radius: 5px;
+
+    display: inline-block;
+
+    cursor: pointer;
+
+    padding: 10px;
+
+    float: right;
+
+}
+
+#common-section-btn{
+
+    text-align: center;
+
+    margin: 25px 10px 4px 0px;
+
+    width: 40%;
+
+    background: #009fe6;
+
+    border-color: #009fe6;
+
+    color: #fff;
+
+    border-radius: 5px;
+
+    display: inline-block;
+
+    cursor: pointer;
+
+    padding: 10px;
+
+    float: right;
+
+}
+
+#cs_modal label{
+
+    position: relative;
+
+    font-size: 14px;
+
+    left: inherit;
+
+}
+
+#cs_modal input {
+
+    display: none;
+
+}
+
+#cs_modal ul {
+
+    margin-top: 25px;
+
+}
+
+#cs_modal li .fa-check-square{
+
+    display: none;
+
+}
+#cs_modal li.checked .fa-check-square{
+
+    color: green;
+
+    display: inline-block;
+
+}
+
+#cs_modal li.checked .fa-times{
+
+    color: red;
+
+}
+
+#cs_modal li.checked .fa-times{
+
+    display: none;
+
+}
+
+</style>
+
+<%
+  introduction_created = False
+  survey_credit_created = False
+  yammertab_created = False
+%>
+%for tab in context_course.tabs:
+    %if tab.name == 'Yammer Discussion':
+	<%
+	   yammertab_created = True
+	%>
+    %endif
+%endfor
+
+%for child in course_structure['child_info']['children']:
+    %if child['display_name'] == 'Introduction' and child['category'] == 'chapter':
+      <%
+        introduction_created = True
+      %>
+    %endif
+%if child['display_name'] == 'Getting Credit & Course Reset' and child['category'] == 'chapter':
+      <%
+        survey_credit_created = True
+      %>
+    %endif
+%endfor
+
+
+		<div id="myModal" class="modal">
+                  <div id="cs_modal" >
+                    <div class="cs-modal-title">Common sections</div>
+                      <div class="cs-modal-body">
+                        <div class="modal-discription">Every appliedx course has some sections common. Following is the list of section for you to choose, which will be automatically available in the course. If you are not sure, pleae choose everything, they can be deleted later if not required.
+                        </div>
+                        <ul class="section-list">
+			 %if introduction_created:
+			  <li style="pointer-events:none">
+                            <input type="checkbox" class="new-introduction-section" name="new-introduction-section" id="intro-section"/>
+                           <label style="text-decoration: line-through;" for="intro-section">Introduction  Section</label>
+                          </li>
+			%else:
+                          <li class="checked">
+                            <input type="checkbox" class="new-introduction-section" name="new-introduction-section" id="intro-section" checked/>
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                           <label for="intro-section">Introduction  Section</label>
+                          </li>
+			%endif
+
+			%if yammertab_created:
+                          <li style="pointer-events:none">
+                            <input type="checkbox" class="new-yameer-section" name="new-yameer-section" id="yammer-tab"/>
+                            <label for="yammer-tab" style="text-decoration: line-through;">Yammer Course Tab</label>
+                          </li>
+			%else:
+			  <li class="checked">
+                            <input type="checkbox" class="new-yameer-section" name="new-yameer-section" id="yammer-tab" checked/>
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <label for="yammer-tab">Yammer Course Tab</label>
+                          </li>
+			%endif
+                        </ul>
+                      <button class="add-xblock-section" id="myBtn" style="display:none">Proceed</button>
+                      <div class="add-xblock-section" id="common-section-btn">Yes, go ahead</div>
+		      <div onclick="cancel()" id="common-section-cancel-btn">Cancel</div>
+                       <input class="parent_value" type="hidden" name="parent" value="${context_course.location}">
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+<script type="text/javascript">
+function commonsection(){
+    $("#myModal").css('display','block');
+}
+
+function cancel(){
+    $("#myModal").css('display','none');
+}
+
+
+setTimeout(function(){
+$(function(){
+
+   $("#cs_modal li").click(function(e){
+
+                  checkbox = $("input", $(e.currentTarget));
+
+                  is_checked = $(checkbox).prop("checked");
+
+                  $(checkbox).prop("checked", !is_checked );
+
+                  is_checked?$(e.currentTarget).removeClass("checked"):$(e.currentTarget).addClass("checked");
+
+   });
+
+});}, 3000);
+
+</script>
+

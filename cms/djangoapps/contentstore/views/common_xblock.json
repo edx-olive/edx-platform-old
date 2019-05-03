@@ -1,0 +1,91 @@
+{
+        "Introduction":{
+                "display_name": "Introduction",
+                "subsections":
+                        [{
+                        "display_name":"Introduction to Appliedx",
+                        "units":
+                                [{
+                                        "display_name":"Gary's Welcome & Mobile",
+                                        "xblocks":[
+                                                {
+                                                        "display_name":"Gary's Welcome",
+                                                        "type":"video",
+                                                         "metadata":{
+                                                                "html5_sources":["https://d2a8rd6kt4zb64.cloudfront.net/course-v1_Appliedx_AX001_Self-Paced/Appliedx_Gary-Promo_edit3(720p)HB2.mp4"]
+                                                        }
+
+                                                },
+                                                {
+                                                        "display_name":"appliedx Mobile App",
+                                                        "type":"video",
+							"metadata":{
+                                                                "html5_sources":["https://d2a8rd6kt4zb64.cloudfront.net/course-v1_Appliedx_AX001_Self-Paced/1_Appliedx_mobile_App.mp4"]
+                                                        }
+                                                }
+                                                ]
+                                },
+                                {
+                                        "display_name":"appliedx Basics",
+                                        "xblocks":[
+                                                {
+                                                        "display_name":"Text",
+                                                        "type":"html",
+                                                        "boilerplate":"appliedx_basics_introduction.yaml"
+                                                }
+                                                ]
+                                },
+
+				{
+                                        "display_name":"Video Player",
+                                        "xblocks":[
+                                                {
+                                                        "display_name":"Text",
+                                                        "type":"html",
+                                                        "boilerplate":"video_player_introduction.yaml"
+                                                }
+                                                ]
+                                },
+
+
+                                {
+                                        "display_name":"Quizzes",
+                                        "xblocks":[
+                                                {
+                                                        "display_name":"Text",
+                                                        "type":"html",
+                                                        "boilerplate":"quizzes.yaml"
+                                                },
+                                                {
+                                                        "display_name":"Quiz Examples",
+                                                        "type":"video",
+                                                        "metadata":{
+                                                                "html5_sources":["https://d2a8rd6kt4zb64.cloudfront.net/Kyle/Basic_Problems_v1.1.mp4"]
+                                                        }
+                                                }
+                                                ]
+                                }]
+                        }]
+                },
+	"Credit":{
+                "display_name": "Getting Credit & Course Reset",
+                "subsections":
+                        [{
+                        "display_name":"Getting Credit & Course Reset",
+                        "units":[{
+                                        "display_name":"Getting Credit & Course Reset",
+                                        "xblocks":[
+                                                {
+                                                        "display_name":"Text",
+                                                        "type":"html",
+                                                        "boilerplate":"credit_and_reset.yaml"
+                                                },
+                                                {
+							"display_name":"",
+                                                        "type":"get_credit"
+                                                }
+                                                ]
+                                }]
+			}]
+                      }
+}

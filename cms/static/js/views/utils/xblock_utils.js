@@ -5,7 +5,7 @@ define(['jquery', 'underscore', 'gettext', 'common/js/components/utils/view_util
         'js/models/xblock_info', 'edx-ui-toolkit/js/utils/string-utils'],
     function($, _, gettext, ViewUtils, ModuleUtils, XBlockInfo, StringUtils) {
         'use strict';
-        var addXBlock, duplicateXBlock, deleteXBlock, createUpdateRequestData, updateXBlockField, VisibilityState,
+        var addXBlock, addCommonXBlock, duplicateXBlock, deleteXBlock, createUpdateRequestData, updateXBlockField, VisibilityState,
             getXBlockVisibilityClass, getXBlockListTypeClass, updateXBlockFields, getXBlockType, findXBlockInfo,
             moveXBlock;
 
@@ -63,6 +63,22 @@ define(['jquery', 'underscore', 'gettext', 'common/js/components/utils/view_util
                         }, function(data) {
                             var locator = data.locator;
                             addOperation.resolve(locator);
+                        });
+                    return addOperation.promise();
+                });
+        };
+
+        addCommonXBlock = function(target) {
+            return ViewUtils.runOperationShowingMessage(gettext('Adding Common Xblock'),
+                function() {
+                    var addOperation = $.Deferred();
+                    $.postJSON(ModuleUtils.getUpdateUrl(),
+                        {
+                            'section_info': target
+                        }, function(data) {
+                            var locator = data.locator;
+                            var courseKey = data.courseKey;
+                            addOperation.resolve(locator,courseKey);
                         });
                     return addOperation.promise();
                 });
@@ -299,6 +315,7 @@ define(['jquery', 'underscore', 'gettext', 'common/js/components/utils/view_util
         return {
             VisibilityState: VisibilityState,
             addXBlock: addXBlock,
+            addCommonXBlock: addCommonXBlock,
             moveXBlock: moveXBlock,
             duplicateXBlock: duplicateXBlock,
             deleteXBlock: deleteXBlock,
