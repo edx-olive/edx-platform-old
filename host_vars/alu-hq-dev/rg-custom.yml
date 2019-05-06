@@ -1,0 +1,25 @@
+project_team: "Kraken-Team"
+project_environment: "dev"
+project_name: "alu-hq"
+project_support_package: "Default"
+cloud_provider: "KVM"
+tenancy_type: "single"
+region_location: ""
+ora_host: ""
+
+sentry_enabled: False
+filebeat_enabled: False
+rggrpc_enabled: False
+
+#====== Select one of additional nginx configuration ======
+
+#Use RG SSL certificate for nginx
+use_raccoongang_ssl: yes
+nginx_ssl: yes
+
+#Use selfsigned SSL certificate for nginx
+#nginx_ssl_selfsigned: yes
+
+#Create and use LetsEncrypt certificate for nginx
+#nginx_letsencrypt: yes
+#nginx_letsencrypt_setup: yes

@@ -1,0 +1,9 @@
+- name: Deploy a full stack Edx
+  hosts: alu-hq-dev
+  become: true
+
+  vars:
+      env: dev
+
+  roles:
+    - rg-edx-single

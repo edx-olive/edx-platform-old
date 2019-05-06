@@ -1,0 +1,10 @@
+stages:
+    - deploy
+
+deploy-dev:
+    stage: deploy
+    image: registry-gitlab.raccoongang.com/devops/configuration:hawthorn-rg-develop
+    script:
+        - ansible-playbook dev.yml
+    only:
+        - master

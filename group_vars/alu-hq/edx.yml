@@ -1,0 +1,69 @@
+---
+SANDBOX_ENABLE_RABBITMQ: true
+JOURNALS_ENABLED: false
+
+EDXAPP_PLATFORM_NAME: "ALU School of Insurance"
+EDXAPP_LANG: "en_US.UTF-8"
+EDXAPP_LANGUAGE_CODE: "en"
+EDXAPP_TIME_ZONE: "Europe/Dublin"
+
+EDXAPP_LMS_SITE_NAME: "{{ EDXAPP_SITE_NAME }}"
+EDXAPP_LMS_BASE: "{{ EDXAPP_SITE_NAME }}"
+EDXAPP_CMS_BASE: "{{ EDXAPP_CMS_SITE_NAME }}"
+
+COMMON_HOSTNAME: "{{ EDXAPP_SITE_NAME }}"
+RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
+
+EDXAPP_LMS_ROOT_URL: '{{ EDXAPP_LMS_BASE_SCHEME | default("https") }}://{{ EDXAPP_LMS_BASE }}'
+
+edx_platform_repo: https://github.com/raccoongang/edx-platform.git
+edx_ansible_source_repo: https://github.com/raccoongang/configuration.git
+# configuration_version: hawthorn-rg # configured in AWX project
+
+EDXAPP_PLATFORM_TWITTER_ACCOUNT: "@twitter"
+
+#grades ---------------------------------------------------------------------
+EDXAPP_GRADE_STORAGE_TYPE_LOCAL: true
+EDXAPP_GRADE_STORAGE_TYPE: ''
+EDXAPP_GRADE_STORAGE_CLASS: "django.core.files.storage.FileSystemStorage"
+EDXAPP_GRADE_STORAGE_KWARGS:
+  base_url: "{{ EDXAPP_MEDIA_URL }}/grades"
+  location: "{{ EDXAPP_MEDIA_ROOT }}/grades"
+#grades ---------------------------------------------------------------------
+
+#services -------------------------------------------------------------------
+configuration_version: hawthorn-rg
+
+forum_version: "open-release/hawthorn.1"
+NOTIFIER_VERSION: "open-release/hawthorn.1"
+xqueue_version: "open-release/hawthorn.1"
+certs_version: "open-release/hawthorn.1"
+demo_version: "open-release/hawthorn.1"
+
+COMMON_ENABLE_NEWRELIC_APP: False
+
+#services -------------------------------------------------------------------
+
+#defaults -------------------------------------------------------------------
+
+EDXAPP_FEATURES_OVERRIDE:
+  ENABLE_HONOR_CERTIFICATE: True #custom RG feature
+
+EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
+
+EDXAPP_MKTG_URL_LINK_MAP: {}
+EDXAPP_LMS_ENV_EXTRA:
+  MKTG_URL_LINK_MAP: "{{ _EDXAPP_MKTG_URL_LINK_MAP }}"
+EDXAPP_CMS_MKTG_URLS: "{{ _EDXAPP_CMS_MKTG_URLS }}"
+EDXAPP_ELASTIC_SEARCH_CONFIG: "{{ _EDXAPP_ELASTIC_SEARCH_CONFIG }}"
+EDXAPP_LOCALESET_FROM_REQUEST: "{{ _EDXAPP_LOCALESET_FROM_REQUEST }}"
+MONGODB_LOG: "{{ _MONGODB_LOG }}"
+XQUEUE_QUEUES: "{{ _XQUEUE_QUEUES }}"
+
+#defaults -------------------------------------------------------------------
+
+EDXAPP_WORKERS:
+  lms: "multiprocessing.cpu_count() + 1"
+  cms: 2
+
+ELASTICSEARCH_CLUSTERED: False
