@@ -1,4 +1,4 @@
-edx_platform_version: alu-hq-hawthorn
+edx_platform_version: master
 
 EDXAPP_SITE_NAME: "lms-dev-alu-headquarters.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-dev-alu-headquarters.raccoongang.com"
