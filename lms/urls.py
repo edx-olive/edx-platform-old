@@ -55,14 +55,17 @@ urlpatterns = (
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
-    url(r'^sign_url', 'util.custom_views.sign_cloudfront_url'),
 
     # Feedback Form endpoint
     url(r'^submit_feedback$', 'util.views.submit_feedback'),
 
+    # Custom AMAT endpoints
+    url(r'^feedback_for_all_courses/(?P<course_id>.*)/$', 'util.custom_views.feedback_for_all_courses'),
+    url(r'^sign_url', 'util.custom_views.sign_cloudfront_url'),
     url(r'^honor_code$', 'student.custom_views.honorcode'),
     url(r'^accept_honor_code$', 'student.custom_views.accept_honorcode'),
     url(r'^GetEmpID/$', 'student.custom_views.GetEmployeeIDUsingDjangoID'),
+    url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
 
     # Enrollment API RESTful endpoints
     url(r'^api/enrollment/v1/', include('enrollment.urls')),
@@ -81,8 +84,6 @@ urlpatterns = (
 
     # Bookmarks API endpoints
     url(r'^api/bookmarks/', include('openedx.core.djangoapps.bookmarks.urls')),
-
-    url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
 
     # Profile Images API endpoints
     url(r'^api/profile_images/', include('openedx.core.djangoapps.profile_images.urls')),

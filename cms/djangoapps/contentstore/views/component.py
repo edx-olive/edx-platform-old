@@ -360,6 +360,7 @@ def get_component_templates(courselike, library=False):
     advanced_component_types = _advanced_component_types(allow_unsupported)
     # Set component types according to course policy file
     if isinstance(course_advanced_keys, list):
+        course_advanced_keys.append('feedback')  # adding feedback xblock in the advanced module list
         course_advanced_keys.append('yammer')  # adding yammer xblock in the advanced module list
 
         for category in course_advanced_keys:

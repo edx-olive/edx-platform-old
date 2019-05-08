@@ -2,6 +2,7 @@
 AMAT customizations.
 """
 import json
+import logging
 import os
 import re
 import string
@@ -11,13 +12,20 @@ import time
 import boto
 from boto.exception import NoAuthHandlerFound
 from django.conf import settings
-from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.http import HttpResponse, JsonResponse
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.models.course_details import CourseDetails
 
+from collections import defaultdict
+from courseware.models import StudentModule
 from edxmako.shortcuts import render_to_response
 from path import Path as path
 from rest_framework import status
+
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 def sign_cloudfront_url(request):
@@ -218,3 +226,38 @@ def yammer_group_id(request):
     if ygid is None:
         ygid = "0"
     return HttpResponse('{"ygid": "' + ygid + '"}')
+
+
+def feedback_for_all_courses(request, course_id):
+    """
+    Get feedback for a course.
+
+    :args course_id
+    :returns feedback survey for course
+    eg. https://appliedxvpcdev.amat.com/feedback_for_all_courses/course-v1:T1+TF101+2018_T1/
+    """
+    try:
+        course_key = CourseKey.from_string(course_id)
+        CourseStudentAllModules = StudentModule.objects.filter(course_id=course_key)
+        feedback_dict = defaultdict(list)
+        if CourseStudentAllModules.count() != 0:
+            data = CourseStudentAllModules.filter(module_type='feedback')
+            if data.count() != 0:
+                for feedback in data:
+                    state = json.loads(str(feedback.state))
+                    if 'is_answered' in state.keys():  # FIXME fix `answer` saving/fetching and check on that
+                        module_state_key = feedback.module_state_key.block_id
+                        student_id = User.objects.get(id=feedback.student_id).email
+                        course_id = course_id
+                        feedback_dict[course_id].append(
+                            {
+                                'student_email': student_id,
+                                'answer': state.get('answer'),  # FIXME same as before
+                                'is_answered': state.get('is_answered'),
+                                'module_state_key': module_state_key
+                            }
+                        )
+        return JsonResponse({'resp': feedback_dict})
+    except Exception as e:
+        logger.error('Unable to get feedback for all courses ' + str(e))
+        return JsonResponse({'resp': ''})
