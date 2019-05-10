@@ -297,7 +297,7 @@ function(VideoPlayer, i18n, moment, _) {
         state.speeds = ['0.75', '1.0', '1.25', '1.50'];
         // If none of the supported video formats can be played and there is no
         // short-hand video links, than hide the spinner and show error message.
-        if (!state.config.sources.length) {
+        if (!state.config.sources.length && !state.config.sources.mp4) {
             _hideWaitPlaceholder(state);
             state.el
                 .find('.video-player div')
