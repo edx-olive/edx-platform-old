@@ -245,15 +245,14 @@ def feedback_for_all_courses(request, course_id):
             if data.count() != 0:
                 for feedback in data:
                     state = json.loads(str(feedback.state))
-                    if 'is_answered' in state.keys():  # FIXME fix `answer` saving/fetching and check on that
+                    if 'answer' in state.keys():
                         module_state_key = feedback.module_state_key.block_id
                         student_id = User.objects.get(id=feedback.student_id).email
                         course_id = course_id
                         feedback_dict[course_id].append(
                             {
                                 'student_email': student_id,
-                                'answer': state.get('answer'),  # FIXME same as before
-                                'is_answered': state.get('is_answered'),
+                                'answer': state.get('answer'),
                                 'module_state_key': module_state_key
                             }
                         )
