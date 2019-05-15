@@ -16,7 +16,7 @@ RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
 
 EDXAPP_LMS_ROOT_URL: '{{ EDXAPP_LMS_BASE_SCHEME | default("https") }}://{{ EDXAPP_LMS_BASE }}'
 
-edx_platform_repo: https://gitlab.raccoongang.com/kraken/alu/edx-platform.git
+edx_platform_repo: git@gitlab.raccoongang.com:kraken/alu/edx-platform.git
 edx_ansible_source_repo: https://github.com/raccoongang/configuration.git
 # configuration_version: hawthorn-rg # configured in AWX project
 
