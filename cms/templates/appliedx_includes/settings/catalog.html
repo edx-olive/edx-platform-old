@@ -1,0 +1,523 @@
+<%!
+  from django.utils.translation import ugettext as _
+%>
+        <section class="group-settings marketing">
+              <header>
+                <h2 class="title-2">${_("Searching your course")}</h2>
+                <span class="tip">${_("Making your course searchable with custom attributes")}</span>
+              </header>
+
+              <ol class="list-input">
+
+                <li class="field">
+                        <input type="checkbox" data-filter-mapping="pathway" value="true" id="appliedx-custom-pathway" class="appliedx-custom-settings" name="appliedx-custom-pathway">
+                        <label for="appliedx-custom-pathway">On Pathway</label>
+                </li>
+
+
+                <li class="field">
+                        <input type="checkbox" data-filter-mapping="verified" value="true" id="appliedx-custom-verified" class="appliedx-custom-settings" name="appliedx-custom-verified">
+                        <label for="appliedx-custom-verified">Verified </label>
+                </li>
+
+                 <li class="field">
+                        <input type="checkbox" data-filter-mapping="vr_enabled" value="true" id="appliedx-custom-vr_enabled" class="appliedx-custom-settings" name="appliedx-custom-vr_enabled">
+                        <label for="appliedx-custom-vr_enabled">VR Enabled</label>
+                </li>
+
+                <li class="field">
+                        <label for="appliedx-custom-mobile">Mobile Availability</label>
+                        <select id="appliedx-custom-mobile" class="appliedx-custom-settings" data-filter-mapping="mobile"> 
+                                <option>Yes</option>
+                                <option>No</option>
+                        </select>
+                       
+                </li>
+	        <li class="field">
+                        <label for="appliedx-custom-availibility_status">Availability</label>
+                        <select id="appliedx-custom-availibility_status" class="appliedx-custom-settings" data-filter-mapping="availibility_status">
+                                <option>Active</option>
+                                <option>Inactive</option>
+                                <option>Coming Soon</option>
+                        </select>
+
+                </li>
+
+
+                <li class="field">
+                        <label for="appliedx-custom-level">Level</label>
+                        <select id="appliedx-custom-level" class="appliedx-custom-settings" data-filter-mapping="level">
+                                <option>Basic</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                        </select>
+                        <span class="tip tip-stacked">${_("Expertise level expected to undergo this course.")}</span>
+                </li>
+
+                <li class="field">
+                        <label for="appliedx-custom-standard">Course Standard</label>
+                        <select id="appliedx-custom-standard" class="appliedx-custom-settings" data-filter-mapping="standard">
+                                <option>Silver</option>
+                                <option>Gold</option>
+                                <option>Platinum</option>
+                        </select>
+                        <span class="tip tip-stacked">${_("Standard of this course.")}</span>
+                </li>
+
+
+                <li>
+                <li class="field">
+                        <label for="appliedx-custom-streams" class="required">Stream</label>
+                        <input id="appliedx-custom-streams" style="display:none" name="appliedx-custom-streams">
+                        <ControlledInput data-id="appliedx-custom-streams" class="appliedx-custom-settings" data-filter-mapping="streams" allow-unapproved-values="false" layout-x='fluid'
+                        data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=stream" data-path="value"></ControlledInput>
+                        </input>
+                        <span class="tip tip-stacked">${_("The subject matter your course deals with")}</span>
+                </li>
+
+                <li class="field">
+                        <label for="appliedx-custom-tags" class="required">Topics</label>
+                        <input id="appliedx-custom-tags" style="display:none" name="appliedx-custom-tags">
+                        <ControlledInput data-id="appliedx-custom-tags" class="appliedx-custom-settings" data-filter-mapping="tags" allow-unapproved-values="false" layout-x='fluid'
+                            data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=topic" data-path="value"></ControlledInput>
+                         </input>
+                         <span class="tip tip-stacked">${_("The main category your course falls under")}</span>
+                </li>
+
+                </li>
+                <li class="field text" id="field-course-short-description">
+                  <label for="course-short-description">${_("Course  Description")}</label>
+                  <textarea class="text" id="course-short-description"></textarea>
+                  <span class="tip tip-stacked">${_("Describe the course in a few sentences")}</span>
+                </li>
+
+		 <li class="field">
+                                <label for="appliedx-custom-objectives" class="required">Learning Objectives</label>
+                                <input id="appliedx-custom-objectives"  style="display:none" name="appliedx-custom-objectives">
+                                <ControlledInput data-id="appliedx-custom-objectives" class="appliedx-custom-settings" data-filter-mapping="objectives" allow-unapproved-values="true"
+                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=learning" data-path="value"></ControlledInput>
+                                </input>
+                                <span class="tip tip-stacked">${_("Learning Objective")}</span>
+                </li>
+
+
+		<li class="field">
+                                <label for="appliedx-custom-course_prerequisites">Course Prerequisites</label>
+                                <input id="appliedx-custom-course_prerequisites"  style="display:none" name="appliedx-custom-course_prerequisites">
+                                <ControlledInput data-id="appliedx-custom-course_prerequisites" class="appliedx-custom-settings" data-filter-mapping="course_prerequisites" allow-unapproved-values="true"
+                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=learning" data-path="value"></ControlledInput>
+                                </input>
+                                <span class="tip tip-stacked">${_("Pre Requisites for this course")}</span>
+                </li>
+
+
+                <li class="field">
+                                <label for="appliedx-custom-instructors">Instructor</label>
+                                <input id="appliedx-custom-instructors"  style="display:none" name="appliedx-custom-instructors">
+                                <ControlledInput data-id="appliedx-custom-instructors" class="appliedx-custom-settings" data-filter-mapping="instructors" allow-unapproved-values="false"
+                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/get_instructor_designer/?type=I" data-path="value"></ControlledInput>
+                                </input>
+                                <span class="tip tip-stacked">${_("Instructor")}</span>
+                </li>
+
+                <li class="field">
+                                <label for="appliedx-custom-instructor_designers">Instructional Designer</label>
+                                <input id="appliedx-custom-instructor_designers"  style="display:none" name="appliedx-custom-instructor_designers">
+                                <ControlledInput data-id="appliedx-custom-instructor_designers" class="appliedx-custom-settings" data-filter-mapping="instructor_designers" allow-unapproved-values="false"
+                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/get_instructor_designer/?type=ID" data-path="value"></ControlledInput>
+                                </input>
+                                <span class="tip tip-stacked">${_("Instructional Designer")}</span>
+                </li>
+
+		<li class="field">
+                                <label for="appliedx-custom-price">Course Price</label>
+                                <h1 style="display:inline;">$</h1> <input type="number" id="appliedx-custom-price" class="appliedx-custom-settings" style="width: 100px;display:inline" data-filter-mapping="price" min="0">
+                                <span class="tip tip-stacked">${_("Cost to be charged for taking this course")}</span>
+                </li>
+
+
+              </ol>
+            </section>
+
+<style>
+                    ControlledInput[layout-x='line-item']{
+                font-family: calibri;
+            }
+            .input-keyword{
+                vertical-align: middle;
+                width: 200px;
+                border: none;
+                outline: none;
+                background: transparent;
+            }
+            .keyword{
+                float: left;
+                padding-right: 10px;
+                list-style-type: none;
+                color: #333;
+                font-size: 16px;
+                font-family: Calibri;
+            }
+            ControlledInput[layout-x='line-item'] .keyword{
+                display: block;
+                float: none;
+display: block;
+    float: none;
+    background: white;
+    box-shadow: 0px -1px 5px #ccc;
+		padding:5px 15px;
+            }
+            ControlledInput[layout-x='line-item'] .keyword::before{
+                padding: 5px;
+    display: block;
+    float: none;
+    background: white;
+    box-shadow: 0px -1px 5px #ccc;
+            }
+            .keyword:hover{
+                color: #000;
+            }
+            .input-keyword-suggestions{
+                padding: 0px;
+                width: 620px;
+                border: solid 1px #ccc;
+                background: #eee;
+                font-family: calibri;
+                z-index: 1;
+                margin: auto;
+                margin-top: -2px;
+                position: absolute;
+                /*left: 448px;*/
+            }
+            .input-keyword-suggestions li{
+                list-style-type:none;
+                padding: 2px 5px;
+            }
+            .input-keyword-suggestions li:hover, .suggestion-hovered{
+                background-color: #ccc;
+            }
+            .keyword:hover .delete_keyword{
+                #color:red;
+            }
+            .delete_keyword{
+                padding-left: 5px;
+                cursor: pointer;
+                font-size: 18px;
+                line-height: 18px;
+                color: #000;
+            }
+            .multi-input{
+                width: auto;
+                border: solid 1px #999;
+                box-shadow: 0px 0px 3px #999;
+                border-radius: 3px;
+                padding: 10px;
+                margin: auto;
+                overflow: auto;
+                background-image: linear-gradient(#f2f2f2,#fff);
+                font-size: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+            }
+            .multi-input.active{
+                background-image: linear-gradient(#fffcf1,#fffffe)
+            }
+            .unapproved .key{
+                #color:red;
+                border-bottom: dotted 1px;
+            }
+            .controlpanel span{
+                padding: 10px;
+            }
+            .controlpanel{
+                width: 600px;
+                margin: auto;
+                padding: 10px;
+                background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%);
+                border: solid 1px #ccc;
+                margin-bottom: 10px;
+                box-shadow: 0px 1px 1px #999;
+            }
+            label.required::after {
+                content: '*';
+                margin-left: 4px;
+                color: red;
+            }
+</style>
+
+
+</script>
+
+<script type="text/template" id="controlledInputTemplate">
+    <div class="multi-input">
+        <span class='keywords'></span>
+        <input type='text' class='input-keyword' style="vertical-align: middle;
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            height: 10px;
+            box-shadow: none;"/>
+    </div>
+    <ul class='input-keyword-suggestions' style="display:none"></ul>
+</script>
+
+<script type="text/javascript">
+AJAX = function(calltype, api, data, processor){
+    $.ajax({
+        type: calltype,
+        url: api,
+        data: data,
+        dataType: "json",
+        success: processor,
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
+$("ControlledInput").each(function(){
+    $(this).html($("#controlledInputTemplate").html())
+    this.keywords = () => $(".keywords", $(this));
+    this.keys = () => { 
+            let keys = [];
+            $(".key", $(this)).each(function(){
+                    keys.push($(this).html());
+            }); 
+            return keys;
+    }
+    this.suggestionKeywords = [];
+    this.container = $(".multi-input", $(this));
+    this.textbox = $(".input-keyword", $(this));
+    this.suggestions = $(".input-keyword-suggestions", $(this));
+    this.datasource = $(this).attr("data-source");
+    this.attr = $(this).attr("data-attr");
+    this.datapath = $(this).attr("data-path");
+    this.textEntered = () => $(".input-keyword", $(this)).val();
+    
+    this.removeKeyWord = (keyword) => {
+        var input_parent = $(this).attr('data-id');
+        var get_this = $(this)
+        var get_aattr = get_this.attr('data-filter-mapping')
+        var get_id = get_this.attr('id')
+        $(".keyword", $(this)).each(function(){
+            if($(this).html() == keyword){
+              $(this).remove();
+            }
+        });
+        $("#" + input_parent).val(JSON.stringify(this.keys()));
+        $("#"+ input_parent).trigger("change");
+    }
+
+    AJAX("GET", this.datasource, {}, (response) => {
+        for(index in response){
+            this.suggestionKeywords.indexOf(response[index][this.datapath]) == -1 && this.suggestionKeywords.push(response[index][this.datapath])
+        }
+    });
+
+    this.highlightNextSuggestion = function(){
+        const hoveredSuggestion = $(".suggestion-hovered", $(this)); 
+        if(!hoveredSuggestion.length)
+            $("li", this.suggestions).first().addClass("suggestion-hovered")
+        else if(hoveredSuggestion.next().length){
+            hoveredSuggestion.next().addClass("suggestion-hovered")
+            hoveredSuggestion.first().removeClass("suggestion-hovered")
+        }
+    }
+
+    this.highlightPreviousSuggestion = function(){
+        const hoveredSuggestion = $(".suggestion-hovered", $(this));
+        if(!hoveredSuggestion.length)
+            $("li", this.suggestions).last().addClass("suggestion-hovered")
+        else if(hoveredSuggestion.prev().length){
+            hoveredSuggestion.prev().addClass("suggestion-hovered")
+            hoveredSuggestion.last().removeClass("suggestion-hovered")
+        }
+    }
+
+    this.showSuggestions = () => {
+        this.suggestions.hide();
+        var iKeyword = this.textbox.val();
+        var suggestions = [];
+        this.suggestions.html("");
+        if(this.textEntered() == "")
+            return;
+        for(keyword in this.suggestionKeywords){
+            var addWord = true;
+           //var firstKWIndex = this.suggestionKeywords[keyword].indexOf(iKeyword);
+
+            var firstKWIndex = this.suggestionKeywords[keyword].toLowerCase().indexOf(iKeyword.toLowerCase());
+            if(firstKWIndex != -1){
+                for(let key in this.keys()) 
+                {
+                   if(this.keys()[key] == this.suggestionKeywords[keyword])
+                    addWord = false;
+                }
+                if(addWord){
+                //console.log(this.suggestionKeywords[keyword])
+                //var wordHTML = this.suggestionKeywords[keyword].substring(0, firstKWIndex );
+                var wordHTML = this.suggestionKeywords[keyword];
+                //wordHTML += "<b>"+iKeyword+"</b>";
+                //var tail = (this.suggestionKeywords[keyword].length - firstKWIndex - iKeyword.length);
+                //wordHTML += tail?this.suggestionKeywords[keyword].substr(-1 * tail):"";
+
+                if(firstKWIndex == 0){
+                    suggestions.unshift("<li>"+wordHTML+"</li>");
+                }
+                else{
+                  suggestions.push("<li>"+wordHTML+"</li>");
+                }
+                }
+            }
+        }
+        for(let suggestion in suggestions){
+             this.suggestions.append(suggestions[suggestion]);
+
+        }
+                this.suggestions.show();
+    }
+
+    this.textbox.keyup((e)=>{
+        const hoveredSuggestion = $(".suggestion-hovered", $(this));
+        if($(e.target).val() == "") return;	
+        switch(e.keyCode){
+        case 13:
+	    var input_parent = $(e.target).parent().parent().attr('data-id');
+            if(hoveredSuggestion.length){
+        	for(key in this.keys())
+        	{
+            	    if($(e.target).text() === this.keys()[key])
+                	return;
+        	}
+
+                this.pushKeyToInput(hoveredSuggestion.text(), this);
+                $("#" + input_parent).val(JSON.stringify(this.keys()));
+                $("#"+ input_parent).trigger("change");
+            }
+	else{
+            console.log($(e.target).text());
+		
+	}
+            if($.inArray( $(e.target).val() ,this.keys()) === -1)
+            {
+            this.appendKeyFromInput(this);     
+            console.log(this.keys());
+            $("#" + input_parent).val(JSON.stringify(this.keys()));
+            $("#"+ input_parent).trigger("change");
+            }
+            break;
+        case 27:	
+            this.pushKeyToInput("", this);
+            break;
+        case 40:	
+            this.highlightNextSuggestion();
+            break;
+        case 38:	
+            this.highlightPreviousSuggestion();
+            break;
+        case 8:
+            if(this.textbox.val()==""){
+                this.removeKeyWord($(".keyword", ($(this))).last().innerHTML);
+            }
+            break;
+        default:
+            this.showSuggestions();
+        }
+    });
+
+    this.container.click((e)=>{
+        if($(e.target).hasClass("delete_keyword")){
+            var input_parent = $(e.target).parent().attr('data-id');
+            this.removeKeyWord(e.target.closest(".keyword").innerHTML);
+            $("#" + input_parent).val(JSON.stringify(this.keys()));
+            $("#"+ input_parent).trigger("change");
+        }
+        this.textbox.focus();
+    });
+
+    this.textbox.focus((e)=>{
+        $(".multi-input.active").removeClass("active")
+        $(".input-keyword-suggestions").hide();
+        this.showSuggestions();
+        this.container.addClass("active")
+    });
+
+    this.suggestions.click((e)=>{
+       var input_parent = $(e.target).parent().parent().attr('data-id');
+        for(key in this.keys())
+        {
+            if($(e.target).text() === this.keys()[key])
+                return;
+        }
+        this.pushKeyToInput($(e.target).text(), this);
+        $("#" + input_parent).val(JSON.stringify(this.keys()));
+        $("#"+ input_parent).trigger("change");
+    });
+
+    setTimeout(() => {
+                  var values = $("#" + $(this).attr('data-id')).val();
+                  try{
+                      JSON.parse(values).forEach( (value)=> {
+                    this.pushKeyToInput( value, this);
+                      })
+                      }
+                  catch(err){
+                    console.log(err);
+                  }}
+                  ,3000);
+
+
+    this.isValidKey = function(key){
+        return this.suggestionKeywords.indexOf(key) != -1;
+    }
+
+    this.appendKeyFromInput = (ci) =>{
+        var keyword = ci.textbox.val();
+        if(this.isValidKey(keyword)) {
+            ci.keywords().append("<span class='keyword'><span class='key'>" + keyword + "</span><span class='delete_keyword'>&times;</span></span>");
+            ci.textbox.val("");
+        }
+        else{
+           var enteredText = ci.textbox.val();
+            if($(ci).attr("allow-unapproved-values") == "true"){
+                    get_data_source = this.datasource;
+                    //AJAX("POST", get_data_source, {attr_type: this.datasource.split('attr_type=')[1], value: enteredText}, () => {
+                    ci.keywords().append("<span class='keyword'><span class='key'>" + keyword + "</span><span class='delete_keyword'>&times;</span></span>");
+                   // ci.keywords().append("<span class='keyword unapproved'><span class='key'>" + keyword + "</span><span class='delete_keyword'>&times;</span></span>")
+            ci.textbox.val("");
+                //});
+            }
+         else 
+	{
+	//alert("Type in values are not allowed")
+	}
+        }
+    }
+    
+
+
+    this.pushKeyToInput = (key, ci) =>{
+        ci.textbox.val(key);
+        this.appendKeyFromInput(ci);
+        ci.suggestions.hide();
+        ci.textbox.focus();
+    }
+});
+
+$(document).ready(function(){
+    if(document.location.href.indexOf("edit_mode=1") != -1){
+            $(".content-supplementary").hide()
+            $(".group-settings").hide();
+            $(".group-settings.marketing").first().show()
+            $(".page-header").first().show()
+            $(".wrapper-header").hide()
+            $(".wrapper-mast").hide()
+            $(".wrapper-sock").hide()
+            $("header").hide()
+            $(".tip").hide()
+            $(".field").css("margin-bottom", "15px")
+            $(".multi-input").css("height", "60px")
+            $(".content-primary").css("width", "100%").css("border", "none").css("background", "transparent")
+            $(".wrapper-content").css("background", "white")
+    }
+});
+
+</script>

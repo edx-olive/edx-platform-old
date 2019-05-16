@@ -31,7 +31,22 @@ ABOUT_ATTRIBUTES = [
     'entrance_exam_enabled',
     'entrance_exam_id',
     'entrance_exam_minimum_score_pct',
+    'program',
+    'mobile',
+    'pathway',
+    'verified',
+    'vr_enabled',
     'yammer',
+    'level',
+    'availibility_status',
+    'streams',
+    'tags',
+    'objectives',
+    'course_prerequisites',
+    'instructors',
+    'instructor_designers',
+    'standard',
+    'price',
 ]
 
 
@@ -76,7 +91,21 @@ class CourseDetails(object):
         self.self_paced = None
         self.learning_info = []
         self.instructor_info = []
-        self.yammer = ''
+
+        self.mobile = ""
+        self.pathway = ""
+        self.verified = ""
+        self.vr_enabled = ""
+        self.yammer = ""
+        self.level = ""
+        self.streams = ""
+        self.tags = ""
+        self.objectives = ""
+        self.course_prerequisites = ""
+        self.instructors = ""
+        self.instructor_designers = ""
+        self.standard = ""
+        self.price = ""
 
     @classmethod
     def fetch_about_attribute(cls, course_key, attribute):
@@ -133,7 +162,6 @@ class CourseDetails(object):
             value = cls.fetch_about_attribute(course_key, attribute)
             if value is not None:
                 setattr(course_details, attribute, value)
-
         return course_details
 
     @classmethod

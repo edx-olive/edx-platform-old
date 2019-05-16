@@ -51,7 +51,6 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
     </h1>
   </header>
 </div>
-
 <div class="wrapper-content wrapper">
   <div class="content">
     <div class="content-primary">
@@ -270,7 +269,6 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
           % endif
         </div>
         % endif
-
         % if about_page_editable:
         <div class="group-settings course_details">
           <header>
@@ -291,10 +289,12 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
           </ol>
         </div>
         % endif
+        <% tr=link_for_about_page %>
 
         % if yammer_id:
             <%include file="appliedx_includes/settings/yammer_setup.html" args="course_display_name=lang"/>
         % endif
+        <%include file="appliedx_includes/settings/catalog.html"/>
 
         <hr class="divide" />
             <div class="group-settings marketing">
@@ -328,16 +328,17 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
                 % endif
 
                 % if short_description_editable:
-                <li class="field text" id="field-course-short-description">
+                <!--li class="field text" id="field-course-short-description">
                   <label for="course-short-description">${_("Course Short Description")}</label>
-                  <textarea class="text" id="course-short-description" maxlength="150"></textarea>
+                  <textarea class="text" id="course-short-description"></textarea>
                   <span class="tip tip-stacked">${_("Appears on the course catalog page when students roll over the course name. Limit to ~150 characters")}</span>
-                </li>
+                </li-->
                 % endif
 
                 % if about_page_editable:
                 <li class="field text" id="field-course-overview">
                   <label for="course-overview">${_("Course Overview")}</label>
+                  <button id="course-overview-update-btn">Generate Course Overview</button>
                   <textarea class="tinymce text-editor" id="course-overview"></textarea>
                   <label class="sr" for="course-overview-cm-textarea">
                     ${_('HTML Code Editor')}
@@ -638,5 +639,11 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
      </div>
     </div>
   </div>
+</div>
+<div style="display:none" id="instructors_html_hidden">
+</div>
+<div style="display:none" id="instructional_designer_hidden">
+</div>
+<div style="display:none" id="new_course_overview_hidden">
 </div>
 </%block>

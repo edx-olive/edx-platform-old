@@ -6,7 +6,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 course_id: '',
                 run: '',
                 language: '',
-                yammer : null,
+	            program : null,
                 start_date: null,	// maps to 'start'
                 end_date: null,		// maps to 'end'
                 enrollment_start: null,
@@ -32,6 +32,22 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 entrance_exam_minimum_score_pct: '50',
                 learning_info: [],
                 instructor_info: {},
+
+		        mobile: '',
+                pathway: '',
+	            verified : '',
+                vr_enabled : '',
+	            yammer : '',
+	            level: '',
+                availibility_status: '',
+                streams : '',
+                tags : '',
+                objectives: '',
+                course_prerequisites: '',
+                instructors : '',
+                instructor_designers : '',
+                standard : '',
+                price : '',
             },
 
             validate: function(newattrs) {

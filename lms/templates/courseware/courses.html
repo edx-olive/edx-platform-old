@@ -25,6 +25,7 @@
       "${user_timezone}"
     );
   </%static:require_module>
+
 </%block>
 % endif
 
@@ -71,6 +72,7 @@
           <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
           <section class="search-facets-lists">
           </section>
+          <%include file="../appliedx_includes/search.html"/>
         </aside>
         % endif
 

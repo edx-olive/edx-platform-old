@@ -48,7 +48,21 @@ define([
                 instructor_info: {
                     'instructors': [{'name': '', 'title': '', 'organization': '', 'image': '', 'bio': ''}]
                 },
+                mobile: '',
+                pathway: '',
+                verified : '',
+                vr_enabled : '',
                 yammer : '',
+                level: '',
+                availibility_status: '',
+                streams : '',
+                tags : '',
+                objectives: '',
+                course_prerequisites: '',
+                instructors : '',
+                instructor_designers : '',
+		        standard: '',
+		        price: '',
             },
 
             mockSettingsPage = readFixtures('mock/mock-settings-page.underscore'),

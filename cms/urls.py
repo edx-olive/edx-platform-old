@@ -49,15 +49,23 @@ urlpatterns = patterns(
 
     url(r'^xmodule/', include('pipeline_js.urls')),
     url(r'^heartbeat$', include('openedx.core.djangoapps.heartbeat.urls')),
+
+    # Custom AMAT endpoints
+    url(r'^sign_url', 'util.custom_views.sign_cloudfront_url'),
     url(r'^list_s3_videos$', 'util.custom_views.s3_video_list'),
     url(r'^upload_video$', 'util.custom_views.video_upload'),
     url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
+    url(r'^updatecommonsection/', common_xblock_utils.updatecommonsection, name='updatecommonsection'),
+    url(r'^get_commonsection/', common_xblock_utils.get_commonsection, name='getcommonsection'),
+    url(r'^update_course_metadata$', 'util.custom_views.update_course_metadata'),
+    url(r'^update_about_attribute$', 'util.custom_views.update_about_attribute'),
+    url(r'^get_search_tags$', 'util.custom_views.get_keywords'),  # doesn't seem to be used
+    url(r'^delete_search_tag$', 'util.custom_views.rem_keyword'),  # doesn't seem to be used
+    url(r'^insert_search_tag$', 'util.custom_views.add_keyword'),  # doesn't seem to be used
 
     url(r'^user_api/', include('openedx.core.djangoapps.user_api.legacy_urls')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
-
-    url(r'^sign_url', 'util.custom_views.sign_cloudfront_url'),
 
     # User API endpoints
     url(r'^api/user/', include('openedx.core.djangoapps.user_api.urls')),
@@ -76,9 +84,6 @@ urlpatterns = patterns(
     url(r'^help_token/', include('help_tokens.urls')),
 
     url(r'^(?P<key>.+)/openassessment-filesystem-storage', views_filesystem.filesystem_storage, name='openassessment-filesystem-storage'),
-
-    url(r'^updatecommonsection/', common_xblock_utils.updatecommonsection, name='updatecommonsection'),
-    url(r'^get_commonsection/', common_xblock_utils.get_commonsection, name='getcommonsection'),
 )
 
 # restful api

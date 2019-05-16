@@ -1,0 +1,269 @@
+<style>
+/*.appliedx-custom-search-tags span:hover {
+    color: #00a9dC;
+}
+
+.appliedx-custom-search-tags span {
+    float: left;
+    padding: 0px;
+    list-style-type: none;
+    color: #333;
+    border-radius: 1px;
+    font-size: 12px;
+    margin: 1px 5px;
+    font-family: trebuchet MS;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 48%;
+    text-overflow: ellipsis;
+}
+
+.appliedx-custom-search-tags {
+    height: 60px;
+    padding: 4px 15px;
+    border-top: dotted 1px #ccc;
+    padding-top: 10px;
+    background: #f1f1f1;
+    margin-top: -15px;
+    margin-bottom: 5px;
+}*/
+
+.facet-option{ cursor:pointer;}
+.verified-label{
+    background-color: rgba(0,88,0,0.6);
+    height: 15px;
+    color: white;
+    padding: 3px 3px 3px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: solid 1px #090;
+    position: absolute;
+    bottom: -0px;
+    width: 273px;
+}
+.verified-label span{
+    color: white;
+    text-shadow: 1px 1px rgb(116,232,0);
+    font-family: "Wingdings 2";
+    font-size: 41px;
+    z-index: 1;
+    float: left;
+}
+.cover-image{position:relative;height:148px !important;}
+
+.verified-button{
+    padding: 6px 11px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 2px solid #256a97;
+    background-color: #0078b0;
+    margin: 3px;
+    color: white;
+    font-family: Segoe UI;
+}
+.header-facet {
+    text-transform: capitalize !important;
+}
+.verified-button:hover{ background: #009ee7;}
+.courses-listing-item{ clear: none !important;}
+.search-facets,.cover-image,.learn-more{z-index:9 !important;}
+/*#filter-tag-cloud{
+    color: #3399cc;
+    font-family: Trebuchet MS;
+    border: solid 1px #ccc;
+    width: 261px;
+    padding: 8px;
+    float: left;
+    box-shadow: 0px 2px 10px 3px #ccc;
+    position: absolute;
+    background: white;
+    margin-top: 15px;
+}*/
+.course-title {
+    font-size:16px;
+}
+
+.course-name {
+    margin-botton: 5px;
+}
+
+.course-date{
+    float: left;
+    position: absolute;
+    background: #9dd169;
+    padding: 5px 10px;
+    color: white !important;
+    font-size: 14px;
+    margin: -2px 0px 0px 10px;
+    border-radius: 3px 0px 3px 3px;
+    box-shadow: 2px 2px 5px #ccc;
+    padding: 2px 15px;
+    position: absolute;
+    top: 155px;
+    right: -3px;
+    z-index: 9;
+    padding: 2px 15px;
+    color: white;
+    text-shadow: 1px 1px#ccc;
+}
+</style>
+      <!--div id="filter-tag-cloud">
+        <h3 class="" style="    padding: 11px 5px 25px 0px;    text-transform: Capitalize;    font-family: Trebuchet MS;    margin: 0px;    color: black;">Keywords</h3>
+        <style>
+        #filter-tag-cloud span{padding:3px; white-space:nowrap; cursor:pointer;float:left; max-width: 200px; overflow: hidden; text-overflow: ellipsis;}
+        #filter-tag-cloud span:hover{color:white; background:#3399cc}
+        </style>
+      </div-->
+
+      <script type="text/javascript">
+        var filters = {};
+        var filterList = {};
+        var courseCardCount = 20;
+        $(document).ready(function(){
+                // GenerateInitialTagCloud();
+                $(document).on("scroll", function(){
+                        if(courseCardCount != $(".courses-listing-item").length){
+                                courseCardCount = $(".courses-listing-item").length;
+                             //   renderTags()
+                        }
+                });
+        });
+/*        var GenerateInitialTagCloud = function(){
+                $.ajax({
+                        url: "/get_search_tags",
+                        success: function(result){
+                                renderTagCloud(result.keys);
+                        },
+                        error: function(result){
+                                renderTagCloud(result.keys);
+                        }
+                });
+        }
+        var renderTagCloud = function(tagList){
+                var cloudHTML = ""
+                $("#filter-tag-cloud span").remove()
+                for(tag in tagList){
+                        if(parseInt(tagList[tag])) cloudHTML += "<span style='font-size:" + (9 + parseInt(tagList[tag]) * 0.1) + "px; line-height:" + (9 + parseInt(tagList[tag]) * 0.1) + "px;'>" + tag + "</span>";
+                }
+                $("#filter-tag-cloud").append(cloudHTML)
+                $("#filter-tag-cloud span").click(function(e){
+                        filterByTag({"type":"tags", "value":$(e.target).text()})
+                });
+        }*/
+        filtersInOrder = ["verified", "level", "stream", "program", "topics", "subtopics","mobile","course_type"];
+        var appliedFilters = [];
+        organizeFilters = function(){
+                $(".search-facets-lists h3").hide();
+                $(".search-facets-lists ul").hide();
+                $(".search-facets-lists .toggle").hide();
+                setVerified();
+                $(filtersInOrder).each(function(){
+                        var currentHeader = $(".search-facets-lists h3:contains('" + this + "')");
+                        if(currentHeader.length > 0){
+                                for(i=0;i<currentHeader.length; i++){
+                                        if(currentHeader[i].innerHTML.trim() == this){
+                                                currentHeader = currentHeader[i];
+                                                break;
+                                        }
+                                }
+                        }
+                        var currentFilter = $(currentHeader).next();
+                        var currentMore = $(currentFilter).next();
+                        $(".search-facets-lists").append(currentHeader).append(currentFilter);
+                        $(currentHeader).show();
+                        $(currentFilter).show();
+                        if($(currentMore).hasClass("toggle")) {
+                                $(".search-facets-lists").append(currentMore);
+                                $(currentMore).show();
+                        }
+                });
+        }
+        $(document).on("click", "button[data-facet]", function(e){
+                if($(e.currentTarget).attr("data-type") == "search_query"){
+                        collectAppliedFacets ();
+                }
+                onFilterApplied();
+        });
+
+        $(".discovery-submit").click(function(e){
+                collectAppliedFacets();
+                onFilterApplied();
+        });
+
+        onFilterApplied = function(){
+                setTimeout(function(){
+                        applyPreviousFacets();
+                        setTimeout(function(){
+                                //renderTagCloud(renderTags());
+                                organizeFilters();
+                                $("#clear-all-filters").click(function(){
+                                        onFilterApplied();
+                                });
+                                $("button[data-facet]").click(function(e){
+                                        onFilterApplied();
+                                  //      console.log("clicked");
+                                });
+                                $("button[data-type]").click(function(e){
+                                        if($(e.currentTarget).attr("data-type") == "search_query"){
+                                                collectAppliedFacets ();
+                                        }
+                                        onFilterApplied();
+                                });
+                        }, 1000);
+                }, 1000);
+        }
+
+        filterByTag = function(param){
+                $(".discovery-input").val(param.value);
+                $(".discovery-submit").click()
+        }
+
+        collectAppliedFacets = function(){
+                $(".active-filter button").each(function(){
+                        appliedFilters.push({"name":$(this).attr("data-type"), "value":$(this).attr("data-value")});
+                });
+        }
+
+        applyPreviousFacets = function(){
+                $(appliedFilters).each(function(){
+                        $("*[data-value='" + this.value + "']", $("*[data-facet='" + this.name + "']")).click();
+                });
+                appliedFilters = [];
+        }
+
+/*        renderTags = function(){
+                var tagStore = {};
+                $(".appliedx-custom-search-tags").each(function(){
+                        var course_item = $(this);
+                        tags = JSON.parse($(this).attr("data-tags")).tags;
+                        searchTagMarkup = "";
+                        for(tag in tags){
+                                if(tags[tag].trim() != ""){
+                                        if(tagStore[tags[tag]] == undefined) tagStore[tags[tag]] = 0;
+                                        tagStore[tags[tag]]++;
+                                        searchTagMarkup += "<span class='appliedx-custom-tag' data-tag-propertyname='" + tag + "' title='" + tags[tag] + "'>" + tags[tag] + "</span>";
+                                        $(this).closest(".courses-listing-item").attr("data-" + tag, tags[tag]);
+                                }
+                        }
+                        $(this).html(searchTagMarkup);
+                });
+                $(".appliedx-custom-tag").click(function(e){
+                        e.preventDefault();
+                        filterByTag({"type":"tags", "value":$(e.target).text()})
+                });
+                return tagStore;
+        }*/
+
+        setVerified = function(){
+                $("button[data-facet='verified']").each(function(){
+                        if($(this).attr("data-value") != "true")
+                                $(this).parent().hide();
+                        else{
+                                $(this).html($(this).html().replace("true", "Show only verified"));
+                                $(this).attr("data-text", "Show only verified");
+                        }
+                });
+        }
+      </script>
+

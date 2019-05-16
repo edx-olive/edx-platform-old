@@ -8,6 +8,7 @@ from rest_framework.exceptions import PermissionDenied
 from lms.djangoapps.courseware.courses import (
     get_course_overview_with_access,
     get_courses,
+    get_all_courses,
     get_permission_for_course_about
 )
 
@@ -85,3 +86,8 @@ def list_courses(request, username, org=None, filter_=None):
     """
     user = get_effective_user(request.user, username)
     return get_courses(user, org=org, filter_=filter_)
+
+
+def list_all_courses(request, username, org=None, filter_=None):
+    user = get_effective_user(request.user, username)
+    return get_all_courses(user, org=org, filter_=filter_)

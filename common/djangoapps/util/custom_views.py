@@ -1,10 +1,13 @@
 """
 AMAT customizations.
 """
+from collections import defaultdict
+import datetime
 import json
 import logging
 import os
 import re
+import socket
 import string
 import tempfile
 import time
@@ -12,16 +15,20 @@ import time
 import boto
 from boto.exception import NoAuthHandlerFound
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.http import HttpResponse, JsonResponse
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.models.course_details import CourseDetails
-
-from collections import defaultdict
-from courseware.models import StudentModule
-from edxmako.shortcuts import render_to_response
 from path import Path as path
+import pytz
 from rest_framework import status
+from search.api import course_discovery_search
+from xmodule.modulestore.django import modulestore
+
+import branding
+from courseware.models import StudentModule
+from cms.djangoapps.models.settings.course_metadata import CourseMetadata
+from student.roles import CourseInstructorRole, CourseStaffRole
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -260,3 +267,246 @@ def feedback_for_all_courses(request, course_id):
     except Exception as e:
         logger.error('Unable to get feedback for all courses ' + str(e))
         return JsonResponse({'resp': ''})
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def allow_only_native_calls(_function):
+    def block_external_request_source(request, *args, **kwargs):
+        if get_client_ip(request) != socket.gethostbyname(socket.gethostname()):
+            return HttpResponse('{"status":"error", "message":"forbidden"}')
+        else:
+             return _function(request, *args, **kwargs)
+    return block_external_request_source
+
+
+@allow_only_native_calls
+def update_course_metadata(request):
+    course_id = request.GET.get("course_id").replace(" ","+")
+    attribute_name = request.GET.get("attr_name")
+    attribute_value = request.GET.get("attr_val")
+    lms_username = request.GET.get("user")
+    course_module = modulestore().get_course(CourseKey.from_string(course_id), depth=1)
+    metadata = CourseMetadata.fetch(course_module)
+    attribute_to_update = metadata[attribute_name]
+    attribute_to_update["value"] = attribute_value
+    metadata = CourseMetadata.update_from_json(course_module,
+                                               {attribute_name: attribute_to_update},
+                                               User.objects.get(username=lms_username))
+    return HttpResponse('{"' + attribute_name + '" : "' + str(metadata[attribute_name]) + '"}')
+
+
+@allow_only_native_calls
+def update_about_attribute(request):
+    course_id = request.GET.get("course_id").replace(" ", "+")
+    attribute_name = request.GET.get("attr_name")
+    attribute_value = request.GET.get("attr_val")
+    lms_username = request.GET.get("user")
+    course_key = CourseKey.from_string(course_id)
+    if attribute_name == "release_date":
+        json_dict = {}  # TODO test
+        if attribute_value == "now":
+            now = datetime.datetime.now().replace(tzinfo=pytz.UTC)
+            json_dict = {
+                "start_date": now,
+                "enrollment_start": now,
+                "intro_video": CourseDetails.fetch_about_attribute(CourseKey.from_string(course_id), 'video')
+            }
+    else:
+        json_dict = {
+            attribute_name: attribute_value,
+            "intro_video": CourseDetails.fetch_about_attribute(CourseKey.from_string(course_id), 'video')
+        }
+    CourseDetails.update_from_json(course_key, json_dict, User.objects.get(username=lms_username))
+    attribute_value = getattr(CourseDetails.fetch(CourseKey.from_string(course_id)), attribute_name, "error")
+    return HttpResponse('{"' + attribute_name + '" : "' + str(attribute_value) + '"}')
+
+
+def add_keyword(request):
+    try:
+        keyFileHandler = open('/edx/app/edxapp/search/keywords', 'r')
+        keywords = json.loads(keyFileHandler.read())
+        keyFileHandler.close()
+        key = request.GET['key']
+        if(keywords["keys"].get(key)):
+            keywords["keys"][key] = keywords["keys"][key] + 1;
+        else:
+            keywords["keys"][key] = 1
+            keyFileHandler = open('/edx/app/edxapp/search/keywords', 'w')
+            keyFileHandler.write(json.dumps(keywords))
+            keyFileHandler.close()
+    except Exception, e:
+        return HttpResponse(e)
+    return HttpResponse(json.dumps(keywords))
+
+
+def get_keywords(request):
+    keywords = open('/edx/app/edxapp/search/keywords', 'r')
+    return HttpResponse(keywords)
+
+
+def rem_keyword(request):
+    try:
+        keyFileHandler = open('/edx/app/edxapp/search/keywords', 'r')
+        keywords = json.loads(keyFileHandler.read())
+        keyFileHandler.close()
+        key = request.GET['key']
+        if(keywords["keys"].get(key)):
+            keywords["keys"][key] = keywords["keys"][key] - 1;
+        keyFileHandler = open('/edx/app/edxapp/search/keywords', 'w')
+        keyFileHandler.write(json.dumps(keywords))
+        keyFileHandler.close()
+    except Exception, e:
+        return HttpResponse(e)
+    return HttpResponse(json.dumps(keywords))
+
+
+def search(request):
+    search_key = request.GET.get('search_string')
+    page_size = request.GET.get('page_size')
+    page_index = request.GET.get('page_index')
+    mobile = request.GET.get('mobile')
+    field_dict = dict()
+    for parameter in request.GET:
+        if parameter not in ('search_string', 'page_size', 'page_index', 'mobile' ):
+            field_dict.update(dict({parameter: request.GET[parameter]}))
+
+    return HttpResponse(json.dumps(_search(search_key, page_size, page_index, mobile, field_dict)))
+
+
+def _search(search_key, page_size, page_index, mobile, field_dict):
+    if page_size == "" or page_size is None:
+        page_size = 20
+    if page_index == "" or page_index is None:
+        page_index = 1
+    start = (int(page_index) - 1) * int(page_size)
+    if mobile is not None and mobile != "false":
+        data = course_discovery_search(search_term=search_key, size=page_size, from_=start, field_dictionary=field_dict)
+        results = data['results']
+        print(len(results))
+        store = modulestore()
+        newResult = list()
+        for result in results:
+            course_key = CourseKey.from_string(result['_id'])
+            print(course_key)
+            course = store.get_course(course_key)
+            try:
+                field = course.fields['mobile_available']
+                value = field.read_json(course)
+                print(value)
+                if value:
+                    newResult.append(result)
+            except:
+                pass
+        data['results'] = newResult
+        data['total'] = len(newResult)
+        return data
+    return course_discovery_search(search_term=search_key, size=page_size, from_=start, field_dictionary=field_dict)
+
+
+def get_course_team(request):
+    course_key_string=request.GET["course_id"].replace(" ","+")
+    return HttpResponse(json.JSONEncoder().encode(_get_course_team(course_key_string)))
+
+
+def _get_course_team(course_key_string):
+    if course_key_string is None:
+        return  {"staff":[], "admins":[]}
+    course_key = CourseKey.from_string(course_key_string)
+    course_module = modulestore().get_course(course_key)
+    instructors = set(CourseInstructorRole(course_key).users_with_role())
+    staff = set(set(CourseStaffRole(course_key).users_with_role()) - instructors)
+    emails = {"staff":[], "admins":[]}
+    for member in staff:
+        emails["staff"].append(member.email)
+    for member in instructors:
+        emails["admins"].append(member.email)
+    return emails
+
+
+def get_course_ids(request):
+    return HttpResponse(json.JSONEncoder().encode(_get_course_ids()))
+
+
+def _get_course_ids():
+    courses = branding.get_visible_courses()
+    course_ids = []
+    for course in courses:
+        course_ids.append(str(course.id))
+    return course_ids
+
+
+def get_audience_list(request):
+    request_m = request.GET
+    all_superusers = request_m.get("su")
+    all_staff = request_m.get("staff")
+    all_course_admins = request_m.get("c_admins")
+    all_course_staff = request_m.get("c_staff")
+    groups = request_m.get("groups")
+    if groups is None:
+        groups = []
+    else:
+        groups = groups.split(",")
+    course_id = request_m.get("course_id")
+    if course_id is None:
+        course_id = ""
+    all_courses = request_m.get("all")
+
+    return HttpResponse(json.JSONEncoder().
+    encode(_get_audience_list(
+        all_superusers = (all_superusers == "true"),
+        all_staff = (all_staff == "true"),
+        all_course_admins = (all_course_admins == "true"),
+        all_course_staff =(all_course_staff == "true"),
+        group_list = groups,
+        course_id = course_id,
+        all_courses = (all_courses == "true")
+     )))
+
+
+def _get_audience_list(all_superusers = False,
+                       all_staff = False,
+                       all_course_admins = False,
+                       all_course_staff = False,
+                       group_list = [],
+                       course_id = "",
+                       all_courses = False):
+    audience = dict({"groups":dict(), "courses":dict()})
+    group_audience = audience.get("groups")
+    for group_name in group_list:
+        group = Group.objects.get(name=group_name)
+        group_mails = []
+        for user in group.user_set.all():
+            group_mails.append(user.email)
+    group_audience[group_name] = group_mails
+    if all_superusers:
+        superusers = User.objects.filter(is_superuser = True).values_list('email', flat=True)
+        audience["superusers"] = list(superusers)
+    if all_staff:
+        staff = User.objects.filter(is_staff= True).values_list('email', flat=True)
+        audience["staff"] = list(staff)
+    course_id_list = list()
+    if course_id != "":
+        course_id_list.append(course_id)
+    if all_courses:
+        course_id_list = _get_course_ids()
+    if course_id_list == 0:
+        return audience
+    course_staff = {}
+    course_audience = audience.get("courses")
+    for course_id in course_id_list:
+        if all_course_staff or all_course_admins:
+            this_course_staff = _get_course_team(course_id)
+            course_audience[course_id] = dict()
+        if all_course_staff:
+            course_audience[course_id]["staff"] = this_course_staff.get("staff")
+        if all_course_admins:
+            course_audience[course_id]["admins"] = this_course_staff.get("admins")
+    return audience

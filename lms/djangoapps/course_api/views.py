@@ -8,9 +8,9 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from openedx.core.lib.api.paginators import NamespacedPageNumberPagination
 from openedx.core.lib.api.view_utils import DeveloperErrorViewMixin, view_auth_classes
 
-from .api import course_detail, list_courses
+from .api import course_detail, list_courses, list_all_courses
 from .forms import CourseDetailGetForm, CourseListGetForm
-from .serializers import CourseDetailSerializer, CourseSerializer
+from .serializers import CourseDetailSerializer, CourseSerializer, AppliedXCourseSerializer
 
 
 @view_auth_classes(is_authenticated=False)
@@ -197,13 +197,33 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
         """
         Return a list of courses visible to the user.
         """
-        form = CourseListGetForm(self.request.query_params, initial={'requesting_user': self.request.user})
-        if not form.is_valid():
-            raise ValidationError(form.errors)
+        username = self.request.query_params.get('username', self.request.user.username)
+        courses = list()
+        if self.request.GET.get('mobile', "" )== "true":
+           for course in list_courses(self.request, username):
+               if course.mobile_available:
+                   courses.append(course)
+           return courses
+        else:
+            return list_courses(self.request, username)
 
-        return list_courses(
-            self.request,
-            form.cleaned_data['username'],
-            org=form.cleaned_data['org'],
-            filter_=form.cleaned_data['filter_'],
-        )
+
+@view_auth_classes(is_authenticated=False)
+class AppliedXCourseListView(DeveloperErrorViewMixin, ListAPIView):
+
+    pagination_class = NamespacedPageNumberPagination
+    serializer_class = AppliedXCourseSerializer
+
+    def get_queryset(self):
+        """
+        Return a list of courses visible to the user.
+        """
+        username = self.request.query_params.get('username', self.request.user.username)
+        courses = list()
+        if self.request.GET.get('mobile', "" )== "true":
+           for course in list_courses(self.request, username):
+               if course.mobile_available:
+                   courses.append(course)
+           return courses
+        else:
+            return list_all_courses(self.request, username)

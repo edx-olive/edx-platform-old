@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy
 from search.search_engine_base import SearchEngine
 from six import add_metaclass
 
-from cms.djangoapps.contentstore.course_group_config import GroupConfiguration
+from contentstore.course_group_config import GroupConfiguration
 from course_modes.models import CourseMode
 from eventtracking import tracker
 from openedx.core.lib.courses import course_image_url
@@ -571,7 +571,17 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("org", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("modes", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_MODE),
         AboutInfo("language", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("level", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("availibility_status", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("stream", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("program", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("topics", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("subtopics", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("verified", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("tags", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
         AboutInfo("yammer", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("mobile", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("pathway", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
     ]
 
     @classmethod
@@ -588,13 +598,20 @@ class CourseAboutSearchIndexer(object):
         if not searcher:
             return
 
+        #add mobile_available meta data field in the elasticsearch index
+        try:
+            mobile_field = course.fields['mobile_available']
+            mobile_field_value = mobile_field.read_json(course)
+        except:
+            mobile_field_value = False
+
         course_id = unicode(course.id)
         course_info = {
             'id': course_id,
             'course': course_id,
             'content': {},
             'image_url': course_image_url(course),
-            'catalog_visibility': course.catalog_visibility
+            'mobile_available': mobile_field_value
         }
 
         # load data for all of the 'about' modules for this course into a dictionary

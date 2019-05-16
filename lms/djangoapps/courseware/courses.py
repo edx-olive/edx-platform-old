@@ -190,7 +190,8 @@ def get_course_about_section(request, course, section_key):
         'effort',
         'end_date',
         'prerequisites',
-        'ocw_links'
+        'ocw_links',
+        'pathway',
     }
 
     if section_key in html_sections:
@@ -374,6 +375,15 @@ def get_courses(user, org=None, filter_=None):
 
     courses = [c for c in courses if has_access(user, permission_name, c)]
 
+    return courses
+
+
+def get_all_courses(user, org=None, filter_=None):
+    """
+    Returns a list of courses available, sorted by course.number and optionally
+    filtered by org code (case-insensitive).
+    """
+    courses = branding.get_visible_courses(org=org, filter_=filter_)
     return courses
 
 
