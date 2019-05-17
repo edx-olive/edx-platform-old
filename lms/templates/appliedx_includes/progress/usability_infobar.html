@@ -1,0 +1,121 @@
+<style>
+#reset_button{
+    padding: 5px 0px 8px;
+    margin: auto;
+    margin-top: 15px;
+    background: #1589FF;
+    text-align: center;
+    color: #FFF;
+    border: solid 1px #38ACEC;
+    width: 14%;
+    box-shadow: inset 0 1px 0 0 #3BB9FF;
+    font-weight: bold;
+    letter-spacing: 0;
+    font: normal 15px/1.6rem "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+    background-clip: padding-box;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor:pointer;
+    text-shadow: 0 1px 0 #2B65Ec;
+}
+.icon-info{
+    padding: 2px 15px;
+    background: linear-gradient(to bottom, rgba(135,188,234,1) 0%,rgba(115,177,231,1) 24%,rgba(10,119,213,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%);
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    font-size: 23px;
+    font-family: segoe ui;
+    text-shadow: 1px 1px #777;
+    box-shadow: 0px 0px 1px 2px rgba(208,228,247,1);
+    margin-right: 10px;
+}
+.icon-error{
+    padding: 0px 11px 6px 12px;
+    border-radius: 22px;
+    color: white;
+    font-size: 22px;
+    background: linear-gradient(to bottom, rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
+    box-shadow: 0px 0px 1px 2px #aaa;
+    font-family: calibri;
+    font-weight: bold;
+}
+.progress-info-block{
+    padding: 25px;
+    margin-bottom: 14px;
+    font-family: segoe UI;
+    background: #eee;
+    border: solid 1px #ccc;
+}
+.warning{
+    background: #eaeabe;
+    border: dotted 1px yellow;
+}
+.error{
+    background: #f9f2f2;
+    border: solid 1px #efe7e7;
+}
+.progress-info-block .text-block{
+    margin-left: 50px;
+    margin-top: -20px;
+}
+</style>
+% if not passed:
+    % if answered == 0 and reset is None:
+    <div class="progress-info-block">
+        <span class='icon-info'>i</span>
+        <div class="text-block">Your progress will be depicted in the graph once you start taking tests.</div>
+    </div>
+    % elif answered == 0 and reset is not None :
+    <div class="progress-info-block">
+        <span class='icon-info'>i</span>
+        <div class="text-block">The course has been reset successfully. Please take the course again, to get the fresh scores.</div>
+    </div>
+    % elif answered < count:
+    <div class="progress-info-block warning">
+        <span class='icon-info'>i</span>
+        <div class="text-block">You do not have sufficient scores to request for credit yet, you need to answer all questions. (Attempted : ${answered} of ${count})</div>
+    </div>
+    % else:
+    <div class="progress-info-block" id="reset_course_msg" style="display:none">
+        <span class='icon-info'>i</span>
+        <div class="text-block">The course has been reset successfully</div>
+    </div>
+    <div class="progress-info-block error">
+        <span class='icon-error'>x</span>
+        <div class="text-block">Unfotunately, you could not obtain sufficient scores to get credit. Please click the button below to reset your course and take it again. Sectionwise scores below can help you decide which sections you may need to have another look at.</div>
+         <div id="reset_button">Reset my Course</div>
+    </div>
+    <script type="text/javascript">
+    $("#reset_button").click(function(){
+            $.ajax({
+                    url: "/change_enrollment",
+                    type: "POST",
+                    data: {
+                            "enrollment_action":"reset",
+                            "course_id":"${course.id}"
+                    },
+                    success: function(result){
+                            $("#reset_button").hide();
+                            $("#reset_block").hide();
+                            $("#reset_msg").hide();
+                            $(".progress-info-block").hide();
+                            $("#reset_course_msg").show();
+                            window.location.reload(true);
+                    },
+                    error: function(result){
+                            if(result.responseText == "/dashboard"){
+                                    $("#reset_button").hide();
+                                    $("#reset_block").hide();
+                                    $("#reset_msg").hide();
+                                    $(".progress-info-block").hide();
+                                    $("#reset_course_msg").show();
+                            window.location.reload(true);
+                            }
+                    }
+            });
+    });
+    </script>
+    % endif
+% endif
+

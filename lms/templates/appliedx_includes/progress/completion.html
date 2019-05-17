@@ -1,0 +1,186 @@
+<div class="wrapper-auto-cert">
+    <script type="text/javascript">
+        var course_id = "${course.id}";
+        var mail = "${user.email}";
+        var user_id = '${request.user.social_auth.get(provider="tpa-saml").uid.split(":")[1]}';
+
+        function CheckEnrollment() {
+            var data = "{\"course_id\": \"" + "${course.id}" + "\",\"employee_id\": \"" + user_id + "\"}";
+            console.log("Checking For Credit");
+            var settings = {
+                "async": false,
+                "crossDomain": true,
+                "url": "https://services.appliedx.amat.com/saba/api/v1/check_saba/",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json",
+                },
+                "processData": false,
+                "data": data
+            }
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+                if (response.Status === "200") {
+                    console.log("Already Have Credit With Following Registration" + response.Reg);
+                    $('#saba-reg span').text('You Have Credit For This Course');
+                } else if (response.Status === "100") {
+                    console.log("No Credit Yet");
+                    $('#saba-reg span').text('Click Below To Get Credit');
+                } else {
+                    console.log("Error In Credit");
+                    $('#saba-reg span').text('Error In Registration Contact AppliedX Team');
+                }
+                //alert("Check Credit In SABA");
+            });
+        }
+
+        function CompleteEnrollment() {
+            $('#credit_button').hide();
+            $('.loader').show();
+            console.log("Completion Event");
+            var course_id = "${course.id}";
+            var mail = "${user.email}";
+            var user_id = '${request.user.social_auth.get(provider="tpa-saml").uid.split(":")[1]}';
+            console.log(course_id, mail, user_id);
+            var data = "{\"course_id\": \"" + "${course.id}" + "\",\"email_id\": \"" + "${user.email}" + "\", \"employee_id\": \"" + user_id + "\"}";
+            console.log(data);
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://services.appliedx.amat.com/saba/api/v1/complete/",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json",
+                },
+                "processData": false,
+                "data": data
+            }
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+                $(".loader").hide();
+                if (response.Status === "Complete") {
+                    $.ajax({
+                        url: "/credit_requested?course_id=${course.id}",
+                        success: function (result) { /*window.open($('#credit_button').attr("href"));*/
+                        },
+                        error: function (result) { /* window.open($('#credit_button').attr("href")); */
+                        }
+                    });
+
+                    $('#saba-result span').text('Successfully Got Credit');
+                } else {
+                    $('#saba-result span').text('Error in Obtaining Credit Please Contact appliedx.amat.com');
+                }
+                //alert("Check Credit In SABA");
+            });
+        }
+
+        CheckEnrollment();
+    </script>
+    <div id="errors-info" class="errors-info"></div>
+    %if passed:
+        <div id="saba-reg"><span></span></div>
+        <div id="course-success" style="padding-top:20px;"><!--removed class auto-cert-message -->
+            <!--a id="credit_button" style="display:block" onClick="CompleteEnrollment()">
+                Get credit for the course
+           </a-->
+            <a id="course_recommend" onClick="CompleteEnrollment()">Get Credit </a>
+            <div class="loader">
+            </div>
+            <div id="saba-result">
+                <span></span>
+            </div>
+            <!--button id="saba_credit" onClick="CompleteEnrollment()" style="display:none">Complete In SABA</button-->
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //$('#course-success').hide();
+                var course_id = "${course.id}";
+                $.ajax({
+                    url: "/last_credit_request?course_id=${course.id}",
+                    success: function (result) {
+                        if (result != null) $("#course-success").prepend("<div>You have requested credit for taking the course on " + result.responseText + ". To reinitiate credit request, please click <a target='_blank' onClick='CompleteEnrollment()'>here</a></div>")
+                        else {
+                            $("#credit_button").show();
+                            $(".loader").hide();
+                            InitiateAutoCompletion();
+                        }
+                    },
+                    error: function (result) {
+                        if (result != null) $("#course-success").prepend("<div>You have requested credit for taking the course on " + result.responseText + ". To reinitiate credit request, please click <a onClick='CompleteEnrollment()'>here</a></div>")
+                        else {
+                            $("#credit_button").show();
+                            $(".loader").hide();
+                            InitiateAutoCompletion();
+                        }
+                    }
+                });
+                InitiateAutoCompletion = function () {
+                    $("#credit_button").click(function (event) {
+                        event.preventDefault()
+                        $.ajax({
+                            url: "/credit_requested?course_id=${course.id}",
+                            success: function (result) { /*window.open($('#credit_button').attr("href"));*/
+                            },
+                            error: function (result) { /*window.open($('#credit_button').attr("href"));*/
+                            }
+                        });
+                    });
+                }
+            });
+            var creditURL = "${course.cert_name_long}";
+            var split = creditURL.split("C=");
+            courseID = split[1];
+            var getCurrentUserEmail = function () {
+                return "${student.email}";
+            }
+            var encryptToSequence = function (courseID) {
+                var email = getCurrentUserEmail();
+                var len = courseID.length;
+                var creditKey = [];
+                for (var index = 0; index < len; index++) {
+                    var keyIndex = index % len;
+                    creditKey.push(courseID.charCodeAt(index) ^ email.charCodeAt(keyIndex));
+                }
+                return creditKey.join("-")
+            }
+            var decryptToSequence = function (creditKeySequence) {
+                creditKey = creditKeySequence.split("-");
+                var email = getCurrentUserEmail();
+                var len = creditKey.len;
+                var courseID = "";
+                for (var index = 0; index < len; index++) {
+                    var keyIndex = index % length;
+                    courseID += String.fromCharCode(creditKey[index] ^ email.charCodeAt(keyIndex));
+                }
+                return courseID;
+            }
+            $("#credit_button").attr("href", split[0] + "C=" + encryptToSequence(courseID) + "&src=appliedx");
+        </script>
+    % endif
+</div>
+<style>
+    .auto-cert-message {
+        display: none;
+    }
+
+    .loader {
+        border: 6px solid #f3f3f3; /* Light grey */
+        border-top: 6px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 2s linear infinite;
+        margin: 0 auto;
+        display: none;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>

@@ -18,4 +18,5 @@ urlpatterns = patterns(
         ),
         views.CourseGradingPolicy.as_view(), name='course_grading_policy'
     ),
+    url(r'^get_grades_api', views.get_grades_api, name="get_grades_api"),
 )

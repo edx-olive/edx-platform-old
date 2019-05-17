@@ -10,6 +10,8 @@ from openedx.core.djangolib.markup import HTML, Text
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.http import urlquote_plus
+from openedx.core.djangoapps.models.course_details import CourseDetails
+from opaque_keys.edx.keys import CourseKey
 %>
 <%block name="bodyclass">view-in-course view-progress</%block>
 
@@ -47,6 +49,8 @@ from django.utils.http import urlquote_plus
                 lang="${course.language}"
               % endif
               >
+              <%include file="../appliedx_includes/progress/usability_infobar.html"/>
+
                 % if staff_access and studio_url is not None:
                 <div class="wrap-instructor-info">
                     <a class="instructor-info-action studio-view" href="${studio_url}">${_("View Grading in studio")}</a>
@@ -56,6 +60,7 @@ from django.utils.http import urlquote_plus
                     ${_("Course Progress for Student '{username}' ({email})").format(username=student.username, email=student.email)}
                 </h2>
 
+                <%include file="../appliedx_includes/progress/completion.html"/>
                 %if certificate_data:
                 <div class="wrapper-msg wrapper-auto-cert">
                     <div id="errors-info" class="errors-info"></div>
@@ -191,7 +196,7 @@ from django.utils.http import urlquote_plus
                                                   %if score.first_attempted is None:
                                                       <dd>${"{0:.3n}/{1:.3n}".format(float(score.earned),float(score.possible))}</dd>
                                                   %else:
-                                                      <dd><b>${"{0:.3n}/{1:.3n}".format(float(score.earned),float(score.possible))}</b></dd>
+                                                  <dd><b>${"{0:.3n}/{1:.3n}".format(float(score.earned),float(score.possible))}</b></dd>
                                                   %endif
                                               %endfor
                                           </dl>
@@ -226,6 +231,7 @@ from django.utils.http import urlquote_plus
             </section>
         </div>
     </div>
+    <%include file="../appliedx_includes/progress/usability_sectionlables.html"/>
 </main>
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform(iterationKey=".localized-datetime");

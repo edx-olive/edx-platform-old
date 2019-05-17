@@ -1,8 +1,9 @@
 """ API v0 views. """
+import json
 import logging
 
 from django.contrib.auth import get_user_model
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from rest_framework import status
@@ -11,6 +12,8 @@ from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.response import Response
 
 from courseware.access import has_access
+from courseware.models import StudentModule
+
 from lms.djangoapps.ccx.utils import prep_course_for_grading
 from lms.djangoapps.courseware import courses
 from lms.djangoapps.courseware.exceptions import CourseAccessRedirect
@@ -226,3 +229,52 @@ class CourseGradingPolicy(GradeViewMixin, ListAPIView):
         if isinstance(course, Response):
             return course
         return Response(GradingPolicySerializer(course.raw_grader, many=True).data)
+
+
+def answered_count(user, course):
+    problems = StudentModule.objects.filter(
+        student=user,
+        course_id=course.id,
+        module_type="problem"
+    ) | StudentModule.objects.filter(student=user, course_id=course.id, module_type="drag-and-drop-v2")
+    if problems:
+        answered = 0
+        for s in problems:
+            log.error(json.loads(s.state))
+            if json.loads(s.state).get('correct_map'):
+                answered += 1
+            elif json.loads(s.state).get('item_state'):
+                answered += 1
+            elif json.loads(s.state).get('attempts'):
+                answered += 1
+        is_reset = json.loads(problems[0].state).get('resetcount')
+        return answered, is_reset
+
+
+def get_grades_api(request):
+    course_id_raw = request.GET["course_id"]
+    student = USER_MODEL.objects.get(id=int(request.GET["student_id"]))
+    course_id_raw = course_id_raw.replace(' ', '+')
+    course_id = CourseKey.from_string(course_id_raw)
+    course = courses.get_course_by_id(course_id)
+    course_grade = CourseGradeFactory().create(student, course)
+    courseware_summary = course_grade.chapter_grades.values()
+    answered = 0
+    if StudentModule.objects.filter(student=student.id, course_id=course.id, module_type="problem"):
+        answered, reset = answered_count(student.id, course)
+    count = 0
+    for sections in courseware_summary:
+        for section in sections['sections']:
+            for i in section.problem_scores:
+                count = count + 1
+
+    log.info(answered)
+    log.info(count)
+    return JsonResponse({
+        'username': student.username,
+        'passed': course_grade.passed,
+        'percent': course_grade.percent,
+        'letter_grade': course_grade.letter_grade,
+        'courseware_summary': str(courseware_summary),
+        'reset': answered == count
+    })
