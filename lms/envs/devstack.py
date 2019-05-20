@@ -189,7 +189,8 @@ COURSE_DISCOVERY_MEANINGS = {
 
 FEATURES['ENABLE_COURSE_DISCOVERY'] = True
 # Setting for overriding default filtering facets for Course discovery
-# COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
+# Taken from legacy `DEFAULT_FILTER_FIELDS` in `site-packages/search/api.py`
+COURSE_DISCOVERY_FILTERS = ["verified", "level", "stream", "topics", "program"]  # ["org", "language", "modes"]
 FEATURES['COURSES_ARE_BROWSEABLE'] = True
 HOMEPAGE_COURSE_MAX = 9
 

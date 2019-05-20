@@ -320,10 +320,11 @@ FEATURES = {
     'CERTIFICATES_INSTRUCTOR_GENERATION': False,
 
     # Course discovery feature
-    'ENABLE_COURSE_DISCOVERY': False,
+    'ENABLE_COURSE_DISCOVERY': True,
 
     # Setting for overriding default filtering facets for Course discovery
-    # COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
+    # Taken from legacy `DEFAULT_FILTER_FIELDS` in `site-packages/search/api.py`
+    'COURSE_DISCOVERY_FILTERS': ["verified", "level", "stream", "topics", "program"],
 
     # Software secure fake page feature flag
     'ENABLE_SOFTWARE_SECURE_FAKE': False,

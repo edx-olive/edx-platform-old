@@ -15,7 +15,6 @@
             searchTerm: '',
             terms: {},
             jqhxr: null,
-            catalog_visibility: 'both',
 
             initialize: function() {
                 this.discovery = new CourseDiscovery();
@@ -64,8 +63,7 @@
                 var data = {
                     search_string: this.searchTerm,
                     page_size: this.pageSize,
-                    page_index: pageIndex,
-                    catalog_visibility: this.catalog_visibility
+                    page_index: pageIndex
                 };
                 _.extend(data, this.terms);
                 return data;
@@ -133,8 +131,7 @@
                         data: {
                             search_string: '',
                             page_size: this.pageSize,
-                            page_index: 0,
-                            catalog_visibility: this.catalog_visibility
+                            page_index: 0
                         },
                         success: function(model, response, options) {
                             deferred.resolveWith(self, [model]);
