@@ -13,6 +13,7 @@
       dump_js_escaped_json, js_escaped_string
   )
   from openedx.core.djangolib.markup import HTML, Text
+  from util.custom_views import _get_user_role_in_course
 %>
 
 <%block name="header_extras">
@@ -43,6 +44,7 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
 </%block>
 
 <%block name="content">
+<% role = _get_user_role_in_course(str(course_locator), request.user.email)%>
 <div class="wrapper-mast wrapper">
   <header class="mast has-subtitle">
     <h1 class="page-header">
@@ -176,7 +178,7 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
           <hr class="divide" />
         % endif
 
-        % if request.user.is_superuser or (role["role"] == "admins" if role else False):
+        % if request.user.is_superuser or role["role"] == "admins":
         <div class="group-settings schedule">
           <header>
             <h2 class="title-2">${_('Course Schedule')}</h2>

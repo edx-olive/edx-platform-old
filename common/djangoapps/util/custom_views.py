@@ -412,18 +412,18 @@ def _search(search_key, page_size, page_index, mobile, field_dict):
 
 
 def get_course_team(request):
-    course_key_string=request.GET["course_id"].replace(" ","+")
+    course_key_string = request.GET["course_id"].replace(" ","+")
     return HttpResponse(json.JSONEncoder().encode(_get_course_team(course_key_string)))
 
 
 def _get_course_team(course_key_string):
     if course_key_string is None:
-        return  {"staff":[], "admins":[]}
+        return {"staff": [], "admins": []}
     course_key = CourseKey.from_string(course_key_string)
     course_module = modulestore().get_course(course_key)
     instructors = set(CourseInstructorRole(course_key).users_with_role())
     staff = set(set(CourseStaffRole(course_key).users_with_role()) - instructors)
-    emails = {"staff":[], "admins":[]}
+    emails = {"staff": [], "admins": []}
     for member in staff:
         emails["staff"].append(member.email)
     for member in instructors:
@@ -510,3 +510,13 @@ def _get_audience_list(all_superusers = False,
         if all_course_admins:
             course_audience[course_id]["admins"] = this_course_staff.get("admins")
     return audience
+
+
+def _get_user_role_in_course(course_id, email):
+    team = _get_course_team(course_id)
+    if email in team["staff"]:
+        return {"role": "staff"}
+    if email in team["admins"]:
+        return {"role": "admins"}
+    import pdb; pdb.set_trace()
+    return {"role": "none"}
