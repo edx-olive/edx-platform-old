@@ -70,6 +70,9 @@ urlpatterns = (
     url(r'^delete_search_tag$', 'util.custom_views.rem_keyword'),
     url(r'^insert_search_tag$', 'util.custom_views.add_keyword'),
     url(r'^search_courses$', 'util.custom_views.search'),
+    # Get credit
+    url(r'^credit_requested$', 'courseware.views.views.capture_credit_requested'),
+    url(r'^last_credit_request$', 'courseware.views.views.credit_requested_details'),
     # Courses
     url(r'^course_team$', 'util.custom_views.get_course_team'),
     url(r'^course_id_list$', 'util.custom_views.get_course_ids'),
@@ -79,6 +82,7 @@ urlpatterns = (
     url(r'^set_agu_url$', 'student.custom_views.set_agu_url'),
     url(r'^agu_url$', 'student.custom_views.agu_url'),  # FIXME no template found in legacy codebase
     url(r'^start_course$', 'student.custom_views.start_course'),
+    url(r'^services_reset_course/$', 'student.custom_views.service_reset_course'),
 
     # Enrollment API RESTful endpoints
     url(r'^api/enrollment/v1/', include('enrollment.urls')),

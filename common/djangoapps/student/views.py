@@ -63,6 +63,7 @@ from certificates.models import (  # pylint: disable=import-error
 from course_modes.models import CourseMode
 from courseware.access import has_access
 from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date  # pylint: disable=import-error
+from courseware.models import StudentModule
 from django_comment_common.models import assign_role
 from edxmako.shortcuts import render_to_response, render_to_string
 from eventtracking import tracker
@@ -90,6 +91,7 @@ from openedx.features.enterprise_support.api import get_dashboard_consent_notifi
 from shoppingcart.api import order_history
 from shoppingcart.models import CourseRegistrationCode, DonationConfiguration
 from student.cookies import delete_logged_in_cookies, set_logged_in_cookies, set_user_info_cookie
+from student.custom_views import reset_student_attempts
 from student.forms import AccountCreationForm, PasswordResetFormNoActive, get_registration_extension_form
 from student.helpers import (
     DISABLE_UNENROLL_CERT_STATES,
@@ -1265,6 +1267,18 @@ def change_enrollment(request, check_access=True):
 
         CourseEnrollment.unenroll(user, course_id)
         return HttpResponse()
+    elif action == "reset":
+        log.error("In Reset")
+        if not CourseEnrollment.is_enrolled(user, course_id):
+            return HttpResponseBadRequest(_("You are not enrolled in this course"))
+
+        for exam in StudentModule.objects.filter(student=user, course_id=course_id):
+            try:
+                reset_student_attempts(course_id, user, exam.module_state_key, None, True)
+            except:
+                pass
+            exam.delete()
+        return HttpResponse("/dashboard")
     else:
         return HttpResponseBadRequest(_("Enrollment action is invalid"))
 

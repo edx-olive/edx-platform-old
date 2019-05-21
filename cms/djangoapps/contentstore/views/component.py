@@ -362,6 +362,7 @@ def get_component_templates(courselike, library=False):
     if isinstance(course_advanced_keys, list):
         course_advanced_keys.append('feedback')  # adding feedback xblock in the advanced module list
         course_advanced_keys.append('yammer')  # adding yammer xblock in the advanced module list
+        course_advanced_keys.append('get_credit')  # adding get_credit xblock in the advanced module list
 
         for category in course_advanced_keys:
             if category in advanced_component_types.keys() and category not in categories:

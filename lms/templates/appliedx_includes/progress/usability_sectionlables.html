@@ -1,0 +1,14 @@
+<script type="text/javascript">
+$(document).ready(function(){
+        setTimeout(function(){
+                var index = 0;
+                $(".scores h3").each(function(){
+                        if(!$(this).hasClass("no-scores")){
+                                $(this).html("<div>Problem Scores for <span class='qname'>" + $(".tickLabel")[index].innerHTML+ "</span>");
+                                index++;
+                        }
+                });
+        }, 2000);
+});
+</script>
+

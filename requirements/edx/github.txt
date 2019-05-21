@@ -100,3 +100,4 @@ git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.18#egg=xblock-
 # -e git+git@bitbucket.org:appliedxxx/vr_xblock@master#egg=vr_xblock
 # -e git+git@bitbucket.org:appliedxxx/yammer_xblock.git#egg=yammer_xblock
 # -e git+git@bitbucket.org:appliedxxx/feedback_xblock.git#egg=feedback_xblock
+# -e git+git@bitbucket.org:appliedxxx/get_credit.git#egg=get_credit

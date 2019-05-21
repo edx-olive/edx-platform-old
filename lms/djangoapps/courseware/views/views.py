@@ -1720,3 +1720,44 @@ def check_access_to_course(request, course):
     # Redirect if the user must answer a survey before entering the course.
     if must_answer_survey(course, request.user):
         raise CourseAccessRedirect(reverse('course_survey', args=[unicode(course.id)]))
+
+
+def PCSurvey(user, course_id):
+    if len(StudentModule.objects.filter(student=user, course_id=course_id, module_type="PCSurvey")) == 0:
+        smod = StudentModule(student=user, course_id=course_id, module_type="PCSurvey")
+        smod.save()
+
+
+@login_required
+def capture_credit_requested(request):
+    user = request.user
+    course_id_str = request.GET['course_id']
+    course_id = CourseKey.from_string(course_id_str.replace(' ', '+'))
+    PCSurvey(user, course_id)
+
+    for exam in StudentModule.objects.filter(student=user, course_id=course_id, module_type="course"):
+        state = json.loads(exam.state)
+        request_datetime = datetime.now()
+        if not state.get("credit_requested"):
+           state["credit_requested"] = str(request_datetime)
+           exam.state = json.dumps(state)
+        exam.save()
+    return HttpResponse(request_datetime)
+
+
+def credit_requested_details(request):
+    user = request.user
+    course_id_str = request.GET['course_id']
+    course_id = CourseKey.from_string(course_id_str.replace(" ", "+"))
+    credit_requested = ""
+    for exam in StudentModule.objects.filter(student=user, course_id=course_id, module_type="course"):
+        state = json.loads(exam.state)
+        if state.get("credit_requested"):
+            request_date = datetime.strptime(state["credit_requested"], "%Y-%m-%d %H:%M:%S.%f")
+            if credit_requested == "" or credit_requested < request_date:
+                credit_requested = request_date
+    req_date = ""
+    if credit_requested != "":
+        req_date = str(credit_requested.day) + " " + \
+                   ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][credit_requested.month - 1] + ", " + str(credit_requested.year)
+    return HttpResponse(req_date)
