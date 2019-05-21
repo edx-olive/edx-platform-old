@@ -518,5 +518,4 @@ def _get_user_role_in_course(course_id, email):
         return {"role": "staff"}
     if email in team["admins"]:
         return {"role": "admins"}
-    import pdb; pdb.set_trace()
     return {"role": "none"}
