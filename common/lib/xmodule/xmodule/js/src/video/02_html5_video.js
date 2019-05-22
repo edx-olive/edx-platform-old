@@ -66,12 +66,18 @@ function(_) {
                 return [
                     '<source ',
                     'src="', source,
-            // Following hack allows to open the same video twice
-            // https://code.google.com/p/chromium/issues/detail?id=31014
-            // Check whether the url already has a '?' inside, and if so,
-            // use '&' instead of '?' to prevent breaking the url's integrity.
-                        (source.indexOf('?') === -1 ? '?' : '&'),
-                    (new Date()).getTime(), '" />'
+
+                    // AMAT AOR-52: commented out since timestamp param provokes 403 error
+                    // when trying to fetch a video from Cloudfront.
+
+                    // Following hack allows to open the same video twice
+                    // https://code.google.com/p/chromium/issues/detail?id=31014
+                    // Check whether the url already has a '?' inside, and if so,
+                    // use '&' instead of '?' to prevent breaking the url's integrity.
+
+                    // (source.indexOf('?') === -1 ? '?' : '&'),
+                    // (new Date()).getTime(),
+                    '" />'
                 ].join('');
             });
 
