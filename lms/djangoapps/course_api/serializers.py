@@ -152,7 +152,6 @@ class CourseDetailSerializer(CourseSerializer):  # pylint: disable=abstract-meth
         # fields from CourseSerializer, which get their data
         # from the CourseOverview object in SQL.
         verified = CourseDetails.fetch_about_attribute(course_overview.id, 'verified')
-        import pdb; pdb.set_trace()
         if verified == "true":
             return True
         else:
