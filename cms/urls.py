@@ -59,9 +59,6 @@ urlpatterns = patterns(
     url(r'^get_commonsection/', common_xblock_utils.get_commonsection, name='getcommonsection'),
     url(r'^update_course_metadata$', 'util.custom_views.update_course_metadata'),
     url(r'^update_about_attribute$', 'util.custom_views.update_about_attribute'),
-    url(r'^get_search_tags$', 'util.custom_views.get_keywords'),  # doesn't seem to be used
-    url(r'^delete_search_tag$', 'util.custom_views.rem_keyword'),  # doesn't seem to be used
-    url(r'^insert_search_tag$', 'util.custom_views.add_keyword'),  # doesn't seem to be used
 
     url(r'^user_api/', include('openedx.core.djangoapps.user_api.legacy_urls')),
 

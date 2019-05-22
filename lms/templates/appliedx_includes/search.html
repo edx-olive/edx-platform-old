@@ -121,7 +121,6 @@
         var filterList = {};
         var courseCardCount = 20;
         $(document).ready(function(){
-                // GenerateInitialTagCloud();
                 $(document).on("scroll", function(){
                         if(courseCardCount != $(".courses-listing-item").length){
                                 courseCardCount = $(".courses-listing-item").length;
@@ -129,28 +128,6 @@
                         }
                 });
         });
-/*        var GenerateInitialTagCloud = function(){
-                $.ajax({
-                        url: "/get_search_tags",
-                        success: function(result){
-                                renderTagCloud(result.keys);
-                        },
-                        error: function(result){
-                                renderTagCloud(result.keys);
-                        }
-                });
-        }
-        var renderTagCloud = function(tagList){
-                var cloudHTML = ""
-                $("#filter-tag-cloud span").remove()
-                for(tag in tagList){
-                        if(parseInt(tagList[tag])) cloudHTML += "<span style='font-size:" + (9 + parseInt(tagList[tag]) * 0.1) + "px; line-height:" + (9 + parseInt(tagList[tag]) * 0.1) + "px;'>" + tag + "</span>";
-                }
-                $("#filter-tag-cloud").append(cloudHTML)
-                $("#filter-tag-cloud span").click(function(e){
-                        filterByTag({"type":"tags", "value":$(e.target).text()})
-                });
-        }*/
         filtersInOrder = ["verified", "level", "stream", "program", "topics", "subtopics","mobile","course_type"];
         var appliedFilters = [];
         organizeFilters = function(){
