@@ -65,23 +65,10 @@ urlpatterns = (
     url(r'^honor_code$', 'student.custom_views.honorcode'),
     url(r'^accept_honor_code$', 'student.custom_views.accept_honorcode'),
     url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
-    # Search
-    url(r'^get_search_tags$', 'util.custom_views.get_keywords'),
-    url(r'^delete_search_tag$', 'util.custom_views.rem_keyword'),
-    url(r'^insert_search_tag$', 'util.custom_views.add_keyword'),
-    url(r'^search_courses$', 'util.custom_views.search'),
     # Get credit
     url(r'^credit_requested$', 'courseware.views.views.capture_credit_requested'),
     url(r'^last_credit_request$', 'courseware.views.views.credit_requested_details'),
-    # Courses
-    url(r'^course_team$', 'util.custom_views.get_course_team'),
-    url(r'^course_id_list$', 'util.custom_views.get_course_ids'),
-    url(r'^users_by_filter$', 'util.custom_views.get_audience_list'),
     # AGU related
-    url(r'^GetEmpID/$', 'student.custom_views.GetEmployeeIDUsingDjangoID'),
-    url(r'^set_agu_url$', 'student.custom_views.set_agu_url'),
-    url(r'^agu_url$', 'student.custom_views.agu_url'),  # FIXME no template found in legacy codebase
-    url(r'^start_course$', 'student.custom_views.start_course'),
     url(r'^services_reset_course/$', 'student.custom_views.service_reset_course'),
 
     # Enrollment API RESTful endpoints

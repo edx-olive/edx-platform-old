@@ -329,58 +329,6 @@ def update_about_attribute(request):
     return HttpResponse('{"' + attribute_name + '" : "' + str(attribute_value) + '"}')
 
 
-def add_keyword(request):
-    try:
-        keyFileHandler = open('/edx/app/edxapp/search/keywords', 'r')
-        keywords = json.loads(keyFileHandler.read())
-        keyFileHandler.close()
-        key = request.GET['key']
-        if(keywords["keys"].get(key)):
-            keywords["keys"][key] = keywords["keys"][key] + 1;
-        else:
-            keywords["keys"][key] = 1
-            keyFileHandler = open('/edx/app/edxapp/search/keywords', 'w')
-            keyFileHandler.write(json.dumps(keywords))
-            keyFileHandler.close()
-    except Exception, e:
-        return HttpResponse(e)
-    return HttpResponse(json.dumps(keywords))
-
-
-def get_keywords(request):
-    keywords = open('/edx/app/edxapp/search/keywords', 'r')
-    return HttpResponse(keywords)
-
-
-def rem_keyword(request):
-    try:
-        keyFileHandler = open('/edx/app/edxapp/search/keywords', 'r')
-        keywords = json.loads(keyFileHandler.read())
-        keyFileHandler.close()
-        key = request.GET['key']
-        if(keywords["keys"].get(key)):
-            keywords["keys"][key] = keywords["keys"][key] - 1;
-        keyFileHandler = open('/edx/app/edxapp/search/keywords', 'w')
-        keyFileHandler.write(json.dumps(keywords))
-        keyFileHandler.close()
-    except Exception, e:
-        return HttpResponse(e)
-    return HttpResponse(json.dumps(keywords))
-
-
-def search(request):
-    search_key = request.GET.get('search_string')
-    page_size = request.GET.get('page_size')
-    page_index = request.GET.get('page_index')
-    mobile = request.GET.get('mobile')
-    field_dict = dict()
-    for parameter in request.GET:
-        if parameter not in ('search_string', 'page_size', 'page_index', 'mobile' ):
-            field_dict.update(dict({parameter: request.GET[parameter]}))
-
-    return HttpResponse(json.dumps(_search(search_key, page_size, page_index, mobile, field_dict)))
-
-
 def _search(search_key, page_size, page_index, mobile, field_dict):
     if page_size == "" or page_size is None:
         page_size = 20
@@ -411,11 +359,6 @@ def _search(search_key, page_size, page_index, mobile, field_dict):
     return course_discovery_search(search_term=search_key, size=page_size, from_=start, field_dictionary=field_dict)
 
 
-def get_course_team(request):
-    course_key_string = request.GET["course_id"].replace(" ","+")
-    return HttpResponse(json.JSONEncoder().encode(_get_course_team(course_key_string)))
-
-
 def _get_course_team(course_key_string):
     if course_key_string is None:
         return {"staff": [], "admins": []}
@@ -431,44 +374,12 @@ def _get_course_team(course_key_string):
     return emails
 
 
-def get_course_ids(request):
-    return HttpResponse(json.JSONEncoder().encode(_get_course_ids()))
-
-
 def _get_course_ids():
     courses = branding.get_visible_courses()
     course_ids = []
     for course in courses:
         course_ids.append(str(course.id))
     return course_ids
-
-
-def get_audience_list(request):
-    request_m = request.GET
-    all_superusers = request_m.get("su")
-    all_staff = request_m.get("staff")
-    all_course_admins = request_m.get("c_admins")
-    all_course_staff = request_m.get("c_staff")
-    groups = request_m.get("groups")
-    if groups is None:
-        groups = []
-    else:
-        groups = groups.split(",")
-    course_id = request_m.get("course_id")
-    if course_id is None:
-        course_id = ""
-    all_courses = request_m.get("all")
-
-    return HttpResponse(json.JSONEncoder().
-    encode(_get_audience_list(
-        all_superusers = (all_superusers == "true"),
-        all_staff = (all_staff == "true"),
-        all_course_admins = (all_course_admins == "true"),
-        all_course_staff =(all_course_staff == "true"),
-        group_list = groups,
-        course_id = course_id,
-        all_courses = (all_courses == "true")
-     )))
 
 
 def _get_audience_list(all_superusers = False,
