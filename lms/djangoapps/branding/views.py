@@ -3,6 +3,7 @@ import logging
 import urllib
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
@@ -25,8 +26,8 @@ from util.json_request import JsonResponse
 log = logging.getLogger(__name__)
 
 
+@login_required
 @ensure_csrf_cookie
-@cache_if_anonymous()
 def index(request):
     '''
     Redirects to main page -- info page if user authenticated, or marketing if not
@@ -76,6 +77,7 @@ def index(request):
     return student.views.index(request, user=request.user)
 
 
+@login_required
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def courses(request):
