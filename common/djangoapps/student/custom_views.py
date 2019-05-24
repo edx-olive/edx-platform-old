@@ -45,7 +45,11 @@ def is_honor_code_accepted(request):
     return False
 
 
+@login_required
 def honorcode(request):
+    """
+    View to prompt a user to accept honor code.
+    """
     return render_to_response("honor_code.html", {})
 
 

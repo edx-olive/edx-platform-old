@@ -137,8 +137,8 @@ def user_groups(user):
     return group_names
 
 
+@login_required
 @ensure_csrf_cookie
-@cache_if_anonymous()
 def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
@@ -685,9 +685,9 @@ class EnrollStaffView(View):
         return redirect(reverse('about_course', args=[unicode(course_key)]))
 
 
+@login_required
 @ensure_csrf_cookie
 @ensure_valid_course_key
-@cache_if_anonymous()
 def course_about(request, course_id):
     """
     Display the course's about page.
