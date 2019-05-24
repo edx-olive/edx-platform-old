@@ -65,7 +65,7 @@ site_status_msg = get_site_status_msg(course_id)
       <%block name="navigation_global_links_authenticated">
         % if settings.FEATURES.get('COURSES_ARE_BROWSABLE') and not show_program_listing:
           <li class="nav-global-01">
-            <a href="${marketing_link('COURSES')}">${_('Find Courses')}</a>
+            <a href="http://courses/courses/">${_('Find Courses')}</a>
           </li>
         % endif
         %if settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD','') and user.is_staff:
@@ -76,7 +76,7 @@ site_status_msg = get_site_status_msg(course_id)
         %endif
         % if show_program_listing:
           <li class="tab-nav-item">
-            <a class="${'active ' if reverse('dashboard') == request.path else ''}tab-nav-link" href="${reverse('dashboard')}">
+            <a class="${'active ' if reverse('dashboard') == request.path else ''}tab-nav-link" href="http://courses/">
               ${_("Courses")}
             </a>
           </li>
@@ -90,7 +90,7 @@ site_status_msg = get_site_status_msg(course_id)
     </ol>
     <ol class="user">
       <li class="primary">
-        <a href="${reverse('dashboard')}" class="user-link">
+        <a href="http://courses/" class="user-link">
           <span class="icon fa fa-home" aria-hidden="true"></span>
           <span class="sr">${_("Dashboard for:")}</span>
           <div>

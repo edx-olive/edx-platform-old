@@ -44,7 +44,7 @@ from openedx.core.djangolib.js_utils import js_escaped_string
       });
 
       $('#register-form').on('ajax:success', function(event, json, xhr) {
-        var url = json.redirect_url || "${reverse('dashboard') | n, js_escaped_string }";
+        var url = json.redirect_url || "'http://courses/' | n, js_escaped_string }";
         location.href = url;
       });
 
