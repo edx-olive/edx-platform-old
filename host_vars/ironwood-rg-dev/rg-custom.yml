@@ -1,6 +1,6 @@
 project_team: "Kraken-Team"
 project_environment: "dev"
-project_name: "alu-hq"
+project_name: "ironwood-rg"
 project_support_package: "Default"
 cloud_provider: "KVM"
 tenancy_type: "single"

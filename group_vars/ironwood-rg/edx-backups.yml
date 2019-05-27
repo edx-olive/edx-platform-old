@@ -1,4 +1,3 @@
 ---
 backup_enabled: "False"
-aws_backup_region: '{{ region_location }}'
 backup_cron_schedule: "1 3 * * *"

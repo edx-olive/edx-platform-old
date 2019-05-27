@@ -3,7 +3,7 @@ stages:
 
 deploy-dev:
     stage: deploy
-    image: registry-gitlab.raccoongang.com/devops/configuration:hawthorn-rg-develop
+    image: registry-gitlab.raccoongang.com/devops/configuration:ironwood-rg-develop
     script:
         - ansible-playbook dev.yml
     only:

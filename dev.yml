@@ -1,5 +1,5 @@
 - name: Deploy a full stack Edx
-  hosts: alu-hq-dev
+  hosts: ironwood-rg-dev
   become: true
 
   vars:

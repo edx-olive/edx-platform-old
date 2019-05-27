@@ -2,23 +2,27 @@
 SANDBOX_ENABLE_RABBITMQ: true
 JOURNALS_ENABLED: false
 
-EDXAPP_PLATFORM_NAME: "ALU School of Insurance"
+EDXAPP_PLATFORM_NAME: "RG Ironwood RC"
 EDXAPP_LANG: "en_US.UTF-8"
 EDXAPP_LANGUAGE_CODE: "en"
 EDXAPP_TIME_ZONE: "Europe/Dublin"
 
+EDXAPP_SITE_NAME: "lms-staging-ironwood.raccoongang.com"
 EDXAPP_LMS_SITE_NAME: "{{ EDXAPP_SITE_NAME }}"
+EDXAPP_CMS_SITE_NAME: "cms-staging-ironwood.raccoongang.com"
 EDXAPP_LMS_BASE: "{{ EDXAPP_SITE_NAME }}"
 EDXAPP_CMS_BASE: "{{ EDXAPP_CMS_SITE_NAME }}"
+EDXAPP_PREVIEW_LMS_BASE: "preview-staging-ironwood.raccoongang.com"
 
 COMMON_HOSTNAME: "{{ EDXAPP_SITE_NAME }}"
 RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
 
-EDXAPP_LMS_ROOT_URL: '{{ EDXAPP_LMS_BASE_SCHEME | default("https") }}://{{ EDXAPP_LMS_BASE }}'
+EDXAPP_LMS_ROOT_URL: "https://{{ EDXAPP_LMS_BASE }}"
 
-edx_platform_repo: git@gitlab.raccoongang.com:kraken/alu/edx-platform.git
+edx_platform_repo: https://github.com/edx/edx-platform.git
+edx_platform_version: open-release/ironwood.1
 edx_ansible_source_repo: https://github.com/raccoongang/configuration.git
-# configuration_version: hawthorn-rg # configured in AWX project
+# configuration_version: ironwood-rg # configured in AWX project
 
 EDXAPP_PLATFORM_TWITTER_ACCOUNT: "@twitter"
 
@@ -26,19 +30,20 @@ EDXAPP_PLATFORM_TWITTER_ACCOUNT: "@twitter"
 EDXAPP_GRADE_STORAGE_TYPE_LOCAL: true
 EDXAPP_GRADE_STORAGE_TYPE: ''
 EDXAPP_GRADE_STORAGE_CLASS: "django.core.files.storage.FileSystemStorage"
+EDXAPP_GRADE_ROOT_PATH: "{{ EDXAPP_MEDIA_ROOT }}/grades"
 EDXAPP_GRADE_STORAGE_KWARGS:
   base_url: "{{ EDXAPP_MEDIA_URL }}/grades"
   location: "{{ EDXAPP_MEDIA_ROOT }}/grades"
 #grades ---------------------------------------------------------------------
 
 #services -------------------------------------------------------------------
-configuration_version: hawthorn-rg
+configuration_version: ironwood-rg
 
-forum_version: "open-release/hawthorn.1"
-NOTIFIER_VERSION: "open-release/hawthorn.1"
-xqueue_version: "open-release/hawthorn.1"
-certs_version: "open-release/hawthorn.1"
-demo_version: "open-release/hawthorn.1"
+forum_version: "open-release/ironwood.1rc3"
+NOTIFIER_VERSION: "open-release/ironwood.1rc3"
+xqueue_version: "open-release/ironwood.1rc3"
+certs_version: "open-release/ironwood.1rc3"
+demo_version: "open-release/ironwood.1rc3"
 
 COMMON_ENABLE_NEWRELIC_APP: False
 
@@ -46,18 +51,11 @@ COMMON_ENABLE_NEWRELIC_APP: False
 
 #defaults -------------------------------------------------------------------
 
-EDXAPP_FEATURES_OVERRIDE:
-  ENABLE_HONOR_CERTIFICATE: True #custom RG feature
-  ENABLE_COMBINED_LOGIN_REGISTRATION: True
-  ENABLE_MKTG_SITE: True
-  ENABLE_EXTENDED_COURSE_DETAILS: True
-  ENABLE_UNICODE_USERNAME: True
+EDXAPP_FEATURES_OVERRIDE: {}
 
 EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
 
-EDXAPP_MKTG_URL_LINK_MAP: {}
-EDXAPP_LMS_ENV_EXTRA:
-  MKTG_URL_LINK_MAP: "{{ _EDXAPP_MKTG_URL_LINK_MAP }}"
+# EDXAPP_MKTG_URL_LINK_MAP: "{{ _EDXAPP_MKTG_URL_LINK_MAP }}"
 EDXAPP_CMS_MKTG_URLS: "{{ _EDXAPP_CMS_MKTG_URLS }}"
 EDXAPP_ELASTIC_SEARCH_CONFIG: "{{ _EDXAPP_ELASTIC_SEARCH_CONFIG }}"
 EDXAPP_LOCALESET_FROM_REQUEST: "{{ _EDXAPP_LOCALESET_FROM_REQUEST }}"
@@ -71,3 +69,16 @@ EDXAPP_WORKERS:
   cms: 2
 
 ELASTICSEARCH_CLUSTERED: False
+
+EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
+EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
+
+# EDXAPP_ENV_EXTRA:
+#   EDXAPP_THIRD_PARTY_AUTH_BACKENDS:
+#     - "social_core.backends.google.GoogleOAuth2"
+#     - "social_core.backends.linkedin.LinkedinOAuth2"
+#     - "social_core.backends.facebook.FacebookOAuth2"
+#     - "social_core.backends.azuread.AzureADOAuth2"
+#     - "social_core.backends.vk.VKOAuth2"
+#     - "third_party_auth.saml.SAMLAuthBackend"
+#     - "third_party_auth.lti.LTIAuthBackend"
