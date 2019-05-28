@@ -5,6 +5,7 @@ Student Views
 import datetime
 import json
 import logging
+import os
 import uuid
 import warnings
 from collections import defaultdict, namedtuple
@@ -2865,8 +2866,9 @@ class LogoutView(TemplateView):
         # Get the list of authorized clients before we clear the session.
         self.oauth_client_ids = request.session.get(edx_oauth2_provider.constants.AUTHORIZED_CLIENTS_SESSION_KEY, [])
 
-        # Disabled logout as per AOR-29, AOR-82
-        # logout(request)
+        # Disabled logout for LMS as per AOR-29, AOR-82
+        if os.environ.get('SERVICE_VARIANT', None) == "cms":
+            logout(request)
 
         # If we don't need to deal with OIDC logouts, just redirect the user.
         if LogoutViewConfiguration.current().enabled and self.oauth_client_ids:
@@ -2874,9 +2876,10 @@ class LogoutView(TemplateView):
         else:
             response = redirect(self.target)
 
-        # Disabled logout as per AOR-29, AOR-82
+        # Disabled logout for LMS as per AOR-29, AOR-82
         # Clear the cookie used by the edx.org marketing site
-        # delete_logged_in_cookies(response)
+        if os.environ.get('SERVICE_VARIANT', None) == "cms":
+            delete_logged_in_cookies(response)
 
         return response
 
