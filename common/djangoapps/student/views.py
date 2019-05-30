@@ -837,6 +837,21 @@ def dashboard(request):
     else:
         redirect_message = ''
 
+    api_url = ""
+
+    course_enrollments_complete = list()
+    course_enrollments_progress = list()
+    course_enrollments_external = list()
+    for enrollment in course_enrollments:
+        from courseware.courses import get_course_by_id
+        course = get_course_by_id(enrollment.course_id, depth=2)
+        if credit_requested_new(user, enrollment.course_id) != "":
+            course_enrollments_complete.append(enrollment)
+        elif course.allow_public_wiki_access:
+            course_enrollments_external.append(enrollment)
+        else:
+            course_enrollments_progress.append(enrollment)
+
     valid_verification_statuses = ['approved', 'must_reverify', 'pending', 'expired']
     display_sidebar_on_dashboard = len(order_history_list) or verification_status in valid_verification_statuses
 
@@ -846,6 +861,9 @@ def dashboard(request):
         'redirect_message': redirect_message,
         'account_activation_messages': account_activation_messages,
         'course_enrollments': course_enrollments,
+        'course_enrollments_complete': course_enrollments_complete,
+        'course_enrollments_progress': course_enrollments_progress,
+        'course_enrollments_external': course_enrollments_external,
         'course_optouts': course_optouts,
         'banner_account_activation_message': banner_account_activation_message,
         'sidebar_account_activation_message': sidebar_account_activation_message,
@@ -878,6 +896,7 @@ def dashboard(request):
         'display_course_modes_on_dashboard': enable_verified_certificates and display_course_modes_on_dashboard,
         'display_sidebar_on_dashboard': display_sidebar_on_dashboard,
         'honor_code_accepted': is_honor_code_accepted(request),
+        'api_url': api_url,
     }
 
     ecommerce_service = EcommerceService()
@@ -2919,6 +2938,17 @@ class LogoutView(TemplateView):
         })
 
         return context
+
+
+def credit_requested_new(user, courseId):
+    credit_requested = ""
+    for exam in StudentModule.objects.filter(student=user, course_id=courseId, module_type="course"):
+        state = json.loads(exam.state)
+        if state.get("credit_requested"):
+            request_date = datetime.datetime.strptime(state["credit_requested"], "%Y-%m-%d %H:%M:%S.%f")
+            if(credit_requested == "" or credit_requested < request_date):
+                credit_requested = request_date
+    return credit_requested
 
 
 # TODO DRY (we already have it in `custom_views.py`)

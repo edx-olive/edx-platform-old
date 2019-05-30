@@ -1,0 +1,32 @@
+<section id="reset-score-modal" class="modal" aria-hidden="true">
+  <div class="inner-wrapper" role="dialog" aria-labelledby="reset-score-title">
+    <button class="close-modal">
+      <i class="icon fa fa-remove"></i>
+      <span class="sr">
+        ## Translators: this is a control to allow users to exit out of this modal interface (a menu or piece of UI that takes the full focus of the screen)
+        Close
+      </span>
+    </button>
+
+    <header>
+      <h2 id="reset-score-title">
+        Are you sure you want to reset the attempts to course <span id="reset-score-course_number"></span>'
+        <span class="sr">,
+          ## Translators: this text gives status on if the modal interface (a menu or piece of UI that takes the full focus of the screen) is open or not
+          window open
+        </span>
+      </h2>
+      <hr/>
+    </header>
+    <div id="reset_error" class="modal-form-error"></div>
+
+    <form id="reset_form" method="post" data-remote="true" action="/change_enrollment">
+      <input name="course_id" id="reset_course_id" type="hidden" />
+      <input name="enrollment_action" type="hidden" value="reset" />
+      <div class="submit">
+        <input name="submit" type="submit" value="Reset" />
+      </div>
+    </form>
+  </div>
+</section>
+
