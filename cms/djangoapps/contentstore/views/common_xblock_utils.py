@@ -113,7 +113,6 @@ class SurveyRequest():
 
 def create_common_xblock(section_name, user_email, parent_locator, update=False, published_on=None):
     from contentstore.views.item import _save_xblock, _get_xblock
-    gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
     with open(BASE_DIR + "/common_xblock.json") as cxblock_file:
         COMMON_XBLOCK_OBJ = json.load(cxblock_file)
     if update:
@@ -122,9 +121,9 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
         now = timezone.now()
         published_on = now.strftime("%Y-%m-%d %H:%M:%S%Z")
     user = User.objects.get(email=user_email)
-    usage_key = usage_key_with_run(parent_locator)
-    # url = 'https://services.appliedxvpcdev.amat.com/commonsection/api/v1/'
-    url = settings.COMMON_SECTION_SERVICE_API
+    usage_key_with_run(parent_locator)
+    url = '{}{}'.format(settings.FEATURES['GET_CREDIT_SERVICE_URL'], '/commonsection/api/v1/')
+
     headers = {"content-type": "application/json"}
     if section_name == 'Introduction':
         child_position = 0
@@ -185,8 +184,6 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
     try:
         response = requests.post(url, data=json.dumps(params), headers=headers, verify=False)
         print response.json()
-    # req = urllib2.Request(url,json.dumps(params), {'Content-Type': 'application/json'})
-    # response = urllib2.urlopen(req,context=gcontext)
     except:
         import sys
         print sys.exc_info()
@@ -231,27 +228,21 @@ def update_value(count, total=None):
 
 def updatecommonsection(request):
     from contentstore.views.item import _delete_item
-    gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-    # commonsectionurl = 'https://services.appliedxvpcdev.amat.com/commonsection/api/v1//'
-    commonsectionurl = settings.COMMON_SECTION_SERVICE_API
+    commonsectionurl = '{}{}'.format(settings.FEATURES['GET_CREDIT_SERVICE_URL'], '/commonsection/api/v1/')
     headers = {"content-type": "application/json"}
     response = requests.get(commonsectionurl, headers=headers, verify=False)
-    # req = urllib2.Request(commonsectionurl)
-    # response = urllib2.urlopen(req,context=gcontext)
     json_data = response.json()
-    updateurl = 'https://services.appliedxvpcdev.amat.com/commonsection/bulkupdate_section/'
-    post_json_list = []
     count = 0
     total = 0
     for i in json_data:
         if i['section'] == 'Introduction':
             total += 1
-    update_total = update_value(count, total)
+    update_value(count, total)
 
     for course in json_data:
         if course['section'] == 'Introduction':
             count = count + 1
-            update_count = update_value(count)
+            update_value(count)
             course_key = course['course_key']
             usage_key = usage_key_with_run(course_key)
             try:
@@ -264,22 +255,14 @@ def updatecommonsection(request):
                     params = create_common_xblock('Introduction', user_email, parent_locator, update=True,
                                                   published_on=published_on)
                     requests.delete(commonsectionurl + str(course['id']), headers=headers, verify=False)
-                    response = requests.post(commonsectionurl, data=json.dumps(params), headers=headers, verify=False)
+                    requests.post(commonsectionurl, data=json.dumps(params), headers=headers, verify=False)
                 else:
                     pass
-            # params = create_common_xblock('Survey',user_email,parent_locator,update=True,published_on=published_on)
             except:
                 pass
-            # print "hello"
-            # requests.delete(commonsectionurl+str(course['id']),data=json.dumps(post_json_list), headers=headers,verify=False)
         else:
             pass
 
-    # req = urllib2.Request(commonsectionurl+str(course['id']), json.dumps(post_json_list),{'Content-Type': 'application/json'})
-    # req.get_method = lambda: "DELETE"
-    # response = urllib2.urlopen(req,context=gcontext)
-    # req = urllib2.Request(updateurl,json.dumps(post_json_list), {'Content-Type': 'application/json'})
-    # response = urllib2.urlopen(req,context=gcontext)
     return JsonResponse({
         'status': _('Updated Successfully!!!!!!!!!')
     })
