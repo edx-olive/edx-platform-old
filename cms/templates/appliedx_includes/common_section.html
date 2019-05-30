@@ -268,6 +268,20 @@
                           </li>
 			%endif
 
+			%if survey_credit_created:
+                          <li style="pointer-events:none">
+                            <input type="checkbox" class="new-credit-section" name="new-credit-section" id="credit-section"/>
+                            <label for="credit-section" style="text-decoration: line-through;">Credit Section</label>
+			  </li>
+			%else:
+                          <li class="checked">
+                            <input type="checkbox" class="new-credit-section" name="new-credit-section" id="credit-section" checked/>
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <label for="credit-section">Credit Section</label>
+                          </li>
+			%endif
+
 			%if yammertab_created:
                           <li style="pointer-events:none">
                             <input type="checkbox" class="new-yameer-section" name="new-yameer-section" id="yammer-tab"/>
