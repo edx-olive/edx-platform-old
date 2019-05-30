@@ -65,6 +65,7 @@ from courseware.user_state_client import DjangoXBlockUserStateClient
 from edxmako.shortcuts import marketing_link, render_to_response, render_to_string
 from enrollment.api import add_enrollment
 from eventtracking import tracker
+from grades.api.views import answered_count
 from lms.djangoapps.ccx.custom_exception import CCXLocatorValidationException
 from lms.djangoapps.ccx.utils import prep_course_for_grading
 from lms.djangoapps.courseware.exceptions import CourseAccessRedirect, Redirect
@@ -927,6 +928,16 @@ def _progress(request, course_key, student_id):
     # checking certificate generation configuration
     enrollment_mode, is_active = CourseEnrollment.enrollment_mode_for_user(student, course_key)
 
+    answered = 0
+    reset = None
+    if StudentModule.objects.filter(student=request.user.id, course_id=course.id, module_type="problem"):
+        answered, reset = answered_count(request.user.id, course)
+    count = 0
+    for sections in courseware_summary:
+        for section in sections['sections']:
+            for i in section.problem_scores:
+                count = count + 1
+
     context = {
         'course': course,
         'courseware_summary': courseware_summary,
@@ -942,6 +953,9 @@ def _progress(request, course_key, student_id):
         # TODO: (Experimental Code). See https://openedx.atlassian.net/wiki/display/RET/2.+In-course+Verification+Prompts
         'upgrade_link': check_and_get_upgrade_link(request, student, course.id),
         'upgrade_price': get_cosmetic_verified_display_price(course),
+        'answered': answered,
+        'count': count,
+        'reset': reset
         # ENDTODO
     }
 
