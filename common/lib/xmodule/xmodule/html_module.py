@@ -283,7 +283,7 @@ class HtmlDescriptor(HtmlBlock, XmlDescriptor, EditingDescriptor):  # pylint: di
         resource_fs.makedir(os.path.dirname(filepath), recursive=True, allow_recreate=True)
         with resource_fs.open(filepath, 'w') as filestream:
             html_data = self.data.encode('utf-8')
-            filestream.write(html_data.decode('utf-8'))
+            filestream.write(html_data)
 
         # write out the relative name
         relname = path(pathname).basename()
