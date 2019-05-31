@@ -95,8 +95,8 @@ git+https://github.com/raccoongang/edx-oauth-client.git@v.0.1.0#egg=edx_oauth_cl
 git+https://github.com/raccoongang/edx-search.git@fa6e0bb947c70278e8666be6e0d1a7202ad0d1cb#egg=edx-search
 
 # RG analytics 2
-git+https://github.com/raccoongang/rg_instructor_analytics@analytics2/releases/1.2.X#egg=rg_instructor_analytics
-git+https://github.com/raccoongang/rg_instructor_analytics_log_collector@analytics2/releases/1.2.X#egg=rg_instructor_analytics_log_collector
+-e git+https://github.com/raccoongang/rg_instructor_analytics@analytics2/releases/1.2.X#egg=rg_instructor_analytics
+-e git+https://github.com/raccoongang/rg_instructor_analytics_log_collector@analytics2/releases/1.2.X#egg=rg_instructor_analytics_log_collector
 
 # Third Party XBlocks
 git+https://github.com/open-craft/xblock-poll@v1.2.7#egg=xblock-poll==1.2.7
