@@ -522,6 +522,18 @@ MAKO_TEMPLATES['main'] = [
     OPENEDX_ROOT / 'core' / 'lib' / 'license' / 'templates',
 ]
 
+TEMPLATE_LOADERS = [
+    # We have to use mako-aware template loaders to be able to include
+    # mako templates inside django templates (such as main_django.html).
+    'openedx.core.djangoapps.theming.template_loaders.ThemeTemplateLoader',
+    'edxmako.makoloader.MakoFilesystemLoader',
+    'edxmako.makoloader.MakoAppDirectoriesLoader',
+]
+
+# Use cached templates in production to reduce disk IO
+if not DEBUG:
+    TEMPLATE_LOADERS = ( 'django.template.loaders.cached.Loader', TEMPLATE_LOADERS )
+
 # Django templating
 TEMPLATES = [
     {
@@ -538,13 +550,7 @@ TEMPLATES = [
         ],
         # Options specific to this backend.
         'OPTIONS': {
-            'loaders': [
-                # We have to use mako-aware template loaders to be able to include
-                # mako templates inside django templates (such as main_django.html).
-                'openedx.core.djangoapps.theming.template_loaders.ThemeTemplateLoader',
-                'edxmako.makoloader.MakoFilesystemLoader',
-                'edxmako.makoloader.MakoAppDirectoriesLoader',
-            ],
+            'loaders': TEMPLATE_LOADERS,
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.template.context_processors.static',
