@@ -43,6 +43,10 @@ from xmodule.modulestore.edit_info import EditInfoMixin
 from openedx.core.lib.license import LicenseMixin
 from lms.djangoapps.lms_xblock.mixin import LmsBlockMixin
 
+############################### DJANGO BUILT-INS ###############################
+# Change DEBUG in your environment settings files, not here
+DEBUG = False
+
 ################################### FEATURES ###################################
 # The display name of the platform to be used in templates/emails/etc.
 PLATFORM_NAME = "Your Platform Name Here"
@@ -857,7 +861,6 @@ COURSES_WITH_UNSAFE_CODE = []
 
 ############################### DJANGO BUILT-INS ###############################
 # Change DEBUG in your environment settings files, not here
-DEBUG = False
 USE_TZ = True
 SESSION_COOKIE_SECURE = False
 SESSION_SAVE_EVERY_REQUEST = False
