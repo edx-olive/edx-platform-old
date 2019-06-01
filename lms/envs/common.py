@@ -536,7 +536,7 @@ TEMPLATE_LOADERS = [
 
 # Use cached templates in production to reduce disk IO
 if not DEBUG:
-    TEMPLATE_LOADERS = ( 'django.template.loaders.cached.Loader', TEMPLATE_LOADERS )
+    TEMPLATE_LOADERS = [('django.template.loaders.cached.Loader', TEMPLATE_LOADERS)]
 
 # Django templating
 TEMPLATES = [
