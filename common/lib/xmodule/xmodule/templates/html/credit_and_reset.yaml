@@ -1,0 +1,11 @@
+---
+metadata:
+    display_name: Credit
+    editor: raw
+data: |
+
+      <h3><strong>How to get credit for completing this course...</strong></h3>
+      <p>Each course has a predefined minimum grade for passing. This can be seen on the Progress tab located at the top of this page next to Courseware. You can always check your progress towards this passing grade by visiting this page. In order to earn credit for a course you must complete all quiz questions and have earned a passing score. Once you have accomplished this you will see a button bellow saying 'Get Credit', click that button and it will update your AGU record.</p>
+      <p>If you have completed all the quiz questions but do not have a passing score be sure to check the Progress page and see if you have exhausted all attempts for those questions you got wrong. If you have not, please try to answer them correctly. You will not be able to reset the course until you have exhausted all attempts for failed quiz questions.</p>
+      <p>If you find yourself in the situation where you have exhausted all attempts and you have not earned a passing grade you will see a button bellow saying 'Reset Course', click this button to start this course over.</p>
+      <p>If you are having issues either getting credit or resting a course please go open an&nbsp;<a href="https://amat.service-now.com/AMAT3/submit_ticket.do" target="[object Object]">appliedx help desk ticket</a>.</p>
