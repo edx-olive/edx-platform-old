@@ -522,6 +522,8 @@ def course_listing(request):
     courses_iter = _remove_in_process_courses(courses_iter, in_process_course_actions)
     in_process_course_actions = [format_in_process_course_view(uca) for uca in in_process_course_actions]
 
+    yammer_id = settings.FEATURES.get('YAMMER_ID', None)
+
     return render_to_response(u'index.html', {
         u'courses': list(courses_iter),
         u'in_process_course_actions': in_process_course_actions,
@@ -534,7 +536,8 @@ def course_listing(request):
         u'rerun_creator_status': GlobalStaff().has_user(user),
         u'allow_unicode_course_id': settings.FEATURES.get(u'ALLOW_UNICODE_COURSE_ID', False),
         u'allow_course_reruns': settings.FEATURES.get(u'ALLOW_COURSE_RERUNS', True),
-        u'optimization_enabled': optimization_enabled
+        u'optimization_enabled': optimization_enabled,
+        'yammer_id': yammer_id,
     })
 
 
