@@ -200,7 +200,7 @@ def xblock_handler(request, usage_key_string):
             blk = None  # @todo fix default value or add else below, this could raise AttributeError
             if request.json['section_info']['newintroductionsection'] is True:
                 blk = create_common_xblock('Introduction', request.user.email, request.json['section_info']['parent_value'])
-            elif request.json['section_info']['newyameersection'] is True:
+            if request.json['section_info']['newyameersection'] is True:
                 '''yammer_block = create_xblock(                                                                                                                                                          
                     parent_locator=request.json['section_info']['parent_value'],                                                                                                                          
                     user=request.user,                                                                                                                                                                    
@@ -209,7 +209,7 @@ def xblock_handler(request, usage_key_string):
                     boilerplate=None,                                                                                                                                                                     
                 )'''
                 blk = create_yammer_discussion_page(request)
-            elif request.json['section_info']['newcreditsection'] is True:
+            if request.json['section_info']['newcreditsection'] is True:
                 blk = create_common_xblock('Credit', request.user.email, request.json['section_info']['parent_value'])
             return JsonResponse(
                 {"locator": unicode(blk.location), "courseKey": unicode(blk.location.course_key)}
