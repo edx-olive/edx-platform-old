@@ -212,3 +212,21 @@ def service_reset_course(request):
         except:
             pass
     return JsonResponse({"Email": user.email, "User ID": user.id, "course_id": course_id})
+
+
+def cms_signup(request):
+    authenticated = False
+    if request.user.is_authenticated():
+        authenticated = True
+    context = {'logged_in': authenticated}
+    return render_to_response("cms-signup.html", context)
+
+
+@login_required
+def generate_studio_password(request):
+
+    user = request.user
+    password = request.POST.get('password')
+    user.set_password(password)
+    user.save()
+    return HttpResponse('{"status":"success"}')

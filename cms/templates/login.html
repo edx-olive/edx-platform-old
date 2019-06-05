@@ -37,6 +37,7 @@ from openedx.core.djangolib.js_utils import js_escaped_string
             <li class="field text required" id="field-password">
               <label for="password">${_("Password")}</label>
               <input id="password" type="password" name="password" />
+              <a href="javascript:location.href='${settings.LMS_ROOT_URL}' + '/cms_signup'" style="right: 150px;" class="action action-forgotpassword">${_("Generate a password")}</a>
               <a href="${forgot_password_link}" class="action action-forgotpassword">${_("Forgot password?")}</a>
             </li>
           </ol>

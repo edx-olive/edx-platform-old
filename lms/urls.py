@@ -65,10 +65,11 @@ urlpatterns = (
     url(r'^honor_code$', 'student.custom_views.honorcode'),
     url(r'^accept_honor_code$', 'student.custom_views.accept_honorcode'),
     url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
-    # Get credit
+    url(r'cms_signup$', 'student.custom_views.cms_signup'),
+    url(r'^generate_studio_password$', 'student.custom_views.generate_studio_password'),
+    # Get credit, AGU related
     url(r'^credit_requested$', 'courseware.views.views.capture_credit_requested'),
     url(r'^last_credit_request$', 'courseware.views.views.credit_requested_details'),
-    # AGU related
     url(r'^services_reset_course/$', 'student.custom_views.service_reset_course'),
 
     # Enrollment API RESTful endpoints

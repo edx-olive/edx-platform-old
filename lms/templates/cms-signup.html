@@ -1,0 +1,127 @@
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+%>
+<html>
+% if not logged_in:
+    <meta http-equiv="refresh" content="0; /auth/login/tpa-saml/?auth_entry=login&next=/cms_signup&idp=pingsso" />
+    <script type="text/javascript"></script>
+    <div style="margin: 30px auto; width: 90%; height: 1000px; color: blue; text-align: center;">Authenticating and Redirecting...</div>
+% else:
+<head>
+        <style>
+        .body{
+                width:650px;
+                margin:auto;
+                padding: 20px;
+
+        }
+	.list-input{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		text-indent: 0;
+	}  
+	input[type=password], select {
+    		width: 100%;
+    		padding: 12px 20px;
+    		margin: 8px 0;
+    		display: inline-block;
+    		border: 1px solid #ccc;
+    		border-radius: 4px;
+    		box-sizing: border-box;
+} 
+        .content{
+		box-shadow: 0 1px 2px;
+		border-radius: 2px;
+		border: 1px solid;
+		padding: 25px 30px 60px 30px;
+		background: #fff;
+		margin: 0px auto;
+		width: 500px;
+        }
+        #div1{
+    		border-radius: 5px;
+	        background-color: #f2f2f2;
+    		padding: 20px;
+	}	
+	#submit ,#sign_in, .button_2 {
+		background: #9dd169;
+		color: #f4f4f4;
+		box-shadow : none;
+		text-align: center;
+		text-shadow: none;
+		font-weight: 500;
+		letter-spacing: 0;
+		border-radius: 2px;
+		box-sizing: border-box;
+		border : none; 
+		float:right;
+		margin-right:12px; 
+		margin-top: 15px;
+    padding: 4px 20px;
+    display: inline-block;
+    line-height: 30px;;
+	}
+        #submit:hover ,.button_2:hover{
+   		background-color: #62962e;;
+	}
+	a.button:hover{
+		background-color: #62962e;
+	}
+	a.button:visited{
+		background-color: #62962e;
+	}	
+</style>
+</head>
+<body>
+<div id="div1">
+  <section class="content">
+    <header>
+      <h1 class="title title-1" style="font-size:22px">Studio Password Generation</h1>
+    </header>
+     <input  id="password" type="password" name="password" placeholder="Password"/>     
+     <input  id="confirm_password" type="password" name="re-enter password" placeholder="Re-Enter Password" />
+     <div id="message-success" style="display:none;text-align:center; padding:18px">Password has been set successfully!</div>
+     <div id="message-fail" style="display:none;text-align:center; padding:18px">There is an error. Please contact <a mailto="appliedx_ops@amat.com"> Appliedx operations</a> to look into the issue.</div>
+     <div onclick="javascript:document.location.href=location.protocol + '//' + '${settings.CMS_BASE}' + '/signin'" style="display:none" class="button_2">Go to Studio</div>
+     <input type="button" value="Submit" id="submit" disabled/>
+  </section>
+ <script type="text/javascript">
+$(document).ready(function(){
+    $("input[type='password']").keyup(validate)
+    $("#submit").click(function(){
+    $("#message-success").hide();
+    $("#message-fail").hide();
+    $.ajax({
+        type:"POST",
+        url:"/generate_studio_password",
+        data:{'password': $("input[type='password']").val()},
+        success:function(){$("#message-success").show(1000); $("#submit").hide(1000); $(".button_2").show(1000)},
+        error:function(){$("#message-fail").show(1000);},
+    });
+});
+
+     });
+     function validate(){
+        var password1=$("#password").val();
+        var password2=$("#confirm_password").val();
+        if(password1==password2){
+               $("#confirm_password").attr('title', "");
+               $('#submit').prop('disabled', false);
+               if($('#confirm_password').val() != "") $('#confirm_password').css("background", "white");
+	}
+        else{
+               $("#confirm_password").attr('title', "Passwords don't match");
+               $('#submit').prop('disabled', true);
+               if($('#confirm_password').val() != "")$('#confirm_password').css("background", "#f3b8b8");
+	}
+    }
+</script>
+</div>
+
+</body>
+% endif
+</html>

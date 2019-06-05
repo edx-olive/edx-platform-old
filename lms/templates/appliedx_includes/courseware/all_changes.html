@@ -81,6 +81,10 @@ if($.browser.chrome === undefined){
         }
     }
 
+// Legacy fix for AMAT AOR-52 (seemed to not be working in the new environment).
+// Issue: timestamp param provoked 403 error
+// when trying to fetch a video from Cloudfront.
+// See AOR-52 in `02_html5_video.js
 var observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
         for(node_index in mutation.addedNodes){
