@@ -8,28 +8,4 @@ $(function(){
     $(".nav-course-settings-schedule a").html("Schedule &amp; Catalog Details")
 });
 }, 1000);
-
-
-// Legacy fix for AMAT AOR-52 (seemed to not be working in the new environment).
-// Issue: timestamp param provoked 403 error
-// when trying to fetch a video from Cloudfront.
-// See AOR-52 in `02_html5_video.js`
-var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-                for(node_index in mutation.addedNodes){
-                        var node  = mutation.addedNodes[node_index]
-                        if(node.tagName == "VIDEO"){
-                                var sources = node.getElementsByTagName("SOURCE")
-                                for(index=0;index<sources.length;index++){
-                                        sources[index].src = sources[index].src.substr(0, sources[index].src.lastIndexOf("&"))
-                                }
-                        }
-                }
-        });
-});
-
-var observerConfig = { attributes: false, childList: true, subtree:true};
-var targetNode = document.body;
-observer.observe(targetNode, observerConfig);
-
 </script>
