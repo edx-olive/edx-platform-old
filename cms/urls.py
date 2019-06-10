@@ -55,8 +55,6 @@ urlpatterns = patterns(
     url(r'^list_s3_videos$', 'util.custom_views.s3_video_list'),
     url(r'^upload_video$', 'util.custom_views.video_upload'),
     url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
-    url(r'^updatecommonsection/', common_xblock_utils.updatecommonsection, name='updatecommonsection'),
-    url(r'^get_commonsection/', common_xblock_utils.get_commonsection, name='getcommonsection'),
     url(r'^update_course_metadata$', 'util.custom_views.update_course_metadata'),
     url(r'^update_about_attribute$', 'util.custom_views.update_about_attribute'),
 
