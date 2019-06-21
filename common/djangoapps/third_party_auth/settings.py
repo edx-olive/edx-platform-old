@@ -41,6 +41,9 @@ def apply_settings(django_settings):
     # Adding extra key value pair in the url query string for microsoft as per request
     django_settings.SOCIAL_AUTH_AZUREAD_OAUTH2_AUTH_EXTRA_ARGUMENTS = _SOCIAL_AUTH_AZUREAD_OAUTH2_AUTH_EXTRA_ARGUMENTS
 
+    # Avoid default username check to allow non-ascii characters
+    django_settings.SOCIAL_AUTH_CLEAN_USERNAMES = False
+
     # Inject our customized auth pipeline. All auth backends must work with
     # this pipeline.
     django_settings.SOCIAL_AUTH_PIPELINE = [
