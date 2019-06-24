@@ -2,6 +2,7 @@
 
 import unittest
 
+from mock import patch
 from openedx.features.enterprise_support.api import enterprise_enabled
 from third_party_auth import provider, settings
 from third_party_auth.tests import testutil
@@ -61,3 +62,10 @@ class SettingsUnitTest(testutil.TestCase):
     def test_enterprise_elements_inserted(self):
         settings.apply_settings(self.settings)
         self.assertIn('enterprise.tpa_pipeline.handle_enterprise_logistration', self.settings.SOCIAL_AUTH_PIPELINE)
+
+    def test_apply_settings_avoids_default_username_check(self):
+        # Avoid the default username check where non-ascii characters are not
+        # allowed
+        with patch.dict('django.conf.settings.FEATURES', {'ENABLE_UNICODE_USERNAME': True}):
+            settings.apply_settings(self.settings)
+            self.assertFalse(self.settings.SOCIAL_AUTH_CLEAN_USERNAMES)
