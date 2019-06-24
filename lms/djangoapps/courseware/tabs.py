@@ -319,8 +319,7 @@ def get_course_tab_list(request, course):
         if tab.type == 'static_tab' and tab.course_staff_only and \
                 not bool(user and has_access(user, 'staff', course, course.id)):
             continue
-        if not (tab.type == "wiki" or tab.type == "discussion"):
-            course_tab_list.append(tab)
+        course_tab_list.append(tab)
 
     # Add in any dynamic tabs, i.e. those that are not persisted
     course_tab_list += _get_dynamic_tabs(course, user)
