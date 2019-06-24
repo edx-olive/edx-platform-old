@@ -9,7 +9,7 @@ If true, it:
     a) loads this module.
     b) calls apply_settings(), passing in the Django settings
 """
-
+from django.conf import settings
 from openedx.features.enterprise_support.api import insert_enterprise_pipeline_elements
 
 _FIELDS_STORED_IN_SESSION = ['auth_entry', 'next']
@@ -42,7 +42,7 @@ def apply_settings(django_settings):
     django_settings.SOCIAL_AUTH_AZUREAD_OAUTH2_AUTH_EXTRA_ARGUMENTS = _SOCIAL_AUTH_AZUREAD_OAUTH2_AUTH_EXTRA_ARGUMENTS
 
     # Avoid default username check to allow non-ascii characters
-    django_settings.SOCIAL_AUTH_CLEAN_USERNAMES = False
+    django_settings.SOCIAL_AUTH_CLEAN_USERNAMES = not settings.FEATURES.get("ENABLE_UNICODE_USERNAME")
 
     # Inject our customized auth pipeline. All auth backends must work with
     # this pipeline.
