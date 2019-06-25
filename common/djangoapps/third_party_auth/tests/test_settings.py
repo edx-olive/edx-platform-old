@@ -65,7 +65,9 @@ class SettingsUnitTest(testutil.TestCase):
 
     def test_apply_settings_avoids_default_username_check(self):
         # Avoid the default username check where non-ascii characters are not
-        # allowed
+        # allowed when unicode username is enabled
+        settings.apply_settings(self.settings)
+        self.assertTrue(self.settings.SOCIAL_AUTH_CLEAN_USERNAMES) # verify default behavior
         with patch.dict('django.conf.settings.FEATURES', {'ENABLE_UNICODE_USERNAME': True}):
             settings.apply_settings(self.settings)
             self.assertFalse(self.settings.SOCIAL_AUTH_CLEAN_USERNAMES)
