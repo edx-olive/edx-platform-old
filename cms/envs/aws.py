@@ -523,6 +523,7 @@ if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
     INSTALLED_APPS += ( 'raven.contrib.django.raven_compat', )
     RAVEN_CONFIG = {
         'dsn': AUTH_TOKENS.get('RG_SENTRY_DSN'),
+        'environment': ENV_TOKENS.get('RG_SENTRY_ENVIRONMENT', ''),
+        'release': raven.fetch_git_sha(REPO_ROOT)
     }
-    raven.fetch_git_sha(REPO_ROOT)
 #RACCOONGANG
