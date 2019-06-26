@@ -430,3 +430,17 @@ def _get_user_role_in_course(course_id, email):
     if email in team["admins"]:
         return {"role": "admins"}
     return {"role": "none"}
+
+
+def search(request):
+    """Custom courses search endpoint."""
+    search_key = request.GET.get('search_string')
+    page_size = request.GET.get('page_size')
+    page_index = request.GET.get('page_index')
+    mobile = request.GET.get('mobile')
+    field_dict = dict()
+    for parameter in request.GET:
+        if parameter not in ('search_string', 'page_size', 'page_index', 'mobile' ):
+            field_dict.update(dict({parameter: request.GET[parameter]}))
+
+    return HttpResponse(json.dumps(_search(search_key, page_size, page_index, mobile, field_dict)))
