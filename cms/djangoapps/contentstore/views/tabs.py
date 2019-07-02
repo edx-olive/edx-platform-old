@@ -65,7 +65,8 @@ def tabs_handler(request, course_key_string):
                 # static tab needs its locator information to render itself as an xmodule
                 static_tab_loc = course_key.make_usage_key('static_tab', tab.url_slug)
                 tab.locator = static_tab_loc
-            tabs_to_render.append(tab)
+            if tab.type != "course_info":
+                tabs_to_render.append(tab)
 
         return render_to_response('edit-tabs.html', {
             'context_course': course_item,

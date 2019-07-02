@@ -360,9 +360,12 @@ def get_component_templates(courselike, library=False):
     advanced_component_types = _advanced_component_types(allow_unsupported)
     # Set component types according to course policy file
     if isinstance(course_advanced_keys, list):
-        course_advanced_keys.append('feedback')  # adding feedback xblock in the advanced module list
-        course_advanced_keys.append('yammer')  # adding yammer xblock in the advanced module list
-        course_advanced_keys.append('get_credit')  # adding get_credit xblock in the advanced module list
+        # AMAT: Add xblocks to the advanced module list
+        course_advanced_keys.append('feedback')
+        course_advanced_keys.append('yammer')
+        course_advanced_keys.append('get_credit')
+        course_advanced_keys.append('poll')
+        course_advanced_keys.append('survey')
 
         for category in course_advanced_keys:
             if category in advanced_component_types.keys() and category not in categories:
