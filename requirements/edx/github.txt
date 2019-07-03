@@ -101,7 +101,7 @@ git+https://github.com/raccoongang/edx-search.git@fa6e0bb947c70278e8666be6e0d1a7
 # Third Party XBlocks
 git+https://github.com/open-craft/xblock-poll@v1.2.7#egg=xblock-poll==1.2.7
 git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.18#egg=xblock-drag-and-drop-v2==2.0.18
-# -e git+git@bitbucket.org:appliedxxx/vr_xblock@master#egg=vr_xblock
-# -e git+git@bitbucket.org:appliedxxx/yammer_xblock.git#egg=yammer_xblock
-# -e git+git@bitbucket.org:appliedxxx/feedback_xblock.git#egg=feedback_xblock
-# -e git+git@bitbucket.org:appliedxxx/get_credit.git#egg=get_credit
+-e git+https://bitbucket.org/appliedxxx/vr_xblock@master#egg=vr_xblock
+-e git+https://bitbucket.org/appliedxxx/yammer_xblock.git#egg=yammer_xblock
+-e git+https://bitbucket.org/appliedxxx/feedback_xblock.git#egg=feedback_xblock
+-e git+https://bitbucket.org/appliedxxx/getcredit_xblock.git#egg=getcredit_xblock
