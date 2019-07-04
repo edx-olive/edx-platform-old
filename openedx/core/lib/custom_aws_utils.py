@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 # TODO: DRY (use this util in `custom_views.py` and `video_module.py`)
 def get_signed_cloudfront_url(url):
     """
-    Sign AWS CloudFront url.
+    Sign AWS CloudFront url for private videos.
 
     Arguments:
         url (str):
@@ -29,7 +29,7 @@ def get_signed_cloudfront_url(url):
     aws_secret_access_key = settings.AWS_SECRET_ACCESS_KEY
     if aws_access_key_id and aws_secret_access_key:
         try:
-            # TODO consider creating clients w/ various exceptions handling
+            # TODO consider creating utils w/ various exceptions handling
             boto.connect_s3(aws_access_key_id, aws_secret_access_key)
             cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
             key_pair_id = settings.CLOUDFRONT_SIGNING_KEY_ID
