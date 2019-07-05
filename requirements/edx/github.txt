@@ -109,3 +109,5 @@ git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.18#egg=xblock-
 -e git+https://bitbucket.org/appliedxxx/yammer_xblock.git#egg=yammer_xblock
 -e git+https://bitbucket.org/appliedxxx/feedback_xblock.git#egg=feedback_xblock
 -e git+https://bitbucket.org/appliedxxx/getcredit_xblock.git#egg=getcredit_xblock
+# Based on v0.9.0 tag (does not contain incompatible `i18_service` and relies on compatible `xblock` version)
+-e git+https://bitbucket.org/appliedxxx/xblock-image-explorer.git@amat-dev#egg=xblock-image-explorer

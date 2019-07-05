@@ -309,6 +309,10 @@ if AWS_SECRET_ACCESS_KEY == "":
 
 AWS_STORAGE_BUCKET_NAME = AUTH_TOKENS.get('AWS_STORAGE_BUCKET_NAME', 'edxuploads')
 
+# Custom AMAT configs
+CLOUDFRONT_SIGNING_KEY_ID = AUTH_TOKENS.get("CLOUDFRONT_SIGNING_KEY_ID")
+CLOUDFRONT_SIGNING_KEY_FILE = AUTH_TOKENS.get("CLOUDFRONT_SIGNING_KEY_FILE")
+
 # Disabling querystring auth instructs Boto to exclude the querystring parameters (e.g. signature, access key) it
 # normally appends to every returned URL.
 AWS_QUERYSTRING_AUTH = AUTH_TOKENS.get('AWS_QUERYSTRING_AUTH', True)
