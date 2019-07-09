@@ -76,18 +76,9 @@ def s3_video_list(request):
     """
     # TODO try except
     foldername = request.GET['course_folder']
-    # TODO DRY (in this module)
-    SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
-    CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', "/edx/app/edxapp/"))
-    CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
-    with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
-        ENV_TOKENS = json.load(env_file)
-    aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
-    aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
-    aws_video_bucket_name = ENV_TOKENS.get("AWS_BUCKET_NAME")
-    s3 = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
+    s3 = boto.connect_s3(settings.AWS_VIDEO_ACCESS_KEY, settings.AWS_VIDEO_SECRET_ACCESS_KEY)
     try:
-        bucket = s3.get_bucket(aws_video_bucket_name)
+        bucket = s3.get_bucket(settings.AWS_VIDEO_BUCKET)
     except TypeError:
         return HttpResponse(
             json.dumps({
@@ -103,7 +94,7 @@ def s3_video_list(request):
     return HttpResponse(video_list)
 
 
-def upload_to_s3(source, bucketname, target):
+def upload_to_s3(source, bucketname, target): # TODO remove it, seems like it is never used
     """
     Upload a video to AWS S3.
     """
@@ -134,17 +125,12 @@ def video_upload(request):
             course_directory = request.POST['course_directory']
             metadata = get_video_metadata('/tmp/' + filename)
         # bitrate_in_kbps = to_kilo_bits_per_second(metadata['bitrate'])
-        ENV_TOKENS = get_all_env_tokens()
         #  if bitrate_in_kbps > 2048:
         #      return HttpResponse('{"status":"error",
         #      "message":"Video can not be uploaded due to unacceptable bitrate.
         #      If you are not sure how to fix it, please contact operations at appliedx_ops@amat.com"}')
-        aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
-        aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
-        s3 = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
-        cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
-        bucket_name = ENV_TOKENS.get("AWS_BUCKET_NAME")
-        bucket = s3.get_bucket(bucket_name)
+        s3 = boto.connect_s3(settings.AWS_VIDEO_ACCESS_KEY, settings.AWS_VIDEO_SECRET_ACCESS_KEY)
+        bucket = s3.get_bucket(settings.AWS_VIDEO_BUCKET)
         object_name = course_directory + "/" + string.replace(filename, " ", "_")
         key = bucket.new_key(object_name)
         key.set_contents_from_filename('/tmp/' + filename)
