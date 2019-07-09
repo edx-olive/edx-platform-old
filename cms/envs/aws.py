@@ -312,6 +312,10 @@ AWS_STORAGE_BUCKET_NAME = AUTH_TOKENS.get('AWS_STORAGE_BUCKET_NAME', 'edxuploads
 # Custom AMAT configs
 CLOUDFRONT_SIGNING_KEY_ID = AUTH_TOKENS.get("CLOUDFRONT_SIGNING_KEY_ID")
 CLOUDFRONT_SIGNING_KEY_FILE = AUTH_TOKENS.get("CLOUDFRONT_SIGNING_KEY_FILE")
+# for uploading videos using vr xblock and the standard video component
+AWS_VIDEO_ACCESS_KEY = AUTH_TOKENS.get("AWS_VIDEO_ACCESS_KEY")
+AWS_VIDEO_SECRET_ACCESS_KEY = AUTH_TOKENS.get("AWS_VIDEO_SECRET_ACCESS_KEY")
+AWS_VIDEO_BUCKET = ENV_TOKENS.get("AWS_VIDEO_BUCKET")
 
 # Disabling querystring auth instructs Boto to exclude the querystring parameters (e.g. signature, access key) it
 # normally appends to every returned URL.
