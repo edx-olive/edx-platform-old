@@ -2,6 +2,9 @@
 
 % if course and not disable_courseware_header:
     <div class="course-header">
+        <!-- Do not remove these elements! The JS below needs them! That is why they are hidden from page but stay in code. -->
+        <span class="provider" style="opacity: 0; visibility: hidden; position: absolute; z-index: -1;">${course.display_org_with_default}:</span>
+        <span class="course-number" style="opacity: 0; visibility: hidden; position: absolute; z-index: -1;">${course.display_number_with_default}</span>
         <span class="course-name">${course.display_name_with_default}</span>
     </div>
 % endif
