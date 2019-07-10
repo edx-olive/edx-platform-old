@@ -2,6 +2,9 @@
 
 % if course and not disable_courseware_header:
     <div class="course-header">
+        <!-- Do not remove these elements! The JS below needs them! That is why they are hidden from page but stay in code. -->
+        <span class="provider" style="opacity: 0; visibility: hidden; position: absolute; z-index: -1;">${course.display_org_with_default}:</span>
+        <span class="course-number" style="opacity: 0; visibility: hidden; position: absolute; z-index: -1;">${course.display_number_with_default}</span>
         <span class="course-name">${course.display_name_with_default}</span>
     </div>
 % endif
@@ -20,44 +23,40 @@ function getSubTitle() {
 
 setTimeout(function(){
 $("yammer").each(function(){
-        try {
-                var CourseTitle = getPageTitle();
-                var CurrentTitle = getSubTitle();
-                var Title = CourseTitle + " - "+ CurrentTitle;
-                var type = $(this).attr("type");
-                var url = window.location.href;
+        var CourseTitle = getPageTitle();
+        var CurrentTitle = getSubTitle();
+        var Title = CourseTitle + " - "+ CurrentTitle;
+        var type = $(this).attr("type");
+        var url = window.location.href;
 
-                if($(this).attr("y-version") == "1.0"){
-                     //   url = url.replace(".amat.com/courses/", "/courses/")
-                }
-                if(type == "embed"){
-                        var custom_prompt = $(this).attr("data-prompt") || "Have a feedback or question?";
-                        var grpId = $(this).attr("data-group-id")
-                        $(this).append("<h2><span style='font-size: 1em; letter-spacing: 1px; line-height: 1.2em;'>Discuss this course on Yammer</span></h2><div id='embedded-feed' style='height: 500px; width: 100%;'></div><script src='https://assets.yammer.com/assets/platform_embed.js'/>");
-                        setTimeout(function(){
-                                yam.connect.embedFeed({
-                                        container: "#embedded-feed",
-                                        network: 'amat.com',
-                                        objectProperties: {
-                                                "url": url,
-                                                "title": Title
-                                        },
-                                        feedType: "open-graph",
-                                        config: {
-                                                use_sso: true
-                                                , header: false
-                                                , footer: false
-                                                , showOpenGraphPreview: false
-                                                , defaultToCanonical: false
-                                                , hideNetworkName: true
-                                                , promptText: custom_prompt
-                                                , defaultGroupId: grpId
-                                        }
-                                });
-                        }, 2000)
-                }
-        } catch(error) {
-            console.log("Error: " + error.message + " - Thought this DOM element was yammer related, but it is not, apparently.");
+        if($(this).attr("y-version") == "1.0"){
+             //   url = url.replace(".amat.com/courses/", "/courses/")
+        }
+        if(type == "embed"){
+                var custom_prompt = $(this).attr("data-prompt") || "Have a feedback or question?";
+                var grpId = $(this).attr("data-group-id")
+                $(this).append("<h2><span style='font-size: 1em; letter-spacing: 1px; line-height: 1.2em;'>Discuss this course on Yammer</span></h2><div id='embedded-feed' style='height: 500px; width: 100%;'></div><script src='https://assets.yammer.com/assets/platform_embed.js'/>");
+                setTimeout(function(){
+                        yam.connect.embedFeed({
+                                container: "#embedded-feed",
+                                network: 'amat.com',
+                                objectProperties: {
+                                        "url": url,
+                                        "title": Title
+                                },
+                                feedType: "open-graph",
+                                config: {
+                                        use_sso: true
+                                        , header: false
+                                        , footer: false
+                                        , showOpenGraphPreview: false
+                                        , defaultToCanonical: false
+                                        , hideNetworkName: true
+                                        , promptText: custom_prompt
+                                        , defaultGroupId: grpId
+                                }
+                        });
+                }, 2000)
         }
 });}, 2000);
 </script>
