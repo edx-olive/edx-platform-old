@@ -21,7 +21,7 @@ urlpatterns = patterns(
     url(
         '^' + settings.USERNAME_PATTERN + '/course_enrollments_vr_hc/$',
         UserHardcodedVRCourseEnrollmentsList.as_view(),
-        # Namesake space exists; consider renaming to 'courseenrollment-detail-vr-hc'
-        name='courseenrollment-detail'
+        # 'courseenrollment-detail' space existed; renamed to 'courseenrollment-detail-vr-hc'
+        name='courseenrollment-detail-vr-hc'
     )
 )
