@@ -325,9 +325,12 @@ class UserHardcodedVRCourseEnrollmentsList(generics.ListAPIView):
             is_active=True,
             course_id=CourseKey.from_string('course-v1:AGS+EPG360+2017')
         )
-        enrollments = [enrollment1[0], enrollment2[0]]
-        return [
-            enrollment for enrollment in enrollments
-            if enrollment.course_overview and
-            is_mobile_available_for_user(self.request.user, enrollment.course_overview)
-        ]
+        if enrollment1 and enrollment2:
+            enrollments = [enrollment1[0], enrollment2[0]]
+            return [
+                enrollment for enrollment in enrollments
+                if enrollment.course_overview and
+                is_mobile_available_for_user(self.request.user, enrollment.course_overview)
+            ]
+        else:
+            return []
