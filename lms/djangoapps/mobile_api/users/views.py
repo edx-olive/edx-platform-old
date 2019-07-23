@@ -319,14 +319,20 @@ class UserHardcodedVRCourseEnrollmentsList(generics.ListAPIView):
             user__username=self.kwargs['username'],
             is_active=True,
             course_id=CourseKey.from_string('course-v1:appliedx+VR1+2016')
-        )
+        ).first()
         enrollment2 = self.queryset.filter(
             user__username=self.kwargs['username'],
             is_active=True,
             course_id=CourseKey.from_string('course-v1:AGS+EPG360+2017')
-        )
-        if enrollment1 and enrollment2:
-            enrollments = [enrollment1[0], enrollment2[0]]
+        ).first()
+
+        enrollments = []
+        if enrollment1:
+            enrollments.append(enrollment1)
+        if enrollment2:
+            enrollments.append(enrollment2)
+
+        if enrollments:
             return [
                 enrollment for enrollment in enrollments
                 if enrollment.course_overview and
