@@ -701,6 +701,10 @@ TIME_ZONE_DISPLAYED_FOR_DEADLINES = ENV_TOKENS.get("TIME_ZONE_DISPLAYED_FOR_DEAD
 ##### X-Frame-Options response header settings #####
 X_FRAME_OPTIONS = ENV_TOKENS.get('X_FRAME_OPTIONS', X_FRAME_OPTIONS)
 
+##### Custom AMAT configs #####
+MOBILE_APP_VERSION_VR = ENV_TOKENS.get('MOBILE_APP_VERSION_VR', '2.11.3')
+MOBILE_APP_VERSION = ENV_TOKENS.get('MOBILE_APP_VERSION', '2.11.3')
+
 ##### Third-party auth options ################################################
 if FEATURES.get('ENABLE_THIRD_PARTY_AUTH'):
     AUTHENTICATION_BACKENDS = (
