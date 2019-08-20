@@ -2254,6 +2254,9 @@ INSTALLED_APPS = (
     'openedx.features.enterprise_support',
 
     'experiments',
+
+    # Custom AMAT apps
+    'poll_survey'
 )
 
 ######################### CSRF #########################################

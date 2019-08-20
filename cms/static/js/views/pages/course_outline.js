@@ -30,13 +30,15 @@ define(['jquery', 'underscore', 'gettext', 'js/views/pages/base_page', 'js/views
                     var newintroductionsection = $('.new-introduction-section').is(':checked');
                     var newyameersection = $('.new-yameer-section').is(':checked');
 		            var newcreditsection = $('.new-credit-section').is(':checked');
+		            var newsurveysection = $('.new-survey-section').is(':checked');
                     var parent_value = $('.parent_value').val();
-                    if (newintroductionsection || newyameersection || newcreditsection) {
+                    if (newintroductionsection || newyameersection || newcreditsection || newsurveysection) {
                         var section_info = {
                             section_creation : true,
                             newintroductionsection: newintroductionsection,
                             newyameersection: newyameersection,
 			                newcreditsection: newcreditsection,
+                            newsurveysection: newsurveysection,
                             parent_value: parent_value
                         };
                         XBlockViewUtils.addCommonXBlock(section_info).done(function(locator, courseKey) {

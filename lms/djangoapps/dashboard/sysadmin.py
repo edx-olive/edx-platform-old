@@ -28,6 +28,7 @@ from django.views.decorators.http import condition
 from django.views.generic.base import TemplateView
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from opaque_keys.edx.keys import CourseKey
 from path import Path as path
 
 import dashboard.git_import as git_import
@@ -689,3 +690,113 @@ class GitLogs(TemplateView):
         }
 
         return render_to_response(self.template_name, context)
+
+
+class PollSurvey(SysadminDashboardView):
+    """Provide for downloading `poll_survey` data as reports."""
+
+    def get(self, request):
+        """Displays `poll_survey` reports options."""
+
+        if not request.user.is_staff:
+            raise Http404
+
+        context = {
+            'courses': [course.id.to_deprecated_string() for course in self.get_courses()],
+            'djangopid': os.getpid(),
+            'modeflag': {'poll_survey': 'active-section'},
+            'edx_platform_version': getattr(settings, 'EDX_PLATFORM_VERSION_STRING', ''),
+        }
+        return render_to_response(self.template_name, context)
+
+    def post(self, request):
+        """Handle all actions from the poll_survey view"""
+        action = request.POST.get('action', '')
+        course_id = request.POST.get('course', '')
+
+        # Check if analytics can make use of this, enable tracking if so
+        # track.views.server_track(request, action, {},
+        #                          page='pollsurvey_sysdashboard')
+
+        if action == 'get_poll_survey_submissions_csv':
+            data = self._fetch_poll_submissions_data(course_id) + \
+                self._fetch_survey_submissions_data(course_id) + \
+                self._fetch_open_ended_survey_submissions_data(course_id)
+
+            header = [
+                _('poll_type'),
+                _('course'), _('student_id'),
+                _('question_id'), _('question_text'),
+                _('answer_id'), _('answer_text'),
+            ]
+
+            return self.return_csv('poll_survey_submissions_{0}.csv'.format(
+                request.META['SERVER_NAME']), header, data)
+
+        return self.get(request)
+
+    def _fetch_poll_submissions_data(self, course_id=None):
+        """Prepare poll submissions data."""
+        # Importing here since we rely on a custom `poll_survey` Django app
+        from poll_survey.models import PollSubmission
+        data = []
+        submissions = PollSubmission.objects.filter(course=CourseKey.from_string(course_id)) if course_id \
+            else PollSubmission.objects.all()
+        for s in submissions:
+            data.append(self._prepare_submission_datum(s, poll_type="poll"))
+        return data
+
+    def _fetch_survey_submissions_data(self, course_id=None):
+        """Prepare survey submissions data."""
+        # Importing here since we rely on a custom `poll_survey` Django app
+        from poll_survey.models import SurveySubmission
+        data = []
+        submissions = SurveySubmission.objects.filter(course=CourseKey.from_string(course_id))  if course_id \
+            else SurveySubmission.objects.all()
+        for s in submissions:
+            data.append(self._prepare_submission_datum(s, poll_type="survey"))
+        return data
+
+    def _fetch_open_ended_survey_submissions_data(self, course_id=None):
+        """Prepare open ended survey submissions data."""
+        # Importing here since we rely on a custom `poll_survey` Django app
+        from poll_survey.models import OpenEndedSurveySubmission
+        data = []
+        submissions = OpenEndedSurveySubmission.objects.filter(course=CourseKey.from_string(course_id)) \
+            if course_id else OpenEndedSurveySubmission.objects.all()
+        for s in submissions:
+            data.append(self._prepare_submission_datum(s, poll_type="open_ended_survey"))
+        return data
+
+    @staticmethod
+    def _prepare_submission_datum(submission, poll_type):
+        """
+        Wrap up submission datum for reports.
+
+        Arguments:
+            submission (`poll_survey.models.PollSubmission` |
+                `poll_survey.models.SurveySubmission` |
+                `poll_survey.models.OpenEndedSubmission` obj)
+            poll_type (str): particular poll type.
+        Returns:
+            data (list | None): data expected for reports.
+
+        """
+        if poll_type not in ["poll", "survey", "open_ended_survey"]:
+            raise ValueError("Provide a correct 'poll_type'.")
+        try:
+            answer_id = submission.answer.id if getattr(submission, "answer", None) else "-"
+            # For open_ended, there'll be `submission.answer_text` instead of submission's answer.id and answer.text
+            answer_text = submission.answer.text if getattr(submission, "answer", None) else submission.answer_text
+            return [
+                poll_type,
+                submission.course,
+                submission.student.id,
+                submission.question.id,
+                submission.question.text,
+                answer_id,
+                answer_text
+            ]
+        except AttributeError:
+            # Not sure of this scenario. It's quite improbable...
+            return [poll_type, "", "", "", "", "", ""]
