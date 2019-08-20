@@ -84,7 +84,7 @@
 
     background: white;
 
-   height: 300px;
+    height: 340px;
 
 }
 
@@ -224,11 +224,17 @@
   introduction_created = False
   survey_credit_created = False
   yammertab_created = False
+  survey_created = False
 %>
 %for tab in context_course.tabs:
     %if tab.name == 'Yammer Discussion':
 	<%
 	   yammertab_created = True
+	%>
+    %endif
+    %if tab.name == 'Survey':
+	<%
+	   survey_created = True
 	%>
     %endif
 %endfor
@@ -239,13 +245,17 @@
         introduction_created = True
       %>
     %endif
-%if child['display_name'] == 'Getting Credit & Course Reset' and child['category'] == 'chapter':
-      <%
-        survey_credit_created = True
-      %>
+    %if child['display_name'] == 'Getting Credit & Course Reset' and child['category'] == 'chapter':
+          <%
+            survey_credit_created = True
+          %>
+    %endif
+    %if child['display_name'] == 'Survey' and child['category'] == 'chapter':
+          <%
+            survey_created = True
+          %>
     %endif
 %endfor
-
 
 		<div id="myModal" class="modal">
                   <div id="cs_modal" >
@@ -293,6 +303,19 @@
                             <i class="fa fa-check-square" aria-hidden="true"></i>
                             <i class="fa fa-times" aria-hidden="true"></i>
                             <label for="yammer-tab">Yammer Course Tab</label>
+                          </li>
+			%endif
+			%if survey_created:
+                          <li style="pointer-events:none">
+                            <input type="checkbox" class="new-survey-section" name="new-survey-section" id="survey-tab"/>
+                            <label for="survey-tab" style="text-decoration: line-through;">Survey</label>
+                          </li>
+			%else:
+			  <li class="checked">
+                            <input type="checkbox" class="new-survey-section" name="new-survey-section" id="survey-tab" checked/>
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <label for="survey-tab">Survey</label>
                           </li>
 			%endif
                         </ul>

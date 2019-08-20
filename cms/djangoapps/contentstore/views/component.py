@@ -366,6 +366,7 @@ def get_component_templates(courselike, library=False):
         course_advanced_keys.append('get_credit')
         course_advanced_keys.append('poll')
         course_advanced_keys.append('survey')
+        course_advanced_keys.append('open_ended_survey')
 
         for category in course_advanced_keys:
             if category in advanced_component_types.keys() and category not in categories:

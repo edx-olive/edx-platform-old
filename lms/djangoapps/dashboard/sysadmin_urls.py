@@ -14,4 +14,5 @@ urlpatterns = patterns(
     url(r'^gitlogs/?$', sysadmin.GitLogs.as_view(), name="gitlogs"),
     url(r'^gitlogs/(?P<course_id>.+)$', sysadmin.GitLogs.as_view(),
         name="gitlogs_detail"),
+    url(r'^poll_survey/?$', sysadmin.PollSurvey.as_view(), name="sysadmin_poll_survey"),
 )

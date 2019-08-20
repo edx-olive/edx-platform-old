@@ -103,7 +103,8 @@ git+https://github.com/raccoongang/edx-search.git@fa6e0bb947c70278e8666be6e0d1a7
 -e git+https://github.com/raccoongang/rg_instructor_analytics_log_collector@934ba5141abd53be18411108a0780e43b60c39fe#egg=rg_instructor_analytics_log_collector
 
 # Third Party XBlocks
-git+https://github.com/open-craft/xblock-poll@v1.2.7#egg=xblock-poll==1.2.7
+# git+https://github.com/open-craft/xblock-poll@v1.2.7#egg=xblock-poll==1.2.7  # Replaced with AMAT fork
+-e git+https://bitbucket.org/appliedxxx/xblock-poll@amat-ginkgo#egg=xblock-poll
 git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.18#egg=xblock-drag-and-drop-v2==2.0.18
 -e git+https://github.com/raccoongang/flow-control-xblock@v0.2.0#egg=flow-control-xblock
 # Required for `xblock-adventure`; does not contain incompatible `i18_service`

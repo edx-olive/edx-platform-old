@@ -107,6 +107,11 @@ def create_section(parent_locator, user, category, display_name, boilerplate=Non
 
 
 class SurveyRequest():
+    """
+    Legacy SurveyRequest.
+
+    Unrelated to `poll_survey` app.
+    """
     method = 'POST'
     body = '{}'
 
@@ -127,6 +132,8 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
     headers = {"content-type": "application/json"}
     if section_name == 'Introduction':
         child_position = 0
+    elif section_name == "Survey":
+        child_position = None
     else:
         child_position = None
     section = COMMON_XBLOCK_OBJ[section_name]
@@ -141,17 +148,50 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
                                                  unit['display_name'])
                 if unit.has_key('xblocks'):
                     for xblock in unit['xblocks']:
-                        xblock_parent = create_section(unicode(vertical_parent.location), user, xblock['type'],
-                                                       xblock['display_name'], xblock.get('boilerplate'))
+                        xblock_parent = None
+                        if xblock["type"] == "survey" \
+                                or xblock["type"] == "poll" \
+                                or xblock["type"] == "open_ended_survey":
+                            # Importing here since we rely on a custom `poll_survey` Django app
+                            from poll_survey.models import SurveyPollCommonsection
+                            commonsection_settings = SurveyPollCommonsection.objects.all().last()
+                            if commonsection_settings:
+                                if (xblock["type"] == "survey" and commonsection_settings.contains_survey) \
+                                        or (xblock["type"] == "poll"
+                                            and commonsection_settings.contains_poll) \
+                                        or (xblock["type"] == "open_ended_survey"
+                                            and commonsection_settings.contains_open_ended_survey):
+                                    # We apply hardcoded defaults if no poll template was created.
+                                    # Ref.: `xblock-poll.poll.poll_survey_storing.defaults.
+                                    xblock_parent = create_section(unicode(vertical_parent.location),
+                                                                   user,
+                                                                   xblock['type'],
+                                                                   xblock['display_name'],
+                                                                   xblock.get('boilerplate')
+                                                                   )
+                            else:
+                                # We create all sections if no commonsections have been set up on admin.
+                                xblock_parent = create_section(unicode(vertical_parent.location),
+                                                               user,
+                                                               xblock['type'],
+                                                               xblock['display_name'],
+                                                               xblock.get('boilerplate')
+                                                               )
+                                # raise ValueError("Please create survey/poll/open-ended survey "
+                                #                  "commonsection settings in admin.")
+                        else:
+                            xblock_parent = create_section(unicode(vertical_parent.location), user, xblock['type'],
+                                                           xblock['display_name'], xblock.get('boilerplate'))
                         if xblock.has_key('metadata'):
                             video_metadata = xblock['metadata']
                             video_metadata['youtube_id_1_0'] = u''
-                            usage_key = usage_key_with_run(unicode(xblock_parent.location))
-                            _save_xblock(
-                                user,
-                                _get_xblock(usage_key, user),
-                                metadata=video_metadata
-                            )
+                            if xblock_parent:
+                                usage_key = usage_key_with_run(unicode(xblock_parent.location))
+                                _save_xblock(
+                                    user,
+                                    _get_xblock(usage_key, user),
+                                    metadata=video_metadata
+                                )
                         if xblock.has_key('question'):
                             question = xblock.get('question')
                             req = SurveyRequest()

@@ -211,6 +211,8 @@ def xblock_handler(request, usage_key_string):
                 blk = create_yammer_discussion_page(request)
             if request.json['section_info']['newcreditsection'] is True:
                 blk = create_common_xblock('Credit', request.user.email, request.json['section_info']['parent_value'])
+            if request.json['section_info']['newsurveysection'] is True:
+                blk = create_common_xblock('Survey', request.user.email, request.json['section_info']['parent_value'])
             return JsonResponse(
                 {"locator": unicode(blk.location), "courseKey": unicode(blk.location.course_key)}
             )

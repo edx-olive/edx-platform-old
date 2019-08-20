@@ -87,5 +87,30 @@
                                                 ]
                                 }]
 			}]
-                      }
+                      },
+
+    "Survey": {
+        "display_name": "Survey",
+        "subsections": [{
+            "display_name":"Survey",
+            "units":[{
+                "display_name":"Survey",
+                "xblocks": [
+                     {
+                         "display_name": "Survey",
+                         "type": "survey"
+                     },
+                     {
+                         "display_name": "Poll",
+                         "type": "poll"
+                     },
+                     {
+                         "display_name": "Open-Ended Survey",
+                         "type": "open_ended_survey"
+                     }
+                ]
+            }]
+        }]
+    }
+
 }

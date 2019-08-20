@@ -60,6 +60,8 @@ textarea {
       <a href="${reverse('sysadmin_staffing')}" class="${modeflag.get('staffing')}">${_('Staffing and Enrollment')}</a>
       ## Translators: refers to http://git-scm.com/docs/git-log
       <a href="${reverse('gitlogs')}">${_('Git Logs')}</a>
+      ## Translators: refers to poll/survey xblock related analytics e.g. reports on students' poll submissions
+      <a href="${reverse('sysadmin_poll_survey')}" class="${modeflag.get('poll_survey')}">${_('Survey')}</a>
     </h2>
 	<hr />
 %if modeflag.get('users'):
@@ -163,6 +165,26 @@ textarea {
   </div>
 </form>
 <hr style="width:40%" />
+%endif
+
+%if modeflag.get('poll_survey'):
+
+    <h3>${_('Poll & Survey Reports')}</h3><br/>
+
+    <p>${_("Download poll, survey, and open-ended survey submissions for a particular course or all courses altogether (if none selected).")}</p>
+    <br />
+
+    <form name="action" method="POST">
+      <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" />
+      <select name="course">
+        <option value="">Select the course</option>
+        % for course in courses:
+            <option value="${course}">${course}</option>
+        % endfor
+      </select>
+      <button type="submit" name="action" value="get_poll_survey_submissions_csv">${_('Download survey submissions (csv file)')}</button>
+    </form>
+
 %endif
 
 %if msg:
