@@ -631,7 +631,7 @@ class CourseFields(object):
     invitation_only = Boolean(
         display_name=_("Invitation Only"),
         help=_("Whether to restrict enrollment to invitation by the course staff."),
-        default=False,
+        default=True,
         scope=Scope.settings
     )
 
