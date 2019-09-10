@@ -105,7 +105,10 @@ git+https://github.com/raccoongang/edx-search.git@fa6e0bb947c70278e8666be6e0d1a7
 # Third Party XBlocks
 git+https://github.com/open-craft/xblock-poll@v1.2.7#egg=xblock-poll==1.2.7
 git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.18#egg=xblock-drag-and-drop-v2==2.0.18
+-e git+https://github.com/raccoongang/flow-control-xblock@v0.2.0#egg=flow-control-xblock
 -e git+https://bitbucket.org/appliedxxx/vr_xblock@master#egg=vr_xblock
 -e git+https://bitbucket.org/appliedxxx/yammer_xblock.git#egg=yammer_xblock
 -e git+https://bitbucket.org/appliedxxx/feedback_xblock.git#egg=feedback_xblock
 -e git+https://bitbucket.org/appliedxxx/getcredit_xblock.git#egg=getcredit_xblock
+# Based on v0.9.0 tag (does not contain incompatible `i18_service` and relies on compatible `XBlock` version)
+-e git+https://bitbucket.org/appliedxxx/xblock-image-explorer.git@amat-dev#egg=xblock-image-explorer

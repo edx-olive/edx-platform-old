@@ -229,6 +229,10 @@
         InsertDropdown = function(parent, objects, onSelectHandler){
             $("select", $(parent)).remove();
             selectHTML = "<select style='width:100%'>"
+
+            // Fast fix of ARS-23
+            selectHTML += "<option selected disabled hidden value='dummy'>Please select a video</option>"
+
             for(object in objects){
                     selectHTML += "<option value='" + objects[object].value + "'>" + objects[object].key + "</option>"
             }
