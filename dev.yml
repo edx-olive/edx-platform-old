@@ -2,8 +2,5 @@
   hosts: ironwood-rg-dev
   become: true
 
-  vars:
-      env: dev
-
   roles:
-    - rg-edx-single
+    - role: rg-edx-single

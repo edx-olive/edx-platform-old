@@ -1,0 +1,16 @@
+---
+project_team: "Duck-Team"
+project_environment: "prod"
+project_name: "ironwood-rg"
+project_support_package: "Default"
+cloud_provider: "KVM"
+tenancy_type: "single"
+region_location: ""
+ora_host: ""
+
+sentry_enabled: True
+filebeat_enabled: False
+rggrpc_enabled: False
+
+use_raccoongang_ssl: yes
+nginx_ssl: yes
