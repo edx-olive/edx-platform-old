@@ -3,7 +3,7 @@ stages:
 
 deploy-dev:
     stage: deploy
-    image: registry-gitlab.raccoongang.com/devops/configuration:ironwood-rg-develop
+    image: registry-gitlab.raccoongang.com/duck-team/ironwood-rg/configuration:ironwood-rg-develop
     variables:
         ANSIBLE_SSH_KEY: $JENKINS_DEPLOY_KEY
         ANSIBLE_VAULT_KEY: $DEVOPS_VAULT_KEY

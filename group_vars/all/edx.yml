@@ -7,22 +7,26 @@ EDXAPP_LANG: "en_US.UTF-8"
 EDXAPP_LANGUAGE_CODE: "en"
 EDXAPP_TIME_ZONE: "Europe/Dublin"
 
-EDXAPP_SITE_NAME: "lms-staging-ironwood.raccoongang.com"
+EDXAPP_SITE_NAME: "lms-ironwood.raccoongang.com"
 EDXAPP_LMS_SITE_NAME: "{{ EDXAPP_SITE_NAME }}"
-EDXAPP_CMS_SITE_NAME: "cms-staging-ironwood.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-ironwood.raccoongang.com"
 EDXAPP_LMS_BASE: "{{ EDXAPP_SITE_NAME }}"
 EDXAPP_CMS_BASE: "{{ EDXAPP_CMS_SITE_NAME }}"
-EDXAPP_PREVIEW_LMS_BASE: "preview-staging-ironwood.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-ironwood.raccoongang.com"
 
 COMMON_HOSTNAME: "{{ EDXAPP_SITE_NAME }}"
 RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
 
-EDXAPP_LMS_ROOT_URL: "https://{{ EDXAPP_LMS_BASE }}"
+EDXAPP_LMS_BASE_SCHEME: "https"
+EDXAPP_LMS_ROOT_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
 
-edx_platform_repo: https://github.com/edx/edx-platform.git
-edx_platform_version: open-release/ironwood.1
-edx_ansible_source_repo: https://github.com/raccoongang/configuration.git
-# configuration_version: ironwood-rg # configured in AWX project
+EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
+EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
+
+edx_platform_repo: "https://github.com/raccoongang/edx-platform.git"
+edx_platform_version: "ironwood-rg"
+edx_ansible_source_repo: "https://gitlab.raccoongang.com/DevOps/configuration.git"
+configuration_version: "ironwood-rg"
 
 EDXAPP_PLATFORM_TWITTER_ACCOUNT: "@twitter"
 
@@ -37,13 +41,11 @@ EDXAPP_GRADE_STORAGE_KWARGS:
 #grades ---------------------------------------------------------------------
 
 #services -------------------------------------------------------------------
-configuration_version: ironwood-rg
-
-forum_version: "open-release/ironwood.1rc3"
-NOTIFIER_VERSION: "open-release/ironwood.1rc3"
-xqueue_version: "open-release/ironwood.1rc3"
-certs_version: "open-release/ironwood.1rc3"
-demo_version: "open-release/ironwood.1rc3"
+forum_version: "open-release/ironwood.2"
+NOTIFIER_VERSION: "open-release/ironwood.2"
+xqueue_version: "open-release/ironwood.2"
+certs_version: "open-release/ironwood.2"
+demo_version: "open-release/ironwood.2"
 
 COMMON_ENABLE_NEWRELIC_APP: False
 
@@ -51,7 +53,11 @@ COMMON_ENABLE_NEWRELIC_APP: False
 
 #defaults -------------------------------------------------------------------
 
-EDXAPP_FEATURES_OVERRIDE: {}
+EDXAPP_FEATURES_OVERRIDE:
+  ENABLE_SHOPPING_CART: true
+  ENABLE_PAID_COURSE_REGISTRATION: true
+  RG_DELETE_RETIRED: true
+  ENABLE_ACCOUNT_DELETION: true
 
 EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
 
@@ -70,15 +76,17 @@ EDXAPP_WORKERS:
 
 ELASTICSEARCH_CLUSTERED: False
 
-EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
-EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
+EDXAPP_ENV_EXTRA:
+  EDXAPP_THIRD_PARTY_AUTH_BACKENDS:
+    - "social_core.backends.google.GoogleOAuth2"
+    - "social_core.backends.linkedin.LinkedinOAuth2"
+    - "social_core.backends.facebook.FacebookOAuth2"
+    - "social_core.backends.azuread.AzureADOAuth2"
+    - "social_core.backends.vk.VKOAuth2"
+    - "third_party_auth.saml.SAMLAuthBackend"
+    - "third_party_auth.lti.LTIAuthBackend"
 
-# EDXAPP_ENV_EXTRA:
-#   EDXAPP_THIRD_PARTY_AUTH_BACKENDS:
-#     - "social_core.backends.google.GoogleOAuth2"
-#     - "social_core.backends.linkedin.LinkedinOAuth2"
-#     - "social_core.backends.facebook.FacebookOAuth2"
-#     - "social_core.backends.azuread.AzureADOAuth2"
-#     - "social_core.backends.vk.VKOAuth2"
-#     - "third_party_auth.saml.SAMLAuthBackend"
-#     - "third_party_auth.lti.LTIAuthBackend"
+EDXAPP_LOGIN_REDIRECT_WHITELIST:
+  - "{{ EDXAPP_LMS_BASE }}"
+  - "{{ EDXAPP_CMS_BASE }}"
+  - "{{ EDXAPP_PREVIEW_LMS_BASE }}"
