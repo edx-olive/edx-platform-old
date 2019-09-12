@@ -1,2 +1,2 @@
 ---
-DISCOVERY_URL_ROOT: "discovery-dev-ironwood.raccoongang.com"
+DISCOVERY_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://discovery-dev-ironwood.raccoongang.com"
