@@ -297,7 +297,12 @@ class OpenEndedSurveySubmission(SubmissionBase):
 class BaseTemplate(TimeStampedModel):
     """Base template model."""
 
-    is_enabled = models.BooleanField(default=False)
+    is_enabled = models.BooleanField(
+        default=False,
+        help_text="Warning: any changes in default templates will take effect only after the edX platform "
+                  "CMS and LMS stack gets restarted. Please contact the application team "
+                  "for them to follow a deployment procedure."
+    )
 
     class Meta:
         abstract = True
