@@ -2551,6 +2551,10 @@ GRADES_DOWNLOAD = {
     'ROOT_PATH': '/tmp/edx-s3/grades',
 }
 
+# AMAT customizations
+GITHUB_REPO_ROOT = ENV_ROOT / "data"
+POLL_SURVEY_SUBMISSIONS_DIR = GITHUB_REPO_ROOT / "poll_survey_submissions"
+
 FINANCIAL_REPORTS = {
     'STORAGE_TYPE': 'localfs',
     'BUCKET': 'edx-financial-reports',
