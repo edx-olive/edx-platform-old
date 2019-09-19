@@ -9,6 +9,8 @@ region_location: ""
 ora_host: ""
 
 sentry_enabled: True
+COMMON_RG_SENTRY_ENVIRONMENT: "{{ project_environment }}"
+
 filebeat_enabled: False
 rggrpc_enabled: False
 
