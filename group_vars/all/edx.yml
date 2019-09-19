@@ -22,7 +22,7 @@ EDXAPP_LMS_ROOT_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
 
-edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/ironwood-rg/edx-plaform.git"
+edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/ironwood-rg/edx-platform.git"
 edx_platform_version: "CHANGE-ME-TO-TAG"
 edx_ansible_source_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/ironwood-rg/configuration.git"
 configuration_version: "ironwood-rg"
