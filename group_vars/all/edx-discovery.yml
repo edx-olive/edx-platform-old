@@ -1,5 +1,5 @@
 ---
-SANDBOX_ENABLE_DISCOVERY: true
+COMMON_ENABLE_DISCOVERY: True
 
 DISCOVERY_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://discovery-ironwood.raccoongang.com"
 

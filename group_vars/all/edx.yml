@@ -1,5 +1,4 @@
 ---
-SANDBOX_ENABLE_RABBITMQ: true
 JOURNALS_ENABLED: false
 
 EDXAPP_PLATFORM_NAME: "RG Ironwood RC"
@@ -90,3 +89,9 @@ EDXAPP_LOGIN_REDIRECT_WHITELIST:
   - "{{ EDXAPP_LMS_BASE }}"
   - "{{ EDXAPP_CMS_BASE }}"
   - "{{ EDXAPP_PREVIEW_LMS_BASE }}"
+
+edx_django_service_superuser_username: "staff"
+edx_django_service_superuser_email: "staff@example.com"
+edx_django_service_superuser_password: "{{ EDXAPP_STAFF_PASSWORD }}"
+
+EDXAPP_REINDEX_ALL_COURSES: true
