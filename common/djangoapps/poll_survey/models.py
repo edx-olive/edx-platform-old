@@ -56,7 +56,7 @@ class QuestionBase(TimeStampedModel):
     is_default = models.BooleanField(default=True)
     course = CourseKeyField(max_length=255, blank=True, null=True,
                             help_text="Course location id e.g. 'course-v1:RF+CS101+2019_T1'")
-    text = models.CharField(max_length=255)
+    text = models.CharField(max_length=512)
 
     class Meta:
         abstract = True
@@ -288,7 +288,7 @@ class OpenEndedSurveySubmission(SubmissionBase):
     """Open Ended Survey submission model."""
 
     question = models.ForeignKey(OpenEndedSurveyQuestion)
-    answer_text = models.TextField(max_length=200)
+    answer_text = models.CharField(max_length=200)
 
     def __unicode__(self):  # NOQA
         return "OpenEndedSurveySubmission #{!s}".format(self.id)
