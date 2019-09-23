@@ -1,5 +1,6 @@
 stages:
     - deploy
+    - deploy-stage
 
 deploy-dev:
     stage: deploy
@@ -11,3 +12,12 @@ deploy-dev:
         - ansible-playbook dev.yml
     only:
         - master
+
+deploy-stage:
+    stage: deploy-stage
+    extends: deploy-dev
+    script:
+        - ansible-playbook stage.yml
+    only:
+        - tags
+    when: manual
