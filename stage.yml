@@ -1,0 +1,6 @@
+- name: Deploy a full stack Edx
+  hosts: ironwood-rg-stage
+  become: true
+
+  roles:
+    - role: rg-edx-single
