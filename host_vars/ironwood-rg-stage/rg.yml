@@ -1,0 +1,3 @@
+---
+project_environment: "stage"
+cloud_provider: "KVM"

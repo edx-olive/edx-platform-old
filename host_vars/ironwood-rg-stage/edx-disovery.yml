@@ -1,0 +1,2 @@
+---
+DISCOVERY_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://discovery-staging-ironwood.raccoongang.com"
