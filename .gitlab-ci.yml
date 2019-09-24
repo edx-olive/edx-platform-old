@@ -17,7 +17,10 @@ deploy-stage:
     stage: deploy-stage
     extends: deploy-dev
     script:
-        - ansible-playbook stage.yml
+      - ansible-playbook stage.yml
+    environment:
+      name: stage
+      url: https://lms-staging-ironwood.raccoongang.com/
     only:
-        - tags
+      - tags
     when: manual

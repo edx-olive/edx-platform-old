@@ -1,5 +1,5 @@
 ---
-edx_platform_version: v0.0.1
+edx_platform_version: v0.0.2
 EDXAPP_SITE_NAME: "lms-staging-ironwood.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-staging-ironwood.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-staging-ironwood.raccoongang.com"
