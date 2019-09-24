@@ -16,3 +16,17 @@ rggrpc_enabled: False
 
 use_raccoongang_ssl: yes
 nginx_ssl: yes
+
+NGINX_ADDITIONAL_SERVICES_CONFIG:
+  - name: discovery
+    server_name: "{{ DISCOVERY_DOMAIN }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT }}"
+    nginx_ssl_certificate_path: /etc/nginx/ssl/raccoongang-ssl.crt
+    nginx_ssl_certificate_key_path: /etc/nginx/ssl/raccoongang-ssl.key
+  - name: credentials
+    server_name: "{{ CREDENTIALS_DOMAIN }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT }}"
+    nginx_ssl_certificate_path: /etc/nginx/ssl/raccoongang-ssl.crt
+    nginx_ssl_certificate_key_path: /etc/nginx/ssl/raccoongang-ssl.key

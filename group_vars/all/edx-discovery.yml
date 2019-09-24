@@ -1,7 +1,8 @@
 ---
 COMMON_ENABLE_DISCOVERY: True
 
-DISCOVERY_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://discovery-ironwood.raccoongang.com"
+DISCOVERY_DOMAIN: 'discovery-ironwood.raccoongang.com'
+DISCOVERY_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ DISCOVERY_DOMAIN }}"
 
 DISCOVERY_MEMCACHE: "{{ EDXAPP_MEMCACHE }}"
 DISCOVERY_VERSION: 'open-release/hawthorn.2'
