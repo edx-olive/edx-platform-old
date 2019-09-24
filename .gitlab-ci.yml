@@ -8,6 +8,9 @@ deploy-dev:
     variables:
         ANSIBLE_SSH_KEY: $JENKINS_DEPLOY_KEY
         ANSIBLE_VAULT_KEY: $DEVOPS_VAULT_KEY
+    environment:
+      name: dev
+      url: https://lms-dev-ironwood.raccoongang.com/
     script:
         - ansible-playbook dev.yml
     only:
