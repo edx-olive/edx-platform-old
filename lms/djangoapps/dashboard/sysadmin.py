@@ -16,8 +16,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.html import escape
@@ -28,12 +29,14 @@ from django.views.decorators.http import condition
 from django.views.generic.base import TemplateView
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
-from opaque_keys.edx.keys import CourseKey
 from path import Path as path
 
 import dashboard.git_import as git_import
 import track.views
 from courseware.courses import get_course_by_id
+from dashboard.background_download.tasks_managers import PollsMigrationTaskManager
+from dashboard.background_download.io_utils import cleanup_directory_files, fetch_csv_data, get_latest_user_file
+from dashboard.tasks import export_poll_survey_csv_data
 from dashboard.git_import import GitImportError
 from dashboard.models import CourseImportLog
 from edxmako.shortcuts import render_to_response
@@ -693,7 +696,11 @@ class GitLogs(TemplateView):
 
 
 class PollSurvey(SysadminDashboardView):
-    """Provide for downloading `poll_survey` data as reports."""
+    """
+    Provide for downloading `poll_survey` data as reports.
+
+    AMAT customization.
+    """
 
     def get(self, request):
         """Displays `poll_survey` reports options."""
@@ -701,102 +708,69 @@ class PollSurvey(SysadminDashboardView):
         if not request.user.is_staff:
             raise Http404
 
+        csv_filepath = get_latest_user_file(
+            dir_path=settings.POLL_SURVEY_SUBMISSIONS_DIR,
+            user_id=request.user.id
+        )
+        tmp_filepath = get_latest_user_file(
+            dir_path=settings.POLL_SURVEY_SUBMISSIONS_DIR,
+            user_id=request.user.id,
+            extension="tmp"
+        )
+        if not csv_filepath and tmp_filepath:  # Although we never have both
+            self.msg = "The report generation process has been started and might take a while. " \
+                       "Please reload a page. " \
+                       "The download button will be displayed once the report is ready."
         context = {
             'courses': [course.id.to_deprecated_string() for course in self.get_courses()],
             'djangopid': os.getpid(),
             'modeflag': {'poll_survey': 'active-section'},
             'edx_platform_version': getattr(settings, 'EDX_PLATFORM_VERSION_STRING', ''),
+            'msg': self.msg,
+            'ready_to_download': True if csv_filepath else False,
+            'nothing_in_progress': False if tmp_filepath else True,
         }
         return render_to_response(self.template_name, context)
 
     def post(self, request):
         """Handle all actions from the poll_survey view"""
         action = request.POST.get('action', '')
-        course_id = request.POST.get('course', '')
+        courses_ids = [request.POST.get("course")] if request.POST.get("course") else []
 
         # Check if analytics can make use of this, enable tracking if so
         # track.views.server_track(request, action, {},
         #                          page='pollsurvey_sysdashboard')
 
-        if action == 'get_poll_survey_submissions_csv':
-            data = self._fetch_poll_submissions_data(course_id) + \
-                self._fetch_survey_submissions_data(course_id) + \
-                self._fetch_open_ended_survey_submissions_data(course_id)
+        if action == 'export_poll_survey_submissions_csv':
+            tmp_filepath = get_latest_user_file(
+                dir_path=settings.POLL_SURVEY_SUBMISSIONS_DIR,
+                user_id=request.user.id,
+                extension="tmp"
+            )
+            if tmp_filepath:
+                # Normally, users don't get here from GUI
+                return HttpResponseRedirect(reverse("sysadmin_poll_survey"))
+            else:
+                task_processor = PollsMigrationTaskManager(task=export_poll_survey_csv_data)
+                data = {
+                    "user_id": request.user.id,
+                    "courses_ids": courses_ids
+                }
+                task_processor.run(**data)
+                return HttpResponseRedirect(reverse("sysadmin_poll_survey"))
 
-            header = [
-                _('poll_type'),
-                _('course'), _('student_id'),
-                _('question_id'), _('question_text'),
-                _('answer_id'), _('answer_text'),
-            ]
-
-            return self.return_csv('poll_survey_submissions_{0}.csv'.format(
-                request.META['SERVER_NAME']), header, data)
-
-        return self.get(request)
-
-    def _fetch_poll_submissions_data(self, course_id=None):
-        """Prepare poll submissions data."""
-        # Importing here since we rely on a custom `poll_survey` Django app
-        from poll_survey.models import PollSubmission
-        data = []
-        submissions = PollSubmission.objects.filter(course=CourseKey.from_string(course_id)) if course_id \
-            else PollSubmission.objects.all()
-        for s in submissions:
-            data.append(self._prepare_submission_datum(s, poll_type="poll"))
-        return data
-
-    def _fetch_survey_submissions_data(self, course_id=None):
-        """Prepare survey submissions data."""
-        # Importing here since we rely on a custom `poll_survey` Django app
-        from poll_survey.models import SurveySubmission
-        data = []
-        submissions = SurveySubmission.objects.filter(course=CourseKey.from_string(course_id))  if course_id \
-            else SurveySubmission.objects.all()
-        for s in submissions:
-            data.append(self._prepare_submission_datum(s, poll_type="survey"))
-        return data
-
-    def _fetch_open_ended_survey_submissions_data(self, course_id=None):
-        """Prepare open ended survey submissions data."""
-        # Importing here since we rely on a custom `poll_survey` Django app
-        from poll_survey.models import OpenEndedSurveySubmission
-        data = []
-        submissions = OpenEndedSurveySubmission.objects.filter(course=CourseKey.from_string(course_id)) \
-            if course_id else OpenEndedSurveySubmission.objects.all()
-        for s in submissions:
-            data.append(self._prepare_submission_datum(s, poll_type="open_ended_survey"))
-        return data
-
-    @staticmethod
-    def _prepare_submission_datum(submission, poll_type):
-        """
-        Wrap up submission datum for reports.
-
-        Arguments:
-            submission (`poll_survey.models.PollSubmission` |
-                `poll_survey.models.SurveySubmission` |
-                `poll_survey.models.OpenEndedSubmission` obj)
-            poll_type (str): particular poll type.
-        Returns:
-            data (list | None): data expected for reports.
-
-        """
-        if poll_type not in ["poll", "survey", "open_ended_survey"]:
-            raise ValueError("Provide a correct 'poll_type'.")
-        try:
-            answer_id = submission.answer.id if getattr(submission, "answer", None) else "-"
-            # For open_ended, there'll be `submission.answer_text` instead of submission's answer.id and answer.text
-            answer_text = submission.answer.text if getattr(submission, "answer", None) else submission.answer_text
-            return [
-                poll_type,
-                submission.course,
-                submission.student.id,
-                submission.question.id,
-                submission.question.text,
-                answer_id,
-                answer_text
-            ]
-        except AttributeError:
-            # Not sure of this scenario. It's quite improbable...
-            return [poll_type, "", "", "", "", "", ""]
+        elif action == 'download_poll_survey_submissions_csv':
+            filepath = get_latest_user_file(
+                dir_path=settings.POLL_SURVEY_SUBMISSIONS_DIR,
+                user_id=request.user.id
+            )
+            if filepath:
+                response = HttpResponse(fetch_csv_data(filepath), content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename={0}'\
+                    .format(os.path.basename(filepath))
+                # A user should be able to only download the report once
+                cleanup_directory_files(dir_path=settings.POLL_SURVEY_SUBMISSIONS_DIR, user_id=request.user.id)
+                self.msg = ""
+                return response
+            else:
+                return HttpResponseRedirect(reverse("sysadmin_poll_survey"))

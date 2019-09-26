@@ -53,6 +53,7 @@ class Command(BaseCommand):
         make_option("--submission_date_to",
                     dest="submission_date_to",
                     type="string",
+                    # TODO make it required - here and for polls (should be explicit)
                     default=SUBMISSION_DATE_TO,
                     help="Student submissions date to fetch entries TO. Format: YYYY-MM-DD, e.g. '2019-09-13'"),
         make_option("--from_pk",
@@ -96,7 +97,7 @@ class Command(BaseCommand):
         """
         print("Processing historical surveys...")
         exclude_ids = options.get("exclude_ids")
-        courses_ids = [CourseKey.from_string(k) for k in options.get("courses_ids")] \
+        courses_ids = [CourseKey.from_string(k.strip()) for k in options.get("courses_ids")] \
             if options.get("courses_ids") else None
         chunk_size = options.get("chunk_size")
         from_pk = options.get("from_pk")
@@ -178,6 +179,7 @@ class Command(BaseCommand):
         if measure and processed_subs_counter:
             print("\n\n\nAverage processing time for one submission_entry (out of {!s} entries): {!s} microseconds."
                   .format(processed_subs_counter, float(sub_processing_time / processed_subs_counter)))
+        print("============= THE END. =============")
 
     @staticmethod
     def _get_submissions_data(submission_state):
