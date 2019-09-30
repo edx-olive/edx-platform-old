@@ -87,7 +87,7 @@ class Command(BaseCommand):
         print("Processing historical polls...")
 
         exclude_ids = options.get("exclude_ids")
-        courses_ids = [CourseKey.from_string(k) for k in options.get("courses_ids")] \
+        courses_ids = [CourseKey.from_string(k.strip()) for k in options.get("courses_ids")] \
             if options.get("courses_ids") else None
         chunk_size = options.get("chunk_size")
         from_pk = options.get("from_pk")
@@ -155,6 +155,7 @@ class Command(BaseCommand):
                 print("Latest processed submission entry id - {!s}, submission date - {!s}"
                       .format(submission_entry.id, submission_entry.created))
                 print("Current offset: {!s}".format(offset))
+        print("============= THE END. =============")
 
     @staticmethod
     def _get_submission_data(submission_state):
