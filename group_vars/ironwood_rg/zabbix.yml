@@ -1,0 +1,9 @@
+---
+# overrides for configuration:inventory/group_vars/all/zabbix.yml
+
+COMMON_ENABLE_ZABBIX: False
+
+# Default, OnSupport, Strong, VIP
+rg_support_package: "Default"
+zabbix_enabled: "{{ COMMON_ENABLE_ZABBIX }}"
+zabbix_force_in_maintenance: False

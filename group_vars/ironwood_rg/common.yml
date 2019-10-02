@@ -1,0 +1,4 @@
+---
+# overrides for configuration:inventory/group_vars/all/common.yml
+
+COMMON_ENVIRONMENT: "{{ project_environment }}"
