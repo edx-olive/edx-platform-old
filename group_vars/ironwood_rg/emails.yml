@@ -1,0 +1,16 @@
+---
+
+COMMON_EMAIL_BACKEND: 'django.core.mail.backends.smtp.EmailBackend'
+COMMON_EMAIL_HOST: 'localhost'
+COMMON_EMAIL_HOST_USER: "{{ COMMON_EMAIL_HOST_USER_VAULT }}"
+COMMON_EMAIL_HOST_PASSWORD: "{{ COMMON_EMAIL_HOST_PASSWORD_VAULT }}"
+# WARNING when changing port please replace all *_PORT variables below
+# TODO: find the way how to pass integer value into json results of ansible template module
+COMMON_EMAIL_PORT: 25
+COMMON_EMAIL_USE_TLS: False
+COMMON_DEFAULT_FROM_EMAIL: 'mail@example.com'
+
+EDXAPP_EMAIL_PORT: 25
+INSIGHTS_EMAIL_PORT: 25
+DISCOVERY_EMAIL_PORT: 25
+NOTIFIER_EMAIL_PORT: 25

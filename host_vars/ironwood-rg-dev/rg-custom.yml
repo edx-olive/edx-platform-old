@@ -1,4 +1,0 @@
----
-project_environment: "dev"
-cloud_provider: "KVM"
-sentry_enabled: True

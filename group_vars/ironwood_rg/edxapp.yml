@@ -1,0 +1,53 @@
+---
+EDXAPP_PLATFORM_NAME: "RG Ironwood RC"
+EDXAPP_LANG: "en_US.UTF-8"
+EDXAPP_LANGUAGE_CODE: "en"
+EDXAPP_TIME_ZONE: "Europe/Dublin"
+
+EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
+EDXAPP_SITE_NAME: "lms-ironwood.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-ironwood.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-ironwood.raccoongang.com"
+EDXAPP_LMS_SITE_NAME: "{{ EDXAPP_SITE_NAME }}"
+EDXAPP_LMS_BASE: "{{ EDXAPP_SITE_NAME }}"
+EDXAPP_CMS_BASE: "{{ EDXAPP_CMS_SITE_NAME }}"
+
+COMMON_HOSTNAME: "{{ EDXAPP_SITE_NAME }}"
+RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
+
+EDXAPP_LMS_BASE_SCHEME: "{{ 'https' if nginx_ssl else 'http' }}"
+EDXAPP_LMS_ROOT_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
+
+EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
+
+EDXAPP_USE_GIT_IDENTITY: True
+# TODO unificated repositories structures
+edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/ironwood-rg/edx-platform.git"
+edx_platform_version: "CHANGE-ME-TO-TAG"
+edx_ansible_source_repo: "https://gitlab.raccoongang.com/edx/configuration/configuration-ironwood-rg.git"
+configuration_version: "master"
+
+EDXAPP_GRADE_STORAGE_TYPE_LOCAL: true
+EDXAPP_GRADE_STORAGE_TYPE: ''
+EDXAPP_GRADE_STORAGE_CLASS: "django.core.files.storage.FileSystemStorage"
+EDXAPP_GRADE_ROOT_PATH: "{{ edxapp_media_dir }}/grades"
+EDXAPP_GRADE_STORAGE_KWARGS:
+  base_url: "{{ EDXAPP_MEDIA_URL }}/grades"
+  location: "{{ edxapp_media_dir }}/grades"
+
+EDXAPP_FEATURES_OVERRIDE:
+  RG_DELETE_RETIRED: "{{ COMMON_ENABLE_ACCOUNT_DELETION }}"
+
+EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
+
+ELASTICSEARCH_CLUSTERED: False
+
+EDXAPP_ENV_EXTRA:
+  EDXAPP_THIRD_PARTY_AUTH_BACKENDS:
+    - "social_core.backends.google.GoogleOAuth2"
+    - "social_core.backends.linkedin.LinkedinOAuth2"
+    - "social_core.backends.facebook.FacebookOAuth2"
+    - "social_core.backends.azuread.AzureADOAuth2"
+    - "social_core.backends.vk.VKOAuth2"
+    - "third_party_auth.saml.SAMLAuthBackend"
+    - "third_party_auth.lti.LTIAuthBackend"

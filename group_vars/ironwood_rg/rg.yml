@@ -1,32 +1,26 @@
 ---
-project_team: "Duck-Team"
-project_environment: "prod"
-project_name: "ironwood-rg"
-project_support_package: "Default"
-cloud_provider: "KVM"
-tenancy_type: "single"
-region_location: ""
-ora_host: ""
+project_environment: 'production'
+project_team: 'Duck-Team'
+project_name: 'ironwood'
+project_support_package: 'Default'
+cloud_provider: 'KVM'
+tenancy_type: 'single'
+region_location: ''
 
-sentry_enabled: True
-COMMON_RG_SENTRY_ENVIRONMENT: "{{ project_environment }}"
-
-filebeat_enabled: False
-rggrpc_enabled: False
-
+# TODO refactor roles/nginx, remove roles/rg-nginx
 use_raccoongang_ssl: yes
 nginx_ssl: yes
 
-NGINX_ADDITIONAL_SERVICES_CONFIG:
-  - name: discovery
-    server_name: "{{ DISCOVERY_DOMAIN }}"
-    nginx_port: 443
-    nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT }}"
-    nginx_ssl_certificate_path: /etc/nginx/ssl/raccoongang-ssl.crt
-    nginx_ssl_certificate_key_path: /etc/nginx/ssl/raccoongang-ssl.key
-  - name: credentials
-    server_name: "{{ CREDENTIALS_DOMAIN }}"
-    nginx_port: 443
-    nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT }}"
-    nginx_ssl_certificate_path: /etc/nginx/ssl/raccoongang-ssl.crt
-    nginx_ssl_certificate_key_path: /etc/nginx/ssl/raccoongang-ssl.key
+# NGINX_ADDITIONAL_SERVICES_CONFIG:
+#   - name: discovery
+#     server_name: "{{ DISCOVERY_DOMAIN | default('discovery.example.com') }}"
+#     nginx_port: 443
+#     nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
+#     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+#     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+#   - name: credentials
+#     server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.example.com') }}"
+#     nginx_port: 443
+#     nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
+#     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+#     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'

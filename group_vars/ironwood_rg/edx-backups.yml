@@ -1,3 +1,0 @@
----
-backup_enabled: "False"
-backup_cron_schedule: "1 3 * * *"

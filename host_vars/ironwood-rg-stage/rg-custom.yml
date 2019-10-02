@@ -1,4 +1,0 @@
----
-project_environment: "stage"
-cloud_provider: "KVM"
-sentry_enabled: True
