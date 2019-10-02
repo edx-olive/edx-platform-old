@@ -11,16 +11,16 @@ region_location: ''
 use_raccoongang_ssl: yes
 nginx_ssl: yes
 
-# NGINX_ADDITIONAL_SERVICES_CONFIG:
-#   - name: discovery
-#     server_name: "{{ DISCOVERY_DOMAIN | default('discovery.example.com') }}"
-#     nginx_port: 443
-#     nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
-#     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
-#     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
-#   - name: credentials
-#     server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.example.com') }}"
-#     nginx_port: 443
-#     nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
-#     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
-#     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+NGINX_ADDITIONAL_SERVICES_CONFIG:
+  - name: discovery
+    server_name: "{{ DISCOVERY_DOMAIN | default('discovery.example.com') }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+  - name: credentials
+    server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.example.com') }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
