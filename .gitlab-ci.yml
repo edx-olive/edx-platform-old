@@ -15,16 +15,20 @@ deploy-dev:
         - ansible-playbook dev.yml
     only:
         - master
+    except:
+        - tags
 
 deploy-stage:
     stage: deploy-stage
     extends: deploy-dev
-    image: registry-gitlab.raccoongang.com/edx/configuration/configuration-ironwood-rg:ironwood-rg-v0-0-1
+    image: registry-gitlab.raccoongang.com/edx/configuration/configuration-ironwood-rg:ironwood-rg-v0-0-2
     script:
       - ansible-playbook stage.yml
     environment:
       name: stage
       url: https://lms-staging-ironwood.raccoongang.com/
-    only:
-      - tags
     when: manual
+    only:
+      - /^ironwood-rg-stage-v[0-9]+$/
+    except:
+      - branches
