@@ -3,11 +3,3 @@ edx_platform_version: "master"
 EDXAPP_SITE_NAME: "lms-dev-ironwood.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-dev-ironwood.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-dev-ironwood.raccoongang.com"
-
-EDXAPP_WORKERS:
-  lms: 3
-  cms: 2
-EDXAPP_LMS_MAX_REQ: 100
-EDXAPP_CMS_MAX_REQ: 50
-EDXAPP_LMS_GUNICORN_EXTRA_CONF: "max_requests_jitter = 10"
-EDXAPP_CMS_GUNICORN_EXTRA_CONF: "max_requests_jitter = 5"
