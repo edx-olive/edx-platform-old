@@ -1,4 +1,2 @@
 ---
-COMMON_ENABLE_DISCOVERY: True
-
 DISCOVERY_DOMAIN: 'discovery-ironwood.raccoongang.com'
