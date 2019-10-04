@@ -29,6 +29,6 @@ deploy-stage:
       url: https://lms-staging-ironwood.raccoongang.com/
     when: manual
     only:
-      - /^ironwood-rg-stage-v[0-9]+$/
+      - /^ironwood-rg-stage-v[0-9]+\.[0-9]+\.[0-9]+$/
     except:
       - branches
