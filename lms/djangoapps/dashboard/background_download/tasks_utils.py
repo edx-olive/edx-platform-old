@@ -11,7 +11,15 @@ from dashboard.background_download.data_utils import (
     define_subs_size,
     fetch_submissions,
     prepare_course_ids,
-    prepare_submission_datum
+    prepare_submission_datum,
+)
+from poll_survey.configs import (
+    COURSE_QUALITY_SURVEY_NAME,
+    OPEN_ENDED_SURVEY_NAME,
+    POST_COURSE_SURVEY_NAME,
+    PRE_COURSE_SURVEY_NAME,
+    REGULAR_POLL_NAME,
+    REGULAR_SURVEY_NAME,
 )
 
 log = logging.getLogger('edx.celery.task')
@@ -26,11 +34,17 @@ def export_all_polls_submissions(filename, chunk_size, courses_ids, user_id):
     # To keep the filesystem clean, clean up the dir on a per-user basis.
     cleanup_directory_files(dir_path=settings.POLL_SURVEY_SUBMISSIONS_DIR, user_id=user_id)
 
-    export_polls_submissions(poll_type="poll", filename=filename,
+    export_polls_submissions(poll_type=REGULAR_POLL_NAME, filename=filename,
                              chunk_size=chunk_size, courses_ids=courses_ids)
-    export_polls_submissions(poll_type="survey", filename=filename,
+    export_polls_submissions(poll_type=REGULAR_SURVEY_NAME, filename=filename,
                              chunk_size=chunk_size, courses_ids=courses_ids, store_header=False)
-    export_polls_submissions(poll_type="open_ended_survey", filename=filename,
+    export_polls_submissions(poll_type=OPEN_ENDED_SURVEY_NAME, filename=filename,
+                             chunk_size=chunk_size, courses_ids=courses_ids, store_header=False)
+    export_polls_submissions(poll_type=PRE_COURSE_SURVEY_NAME, filename=filename,
+                             chunk_size=chunk_size, courses_ids=courses_ids, store_header=False)
+    export_polls_submissions(poll_type=POST_COURSE_SURVEY_NAME, filename=filename,
+                             chunk_size=chunk_size, courses_ids=courses_ids, store_header=False)
+    export_polls_submissions(poll_type=COURSE_QUALITY_SURVEY_NAME, filename=filename,
                              chunk_size=chunk_size, courses_ids=courses_ids, store_header=False,
                              rename_from_temp=True)
 

@@ -4,6 +4,12 @@ import logging
 
 from opaque_keys.edx.keys import CourseKey
 
+from poll_survey.configs import (
+    ALLOWED_POLLS_NAMES,
+    POLLS_SUBMISSIONS_MAPPING,
+)
+
+
 log = logging.getLogger('edx.celery.task')
 
 
@@ -41,7 +47,7 @@ def prepare_submission_datum(submission, **kwargs):
 
 
 def validate_poll_type(poll_type):
-    if poll_type not in ["poll", "survey", "open_ended_survey"]:
+    if poll_type not in ALLOWED_POLLS_NAMES:
         raise ValueError("Provide a correct 'poll_type'.")
 
 
@@ -54,17 +60,12 @@ def prepare_course_ids(courses_ids):
 
 
 def define_subs_class(poll_type):
-    if poll_type == "poll":
-        from poll_survey.models import PollSubmission
-        return PollSubmission
-    elif poll_type == "survey":
-        from poll_survey.models import SurveySubmission
-        return SurveySubmission
-    elif poll_type == "open_ended_survey":
-        from poll_survey.models import OpenEndedSurveySubmission
-        return OpenEndedSurveySubmission
-    else:
+    if poll_type not in ALLOWED_POLLS_NAMES:
         raise ValueError("Please provide a valid poll_type.")
+    subs_class = POLLS_SUBMISSIONS_MAPPING.get(poll_type)
+    if not subs_class:
+        raise ValueError("Update `POLLS_SUBMISSIONS_MAPPING` and/or 'ALLOWED_POLLS_NAMES'.")
+    return subs_class
 
 
 def define_subs_size(courses_ids, subs_model_class):

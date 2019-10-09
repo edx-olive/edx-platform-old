@@ -14,6 +14,17 @@ from xmodule.tabs import StaticTab
 from xmodule.x_module import DEPRECATION_VSCOMPAT_EVENT
 
 from contentstore.views.helpers import create_xblock, usage_key_with_run
+from poll_survey.configs import (
+    ALLOWED_POLLS_NAMES,
+    COURSE_QUALITY_SURVEY_NAME,
+    OPEN_ENDED_SURVEY_NAME,
+    POST_COURSE_SURVEY_NAME,
+    PRE_COURSE_SURVEY_NAME,
+    REGULAR_POLL_NAME,
+    REGULAR_SURVEY_NAME,
+)
+from poll_survey.models import SurveyPollCommonsection
+
 from util.json_request import JsonResponse
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -149,18 +160,20 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
                 if unit.has_key('xblocks'):
                     for xblock in unit['xblocks']:
                         xblock_parent = None
-                        if xblock["type"] == "survey" \
-                                or xblock["type"] == "poll" \
-                                or xblock["type"] == "open_ended_survey":
-                            # Importing here since we rely on a custom `poll_survey` Django app
-                            from poll_survey.models import SurveyPollCommonsection
+                        if xblock["type"] in ALLOWED_POLLS_NAMES:
                             commonsection_settings = SurveyPollCommonsection.objects.all().last()
                             if commonsection_settings:
-                                if (xblock["type"] == "survey" and commonsection_settings.contains_survey) \
-                                        or (xblock["type"] == "poll"
+                                if (xblock["type"] == REGULAR_SURVEY_NAME and commonsection_settings.contains_survey) \
+                                        or (xblock["type"] == REGULAR_POLL_NAME
                                             and commonsection_settings.contains_poll) \
-                                        or (xblock["type"] == "open_ended_survey"
-                                            and commonsection_settings.contains_open_ended_survey):
+                                        or (xblock["type"] == OPEN_ENDED_SURVEY_NAME
+                                            and commonsection_settings.contains_open_ended_survey) \
+                                        or (xblock["type"] == PRE_COURSE_SURVEY_NAME
+                                            and commonsection_settings.contains_pre_course_survey) \
+                                        or (xblock["type"] == POST_COURSE_SURVEY_NAME
+                                            and commonsection_settings.contains_post_course_survey) \
+                                        or (xblock["type"] == COURSE_QUALITY_SURVEY_NAME
+                                            and commonsection_settings.contains_course_quality_survey):
                                     # We apply hardcoded defaults if no poll template was created.
                                     # Ref.: `xblock-poll.poll.poll_survey_storing.defaults.
                                     xblock_parent = create_section(unicode(vertical_parent.location),
