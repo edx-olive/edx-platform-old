@@ -37,6 +37,13 @@ EDXAPP_GRADE_STORAGE_KWARGS:
 
 EDXAPP_FEATURES_OVERRIDE:
   RG_DELETE_RETIRED: "{{ COMMON_ENABLE_ACCOUNT_DELETION }}"
+  ENABLE_XBLOCK_VIEW_ENDPOINT: true
+  ENABLE_RG_INSTRUCTOR_ANALYTICS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
+  RG_ANALYTICS_GRADE_CRON_MINUTE: '*/15'
+  RG_ANALYTICS_GRADE_CRON_HOUR: '*'
+  RG_ANALYTICS_GRADE_CRON_DOM: '*'
+  RG_ANALYTICS_GRADE_CRON_DOW: '*'
+  RG_ANALYTICS_GRADE_CRON_MONTH: '*'
 
 EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
 
@@ -51,3 +58,16 @@ EDXAPP_ENV_EXTRA:
     - "social_core.backends.vk.VKOAuth2"
     - "third_party_auth.saml.SAMLAuthBackend"
     - "third_party_auth.lti.LTIAuthBackend"
+
+# rg_analytics
+EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics_log_collector']
+
+analytics_log_watcher_sleep_time: 1200
+analytics_processors_aliases: "enrollment video_views discussion student_step course_activity"
+analytics_processors_sleep_time: 1200
+
+EDXAPP_EXTRA_REQUIREMENTS:
+  - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics@v2.2.1#egg=rg_instructor_analytics'
+    extra_args: '-e'
+  - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics-log-collector@v2.2.1#egg=rg_instructor_analytics_log_collector'
+    extra_args: '-e'
