@@ -1,6 +1,6 @@
 ---
 edxapp_theme_version: 'master'
-edxapp_theme_source_repo: 'https://gitlab.raccoongang.com/edx/theme/base-theme-ironwood.git'
+edxapp_theme_source_repo: 'git@gitlab.raccoongang.com:Duck-Team/projects/ironwood-rg/base-theme-ironwood.git'
 edxapp_theme_name: 'base-theme-ironwood'
 EDXAPP_COMPREHENSIVE_THEME_DIRS:  [ '/edx/app/edxapp/themes' ]
 EDXAPP_DEFAULT_SITE_THEME: "{{ edxapp_theme_name }}"
