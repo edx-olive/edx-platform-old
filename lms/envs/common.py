@@ -2553,6 +2553,9 @@ GRADES_DOWNLOAD = {
 
 # AMAT customizations
 GITHUB_REPO_ROOT = ENV_ROOT / "data"
+# TODO user `MEDIA_ROOT` instead (`GITHUB_REPO_ROOT` contains clonned repos of courses
+#  imported via /sysadmin/courses, and third-party modifications can break
+#  the "Load new course from GitHub" functionality).
 POLL_SURVEY_SUBMISSIONS_DIR = GITHUB_REPO_ROOT / "poll_survey_submissions"
 
 FINANCIAL_REPORTS = {

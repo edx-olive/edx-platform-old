@@ -115,7 +115,7 @@ class OpenEndedSurveyQuestion(QuestionBase):
             raise ValidationError({'image_url': 'Please indicate the image alt text.'})
 
 
-class SurveyQuestionAnswerLink(TimeStampedModel):
+class BaseQuestionAnswerLink(TimeStampedModel):
     """
     Intermediary model to keep question-answer relations.
 
@@ -125,21 +125,17 @@ class SurveyQuestionAnswerLink(TimeStampedModel):
     """
 
     MIN_ORDER = 1
+    # Django field to be defined in derived models
+    question = None
 
-    question = models.ForeignKey(SurveyQuestion)
-    answer = models.ForeignKey(SurveyAnswerOption)
     order = models.IntegerField(null=True, blank=True)
 
     class Meta:
+        abstract = True
         ordering = ("order",)
 
     def __unicode__(self):  # NOQA
         return "Question-Answer Link #{!s}".format(self.id)
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        self.set_order()
-        super(SurveyQuestionAnswerLink, self).save(force_insert, force_update, using, update_fields)
 
     def set_order(self):
         """Set the order id."""
@@ -150,38 +146,60 @@ class SurveyQuestionAnswerLink(TimeStampedModel):
         self.order = order
 
     def _next_order(self):
-        """Get the next order value for appending a new `SurveyQuestionAnswerLink.order`"""
-        n = self.get_answer_links(self.question).aggregate(Max("order"))["order__max"]
+        """Get the next order value for appending a new order."""
+        if not self.question:
+            raise ValueError("Define the question field of the question-answer model.")
+        n = self._get_answer_links(self.question).aggregate(Max("order"))["order__max"]
         if n is None:
             return self.MIN_ORDER
         else:
             return n + 1
 
-    @staticmethod
-    def get_answer_links(question):
+    def _get_answer_links(self, question):
         """Get ordered entries for a given template. """
-        return SurveyQuestionAnswerLink.objects.filter(question=question).order_by("order")
+        return self.__class__.objects.filter(question=question).order_by("order")
 
     @staticmethod
-    def clean_orders(entries):
+    def clean_orders(klass, question):
         """
         Clean up orders.
 
         Get rid of duplicates, large numbers etc.
 
         Arguments:
-            entries (`SurveyQuestionAnswerLink` objects): entries ordered by `order` field.
+            klass (`BaseQuestionAnswerLink` subclass)
+            question (question obj)
         """
+        # Get ordered answers for a given question (e.g. `SurveyQuestionAnswerLink` objects)
+        entries = klass.objects.filter(question=question).order_by("order")
         if not entries:
             return
         if len(entries) == 1:
             return
-        for i, entry in enumerate(entries, start=SurveyQuestionAnswerLink.MIN_ORDER):
+        for i, entry in enumerate(entries, start=klass.MIN_ORDER):
             if entry.order and i != int(entry.order):
-                SurveyQuestionAnswerLink.objects.filter(id=entry.id).update(order=i)
+                klass.objects.filter(id=entry.id).update(order=i)
 
 
-class PollQuestionAnswerLink(TimeStampedModel):
+class SurveyQuestionAnswerLink(BaseQuestionAnswerLink):
+    """
+    Intermediary model to keep question-answer relations.
+
+    Introduced because standard M2M querying breaks when xblocks'
+    defaults are initialized (see poll xblock `defaults.SurveyDefaults`).
+    Ref.: https://code.djangoproject.com/attachment/ticket/1796
+    """
+
+    question = models.ForeignKey(SurveyQuestion)
+    answer = models.ForeignKey(SurveyAnswerOption)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.set_order()
+        super(SurveyQuestionAnswerLink, self).save(force_insert, force_update, using, update_fields)
+
+
+class PollQuestionAnswerLink(BaseQuestionAnswerLink):
     """
     Intermediary model to keep question-answer relations.
 
@@ -189,61 +207,14 @@ class PollQuestionAnswerLink(TimeStampedModel):
     defaults are initialized (see poll xblock `defaults.PollDefaults`).
     Ref.: https://code.djangoproject.com/attachment/ticket/1796
     """
-    MIN_ORDER = 1
 
     question = models.ForeignKey(PollQuestion)
     answer = models.ForeignKey(PollAnswerOption)
-    order = models.IntegerField(null=True, blank=True)
-
-    class Meta:
-        ordering = ("order",)
-
-    def __unicode__(self):  # NOQA
-        return "Question-Answer Link #{!s}".format(self.id)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.set_order()
         super(PollQuestionAnswerLink, self).save(force_insert, force_update, using, update_fields)
-
-    def set_order(self):
-        """Set the order id."""
-        order = getattr(self, "order", None)
-        if order is None:
-            # e.g. newly created entry w/ order
-            order = self._next_order()
-        self.order = order
-
-    def _next_order(self):
-        """Get the next order value for appending a new `PollQuestionAnswerLink.order`"""
-        n = self.get_answer_links(self.question).aggregate(Max("order"))["order__max"]
-        if n is None:
-            return self.MIN_ORDER
-        else:
-            return n + 1
-
-    @staticmethod
-    def get_answer_links(question):
-        """Get ordered entries for a given template. """
-        return PollQuestionAnswerLink.objects.filter(question=question).order_by("order")
-
-    @staticmethod
-    def clean_orders(entries):
-        """
-        Clean up orders.
-
-        Get rid of duplicates, large numbers etc.
-
-        Arguments:
-            entries (`PollQuestionAnswerLink` objects): entries ordered by `order` field.
-        """
-        if not entries:
-            return
-        if len(entries) == 1:
-            return
-        for i, entry in enumerate(entries, start=PollQuestionAnswerLink.MIN_ORDER):
-            if entry.order and i != int(entry.order):
-                PollQuestionAnswerLink.objects.filter(id=entry.id).update(order=i)
 
 
 class SubmissionBase(TimeStampedModel):
@@ -292,6 +263,36 @@ class OpenEndedSurveySubmission(SubmissionBase):
 
     def __unicode__(self):  # NOQA
         return "OpenEndedSurveySubmission #{!s}".format(self.id)
+
+
+class PreCourseSurveySubmission(SubmissionBase):
+    """Pre-Course Survey submission model."""
+
+    question = models.ForeignKey(SurveyQuestion)
+    answer = models.ForeignKey(SurveyAnswerOption)
+
+    def __unicode__(self):  # NOQA
+        return "PreCourseSurveySubmission #{!s}".format(self.id)
+
+
+class PostCourseSurveySubmission(SubmissionBase):
+    """Post-Course Survey submission model."""
+
+    question = models.ForeignKey(SurveyQuestion)
+    answer = models.ForeignKey(SurveyAnswerOption)
+
+    def __unicode__(self):  # NOQA
+        return "PostCourseSurveySubmission #{!s}".format(self.id)
+
+
+class CourseQualitySurveySubmission(SubmissionBase):
+    """Course Quality Survey submission model."""
+
+    question = models.ForeignKey(SurveyQuestion)
+    answer = models.ForeignKey(SurveyAnswerOption)
+
+    def __unicode__(self):  # NOQA
+        return "CourseQualitySurveySubmission #{!s}".format(self.id)
 
 
 class BaseTemplate(TimeStampedModel):
@@ -368,7 +369,115 @@ class OpenEndedSurveyTemplate(BaseTemplate):
         return "OpenEndedSurveyTemplate #{!s}".format(self.id)
 
 
-class SurveyQuestionTemplateLink(TimeStampedModel):
+class PreCourseSurveyTemplate(BaseTemplate):
+    """
+    Pre-course survey template model.
+
+    Define a survey component default structure.
+
+    A survey can contain multiple questions.
+    """
+
+    questions = models.ManyToManyField(SurveyQuestion, through="PreCourseSurveyQuestionTemplateLink")
+
+    def __unicode__(self):  # NOQA
+        return "PreCourseSurveyTemplate #{!s}".format(self.id)
+
+
+class PostCourseSurveyTemplate(BaseTemplate):
+    """
+    Post-course survey template model.
+
+    Define a survey component default structure.
+
+    A survey can contain multiple questions.
+    """
+
+    questions = models.ManyToManyField(SurveyQuestion, through="PostCourseSurveyQuestionTemplateLink")
+
+    def __unicode__(self):  # NOQA
+        return "PostCourseSurveyTemplate #{!s}".format(self.id)
+
+
+class CourseQualitySurveyTemplate(BaseTemplate):
+    """
+    Course quality survey template model.
+
+    Define a survey component default structure.
+
+    A survey can contain multiple questions.
+    """
+
+    questions = models.ManyToManyField(SurveyQuestion, through="CourseQualitySurveyQuestionTemplateLink")
+
+    def __unicode__(self):  # NOQA
+        return "CourseQualitySurveyTemplate #{!s}".format(self.id)
+
+
+class BaseQuestionTemplateLink(TimeStampedModel):
+    """
+    Abstract intermediary model to keep question-template relations.
+
+    Introduced because standard M2M querying breaks when xblocks'
+    defaults are initialized (see poll xblock `defaults.SurveyDefaults`).
+    Ref.: https://code.djangoproject.com/attachment/ticket/1796
+    """
+
+    MIN_ORDER = 1
+    # Django fields to be defined in subclasses.
+    template = None
+
+    order = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        abstract = True
+        ordering = ("order",)
+
+    def set_order(self):
+        """Set the order id."""
+        order = getattr(self, "order", None)
+        if order is None:
+            # e.g. newly created entry w/ order
+            order = self._next_order()
+        self.order = order
+
+    def _next_order(self):
+        """Get the next order value for appending a new order."""
+        if not self.template:
+            raise ValueError("Define the template field in the question-template link model.")
+        n = self._get_question_links(self.template).aggregate(Max("order"))["order__max"]
+        if n is None:
+            return self.MIN_ORDER
+        else:
+            return n + 1
+
+    def _get_question_links(self, template):
+        """Get ordered entries for a given template. """
+        return self.__class__.objects.filter(template=template).order_by("order")
+
+    @staticmethod
+    def clean_orders(klass, template):
+        """
+        Clean up orders.
+
+        Get rid of duplicates, large numbers etc.
+
+        Arguments:
+            klass (`BaseSurveyQuestionTemplateLink` subclass)
+            template (template obj): particular poll template.
+        """
+        # Get ordered questions for a given template (e.g. `PreCourseSurveyQuestionTemplateLink` objects)
+        entries = klass.objects.filter(template=template).order_by("order")
+        if not entries:
+            return
+        if len(entries) == 1:
+            return
+        for i, entry in enumerate(entries, start=klass.MIN_ORDER):
+            if entry.order and i != int(entry.order):
+                klass.objects.filter(id=entry.id).update(order=i)
+
+
+class SurveyQuestionTemplateLink(BaseQuestionTemplateLink):
     """
     Intermediary model to keep question-template relations.
 
@@ -377,14 +486,8 @@ class SurveyQuestionTemplateLink(TimeStampedModel):
     Ref.: https://code.djangoproject.com/attachment/ticket/1796
     """
 
-    MIN_ORDER = 1
-
     template = models.ForeignKey(SurveyTemplate)
     question = models.ForeignKey(SurveyQuestion)
-    order = models.IntegerField(null=True, blank=True)
-
-    class Meta:
-        ordering = ("order",)
 
     def __unicode__(self):  # NOQA
         return "SurveyQuestionTemplateLink #{!s}".format(self.id)
@@ -401,47 +504,8 @@ class SurveyQuestionTemplateLink(TimeStampedModel):
         self.set_order()
         super(SurveyQuestionTemplateLink, self).save(force_insert, force_update, using, update_fields)
 
-    def set_order(self):
-        """Set the order id."""
-        order = getattr(self, "order", None)
-        if order is None:
-            # e.g. newly created entry w/ order
-            order = self._next_order()
-        self.order = order
 
-    def _next_order(self):
-        """Get the next order value for appending a new `SurveyQuestionTemplateLink.order`"""
-        n = self.get_question_links(self.template).aggregate(Max("order"))["order__max"]
-        if n is None:
-            return self.MIN_ORDER
-        else:
-            return n + 1
-
-    @staticmethod
-    def get_question_links(template):
-        """Get ordered entries for a given template. """
-        return SurveyQuestionTemplateLink.objects.filter(template=template).order_by("order")
-
-    @staticmethod
-    def clean_orders(entries):
-        """
-        Clean up orders.
-
-        Get rid of duplicates, large numbers etc.
-
-        Arguments:
-            entries (`SurveyQuestionTemplateLink` objects): entries ordered by `order` field.
-        """
-        if not entries:
-            return
-        if len(entries) == 1:
-            return
-        for i, entry in enumerate(entries, start=SurveyQuestionTemplateLink.MIN_ORDER):
-            if entry.order and i != int(entry.order):
-                SurveyQuestionTemplateLink.objects.filter(id=entry.id).update(order=i)
-
-
-class OpenEndedSurveyQuestionTemplateLink(TimeStampedModel):
+class OpenEndedSurveyQuestionTemplateLink(BaseQuestionTemplateLink):
     """
     Intermediary model to keep question-template relations.
 
@@ -450,14 +514,8 @@ class OpenEndedSurveyQuestionTemplateLink(TimeStampedModel):
     Ref.: https://code.djangoproject.com/attachment/ticket/1796
     """
 
-    MIN_ORDER = 1
-
     template = models.ForeignKey(OpenEndedSurveyTemplate)
     question = models.ForeignKey(OpenEndedSurveyQuestion)
-    order = models.IntegerField(null=True, blank=True)
-
-    class Meta:
-        ordering = ("order",)
 
     def __unicode__(self):  # NOQA
         return "OpenEndedSurveyQuestionTemplateLink #{!s}".format(self.id)
@@ -475,44 +533,71 @@ class OpenEndedSurveyQuestionTemplateLink(TimeStampedModel):
         self.set_order()
         super(OpenEndedSurveyQuestionTemplateLink, self).save(force_insert, force_update, using, update_fields)
 
-    def set_order(self):
-        """Set the order id."""
-        order = getattr(self, "order", None)
-        if order is None:
-            # e.g. newly created entry w/ order
-            order = self._next_order()
-        self.order = order
 
-    def _next_order(self):
-        """Get the next order value for appending a new `OpenEndedSurveyQuestionTemplateLink.order`"""
-        n = self.get_question_links(self.template).aggregate(Max("order"))["order__max"]
-        if n is None:
-            return self.MIN_ORDER
-        else:
-            return n + 1
+class PreCourseSurveyQuestionTemplateLink(BaseQuestionTemplateLink):
+    """Intermediary model to keep pre-course survey question-template relations."""
 
-    @staticmethod
-    def get_question_links(template):
-        """Get ordered entries for a given template. """
-        return OpenEndedSurveyQuestionTemplateLink.objects.filter(template=template).order_by("order")
+    template = models.ForeignKey(PreCourseSurveyTemplate)
+    question = models.ForeignKey(SurveyQuestion)
 
-    @staticmethod
-    def clean_orders(entries):
-        """
-        Clean up orders.
+    def __unicode__(self):  # NOQA
+        return "PreCourseSurveyQuestionTemplateLink #{!s}".format(self.id)
 
-        Get rid of duplicates, large numbers etc.
+    def clean(self):
+        super(PreCourseSurveyQuestionTemplateLink, self).clean()
+        question = getattr(self, "question", None)
+        if question:
+            if not question.is_default:
+                raise ValidationError({"question": "Only default questions can be stored in a survey template."})
 
-        Arguments:
-            entries (`OpenEndedSurveyQuestionTemplateLink` objects): entries ordered by `order` field.
-        """
-        if not entries:
-            return
-        if len(entries) == 1:
-            return
-        for i, entry in enumerate(entries, start=OpenEndedSurveyQuestionTemplateLink.MIN_ORDER):
-            if entry.order and i != int(entry.order):
-                OpenEndedSurveyQuestionTemplateLink.objects.filter(id=entry.id).update(order=i)
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.set_order()
+        super(PreCourseSurveyQuestionTemplateLink, self).save(force_insert, force_update, using, update_fields)
+
+
+class PostCourseSurveyQuestionTemplateLink(BaseQuestionTemplateLink):
+    """Intermediary model to keep post-course survey question-template relations."""
+
+    template = models.ForeignKey(PostCourseSurveyTemplate)
+    question = models.ForeignKey(SurveyQuestion)
+
+    def __unicode__(self):  # NOQA
+        return "PostCourseSurveyQuestionTemplateLink #{!s}".format(self.id)
+
+    def clean(self):
+        super(PostCourseSurveyQuestionTemplateLink, self).clean()
+        question = getattr(self, "question", None)
+        if question:
+            if not question.is_default:
+                raise ValidationError({"question": "Only default questions can be stored in a survey template."})
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.set_order()
+        super(PostCourseSurveyQuestionTemplateLink, self).save(force_insert, force_update, using, update_fields)
+
+
+class CourseQualitySurveyQuestionTemplateLink(BaseQuestionTemplateLink):
+    """Intermediary model to keep post-course survey question-template relations."""
+
+    template = models.ForeignKey(CourseQualitySurveyTemplate)
+    question = models.ForeignKey(SurveyQuestion)
+
+    def __unicode__(self):  # NOQA
+        return "CourseQualitySurveyQuestionTemplateLink #{!s}".format(self.id)
+
+    def clean(self):
+        super(CourseQualitySurveyQuestionTemplateLink, self).clean()
+        question = getattr(self, "question", None)
+        if question:
+            if not question.is_default:
+                raise ValidationError({"question": "Only default questions can be stored in a survey template."})
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.set_order()
+        super(CourseQualitySurveyQuestionTemplateLink, self).save(force_insert, force_update, using, update_fields)
 
 
 class SurveyPollCommonsection(TimeStampedModel):
@@ -525,6 +610,10 @@ class SurveyPollCommonsection(TimeStampedModel):
     contains_poll = models.BooleanField(default=True)
     contains_survey = models.BooleanField(default=True)
     contains_open_ended_survey = models.BooleanField(default=True)
+    # Dedicated survey xblocks
+    contains_pre_course_survey = models.BooleanField(default=True)
+    contains_post_course_survey = models.BooleanField(default=True)
+    contains_course_quality_survey = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "commonsections"
@@ -533,26 +622,68 @@ class SurveyPollCommonsection(TimeStampedModel):
 @receiver(post_save, sender=OpenEndedSurveyTemplate)
 def cleanup_open_ended_survey_question_template_links(sender, instance, **kwargs):
     """Go over all related template-question links and clean them up."""
-    link_entries = OpenEndedSurveyQuestionTemplateLink.get_question_links(template=instance)
-    OpenEndedSurveyQuestionTemplateLink.clean_orders(entries=link_entries)
+
+    OpenEndedSurveyQuestionTemplateLink.clean_orders(
+        klass=OpenEndedSurveyQuestionTemplateLink,
+        template=instance
+    )
 
 
 @receiver(post_save, sender=SurveyTemplate)
 def cleanup_survey_question_template_links(sender, instance, **kwargs):
     """Go over all related template-question links and clean them up."""
-    link_entries = SurveyQuestionTemplateLink.get_question_links(template=instance)
-    SurveyQuestionTemplateLink.clean_orders(entries=link_entries)
+
+    SurveyQuestionTemplateLink.clean_orders(
+        klass=SurveyQuestionTemplateLink,
+        template=instance
+    )
+
+
+@receiver(post_save, sender=PreCourseSurveyTemplate)
+def cleanup_pre_course_survey_question_template_links(sender, instance, **kwargs):
+    """Go over all related template-question links and clean them up."""
+
+    PreCourseSurveyQuestionTemplateLink.clean_orders(
+        klass=PreCourseSurveyQuestionTemplateLink,
+        template=instance
+    )
+
+
+@receiver(post_save, sender=PostCourseSurveyTemplate)
+def cleanup_post_course_survey_question_template_links(sender, instance, **kwargs):
+    """Go over all related template-question links and clean them up."""
+
+    PostCourseSurveyQuestionTemplateLink.clean_orders(
+        klass=PostCourseSurveyQuestionTemplateLink,
+        template=instance
+    )
+
+
+@receiver(post_save, sender=CourseQualitySurveyTemplate)
+def cleanup_course_quality_survey_question_template_links(sender, instance, **kwargs):
+    """Go over all related template-question links and clean them up."""
+
+    CourseQualitySurveyQuestionTemplateLink.clean_orders(
+        klass=CourseQualitySurveyQuestionTemplateLink,
+        template=instance
+    )
 
 
 @receiver(post_save, sender=PollQuestion)
 def cleanup_open_ended_survey_question_answer_links(sender, instance, **kwargs):
     """Go over all related question-answer links and clean them up."""
-    link_entries = PollQuestionAnswerLink.get_answer_links(question=instance)
-    PollQuestionAnswerLink.clean_orders(entries=link_entries)
+
+    PollQuestionAnswerLink.clean_orders(
+        klass=PollQuestionAnswerLink,
+        question=instance
+    )
 
 
 @receiver(post_save, sender=SurveyQuestion)
 def cleanup_survey_question_answer_links(sender, instance, **kwargs):
     """Go over all related question-answer links and clean them up."""
-    link_entries = SurveyQuestionAnswerLink.get_answer_links(question=instance)
-    SurveyQuestionAnswerLink.clean_orders(entries=link_entries)
+
+    SurveyQuestionAnswerLink.clean_orders(
+        klass=SurveyQuestionAnswerLink,
+        question=instance
+    )

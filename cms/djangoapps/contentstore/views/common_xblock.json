@@ -107,6 +107,18 @@
                      {
                          "display_name": "Open-Ended Survey",
                          "type": "open_ended_survey"
+                     },
+                     {
+                         "display_name": "Pre-Course Survey",
+                         "type": "pre_course_survey"
+                     },
+                     {
+                         "display_name": "Post-Course Survey",
+                         "type": "post_course_survey"
+                     },
+                     {
+                         "display_name": "Course Quality Survey",
+                         "type": "course_quality_survey"
                      }
                 ]
             }]

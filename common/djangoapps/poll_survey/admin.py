@@ -3,6 +3,9 @@
 from django.contrib import admin
 
 from poll_survey.models import (
+    CourseQualitySurveySubmission,
+    CourseQualitySurveyTemplate,
+    CourseQualitySurveyQuestionTemplateLink,
     OpenEndedSurveyQuestion,
     OpenEndedSurveyQuestionTemplateLink,
     OpenEndedSurveySubmission,
@@ -12,13 +15,19 @@ from poll_survey.models import (
     PollQuestionAnswerLink,
     PollSubmission,
     PollTemplate,
+    PostCourseSurveySubmission,
+    PostCourseSurveyTemplate,
+    PostCourseSurveyQuestionTemplateLink,
+    PreCourseSurveySubmission,
+    PreCourseSurveyTemplate,
+    PreCourseSurveyQuestionTemplateLink,
     SurveyAnswerOption,
     SurveyPollCommonsection,
     SurveyQuestion,
     SurveyQuestionAnswerLink,
     SurveySubmission,
     SurveyTemplate,
-    SurveyQuestionTemplateLink
+    SurveyQuestionTemplateLink,
 )
 
 
@@ -169,6 +178,60 @@ class OpenEndedSurveyTemplateAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'is_enabled', 'created', 'modified')
 
 
+class PreCourseSurveyQuestionTemplateLinkInline(admin.TabularInline):
+    """Admin inline structure for the `PreCourseSurveyQuestionTemplateLink` model."""
+
+    model = PreCourseSurveyQuestionTemplateLink
+    min_num = 1  # Enforce indication of at least one question (otherwise, a survey xblock will break)
+    extra = 1
+
+
+class PostCourseSurveyQuestionTemplateLinkInline(admin.TabularInline):
+    """Admin inline structure for the `PostCourseSurveyQuestionTemplateLink` model."""
+
+    model = PostCourseSurveyQuestionTemplateLink
+    min_num = 1  # Enforce indication of at least one question (otherwise, a survey xblock will break)
+    extra = 1
+
+
+class CourseQualitySurveyQuestionTemplateLinkInline(admin.TabularInline):
+    """Admin inline structure for the `CourseQualitySurveyQuestionTemplateLink` model."""
+
+    model = CourseQualitySurveyQuestionTemplateLink
+    min_num = 1  # Enforce indication of at least one question (otherwise, a survey xblock will break)
+    extra = 1
+
+
+class PreSurveyTemplateAdmin(admin.ModelAdmin):
+    """Admin interface for the `PreCourseSurveyTemplate` model."""
+
+    model = PreCourseSurveyTemplate
+    inlines = (PreCourseSurveyQuestionTemplateLinkInline,)
+    readonly_fields = ('created', 'modified')
+    list_display = ('id', 'is_enabled', 'created', 'modified')
+    list_display_links = ('id', 'is_enabled', 'created', 'modified')
+
+
+class PostCourseSurveyTemplateAdmin(admin.ModelAdmin):
+    """Admin interface for the `PostCourseSurveyTemplate` model."""
+
+    model = PostCourseSurveyTemplate
+    inlines = (PostCourseSurveyQuestionTemplateLinkInline,)
+    readonly_fields = ('created', 'modified')
+    list_display = ('id', 'is_enabled', 'created', 'modified')
+    list_display_links = ('id', 'is_enabled', 'created', 'modified')
+
+
+class CourseQualitySurveyTemplateAdmin(admin.ModelAdmin):
+    """Admin interface for the `CourseQualitySurveyTemplate` model."""
+
+    model = CourseQualitySurveyTemplate
+    inlines = (CourseQualitySurveyQuestionTemplateLinkInline,)
+    readonly_fields = ('created', 'modified')
+    list_display = ('id', 'is_enabled', 'created', 'modified')
+    list_display_links = ('id', 'is_enabled', 'created', 'modified')
+
+
 class PollSubmissionAdmin(admin.ModelAdmin):
     """Admin interface for the `PollSubmission` model."""
 
@@ -214,13 +277,66 @@ class OpenEndedSurveySubmissionAdmin(admin.ModelAdmin):
         return django_readonly
 
 
+class PreCourseSurveySubmissionAdmin(admin.ModelAdmin):
+    """Admin interface for the `PreCourseSurveySubmission` model."""
+
+    model = PreCourseSurveySubmission
+    readonly_fields = ('created', 'modified', 'submission_date')
+    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+
+    def get_readonly_fields(self, request, obj=None):
+        django_readonly = super(PreCourseSurveySubmissionAdmin, self).get_readonly_fields(request, obj)
+        if obj:
+            return django_readonly + ('student', 'course', 'question', 'answer')
+        return django_readonly
+
+
+class PostCourseCourseSurveySubmissionAdmin(admin.ModelAdmin):
+    """Admin interface for the `PostCourseSurveySubmission` model."""
+
+    model = PostCourseSurveySubmission
+    readonly_fields = ('created', 'modified', 'submission_date')
+    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+
+    def get_readonly_fields(self, request, obj=None):
+        django_readonly = super(PostCourseCourseSurveySubmissionAdmin, self).get_readonly_fields(request, obj)
+        if obj:
+            return django_readonly + ('student', 'course', 'question', 'answer')
+        return django_readonly
+
+
+class CourseQualitySurveySubmissionAdmin(admin.ModelAdmin):
+    """Admin interface for the `CourseQualitySurveySubmission` model."""
+
+    model = CourseQualitySurveySubmission
+    readonly_fields = ('created', 'modified', 'submission_date')
+    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+
+    def get_readonly_fields(self, request, obj=None):
+        django_readonly = super(CourseQualitySurveySubmissionAdmin, self).get_readonly_fields(request, obj)
+        if obj:
+            return django_readonly + ('student', 'course', 'question', 'answer')
+        return django_readonly
+
+
 class SurveyPollCommonsectionAdmin(admin.ModelAdmin):
     """Admin interface for the `SurveyPollCommonsection` model."""
 
     model = SurveyPollCommonsection
     readonly_fields = ('created', 'modified')
-    list_display = ('id', 'contains_poll', 'contains_survey', 'contains_open_ended_survey', 'created', 'modified')
-    list_display_links = ('id', 'contains_poll', 'contains_survey', 'contains_open_ended_survey', 'created', 'modified')
+    list_display = (
+        'id',
+        'created',
+        'modified',
+    )
+    list_display_links = (
+        'id',
+        'created',
+        'modified',
+    )
 
 
 admin.site.register(PollAnswerOption, PollAnswerOptionAdmin)
@@ -231,7 +347,13 @@ admin.site.register(OpenEndedSurveyQuestion, OpenEndedSurveyQuestionAdmin)
 admin.site.register(PollTemplate, PollTemplateAdmin)
 admin.site.register(SurveyTemplate, SurveyTemplateAdmin)
 admin.site.register(OpenEndedSurveyTemplate, OpenEndedSurveyTemplateAdmin)
+admin.site.register(PreCourseSurveyTemplate, PreSurveyTemplateAdmin)
+admin.site.register(PostCourseSurveyTemplate, PostCourseSurveyTemplateAdmin)
+admin.site.register(CourseQualitySurveyTemplate, CourseQualitySurveyTemplateAdmin)
 admin.site.register(PollSubmission, PollSubmissionAdmin)
 admin.site.register(SurveySubmission, SurveySubmissionAdmin)
 admin.site.register(OpenEndedSurveySubmission, OpenEndedSurveySubmissionAdmin)
+admin.site.register(PreCourseSurveySubmission, PreCourseSurveySubmissionAdmin)
+admin.site.register(PostCourseSurveySubmission, PostCourseCourseSurveySubmissionAdmin)
+admin.site.register(CourseQualitySurveySubmission, CourseQualitySurveySubmissionAdmin)
 admin.site.register(SurveyPollCommonsection, SurveyPollCommonsectionAdmin)
