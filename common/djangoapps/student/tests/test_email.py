@@ -1,6 +1,9 @@
 # coding=utf-8
+from __future__ import absolute_import
+
 import ddt
 import json
+import six
 import unittest
 
 from django.conf import settings
@@ -43,7 +46,7 @@ def mock_render_to_string(template_name, context):
     """
     Return a string that encodes template_name and context
     """
-    return str((template_name, sorted(context.iteritems())))
+    return str((template_name, sorted(six.iteritems(context))))
 
 
 def mock_render_to_response(template_name, context):
@@ -421,8 +424,8 @@ class EmailChangeConfirmationTests(EmailTestMixin, EmailTemplateTagMixin, CacheI
         response = confirm_email_change(self.request, self.key)
         self.assertEqual(response.status_code, 200)
         self.assertEquals(
-            mock_render_to_response(expected_template, expected_context).content,
-            response.content
+            mock_render_to_response(expected_template, expected_context).content.decode('utf-8'),
+            response.content.decode('utf-8')
         )
 
     def assertChangeEmailSent(self, test_body_type):
