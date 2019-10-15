@@ -1,5 +1,4 @@
 ---
 # overrides for configuration:inventory/group_vars/all/backups.yml
 
-COMMON_ENABLE_BACKUPS_DUPLICITY: False
 backup_cron_schedule: "1 3 * * *"

@@ -1,0 +1,5 @@
+---
+edx_platform_version: "{{ lookup('env', 'EDX_PLATFORM_VERSION_STAGE') | default('master', true) }}"
+EDXAPP_SITE_NAME: 'lms-stage-project_name.raccoongang.com'
+EDXAPP_CMS_SITE_NAME: 'cms-stage-project_name.raccoongang.com'
+EDXAPP_PREVIEW_LMS_BASE: 'preview-stage-project_name.raccoongang.com'

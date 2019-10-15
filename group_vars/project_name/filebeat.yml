@@ -1,4 +1,5 @@
 ---
 KIBANA_HOST: 'https://logs.raccoongang.com'
+# this credentials is stored in configuration:inventory/group_vars/all/secrets-rg.yml
 KIBANA_ELASTIC_WEB_USER: "{{ RG_KIBANA_ELASTIC_WEB_USER }}"
 KIBANA_ELASTIC_WEB_PASSWORD: "{{ RG_KIBANA_ELASTIC_WEB_PASSWORD }}"

@@ -1,5 +1,6 @@
 ---
 
+# edX default
 worker_core_mult:
   lms: 4
   cms: 2
@@ -40,28 +41,5 @@ EDXAPP_CELERY_WORKERS:
     monitor: False
     max_tasks_per_child: 1
 
-RG_IP_ACCESS_LIMITS:
-  # VPN
-  - "52.31.241.51"
-  - "163.172.126.46"
-  # Office
-  - "194.242.96.17"
-  - "193.111.1.97"
-  # Jenkins
-  - "212.83.166.171"
-  # AWX
-  - "51.15.146.136"
-  # staging00
-  - "163.172.101.166"
-  # staging01
-  - "163.172.99.216"
-  # staging02
-  - "163.172.100.244"
-  # staging03
-  - "163.172.32.106"
-  # staging04
-  - "163.172.30.8"
-  # staging05
-  - "163.172.30.122"
-  # sandbox00
-  - "163.172.33.73"
+# RG_IP_ACCESS_LIMITS stored in configuration:inventory/group_vars/all/rg.yml
+IP_ACCESS_LIMITS: {{ RG_IP_ACCESS_LIMITS }}

@@ -4,13 +4,13 @@ stages:
 
 deploy-dev:
     stage: deploy
-    image: registry-gitlab.raccoongang.com/edx/configuration/configuration-ironwood-rg:latest
+    image: registry-gitlab.raccoongang.com/edx/configuration:latest
     variables:
         ANSIBLE_SSH_KEY: $JENKINS_DEPLOY_KEY
         ANSIBLE_VAULT_KEY: $DEVOPS_VAULT_KEY
     environment:
       name: dev
-      url: https://lms-dev-ironwood.raccoongang.com/
+      url: https://lms-dev-project_name.raccoongang.com/
     script:
         - ansible-playbook dev.yml
     only:
@@ -21,14 +21,26 @@ deploy-dev:
 deploy-stage:
     stage: deploy-stage
     extends: deploy-dev
-    image: registry-gitlab.raccoongang.com/edx/configuration/configuration-ironwood-rg:ironwood-rg-v0-0-4
+    image: registry-gitlab.raccoongang.com/edx/configuration:CONFIGURATION_IMAGE_STAGE
     script:
       - ansible-playbook stage.yml
     environment:
       name: stage
-      url: https://lms-staging-ironwood.raccoongang.com/
+      url: https://lms-stage-project_name.raccoongang.com/
     when: manual
     only:
-      - /^ironwood-rg-stage-v[0-9]+\.[0-9]+\.[0-9]+$/
+      - /^project_name_stage_v[0-9]+\.[0-9]+\.[0-9]+$/
     except:
       - branches
+
+deploy-production:
+    stage: deploy-production
+    extends: deploy-stage
+    image: registry-gitlab.raccoongang.com/edx/configuration:$CONFIGURATION_IMAGE_PRODUCTION
+    script:
+      - ansible-playbook production.yml
+    environment:
+      name: production
+      url: https://lms.project_name.domain.tld/
+    only:
+      - /^project_name_production_v[0-9]+\.[0-9]+\.[0-9]+$/

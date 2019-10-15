@@ -1,5 +1,0 @@
----
-edx_platform_version: "master"
-EDXAPP_SITE_NAME: "lms-dev-ironwood.raccoongang.com"
-EDXAPP_CMS_SITE_NAME: "cms-dev-ironwood.raccoongang.com"
-EDXAPP_PREVIEW_LMS_BASE: "preview-dev-ironwood.raccoongang.com"
