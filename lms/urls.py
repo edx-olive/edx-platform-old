@@ -1014,6 +1014,14 @@ urlpatterns += [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    if (
+        getattr(settings, "EDX_GRADES_STORAGE_MEDIA_URL", None) and
+        getattr(settings, "EDX_GRADES_STORAGE_MEDIA_ROOT", None)
+    ):
+        urlpatterns += static(
+            settings.EDX_GRADES_STORAGE_MEDIA_URL,
+            document_root=settings.EDX_GRADES_STORAGE_MEDIA_ROOT
+        )
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(
         settings.PROFILE_IMAGE_BACKEND['options']['base_url'],
