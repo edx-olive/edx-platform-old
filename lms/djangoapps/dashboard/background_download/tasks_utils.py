@@ -14,10 +14,12 @@ from dashboard.background_download.data_utils import (
     prepare_submission_datum,
 )
 from poll_survey.configs import (
+    COMPLETION_EFFORT_POLL_NAME,
     COURSE_QUALITY_SURVEY_NAME,
     OPEN_ENDED_SURVEY_NAME,
     POST_COURSE_SURVEY_NAME,
     PRE_COURSE_SURVEY_NAME,
+    RATING_POLL_NAME,
     REGULAR_POLL_NAME,
     REGULAR_SURVEY_NAME,
 )
@@ -45,6 +47,10 @@ def export_all_polls_submissions(filename, chunk_size, courses_ids, user_id):
     export_polls_submissions(poll_type=POST_COURSE_SURVEY_NAME, filename=filename,
                              chunk_size=chunk_size, courses_ids=courses_ids, store_header=False)
     export_polls_submissions(poll_type=COURSE_QUALITY_SURVEY_NAME, filename=filename,
+                             chunk_size=chunk_size, courses_ids=courses_ids, store_header=False)
+    export_polls_submissions(poll_type=RATING_POLL_NAME, filename=filename,
+                             chunk_size=chunk_size, courses_ids=courses_ids, store_header=False)
+    export_polls_submissions(poll_type=COMPLETION_EFFORT_POLL_NAME, filename=filename,
                              chunk_size=chunk_size, courses_ids=courses_ids, store_header=False,
                              rename_from_temp=True)
 

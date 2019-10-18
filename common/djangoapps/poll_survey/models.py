@@ -245,6 +245,30 @@ class PollSubmission(SubmissionBase):
         return "PollSubmission #{!s}".format(self.id)
 
 
+class CompletionEffortPollSubmission(SubmissionBase):
+    """
+    Completion Effort Poll submission model.
+    """
+
+    question = models.ForeignKey(PollQuestion)
+    answer = models.ForeignKey(PollAnswerOption)
+
+    def __unicode__(self):  # NOQA
+        return "CompletionEffortPollSubmission #{!s}".format(self.id)
+
+
+class RatingPollSubmission(SubmissionBase):
+    """
+    Rating Poll submission model.
+    """
+
+    question = models.ForeignKey(PollQuestion)
+    answer = models.ForeignKey(PollAnswerOption)
+
+    def __unicode__(self):  # NOQA
+        return "RatingPollSubmission #{!s}".format(self.id)
+
+
 class SurveySubmission(SubmissionBase):
     """Survey submission model."""
 
@@ -337,6 +361,66 @@ class PollTemplate(BaseTemplate):
             if not question.is_default:
                 raise ValueError("Only default question can be stored in a poll template.")
         super(PollTemplate, self).save(force_insert, force_update, using, update_fields)
+
+
+class CompletionEffortPollTemplate(BaseTemplate):
+    """
+    Dedicated Completion Effort Poll template model.
+
+    Define a poll component default structure.
+
+    A poll contains a single question.
+    """
+
+    question = models.OneToOneField(PollQuestion)
+
+    def __unicode__(self):  # NOQA
+        return "CompletionEffortPollTemplate #{!s}".format(self.id)
+
+    def clean(self):
+        super(CompletionEffortPollTemplate, self).clean()
+        question = getattr(self, "question", None)
+        if question:
+            if not question.is_default:
+                raise ValidationError({"question": "Only default question can be stored in a poll template."})
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        question = getattr(self, "question", None)
+        if question:
+            if not question.is_default:
+                raise ValueError("Only default question can be stored in a poll template.")
+        super(CompletionEffortPollTemplate, self).save(force_insert, force_update, using, update_fields)
+
+
+class RatingPollTemplate(BaseTemplate):
+    """
+    Dedicated Rating Poll template model.
+
+    Define a poll component default structure.
+
+    A poll contains a single question.
+    """
+
+    question = models.OneToOneField(PollQuestion)
+
+    def __unicode__(self):  # NOQA
+        return "RatingPollTemplate #{!s}".format(self.id)
+
+    def clean(self):
+        super(RatingPollTemplate, self).clean()
+        question = getattr(self, "question", None)
+        if question:
+            if not question.is_default:
+                raise ValidationError({"question": "Only default question can be stored in a poll template."})
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        question = getattr(self, "question", None)
+        if question:
+            if not question.is_default:
+                raise ValueError("Only default question can be stored in a poll template.")
+        super(RatingPollTemplate, self).save(force_insert, force_update, using, update_fields)
 
 
 class SurveyTemplate(BaseTemplate):
@@ -602,18 +686,23 @@ class CourseQualitySurveyQuestionTemplateLink(BaseQuestionTemplateLink):
 
 class SurveyPollCommonsection(TimeStampedModel):
     """
-    Survey/Poll/Open-Ended Survey commonsection settings model.
+    Polls and surveys commonsection settings model.
 
     Consider replacing with custom Sysadmin settings.
     """
 
-    contains_poll = models.BooleanField(default=True)
-    contains_survey = models.BooleanField(default=True)
-    contains_open_ended_survey = models.BooleanField(default=True)
+    # Regular (standard) polls
+    contains_poll = models.BooleanField(default=False)
+    contains_survey = models.BooleanField(default=False)
     # Dedicated survey xblocks
     contains_pre_course_survey = models.BooleanField(default=True)
     contains_post_course_survey = models.BooleanField(default=True)
     contains_course_quality_survey = models.BooleanField(default=True)
+    # Dedicated poll xblocks
+    contains_rating_poll = models.BooleanField(default=True)
+    contains_completion_effort_poll = models.BooleanField(default=True)
+    # Standalone open ended survey
+    contains_open_ended_survey = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "commonsections"
