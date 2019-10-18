@@ -16,10 +16,12 @@ from xmodule.x_module import DEPRECATION_VSCOMPAT_EVENT
 from contentstore.views.helpers import create_xblock, usage_key_with_run
 from poll_survey.configs import (
     ALLOWED_POLLS_NAMES,
+    COMPLETION_EFFORT_POLL_NAME,
     COURSE_QUALITY_SURVEY_NAME,
     OPEN_ENDED_SURVEY_NAME,
     POST_COURSE_SURVEY_NAME,
     PRE_COURSE_SURVEY_NAME,
+    RATING_POLL_NAME,
     REGULAR_POLL_NAME,
     REGULAR_SURVEY_NAME,
 )
@@ -173,7 +175,11 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
                                         or (xblock["type"] == POST_COURSE_SURVEY_NAME
                                             and commonsection_settings.contains_post_course_survey) \
                                         or (xblock["type"] == COURSE_QUALITY_SURVEY_NAME
-                                            and commonsection_settings.contains_course_quality_survey):
+                                            and commonsection_settings.contains_course_quality_survey) \
+                                        or (xblock["type"] == RATING_POLL_NAME
+                                            and commonsection_settings.contains_rating_poll) \
+                                        or (xblock["type"] == COMPLETION_EFFORT_POLL_NAME
+                                            and commonsection_settings.contains_completion_effort_poll):
                                     # We apply hardcoded defaults if no poll template was created.
                                     # Ref.: `xblock-poll.poll.poll_survey_storing.defaults.
                                     xblock_parent = create_section(unicode(vertical_parent.location),

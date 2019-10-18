@@ -97,18 +97,6 @@
                 "display_name":"Survey",
                 "xblocks": [
                      {
-                         "display_name": "Survey",
-                         "type": "survey"
-                     },
-                     {
-                         "display_name": "Poll",
-                         "type": "poll"
-                     },
-                     {
-                         "display_name": "Open-Ended Survey",
-                         "type": "open_ended_survey"
-                     },
-                     {
                          "display_name": "Pre-Course Survey",
                          "type": "pre_course_survey"
                      },
@@ -119,6 +107,26 @@
                      {
                          "display_name": "Course Quality Survey",
                          "type": "course_quality_survey"
+                     },
+                     {
+                         "display_name": "Rating Poll",
+                         "type": "rating_poll"
+                     },
+                     {
+                         "display_name": "Completion Effort Poll",
+                         "type": "completion_effort_poll"
+                     },
+                     {
+                         "display_name": "Open-Ended Survey",
+                         "type": "open_ended_survey"
+                     },
+                     {
+                         "display_name": "Survey",
+                         "type": "survey"
+                     },
+                     {
+                         "display_name": "Poll",
+                         "type": "poll"
                      }
                 ]
             }]

@@ -1,17 +1,21 @@
 """Polls configs shared across the platform."""
 
 from poll_survey.models import (
-    PollSubmission,
-    SurveySubmission,
-    OpenEndedSurveySubmission,
-    PreCourseSurveySubmission,
-    PostCourseSurveySubmission,
+    CompletionEffortPollSubmission,
     CourseQualitySurveySubmission,
+    OpenEndedSurveySubmission,
+    PollSubmission,
+    RatingPollSubmission,
+    PostCourseSurveySubmission,
+    PreCourseSurveySubmission,
+    SurveySubmission,
 )
 
 
 # Polls namings
 REGULAR_POLL_NAME = "poll"
+RATING_POLL_NAME = "rating_poll"
+COMPLETION_EFFORT_POLL_NAME = "completion_effort_poll"
 
 # Surveys namings
 REGULAR_SURVEY_NAME = "survey"
@@ -25,6 +29,8 @@ OPEN_ENDED_SURVEY_NAME = "open_ended_survey"
 # Keep this list updated
 ALLOWED_POLLS_NAMES = [
     REGULAR_POLL_NAME,
+    RATING_POLL_NAME,
+    COMPLETION_EFFORT_POLL_NAME,
     REGULAR_SURVEY_NAME,
     OPEN_ENDED_SURVEY_NAME,
     PRE_COURSE_SURVEY_NAME,
@@ -34,6 +40,8 @@ ALLOWED_POLLS_NAMES = [
 
 POLLS_SUBMISSIONS_MAPPING = {
     REGULAR_POLL_NAME: PollSubmission,
+    RATING_POLL_NAME: RatingPollSubmission,
+    COMPLETION_EFFORT_POLL_NAME: CompletionEffortPollSubmission,
     REGULAR_SURVEY_NAME: SurveySubmission,
     OPEN_ENDED_SURVEY_NAME: OpenEndedSurveySubmission,
     PRE_COURSE_SURVEY_NAME: PreCourseSurveySubmission,

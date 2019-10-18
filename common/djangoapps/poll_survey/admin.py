@@ -3,6 +3,8 @@
 from django.contrib import admin
 
 from poll_survey.models import (
+    CompletionEffortPollSubmission,
+    CompletionEffortPollTemplate,
     CourseQualitySurveySubmission,
     CourseQualitySurveyTemplate,
     CourseQualitySurveyQuestionTemplateLink,
@@ -21,6 +23,8 @@ from poll_survey.models import (
     PreCourseSurveySubmission,
     PreCourseSurveyTemplate,
     PreCourseSurveyQuestionTemplateLink,
+    RatingPollSubmission,
+    RatingPollTemplate,
     SurveyAnswerOption,
     SurveyPollCommonsection,
     SurveyQuestion,
@@ -142,6 +146,24 @@ class PollTemplateAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'question', 'created', 'modified')
 
 
+class CompletionEffortPollTemplateAdmin(admin.ModelAdmin):
+    """Admin interface for the `CompletionEffortPollTemplate` model."""
+
+    model = CompletionEffortPollTemplate
+    readonly_fields = ('created', 'modified')
+    list_display = ('id', 'question', 'is_enabled', 'created', 'modified')
+    list_display_links = ('id', 'question', 'created', 'modified')
+
+
+class RatingPollTemplateAdmin(admin.ModelAdmin):
+    """Admin interface for the `RatingPollTemplate` model."""
+
+    model = RatingPollTemplate
+    readonly_fields = ('created', 'modified')
+    list_display = ('id', 'question', 'is_enabled', 'created', 'modified')
+    list_display_links = ('id', 'question', 'created', 'modified')
+
+
 class SurveyQuestionTemplateLinkInline(admin.TabularInline):
     """Admin inline structure for the `SurveyQuestionTemplateLink` model."""
 
@@ -247,6 +269,36 @@ class PollSubmissionAdmin(admin.ModelAdmin):
         return django_readonly
 
 
+class CompletionEffortPollSubmissionAdmin(admin.ModelAdmin):
+    """Admin interface for the `RatingPollSubmission` model."""
+
+    model = RatingPollSubmission
+    readonly_fields = ('created', 'modified', 'submission_date')
+    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+
+    def get_readonly_fields(self, request, obj=None):
+        django_readonly = super(CompletionEffortPollSubmissionAdmin, self).get_readonly_fields(request, obj)
+        if obj:
+            return django_readonly + ('student', 'course', 'question', 'answer')
+        return django_readonly
+
+
+class RatingPollSubmissionAdmin(admin.ModelAdmin):
+    """Admin interface for the `RatingPollSubmission` model."""
+
+    model = RatingPollSubmission
+    readonly_fields = ('created', 'modified', 'submission_date')
+    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+
+    def get_readonly_fields(self, request, obj=None):
+        django_readonly = super(RatingPollSubmissionAdmin, self).get_readonly_fields(request, obj)
+        if obj:
+            return django_readonly + ('student', 'course', 'question', 'answer')
+        return django_readonly
+
+
 class SurveySubmissionAdmin(admin.ModelAdmin):
     """Admin interface for the `SurveySubmission` model."""
 
@@ -345,12 +397,16 @@ admin.site.register(PollQuestion, PollQuestionAdmin)
 admin.site.register(SurveyQuestion, SurveyQuestionAdmin)
 admin.site.register(OpenEndedSurveyQuestion, OpenEndedSurveyQuestionAdmin)
 admin.site.register(PollTemplate, PollTemplateAdmin)
+admin.site.register(CompletionEffortPollTemplate, CompletionEffortPollTemplateAdmin)
+admin.site.register(RatingPollTemplate, RatingPollTemplateAdmin)
 admin.site.register(SurveyTemplate, SurveyTemplateAdmin)
 admin.site.register(OpenEndedSurveyTemplate, OpenEndedSurveyTemplateAdmin)
 admin.site.register(PreCourseSurveyTemplate, PreSurveyTemplateAdmin)
 admin.site.register(PostCourseSurveyTemplate, PostCourseSurveyTemplateAdmin)
 admin.site.register(CourseQualitySurveyTemplate, CourseQualitySurveyTemplateAdmin)
 admin.site.register(PollSubmission, PollSubmissionAdmin)
+admin.site.register(CompletionEffortPollSubmission, CompletionEffortPollSubmissionAdmin)
+admin.site.register(RatingPollSubmission, RatingPollSubmissionAdmin)
 admin.site.register(SurveySubmission, SurveySubmissionAdmin)
 admin.site.register(OpenEndedSurveySubmission, OpenEndedSurveySubmissionAdmin)
 admin.site.register(PreCourseSurveySubmission, PreCourseSurveySubmissionAdmin)
