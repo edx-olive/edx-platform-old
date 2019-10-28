@@ -1,7 +1,7 @@
 """Poll/Survey models."""
 
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
 from django.db.models import Max
 from django.dispatch import receiver
@@ -37,12 +37,53 @@ class PollAnswerOption(AnswerOptionBase):
         elif not self.image_url and self.image_alt_text:
             raise ValidationError({'image_url': 'Please indicate the image path.'})
 
+    @staticmethod
+    def get_first_or_create(data):
+        """
+        Get a first entry matching the criteria from `data`, or create one.
+
+        Arguments:
+            data (dict): poll answer data. Example:
+                ```
+                {'text': 'Red', 'image_url': None, 'image_alt_text': None}
+                ```
+        Returns:
+            tuple of answer_entry (`PollAnswerOption` object) and created (boolean)
+        """
+        answer_entry = PollAnswerOption.objects.filter(text=data["text"]).first()
+        created = False
+        if not answer_entry:
+            answer_entry = PollAnswerOption.objects.create(
+                text=data["text"],
+                image_url=data["image_url"],
+                image_alt_text=data["image_alt_text"],
+            )
+            created = True
+        return answer_entry, created
+
 
 class SurveyAnswerOption(AnswerOptionBase):
     """Survey answer model."""
 
     def __unicode__(self):  # NOQA
         return "SurveyAnswer #{!s}".format(self.id)
+
+    @staticmethod
+    def get_first_or_create(text):
+        """
+        Get a first entry matching the `text` check, or create one.
+
+        Arguments:
+            text (str): survey answer text.
+        Returns:
+            tuple of answer_entry (`SurveyAnswerOption` object) and created (boolean)
+        """
+        answer_entry = SurveyAnswerOption.objects.filter(text=text).first()
+        created = False
+        if not answer_entry:
+            answer_entry = SurveyAnswerOption.objects.create(text=text)
+            created = True
+        return answer_entry, created
 
 
 class QuestionBase(TimeStampedModel):
@@ -81,6 +122,34 @@ class SurveyQuestion(QuestionBase):
         elif not self.image_url and self.image_alt_text:
             raise ValidationError({'image_url': 'Please indicate the image alt text.'})
 
+    @staticmethod
+    def get_first_or_create(data):
+        """
+        Get a first entry matching the criteria from `data`, or create one.
+
+        Arguments:
+            data (dict): survey question data. Example:
+                ```
+                {'text': 'Red', 'image_url': None, 'is_default': True, 'image_alt_text': None}
+                ```
+        Returns:
+            tuple of question_entry (`SurveyQuestion` object) and created (boolean)
+        """
+        question_entry = SurveyQuestion.objects.filter(
+            text=data["text"],
+            is_default=data["is_default"]
+        ).first()
+        created = False
+        if not question_entry:
+            question_entry = SurveyQuestion.objects.create(
+                text=data["text"],
+                image_url=data["image_url"],
+                image_alt_text=data["image_url"],
+                is_default=data["is_default"],
+            )
+            created = True
+        return question_entry, created
+
 
 class PollQuestion(QuestionBase):
     """Poll question model."""
@@ -94,6 +163,29 @@ class PollQuestion(QuestionBase):
         super(PollQuestion, self).clean()
         if self.course and self.is_default:
             raise ValidationError({'is_default': 'Please indicate either "course" or "is_default".'})
+
+    @staticmethod
+    def get_first_or_create(data):
+        """
+        Get a first entry matching the criteria from `data`, or create one.
+
+        Arguments:
+            data (dict): poll answer data. Example:
+                ```
+                {'text': 'Red', 'image_url': None, 'is_default': True, 'image_alt_text': None}
+                ```
+        Returns:
+            tuple of question_entry (`PollQuestion` object) and created (boolean)
+        """
+        question_entry = PollQuestion.objects.filter(text=data["text"]).first()
+        created = False
+        if not question_entry:
+            question_entry = PollQuestion.objects.create(
+                text=data["text"],
+                is_default=data["is_default"],
+            )
+            created = True
+        return question_entry, created
 
 
 class OpenEndedSurveyQuestion(QuestionBase):
@@ -227,12 +319,38 @@ class SubmissionBase(TimeStampedModel):
 
     student = models.ForeignKey(User)
     course = CourseKeyField(max_length=255)
-    submission_date = AutoCreatedField(help_text="First submission date. Might differ from entry creation date.")
+    submission_date = AutoCreatedField(help_text="First submission date. "
+                                                 "Might differ from the entry creation date.")
+    employee_id = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         abstract = True
         # Submission entry gets updated with new answer upon resubmission
         unique_together = ("student", "course", "question")
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.employee_id = self.get_employee_id()
+        super(SubmissionBase, self).save(force_insert, force_update, using, update_fields)
+
+    def get_employee_id(self):
+        """
+        Get a PingSSO employee id.
+
+        There might be users without social auth entries.
+
+        Not adding `employee_id` to the `unique_together` check;
+        see also ARS-1: EmployeeId is changed in Social Auth
+        """
+        employee_id = None
+        if self.student:
+            try:
+                social = self.student.social_auth.get(provider='tpa-saml')
+            except ObjectDoesNotExist:
+                social = None
+            if social and getattr(social, "uid", None):
+                employee_id = social.uid.split(':')[1] if ":" in social.uid else None
+        return employee_id
 
 
 class PollSubmission(SubmissionBase):

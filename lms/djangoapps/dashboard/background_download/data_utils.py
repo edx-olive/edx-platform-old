@@ -1,6 +1,8 @@
 """Data preparation for file storage."""
 
+from datetime import datetime
 import logging
+import time
 
 from opaque_keys.edx.keys import CourseKey
 
@@ -33,17 +35,23 @@ def prepare_submission_datum(submission, **kwargs):
         # For "open_ended_survey", there'll be `submission.answer_text`
         # instead of submission's answer.id and answer.text
         answer_text = submission.answer.text if getattr(submission, "answer", None) else submission.answer_text
+        try:
+            submission_date = int(time.mktime(submission.submission_date.timetuple()))
+        except:  # Cannot think of any particular error
+            submission_date = "-"
         return [
             poll_type,
             submission.course,
             submission.student.id,
+            submission.employee_id or "-",
             submission.question.id,
             submission.question.text,
             answer_id,
-            answer_text
+            answer_text,
+            submission_date,
         ]
     except AttributeError:
-        return [poll_type, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"]
+        return [poll_type, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"]
 
 
 def validate_poll_type(poll_type):

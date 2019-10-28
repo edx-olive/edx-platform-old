@@ -11,6 +11,7 @@ from courseware.models import StudentModule
 from poll_survey.management.commands.commands_utils import (
     fetch_xblock,
     get_comma_separated_args,
+    get_employee_id,
     prepare_submissions_entries,
     UserService
 )
@@ -225,11 +226,7 @@ class Command(BaseCommand):
         """
         text = question.strip().lower()  # Strict check
         data = {"text": text, "is_default": True}
-        question_entry, _ = PollQuestion.objects.get_or_create(
-            text=text,
-            is_default=True,
-            defaults=data
-        )
+        question_entry, _ = PollQuestion.get_first_or_create(data)
         print("Processed/persisted a poll question: {!s}".format(question_entry))
         return question_entry
 
@@ -252,10 +249,7 @@ class Command(BaseCommand):
             # so it's ok to lose it during next iterations
             data["image_url"] = answer[1]["img"]
             data["image_alt_text"] = answer[1]["img_alt"]
-        answer_entry, created = PollAnswerOption.objects.get_or_create(
-            text=text,
-            defaults=data
-        )
+        answer_entry, _ = PollAnswerOption.get_first_or_create(data)
         print("Processed/persisted a poll answer: {!s}".format(answer_entry))
         return answer_entry
 
@@ -274,7 +268,8 @@ class Command(BaseCommand):
                     "course": submission_entry.course_id,
                     "question": question_entry,
                     "answer": answer_entry,
-                    "submission_date": submission_entry.created
+                    "submission_date": submission_entry.created,
+                    "employee_id": get_employee_id(user),
                 }
             )
             print("A poll submission {!s} has been persisted.".format(submission))

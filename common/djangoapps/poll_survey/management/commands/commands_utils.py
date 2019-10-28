@@ -26,6 +26,28 @@ class UserService(object):
             return None
 
 
+class UserSocialAuthService(object):
+    """
+    Service logic to manipulate `UserSocialAuth` model.
+    """
+
+    @staticmethod
+    def get_user_social_auth_entry(user):
+        """
+        Get a user entry.
+
+        Arguments:
+            user (`User` obj): user model.
+        Returns:
+            result (`UserSocialAuth` obj | None): None if none found,
+               object itself if found.
+        """
+        try:
+            return user.social_auth.get(provider='tpa-saml')
+        except ObjectDoesNotExist:
+            return None
+
+
 def get_comma_separated_args(option, opt, value, parser):
     """Parse command comma-separated argument to a list of long values."""
     try:
@@ -92,3 +114,13 @@ def fetch_xblock(module_state_key):
         print("XBlock {!s} must have been removed from the courseware. "
               "Won't persist its submissions.".format(module_state_key))
     return xblock
+
+
+def get_employee_id(user):
+    """
+    Get PingSSO employee id.
+    """
+
+    social = UserSocialAuthService.get_user_social_auth_entry(user)
+    if social and getattr(social, "uid", None):
+        return social.uid.split(':')[1] if ":" in social.uid else None
