@@ -64,29 +64,15 @@ def get_logger_config(log_dir,
                 'filters': ['require_debug_false'],
                 'class': 'django.utils.log.AdminEmailHandler'
             },
-            'local': {
-                'level': local_loglevel,
-                'class': 'logging.handlers.SysLogHandler',
-                'address': '/dev/log',
-                'formatter': 'syslog_format',
-                'facility': SysLogHandler.LOG_LOCAL0,
-            },
-            'tracking': {
-                'level': 'DEBUG',
-                'class': 'logging.handlers.SysLogHandler',
-                'address': '/dev/log',
-                'facility': SysLogHandler.LOG_LOCAL1,
-                'formatter': 'raw',
-            },
         },
         'loggers': {
             'tracking': {
-                'handlers': ['tracking'],
+                'handlers': ['console'],
                 'level': 'DEBUG',
                 'propagate': False,
             },
             '': {
-                'handlers': ['console', 'local'],
+                'handlers': ['console'],
                 'level': 'INFO',
                 'propagate': False
             },
