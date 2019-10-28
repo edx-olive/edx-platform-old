@@ -259,13 +259,13 @@ class PollSubmissionAdmin(admin.ModelAdmin):
 
     model = PollSubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(PollSubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
         return django_readonly
 
 
@@ -274,13 +274,13 @@ class CompletionEffortPollSubmissionAdmin(admin.ModelAdmin):
 
     model = RatingPollSubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(CompletionEffortPollSubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
         return django_readonly
 
 
@@ -289,13 +289,13 @@ class RatingPollSubmissionAdmin(admin.ModelAdmin):
 
     model = RatingPollSubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(RatingPollSubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
         return django_readonly
 
 
@@ -304,13 +304,13 @@ class SurveySubmissionAdmin(admin.ModelAdmin):
 
     model = SurveySubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(SurveySubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
         return django_readonly
 
 
@@ -319,13 +319,13 @@ class OpenEndedSurveySubmissionAdmin(admin.ModelAdmin):
 
     model = OpenEndedSurveySubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(OpenEndedSurveySubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer_text')
+            return django_readonly + ('student', 'course', 'question', 'answer_text', 'employee_id')
         return django_readonly
 
 
@@ -334,13 +334,13 @@ class PreCourseSurveySubmissionAdmin(admin.ModelAdmin):
 
     model = PreCourseSurveySubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(PreCourseSurveySubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
         return django_readonly
 
 
@@ -349,13 +349,13 @@ class PostCourseCourseSurveySubmissionAdmin(admin.ModelAdmin):
 
     model = PostCourseSurveySubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(PostCourseCourseSurveySubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
         return django_readonly
 
 
@@ -364,13 +364,13 @@ class CourseQualitySurveySubmissionAdmin(admin.ModelAdmin):
 
     model = CourseQualitySurveySubmission
     readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'course', 'question', 'answer', 'created', 'modified')
+    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(CourseQualitySurveySubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
         return django_readonly
 
 

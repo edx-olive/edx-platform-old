@@ -11,6 +11,7 @@ from courseware.models import StudentModule
 from poll_survey.management.commands.commands_utils import (
     fetch_xblock,
     get_comma_separated_args,
+    get_employee_id,
     prepare_submissions_entries,
     UserService
 )
@@ -255,11 +256,7 @@ class Command(BaseCommand):
             # so it's ok to lose it during next iterations
             data["image_url"] = question[1]["img"]
             data["image_alt_text"] = question[1]["img_alt"]
-        question_entry, _ = SurveyQuestion.objects.get_or_create(
-            text=text,
-            is_default=True,
-            defaults=data
-        )
+        question_entry, _ = SurveyQuestion.get_first_or_create(data)
         print("Processed/persisted a survey question: {!s}".format(question_entry))
         return question_entry
 
@@ -276,10 +273,7 @@ class Command(BaseCommand):
                 ```
         """
         text = answer[1].strip().lower()  # Strict check
-        answer_entry, created = SurveyAnswerOption.objects.get_or_create(
-            text=text,
-            defaults={"text": text}
-        )
+        answer_entry, _ = SurveyAnswerOption.get_first_or_create(text=text)
         print("Processed/persisted a survey answer: {!s}".format(answer_entry))
         return answer_entry
 
@@ -298,7 +292,8 @@ class Command(BaseCommand):
                     "course": submission_entry.course_id,
                     "question": question_entry,
                     "answer": answer_entry,
-                    "submission_date": submission_entry.created
+                    "submission_date": submission_entry.created,
+                    "employee_id": get_employee_id(user),
                 }
             )
             print("A survey submission {!s} has been persisted.".format(submission))

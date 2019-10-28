@@ -64,9 +64,10 @@ def export_polls_submissions(poll_type, courses_ids, chunk_size,
 
     header = (
         'poll_type',
-        'course', 'student_id',
+        'course', 'student_id', 'employee_id',
         'question_id', 'question_text',
         'answer_id', 'answer_text',
+        'submission_date',
     )
     kwargs = {"poll_type": poll_type}
     if subs_size:
