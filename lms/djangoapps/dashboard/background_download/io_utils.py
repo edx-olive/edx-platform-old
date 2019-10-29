@@ -17,14 +17,16 @@ def get_latest_user_file(user_id, dir_path, extension="csv"):
     """Get latest file in a dir provided a user id in a file name."""
 
     latest_file = None
+    user_files_paths = None
     dirpath = os.path.join(dir_path)
-    user_files_paths = [
-        os.path.join(dirpath, f)
-        for f in os.listdir(dirpath)
-        if os.path.isfile(os.path.join(dirpath, f))
-        and int(get_filename_user_id(f)) == int(user_id)
-        and os.path.join(dirpath, f).split(".")[-1] == extension
-    ]
+    if os.path.isdir(dirpath):
+        user_files_paths = [
+            os.path.join(dirpath, f)
+            for f in os.listdir(dirpath)
+            if os.path.isfile(os.path.join(dirpath, f))
+            and int(get_filename_user_id(f)) == int(user_id)
+            and os.path.join(dirpath, f).split(".")[-1] == extension
+        ]
     if user_files_paths:
         latest_file = max(user_files_paths, key=os.path.getctime)
     return latest_file
