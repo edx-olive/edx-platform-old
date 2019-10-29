@@ -1,6 +1,5 @@
 """Data preparation for file storage."""
 
-from datetime import datetime
 import logging
 import time
 

@@ -70,7 +70,6 @@ def prepare_submissions_entries(
         print("Fetching {!s} xblock submissions starting from pk {!s} (if there are any), "
               "excluding the next ids: {!s}..."
               .format(module_type, from_pk, exclude_ids))
-        # TODO use chained querysets (here and below)
         if courses_ids:
             return StudentModule.objects.filter(
                     pk__gte=from_pk,

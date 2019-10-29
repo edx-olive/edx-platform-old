@@ -8,6 +8,8 @@ from django.core.management.base import BaseCommand
 from opaque_keys.edx.keys import CourseKey
 
 from courseware.models import StudentModule
+from poll_survey.configs import RATING_POLL_NAME, REGULAR_SURVEY_NAME, POLLS_SUBMISSIONS_MAPPING
+from poll_survey.management.commands.process_historical_polls_data import Command as PollCommand
 from poll_survey.management.commands.commands_utils import (
     fetch_xblock,
     get_comma_separated_args,
@@ -15,7 +17,11 @@ from poll_survey.management.commands.commands_utils import (
     prepare_submissions_entries,
     UserService
 )
-from poll_survey.models import SurveyAnswerOption, SurveyQuestion, SurveySubmission
+from poll_survey.management.commands.configs import (
+    DEDICATED_POLLS_NAMES_TO_MIGRATE,
+    POLLS_ELEMENTS_NAMES_MAPPING,
+)
+from poll_survey.models import SurveyAnswerOption, SurveyQuestion
 
 
 class Command(BaseCommand):
@@ -105,7 +111,6 @@ class Command(BaseCommand):
         submission_date_to = datetime.strptime(options.get("submission_date_to"), '%Y-%m-%d')
         measure = options.get("measure")
 
-        # TODO use chained querysets
         if courses_ids:
             print("Considering particular courses only: {!s}".format(courses_ids))
             subs_count = StudentModule.objects.filter(
@@ -142,6 +147,9 @@ class Command(BaseCommand):
                 print("=============submission entry {!s}=============".format(submission_entry.id))
                 xblock = fetch_xblock(module_state_key=submission_entry.module_state_key)
                 if xblock:
+                    _, survey_type = self._define_survey_type(xblock)
+                    print("XBlock's type is '{!s}'.".format(survey_type))
+
                     submissions = self._get_submissions_data(submission_entry.state)
                     if submissions:
                         print("Starting to process survey XBlock submissions: {!s}".format(submissions))
@@ -152,11 +160,16 @@ class Command(BaseCommand):
                         answer = self._get_item(label=submission[1], items=xblock.answers)
                         if question and answer:
                             # Persist survey structure before to save submissions.
-                            question_entry = self._get_or_create_question(question)
+                            question_entry = self._get_or_create_question(question, survey_type=survey_type)
                             # We store answers appeared in submissions only
-                            answer_entry = self._get_or_create_answer(answer)
+                            answer_entry = self._get_or_create_answer(answer, survey_type=survey_type)
                             if question_entry and answer_entry:
-                                self._store_submission(question_entry, answer_entry, submission_entry)
+                                self._store_submission(
+                                    question_entry,
+                                    answer_entry,
+                                    submission_entry,
+                                    survey_type=survey_type
+                                )
                             else:
                                 print("A question or an answer couldn't be persisted. "
                                       "Won't persist the submission either.")
@@ -237,8 +250,85 @@ class Command(BaseCommand):
             if item[0] == label:
                 return item
 
+    def _define_survey_type(self, xblock):
+        """
+        Check if a survey is a dedicated one and return its type.
+
+        Check if a survey is a dedicated:
+        - by its title,
+        - by its questions (if applicable),
+        - by its answers
+        (all should be dedicated).
+
+        Arguments:
+            xblock (`xblock.internal.SurveyBlockWithMixins` obj): xblock itself.
+                Example of its questions and answers:
+                ```
+                (Pdb) xblock.answers
+                [[u'8', u'aaaaaa'], [u'9', u'aaaa2']]
+                (Pdb) xblock.questions
+                [[u'6', {u'img': u'', u'img_alt': u'', u'label': u'qqqqq'}],]
+                ```
+        Returns:
+            results (tuple) with check results (True if a survey was recognized as a dedicated
+                ones, False otherwise), and survey type.
+        """
+        for name in DEDICATED_POLLS_NAMES_TO_MIGRATE:
+            # Check them all
+            title_check = self._check_survey_title_dedicated_type(title=xblock.block_name.strip().lower(), name=name)
+            questions_check = self._check_survey_questions_dedicated_type(
+                questions=[q[1]["label"].strip().lower() for q in xblock.questions],
+                name=name
+            )
+            answers_check = self._check_survey_answers_dedicated_type(
+                answers=[a[1].strip().lower() for a in xblock.answers],
+                name=name
+            )
+            # Names checks are mutually exclusive (well, they should be: see `commands.configs`)
+            if title_check and questions_check and answers_check:
+                return True, name
+
+        return False, REGULAR_SURVEY_NAME
+
     @staticmethod
-    def _get_or_create_question(question):
+    def _check_survey_title_dedicated_type(title, name):
+        """
+        Check if a title qualifies as a dedicated survey's one.
+        """
+        return title == POLLS_ELEMENTS_NAMES_MAPPING.get(name, {}).get("title", "").strip().lower()
+
+    @staticmethod
+    def _check_survey_questions_dedicated_type(questions, name):
+        """
+        Check if all questions qualify as a dedicated survey's ones.
+        """
+        questions_map = POLLS_ELEMENTS_NAMES_MAPPING.get(name, {}).get("questions", [])
+        if not questions_map:
+            # If questions aren't configured, validation is passed
+            return True
+        questions_map_updated = [m.strip().lower() for m in questions_map]
+        for question in questions:
+            if question not in questions_map_updated:
+                return False
+        return True
+
+    @staticmethod
+    def _check_survey_answers_dedicated_type(answers, name):
+        """
+        Check if all answers qualify as a dedicated survey's ones.
+        """
+        answers_map = POLLS_ELEMENTS_NAMES_MAPPING.get(name, {}).get("answers", [])
+        if not answers_map:
+            # If answers aren't configured, validation is passed
+            return True
+        answers_map_updated = [m.strip().lower() for m in answers_map]
+        for answer in answers:
+            if answer not in answers_map_updated:
+                return False
+        return True
+
+    @staticmethod
+    def _get_or_create_question(question, survey_type=REGULAR_SURVEY_NAME):
         """
         Persist a question.
 
@@ -249,19 +339,23 @@ class Command(BaseCommand):
                 ['enjoy', {'img': '', 'img_alt': '', 'label': 'Are you enjoying the course?'}]
                 ```
         """
+        survey_type = survey_type or REGULAR_SURVEY_NAME  # Just in case
         text = question[1]["label"].strip().lower()  # Strict check
         data = {"text": text, "is_default": True}
-        if question[1]["img"] and question[1]["img_alt"]:
-            # Images info doesn't really matter (we won't query against it anyway),
-            # so it's ok to lose it during next iterations
-            data["image_url"] = question[1]["img"]
-            data["image_alt_text"] = question[1]["img_alt"]
-        question_entry, _ = SurveyQuestion.get_first_or_create(data)
-        print("Processed/persisted a survey question: {!s}".format(question_entry))
+        if survey_type == RATING_POLL_NAME:
+            # Re-define for poll
+            # It's so bad... No time to refactor
+            question_entry = PollCommand._get_or_create_question(question[1]["label"])
+        else:
+            # Images info doesn't really matter (we won't query against it anyway)
+            data["image_url"] = question[1]["img"] or None
+            data["image_alt_text"] = question[1]["img_alt"] or None
+            question_entry, _ = SurveyQuestion.get_first_or_create(data)
+            print("Processed/persisted a survey question: {!s}".format(question_entry))
         return question_entry
 
     @staticmethod
-    def _get_or_create_answer(answer):
+    def _get_or_create_answer(answer, survey_type=REGULAR_SURVEY_NAME):
         """
         Persist an answer.
 
@@ -272,18 +366,33 @@ class Command(BaseCommand):
                 ['Y', 'Yes']
                 ```
         """
+        survey_type = survey_type or REGULAR_SURVEY_NAME  # Just in case
         text = answer[1].strip().lower()  # Strict check
         answer_entry, _ = SurveyAnswerOption.get_first_or_create(text=text)
+        if survey_type == RATING_POLL_NAME:
+            # Re-define for poll
+            # It's so bad... No time to refactor
+            # Example of poll answer:
+            #  ['R', {'img': '', 'img_alt': '', 'label': 'Red'}]
+            answer_entry = PollCommand._get_or_create_answer(
+                answer=[answer[0], {'img': '', 'img_alt': '', 'label': answer[1]}]
+            )
+        else:
+            answer_entry, _ = SurveyAnswerOption.get_first_or_create(text=text)
         print("Processed/persisted a survey answer: {!s}".format(answer_entry))
         return answer_entry
 
     @staticmethod
-    def _store_submission(question_entry, answer_entry, submission_entry):
+    def _store_submission(question_entry, answer_entry, submission_entry, survey_type=REGULAR_SURVEY_NAME):
         """Persist survey submission data."""
+        survey_type = survey_type or REGULAR_SURVEY_NAME  # Just in case
         user = UserService.get_user(user_id=submission_entry.student_id)
-        if user:
+        # NOTE that if dedicated type is `RATING_POLL_NAME`,
+        # we have to store a rating poll with poll questions/answers (not survey)
+        submission_model_class = POLLS_SUBMISSIONS_MAPPING.get(survey_type)
+        if user and submission_model_class:
             # Xblock submissions are immutable; store the latest submission
-            submission, created = SurveySubmission.objects.update_or_create(
+            submission, created = submission_model_class.objects.update_or_create(
                 student=user,
                 course=submission_entry.course_id,
                 question=question_entry,

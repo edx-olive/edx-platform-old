@@ -94,7 +94,6 @@ class Command(BaseCommand):
         from_pk = options.get("from_pk")
         submission_date_to = datetime.strptime(options.get("submission_date_to"), '%Y-%m-%d')
 
-        # TODO use chained querysets
         if courses_ids:
             print("Considering particular courses only: {!s}".format(courses_ids))
             subs_count = StudentModule.objects.filter(
@@ -243,12 +242,12 @@ class Command(BaseCommand):
                 ```
         """
         text = answer[1]["label"].strip().lower()  # Strict check
-        data = {"text": text}
-        if answer[1]["img"] and answer[1]["img_alt"]:
-            # Images info doesn't really matter (we won't query against it anyway),
-            # so it's ok to lose it during next iterations
-            data["image_url"] = answer[1]["img"]
-            data["image_alt_text"] = answer[1]["img_alt"]
+        data = {
+            "text": text,
+            # Images info doesn't really matter (we won't query against it anyway)
+            "image_url": answer[1]["img"] or None,
+            "image_alt_text": answer[1]["img_alt"] or None,
+        }
         answer_entry, _ = PollAnswerOption.get_first_or_create(data)
         print("Processed/persisted a poll answer: {!s}".format(answer_entry))
         return answer_entry
