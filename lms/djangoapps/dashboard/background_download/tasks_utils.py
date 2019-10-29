@@ -29,9 +29,9 @@ log = logging.getLogger('edx.celery.task')
 
 def export_all_polls_submissions(filename, chunk_size, courses_ids, user_id):
 
+    # `settings.POLL_SURVEY_SUBMISSIONS_DIR` is of `Path` type
     if not settings.POLL_SURVEY_SUBMISSIONS_DIR.isdir():
-        # FIXME the dir isn't created
-        os.mkdir(settings.POLL_SURVEY_SUBMISSIONS_DIR)
+        settings.POLL_SURVEY_SUBMISSIONS_DIR.mkdir()
 
     # To keep the filesystem clean, clean up the dir on a per-user basis.
     cleanup_directory_files(dir_path=settings.POLL_SURVEY_SUBMISSIONS_DIR, user_id=user_id)
