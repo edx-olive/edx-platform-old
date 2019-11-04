@@ -12,9 +12,11 @@ before_script:
 
 build-base-image:
     stage: build
+    image: docker:18
     tags:
-        - dind
+        - kube
     variables:
+        DOCKER_HOST: tcp://docker:2375/
         BASE_IMAGE: registry-gitlab.raccoongang.com/edx/edx-platform:$CI_COMMIT_REF_SLUG
     script:
         - git clone --depth 1 $EDX_THEME_REPO -b $EDX_THEME_BRANCH themes/$EDX_THEME_NAME
