@@ -35,7 +35,7 @@ def prepare_submission_datum(submission, **kwargs):
         # instead of submission's answer.id and answer.text
         answer_text = submission.answer.text if getattr(submission, "answer", None) else submission.answer_text
         try:
-            submission_date = int(time.mktime(submission.submission_date.timetuple()))
+            submission_date = submission.submission_date.strftime("%m/%d/%Y")  # MM/DD/YYYY e.g. "11/07/2019"
         except:  # Cannot think of any particular error
             submission_date = "-"
         return [
