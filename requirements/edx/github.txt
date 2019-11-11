@@ -108,11 +108,11 @@ git+https://github.com/raccoongang/edx-search.git@fa6e0bb947c70278e8666be6e0d1a7
 git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.18#egg=xblock-drag-and-drop-v2==2.0.18
 -e git+https://github.com/raccoongang/flow-control-xblock@v0.2.0#egg=flow-control-xblock
 # Required for `xblock-adventure`; does not contain incompatible `i18_service`
--e git+https://github.com/edx-solutions/xblock-ooyala@v2.0.19#egg=xblock-ooyala==2.1.3
+# -e git+https://github.com/edx-solutions/xblock-ooyala@v2.0.19#egg=xblock-ooyala==2.1.3
 # Required for `xblock-adventure`
--e git+https://github.com/edx-solutions/xblock-mentoring.git@8837eb5d91fed05ec4758dfd9b9e7adc5c906210#egg=xblock_mentoring
+# -e git+https://github.com/edx-solutions/xblock-mentoring.git@8837eb5d91fed05ec4758dfd9b9e7adc5c906210#egg=xblock_mentoring
 # Excluded `CompletableXBlockMixin` related changes to avoid `XBlock` version update; contains RG fixes
--e git+https://bitbucket.org/appliedxxx/xblock-adventure@amat-dev#egg=xblock-adventure
+# -e git+https://bitbucket.org/appliedxxx/xblock-adventure@amat-dev#egg=xblock-adventure
 -e git+https://bitbucket.org/appliedxxx/vr_xblock@master#egg=vr_xblock
 -e git+https://bitbucket.org/appliedxxx/yammer_xblock.git#egg=yammer_xblock
 -e git+https://bitbucket.org/appliedxxx/feedback_xblock.git#egg=feedback_xblock
