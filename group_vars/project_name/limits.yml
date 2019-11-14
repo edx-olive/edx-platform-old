@@ -41,5 +41,3 @@ EDXAPP_CELERY_WORKERS:
     monitor: False
     max_tasks_per_child: 1
 
-# RG_IP_ACCESS_LIMITS stored in configuration:inventory/group_vars/all/rg.yml
-IP_ACCESS_LIMITS: {{ RG_IP_ACCESS_LIMITS }}
