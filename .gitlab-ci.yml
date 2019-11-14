@@ -4,7 +4,7 @@ stages:
 
 deploy-dev:
     stage: deploy
-    image: registry-gitlab.raccoongang.com/edx/configuration:latest
+    image: registry-gitlab.raccoongang.com/edx/configuration:ironwood-rg-develop
     variables:
         ANSIBLE_SSH_KEY: $JENKINS_DEPLOY_KEY
         ANSIBLE_VAULT_KEY: $DEVOPS_VAULT_KEY
@@ -21,7 +21,7 @@ deploy-dev:
 deploy-stage:
     stage: deploy-stage
     extends: deploy-dev
-    image: registry-gitlab.raccoongang.com/edx/configuration:CONFIGURATION_IMAGE_STAGE
+    image: registry-gitlab.raccoongang.com/edx/configuration:$CONFIGURATION_IMAGE_STAGE
     script:
       - ansible-playbook stage.yml
     environment:
