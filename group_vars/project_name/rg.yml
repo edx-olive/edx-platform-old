@@ -11,10 +11,8 @@ region_location: ''
 # use_raccoongang_ssl: yes
 # nginx_ssl: yes
 
-nginx: yes
-nginx_letsencrypt: yes
-nginx_letsencrypt_setup: yes
-insights: no
+## Enable Letsencrypt
+# use_letsencrypt: yes
 
 # NGINX_ADDITIONAL_SERVICES_CONFIG:
 #   - name: discovery
