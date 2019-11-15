@@ -5,7 +5,7 @@ Views for user API
 from django.shortcuts import redirect
 from django.utils import dateparse
 from opaque_keys import InvalidKeyError
-from opaque_keys.edx.keys import UsageKey
+from opaque_keys.edx.keys import UsageKey, CourseKey
 from rest_framework import generics, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -293,3 +293,50 @@ def my_user_info(request):
     Redirect to the currently-logged-in user's info page
     """
     return redirect("user-detail", username=request.user.username)
+
+
+@mobile_view(is_user=True)
+class UserHardcodedVRCourseEnrollmentsList(generics.ListAPIView):
+    """
+    Legacy endpoint.
+
+    Get enrollments for particular courses.
+    """
+    queryset = CourseEnrollment.objects.all()
+    serializer_class = CourseEnrollmentSerializer
+    lookup_field = 'username'
+
+    # In Django Rest Framework v3, there is a default pagination
+    # class that transmutes the response data into a dictionary
+    # with pagination information.  The original response data (a list)
+    # is stored in a "results" value of the dictionary.
+    # For backwards compatibility with the existing API, we disable
+    # the default behavior by setting the pagination_class to None.
+    pagination_class = None
+
+    def get_queryset(self):
+        enrollment1 = self.queryset.filter(
+            user__username=self.kwargs['username'],
+            is_active=True,
+            course_id=CourseKey.from_string('course-v1:appliedx+VR1+2016')
+        ).first()
+        enrollment2 = self.queryset.filter(
+            user__username=self.kwargs['username'],
+            is_active=True,
+            course_id=CourseKey.from_string('course-v1:AGS+EPG360+2017')
+        ).first()
+
+        enrollments = []
+        if enrollment1:
+            enrollments.append(enrollment1)
+        if enrollment2:
+            enrollments.append(enrollment2)
+
+        if enrollments:
+            return [
+                enrollment for enrollment in enrollments
+                if enrollment.course_overview and
+                is_mobile_available_for_user(self.request.user, enrollment.course_overview)
+            ]
+        else:
+            return []

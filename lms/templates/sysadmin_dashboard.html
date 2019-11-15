@@ -9,6 +9,7 @@ from django.utils.translation import ugettext as _
   <%static:css group='style-course'/>
   <script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.js')}"></script>
   <script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.axislabels.js')}"></script>
+  <script type="text/javascript" src="${static.url('js/sysadmin/sysadmin_files_download.js')}"></script>
 </%block>
 
 <style type="text/css">
@@ -60,6 +61,8 @@ textarea {
       <a href="${reverse('sysadmin_staffing')}" class="${modeflag.get('staffing')}">${_('Staffing and Enrollment')}</a>
       ## Translators: refers to http://git-scm.com/docs/git-log
       <a href="${reverse('gitlogs')}">${_('Git Logs')}</a>
+      ## Translators: refers to poll/survey xblock related analytics e.g. reports on students' poll submissions
+      <a href="${reverse('sysadmin_poll_survey')}" class="${modeflag.get('poll_survey')}">${_('Survey Reports')}</a>
     </h2>
 	<hr />
 %if modeflag.get('users'):
@@ -165,8 +168,39 @@ textarea {
 <hr style="width:40%" />
 %endif
 
+%if modeflag.get('poll_survey'):
+
+    <h3>${_('Poll & Survey Reports')}</h3><br/>
+
+    <p>${_("Select all courses or a particular course in the dropdown menu.")}</p>
+    <br />
+
+    <form class="surveys-report-form" name="action" method="POST">
+      <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" />
+      <select name="course">
+        <option value="">All courses</option>
+        % for course in courses:
+            <option value="${course}">${course}</option>
+        % endfor
+      </select>
+
+      <p>${_("Click the 'Generate Survey Report' button to start the report generating process. You will be able to download the report once it gets generated.")}</p>
+      <br />
+
+      %if nothing_in_progress :
+          <button type="submit" name="action" value="export_poll_survey_submissions_csv">${_('Generate Survey Report')}</button>
+      %endif
+
+      %if ready_to_download:
+          <button class="download-results-button" type="submit" name="action" value="download_poll_survey_submissions_csv">${_('Download Survey Report')}</button>
+      %endif
+    </form>
+
+
+%endif
+
 %if msg:
-    <p>${msg}</p>
+    <p style="color: green">${msg}</p>
 %endif
 
 %if datatable:

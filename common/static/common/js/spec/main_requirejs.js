@@ -40,7 +40,9 @@
             'jasmine-imagediff': 'js/vendor/jasmine-imagediff',
             'URI': 'js/vendor/URI.min',
             'draggabilly': 'js/vendor/draggabilly',
-            'hls': 'common/js/vendor/hls'
+            'hls': 'common/js/vendor/hls',
+             // Custom AMAT scripts
+            'sysadmin': 'js/sysadmin',
         },
         shim: {
             'gettext': {
@@ -154,7 +156,11 @@
             },
             'sinon': {
                 exports: 'sinon'
-            }
+            },
+            // Custom AMAT scripts
+            'sysadmin': {
+                deps: ['jquery'],
+            },
         }
     });
 

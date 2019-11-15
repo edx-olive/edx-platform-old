@@ -430,3 +430,25 @@ def search(request):
             field_dict.update(dict({parameter: request.GET[parameter]}))
 
     return HttpResponse(json.dumps(_search(search_key, page_size, page_index, mobile, field_dict)))
+
+
+def latest_app_version(request):
+    """
+    Return mobile app version.
+    """
+    version = settings.MOBILE_APP_VERSION
+    if version:
+        return HttpResponse('{"app_version":"' + version + '"}')
+    else:
+        return HttpResponse("Version is undefined.")
+
+
+def latest_app_version_vr(request):
+    """
+    Return mobile app VR version.
+    """
+    version = settings.MOBILE_APP_VERSION_VR
+    if version:
+        return HttpResponse('{"app_version":"' + version + '"}')
+    else:
+        return HttpResponse("Version is undefined.")

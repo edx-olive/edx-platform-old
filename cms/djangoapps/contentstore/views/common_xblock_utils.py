@@ -14,6 +14,19 @@ from xmodule.tabs import StaticTab
 from xmodule.x_module import DEPRECATION_VSCOMPAT_EVENT
 
 from contentstore.views.helpers import create_xblock, usage_key_with_run
+from poll_survey.configs import (
+    ALLOWED_POLLS_NAMES,
+    COMPLETION_EFFORT_POLL_NAME,
+    COURSE_QUALITY_SURVEY_NAME,
+    OPEN_ENDED_SURVEY_NAME,
+    POST_COURSE_SURVEY_NAME,
+    PRE_COURSE_SURVEY_NAME,
+    RATING_POLL_NAME,
+    REGULAR_POLL_NAME,
+    REGULAR_SURVEY_NAME,
+)
+from poll_survey.models import SurveyPollCommonsection
+
 from util.json_request import JsonResponse
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -107,6 +120,11 @@ def create_section(parent_locator, user, category, display_name, boilerplate=Non
 
 
 class SurveyRequest():
+    """
+    Legacy SurveyRequest.
+
+    Unrelated to `poll_survey` app.
+    """
     method = 'POST'
     body = '{}'
 
@@ -127,6 +145,8 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
     headers = {"content-type": "application/json"}
     if section_name == 'Introduction':
         child_position = 0
+    elif section_name == "Survey":
+        child_position = None
     else:
         child_position = None
     section = COMMON_XBLOCK_OBJ[section_name]
@@ -141,17 +161,56 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
                                                  unit['display_name'])
                 if unit.has_key('xblocks'):
                     for xblock in unit['xblocks']:
-                        xblock_parent = create_section(unicode(vertical_parent.location), user, xblock['type'],
-                                                       xblock['display_name'], xblock.get('boilerplate'))
+                        xblock_parent = None
+                        if xblock["type"] in ALLOWED_POLLS_NAMES:
+                            commonsection_settings = SurveyPollCommonsection.objects.all().last()
+                            if commonsection_settings:
+                                if (xblock["type"] == REGULAR_SURVEY_NAME and commonsection_settings.contains_survey) \
+                                        or (xblock["type"] == REGULAR_POLL_NAME
+                                            and commonsection_settings.contains_poll) \
+                                        or (xblock["type"] == OPEN_ENDED_SURVEY_NAME
+                                            and commonsection_settings.contains_open_ended_survey) \
+                                        or (xblock["type"] == PRE_COURSE_SURVEY_NAME
+                                            and commonsection_settings.contains_pre_course_survey) \
+                                        or (xblock["type"] == POST_COURSE_SURVEY_NAME
+                                            and commonsection_settings.contains_post_course_survey) \
+                                        or (xblock["type"] == COURSE_QUALITY_SURVEY_NAME
+                                            and commonsection_settings.contains_course_quality_survey) \
+                                        or (xblock["type"] == RATING_POLL_NAME
+                                            and commonsection_settings.contains_rating_poll) \
+                                        or (xblock["type"] == COMPLETION_EFFORT_POLL_NAME
+                                            and commonsection_settings.contains_completion_effort_poll):
+                                    # We apply hardcoded defaults if no poll template was created.
+                                    # Ref.: `xblock-poll.poll.poll_survey_storing.defaults.
+                                    xblock_parent = create_section(unicode(vertical_parent.location),
+                                                                   user,
+                                                                   xblock['type'],
+                                                                   xblock['display_name'],
+                                                                   xblock.get('boilerplate')
+                                                                   )
+                            else:
+                                # We create all sections if no commonsections have been set up on admin.
+                                xblock_parent = create_section(unicode(vertical_parent.location),
+                                                               user,
+                                                               xblock['type'],
+                                                               xblock['display_name'],
+                                                               xblock.get('boilerplate')
+                                                               )
+                                # raise ValueError("Please create survey/poll/open-ended survey "
+                                #                  "commonsection settings in admin.")
+                        else:
+                            xblock_parent = create_section(unicode(vertical_parent.location), user, xblock['type'],
+                                                           xblock['display_name'], xblock.get('boilerplate'))
                         if xblock.has_key('metadata'):
                             video_metadata = xblock['metadata']
                             video_metadata['youtube_id_1_0'] = u''
-                            usage_key = usage_key_with_run(unicode(xblock_parent.location))
-                            _save_xblock(
-                                user,
-                                _get_xblock(usage_key, user),
-                                metadata=video_metadata
-                            )
+                            if xblock_parent:
+                                usage_key = usage_key_with_run(unicode(xblock_parent.location))
+                                _save_xblock(
+                                    user,
+                                    _get_xblock(usage_key, user),
+                                    metadata=video_metadata
+                                )
                         if xblock.has_key('question'):
                             question = xblock.get('question')
                             req = SurveyRequest()

@@ -2254,6 +2254,9 @@ INSTALLED_APPS = (
     'openedx.features.enterprise_support',
 
     'experiments',
+
+    # Custom AMAT apps
+    'poll_survey'
 )
 
 ######################### CSRF #########################################
@@ -2547,6 +2550,13 @@ GRADES_DOWNLOAD = {
     'BUCKET': 'edx-grades',
     'ROOT_PATH': '/tmp/edx-s3/grades',
 }
+
+# AMAT customizations
+GITHUB_REPO_ROOT = ENV_ROOT / "data"
+# TODO user `MEDIA_ROOT` instead (`GITHUB_REPO_ROOT` contains clonned repos of courses
+#  imported via /sysadmin/courses, and third-party modifications can break
+#  the "Load new course from GitHub" functionality).
+POLL_SURVEY_SUBMISSIONS_DIR = GITHUB_REPO_ROOT / "poll_survey_submissions"
 
 FINANCIAL_REPORTS = {
     'STORAGE_TYPE': 'localfs',

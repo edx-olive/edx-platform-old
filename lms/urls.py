@@ -67,7 +67,10 @@ urlpatterns = (
     url(r'^get_yammer_group_id$', 'util.custom_views.yammer_group_id'),
     url(r'cms_signup$', 'student.custom_views.cms_signup'),
     url(r'^generate_studio_password$', 'student.custom_views.generate_studio_password'),
+    # Mobile
     url(r'^search_courses$', 'util.custom_views.search'),
+    # url(r'^latest_app_version$', 'util.custom_views.latest_app_version'),
+    # url(r'^latest_app_version_vr$', 'util.custom_views.latest_app_version_vr'),
     # Get credit, AGU related
     url(r'^credit_requested$', 'courseware.views.views.capture_credit_requested'),
     url(r'^last_credit_request$', 'courseware.views.views.credit_requested_details'),

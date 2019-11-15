@@ -132,6 +132,7 @@ from util.json_request import JsonResponse
 from util.milestones_helpers import get_pre_requisite_courses_not_completed
 from util.password_policy_validators import validate_password_strength
 from xmodule.modulestore.django import modulestore
+from courseware.courses import get_course_by_id
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -843,8 +844,11 @@ def dashboard(request):
     course_enrollments_progress = list()
     course_enrollments_external = list()
     for enrollment in course_enrollments:
-        from courseware.courses import get_course_by_id
-        course = get_course_by_id(enrollment.course_id, depth=2)
+        try:
+            course = get_course_by_id(enrollment.course_id, depth=2)
+        except Http404:
+            continue
+
         if credit_requested_new(user, enrollment.course_id) != "":
             course_enrollments_complete.append(enrollment)
         elif course.allow_public_wiki_access:
