@@ -1,6 +1,7 @@
 stages:
     - deploy
     - deploy-stage
+    - deploy-production
 
 deploy-dev:
     stage: deploy
