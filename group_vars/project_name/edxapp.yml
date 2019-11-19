@@ -24,8 +24,8 @@ EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
 
 EDXAPP_USE_GIT_IDENTITY: True
 # TODO unificated repositories structures
-edx_platform_repo: "git@gitlab.raccoongang.com:PROJECT-Team/projects/project_name/edx-platform.git"
-edx_platform_version: "{{ lookup('env', 'EDX_PLATFORM_VERSION_PRODUCTION') }}"
+edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
+edx_platform_version: "ironwood-rg"
 edx_ansible_source_repo: "https://gitlab.raccoongang.com/edx/configuration.git"
 configuration_version: "ironwood-rg"
 
@@ -51,8 +51,8 @@ EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recurs
 
 ELASTICSEARCH_CLUSTERED: False
 
-EDXAPP_ENV_EXTRA:
-  EDXAPP_THIRD_PARTY_AUTH_BACKENDS:
+EDXAPP_LMS_ENV_EXTRA:
+  THIRD_PARTY_AUTH_BACKENDS:
     - "social_core.backends.google.GoogleOAuth2"
     - "social_core.backends.linkedin.LinkedinOAuth2"
     - "social_core.backends.facebook.FacebookOAuth2"

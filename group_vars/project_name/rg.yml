@@ -8,8 +8,11 @@ tenancy_type: 'single'
 region_location: ''
 
 # TODO refactor roles/nginx, remove roles/rg-nginx
-use_raccoongang_ssl: yes
-nginx_ssl: yes
+# use_raccoongang_ssl: yes
+# nginx_ssl: yes
+
+## Enable Letsencrypt
+use_letsencrypt: no
 
 # NGINX_ADDITIONAL_SERVICES_CONFIG:
 #   - name: discovery
