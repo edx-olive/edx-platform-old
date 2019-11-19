@@ -12,7 +12,7 @@ region_location: ''
 # nginx_ssl: yes
 
 ## Enable Letsencrypt
-# use_letsencrypt: yes
+use_letsencrypt: no
 
 # NGINX_ADDITIONAL_SERVICES_CONFIG:
 #   - name: discovery
