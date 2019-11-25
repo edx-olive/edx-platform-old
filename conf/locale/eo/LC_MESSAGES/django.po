@@ -17938,9 +17938,9 @@ msgstr ""
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 #: lms/templates/emails/enroll_email_enrolledmessage.txt
-msgid "To start accessing course materials, please visit {course_url}"
+msgid "To start accessing course materials, please visit {course_about_url}"
 msgstr ""
-"Tö stärt äççéssïng çöürsé mätérïäls, pléäsé vïsït {course_url} Ⱡ'σяєм ιρѕυм "
+"Tö stärt äççéssïng çöürsé mätérïäls, pléäsé vïsït {course_about_url} Ⱡ'σяєм ιρѕυм "
 "∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя α#"
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
@@ -18235,9 +18235,9 @@ msgstr ""
 "thé çöürsé stäff. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя#"
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
-msgid "To access the course visit {course_url} and login."
+msgid "To access the course visit {course_about_url} and login."
 msgstr ""
-"Tö äççéss thé çöürsé vïsït {course_url} änd lögïn. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт "
+"Tö äççéss thé çöürsé vïsït {course_about_url} änd lögïn. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт "
 "αмєт, ¢σηѕє¢тєтυя #"
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt

@@ -10,7 +10,7 @@ ${_("You have been invited to join {course_name} at {site_name} by a "
 % if is_shib_course:
 % if auto_enroll:
 
-${_("To access the course visit {course_url} and login.").format(course_url=course_url)}
+${_("To access the course visit {course_about_url} and login.").format(course_about_url=course_about_url)}
 % elif course_about_url is not None:
 
 ${_("To access the course visit {course_about_url} and register for the course.").format(
