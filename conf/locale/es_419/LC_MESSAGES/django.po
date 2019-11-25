@@ -16140,9 +16140,9 @@ msgstr ""
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 #: lms/templates/emails/enroll_email_enrolledmessage.txt
-msgid "To start accessing course materials, please visit {course_url}"
+msgid "To start accessing course materials, please visit {course_about_url}"
 msgstr ""
-"Para acceder a los materiales del curso, por favor visite {course_url}"
+"Para acceder a los materiales del curso, por favor visite {course_about_url}"
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {course_about_url} to join the course and begin the beta test."
@@ -16405,8 +16405,8 @@ msgstr ""
 "{course_name} en {site_name}."
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
-msgid "To access the course visit {course_url} and login."
-msgstr "Para acceder al curso visite {course_url} e inicie sesión."
+msgid "To access the course visit {course_about_url} and login."
+msgstr "Para acceder al curso visite {course_about_url} e inicie sesión."
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
 msgid ""

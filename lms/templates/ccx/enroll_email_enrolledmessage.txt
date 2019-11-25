@@ -9,8 +9,8 @@ ${_("You have been enrolled in {course_name} at {site_name} by a member "
 		site_name=site_name
 	)}
 
-${_("To start accessing course materials, please visit {course_url}").format(
-		course_url=course_url
+${_("To start accessing course materials, please visit {course_about_url}").format(
+		course_about_url=course_about_url
 	)}
 
 ----

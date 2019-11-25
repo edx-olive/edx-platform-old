@@ -13963,8 +13963,8 @@ msgstr "강좌 운영팀에서 회원님을  {site_name}의  '{course_name}' 강
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 #: lms/templates/emails/enroll_email_enrolledmessage.txt
-msgid "To start accessing course materials, please visit {course_url}"
-msgstr "해당 강좌로 이동하시려면 로그인을 하신 뒤에, {course_url} 을 클릭하세요."
+msgid "To start accessing course materials, please visit {course_about_url}"
+msgstr "해당 강좌로 이동하시려면 로그인을 하신 뒤에, {course_about_url} 을 클릭하세요."
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {course_about_url} to join the course and begin the beta test."
@@ -14190,8 +14190,8 @@ msgid ""
 msgstr "강좌 운영팀이 회원님을 {site_name} '{course_name}' 강좌에 초대하였습니다."
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
-msgid "To access the course visit {course_url} and login."
-msgstr "강좌에 접근하려면  {course_url} 을 방문하여 로그인하세요."
+msgid "To access the course visit {course_about_url} and login."
+msgstr "강좌에 접근하려면  {course_about_url} 을 방문하여 로그인하세요."
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
 msgid ""

@@ -14685,8 +14685,8 @@ msgstr "您已被课程工作人员邀请作为 Beta 测试员加入 {site_name}
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 #: lms/templates/emails/enroll_email_enrolledmessage.txt
-msgid "To start accessing course materials, please visit {course_url}"
-msgstr "要开始获取课程资料，请访问 {course_url}"
+msgid "To start accessing course materials, please visit {course_about_url}"
+msgstr "要开始获取课程资料，请访问 {course_about_url}"
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {course_about_url} to join the course and begin the beta test."
@@ -14910,8 +14910,8 @@ msgid ""
 msgstr "您已被课程工作人员邀请加入 {site_name} 上的 {course_name}。"
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
-msgid "To access the course visit {course_url} and login."
-msgstr "要进入该课程，请访问 {course_url} 并登录。"
+msgid "To access the course visit {course_about_url} and login."
+msgstr "要进入该课程，请访问 {course_about_url} 并登录。"
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
 msgid ""

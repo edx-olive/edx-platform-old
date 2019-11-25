@@ -76,7 +76,10 @@ def store_rows(
             if datum_processor:
                 datum = datum_processor(datum, **datum_processor_kwargs)
             # log.debug("datum: {!s}".format(datum))
-            writer.writerow(datum)
+            try:
+                writer.writerow(datum)
+            except UnicodeEncodeError:
+                log.error("UnicodeEncodeError: {!s}".format(datum))
 
 
 def cleanup_directory_files(dir_path, user_id):

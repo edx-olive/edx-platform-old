@@ -44,9 +44,9 @@ def prepare_submission_datum(submission, **kwargs):
             submission.student.id,
             submission.employee_id or "-",
             submission.question.id,
-            submission.question.text,
+            submission.question.text.encode("utf8"),
             answer_id,
-            answer_text,
+            answer_text.encode("utf8"),
             submission_date,
         ]
     except AttributeError:
