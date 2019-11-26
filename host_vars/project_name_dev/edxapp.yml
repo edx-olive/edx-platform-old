@@ -1,5 +1,6 @@
 ---
-edx_platform_version: "{{ lookup('env', 'EDX_PLATFORM_VERSION_DEV') | default('master', true) }}"
+edx_platform_version: "ironwood-rg"
+edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
 EDXAPP_SITE_NAME: "lms-dev-project_name.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-dev-project_name.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-dev-project_name.raccoongang.com"
