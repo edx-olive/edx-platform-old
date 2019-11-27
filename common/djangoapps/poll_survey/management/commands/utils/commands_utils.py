@@ -64,7 +64,7 @@ def prepare_submissions_entries(
         courses_ids=None,
         offset=0,
         chunk_size=2000):
-    """Fetch submissions entries."""
+    """Fetch xblock submissions entries."""
 
     if exclude_ids:
         print("Fetching {!s} xblock submissions starting from pk {!s} (if there are any), "
