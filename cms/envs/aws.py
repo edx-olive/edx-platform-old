@@ -316,6 +316,10 @@ CLOUDFRONT_SIGNING_KEY_FILE = AUTH_TOKENS.get("CLOUDFRONT_SIGNING_KEY_FILE")
 AWS_VIDEO_ACCESS_KEY = AUTH_TOKENS.get("AWS_VIDEO_ACCESS_KEY")
 AWS_VIDEO_SECRET_ACCESS_KEY = AUTH_TOKENS.get("AWS_VIDEO_SECRET_ACCESS_KEY")
 AWS_VIDEO_BUCKET = ENV_TOKENS.get("AWS_VIDEO_BUCKET")
+# AMAT Catalog/Pathway API
+AMAT_CATALOG_BASE_URL = AUTH_TOKENS.get("AMAT_CATALOG_API", {}).get("AMAT_CATALOG_BASE_URL")
+AMAT_CATALOG_USER = AUTH_TOKENS.get("AMAT_CATALOG_API", {}).get("AMAT_CATALOG_USER")
+
 
 # Disabling querystring auth instructs Boto to exclude the querystring parameters (e.g. signature, access key) it
 # normally appends to every returned URL.

@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand
 from opaque_keys.edx.keys import CourseKey
 
 from courseware.models import StudentModule
-from poll_survey.management.commands.commands_utils import (
+from poll_survey.management.commands.utils.commands_utils import (
     fetch_xblock,
     get_comma_separated_args,
     get_employee_id,
@@ -24,15 +24,14 @@ class Command(BaseCommand):
 
     Examples of command to execute on devstack:
     ```
-    ./manage.py lms --settings=devstack process_historical_polls_data --courses_ids="course-v1:RG+CS101+2019_T1, course-v1:edX+DemoX+Demo_Course"
-    ./manage.py lms --settings=devstack process_historical_polls_data --exclude_ids="1L, 2L" --chunk_size=5
+    ./manage.py lms --settings=devstack process_historical_polls_data --courses_ids="course-v1:RG+CS101+2019_T1, course-v1:edX+DemoX+Demo_Course" --submission_date_to="2019-11-15"
+    ./manage.py lms --settings=devstack process_historical_polls_data --exclude_ids="1L, 2L" --chunk_size=5 --submission_date_to="2019-11-15"
     ```
     """
 
     MODULE_TYPE = "poll"
     CHUNK_SIZE = 2000
     FROM_PK = 1L
-    SUBMISSION_DATE_TO = "2019-9-13"
 
     args = ""
     help = "Store historical polls data in poll_survey tables"
@@ -52,9 +51,9 @@ class Command(BaseCommand):
                          "format, e.g. 'course-v1:RF+CS101+2019_T1'"),
         make_option("--submission_date_to",
                     dest="submission_date_to",
-                    default=SUBMISSION_DATE_TO,
                     type="string",
-                    help="Student submissions date to fetch entries TO. Format: YYYY-MM-DD, e.g. '2019-09-13'"),
+                    help="Student submissions date (will fetch entries created before this date). "
+                         "Format: YYYY-MM-DD, e.g. '2019-09-13'"),
         make_option("--from_pk",
                     dest="from_pk",
                     type="long",
@@ -151,7 +150,10 @@ class Command(BaseCommand):
                         print("A question or an answer must have been removed from the xblock. "
                               "Won't persist the submission.")
                 processed_subs_counter += 1
-                print("Processed {!s} poll xblock submissions (submissions entries).".format(processed_subs_counter))
+                print("Processed {!s} poll xblock submissions (submissions entries) out of {!s}.".format(
+                    processed_subs_counter,
+                    subs_count
+                ))
                 print("Latest processed submission entry id - {!s}, submission date - {!s}"
                       .format(submission_entry.id, submission_entry.created))
                 print("Current offset: {!s}".format(offset))

@@ -270,9 +270,9 @@ class PollSubmissionAdmin(admin.ModelAdmin):
 
 
 class CompletionEffortPollSubmissionAdmin(admin.ModelAdmin):
-    """Admin interface for the `RatingPollSubmission` model."""
+    """Admin interface for the `CompletionEffortPollSubmission` model."""
 
-    model = RatingPollSubmission
+    model = CompletionEffortPollSubmission
     readonly_fields = ('created', 'modified', 'submission_date')
     list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
     list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
@@ -288,14 +288,17 @@ class RatingPollSubmissionAdmin(admin.ModelAdmin):
     """Admin interface for the `RatingPollSubmission` model."""
 
     model = RatingPollSubmission
-    readonly_fields = ('created', 'modified', 'submission_date')
-    list_display = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
-    list_display_links = ('student', 'employee_id', 'course', 'question', 'answer', 'created', 'modified')
+    readonly_fields = ('created', 'modified', 'submission_date', 'catalog_processed_date', 'course_agu_id')
+    list_display = ('student', 'employee_id', 'course', 'course_agu_id', 'question', 'answer', 'created', 'modified',
+                    'catalog_marker')
+    list_display_links = ('student', 'employee_id', 'course', 'course_agu_id', 'question', 'answer',
+                          'created', 'modified', 'catalog_marker')
+    # list_filter = ('catalog_marker',)
 
     def get_readonly_fields(self, request, obj=None):
         django_readonly = super(RatingPollSubmissionAdmin, self).get_readonly_fields(request, obj)
         if obj:
-            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id')
+            return django_readonly + ('student', 'course', 'question', 'answer', 'employee_id', 'catalog_marker')
         return django_readonly
 
 
@@ -315,7 +318,7 @@ class SurveySubmissionAdmin(admin.ModelAdmin):
 
 
 class OpenEndedSurveySubmissionAdmin(admin.ModelAdmin):
-    """Admin interface for the `SurveySubmission` model."""
+    """Admin interface for the `OpenEndedSurveySubmission` model."""
 
     model = OpenEndedSurveySubmission
     readonly_fields = ('created', 'modified', 'submission_date')
