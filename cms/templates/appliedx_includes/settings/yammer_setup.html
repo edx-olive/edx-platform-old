@@ -142,7 +142,8 @@
     <div id="yammer-base-buttons">
         <div class="yammer-help">
             <h4>Yammer group Id for this course is <input id="appliedx-custom-yammer" class="appliedx-custom-settings"
-                                                          data-filter-mapping="yammer" type="text" value="not set"
+                                                          data-filter-mapping="yammer" type="text"
+                                                          value="${yammer_group_id or 'not set'}"
                                                           readonly="readonly"></input></h4>
             <div id="yammer-help-intro">Setup yammer for your course by letting the studio know about the group under
                 which all the yammer discussions are grouped. You can choose to link an existing group or creating a new
@@ -242,5 +243,6 @@
         }
 
         $($("input[data-filter-mapping='yammer']")[1]).val() == "" && $($("input[data-filter-mapping='yammer']")[1]).val("not set")
+
     }, 3000);
 </script>

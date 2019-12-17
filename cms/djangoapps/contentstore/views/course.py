@@ -1036,6 +1036,7 @@ def settings_handler(request, course_key_string):
                 'self_paced_enabled': self_paced_enabled,
                 'enable_extended_course_details': enable_extended_course_details,
                 'yammer_id': yammer_id,
+                'yammer_group_id': CourseDetails.fetch_about_attribute(course_key, 'yammer'),
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
