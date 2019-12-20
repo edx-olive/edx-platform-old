@@ -735,7 +735,7 @@ class PollSurvey(SysadminDashboardView):
     def post(self, request):
         """Handle all actions from the poll_survey view"""
         action = request.POST.get('action', '')
-        courses_ids = [request.POST.get("course")] if request.POST.get("course") else []
+        courses_ids = request.POST.get("course", [])
 
         # Check if analytics can make use of this, enable tracking if so
         # track.views.server_track(request, action, {},

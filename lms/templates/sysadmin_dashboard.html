@@ -6,6 +6,8 @@ from django.utils.translation import ugettext as _
 %>
 
 <%block name="headextra">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
   <%static:css group='style-course'/>
   <script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.js')}"></script>
   <script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.axislabels.js')}"></script>
@@ -47,6 +49,11 @@ a.selectedmode { background-color: yellow; }
 textarea {
   height: 200px;
 }
+
+select[name="course"] {
+  width:100%;
+}
+
 </style>
 
 <section class="container">
@@ -177,13 +184,15 @@ textarea {
 
     <form class="surveys-report-form" name="action" method="POST">
       <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" />
-      <select name="course">
-        <option value="">All courses</option>
+
+			<select name="course" multiple="multiple" required>
         % for course in courses:
             <option value="${course}">${course}</option>
         % endfor
       </select>
 
+      <br />
+      <br />
       <p>${_("Click the 'Generate Survey Report' button to start the report generating process. You will be able to download the report once it gets generated.")}</p>
       <br />
 
@@ -195,7 +204,11 @@ textarea {
           <button class="download-results-button" type="submit" name="action" value="download_poll_survey_submissions_csv">${_('Download Survey Report')}</button>
       %endif
     </form>
-
+    <script>
+      $(() => {
+          $('[name="course"]').select2();
+        });
+    </script>
 
 %endif
 
