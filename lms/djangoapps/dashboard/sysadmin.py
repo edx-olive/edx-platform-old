@@ -735,7 +735,7 @@ class PollSurvey(SysadminDashboardView):
     def post(self, request):
         """Handle all actions from the poll_survey view"""
         action = request.POST.get('action', '')
-        courses_ids = request.POST.get("course", [])
+        courses_ids = request.POST.getlist('course', [])
 
         # Check if analytics can make use of this, enable tracking if so
         # track.views.server_track(request, action, {},
@@ -747,7 +747,7 @@ class PollSurvey(SysadminDashboardView):
                 user_id=request.user.id,
                 extension="tmp"
             )
-            if tmp_filepath:
+            if tmp_filepath or not courses_ids:
                 # Normally, users don't get here from GUI
                 return HttpResponseRedirect(reverse("sysadmin_poll_survey"))
             else:

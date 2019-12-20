@@ -185,7 +185,7 @@ select[name="course"] {
     <form class="surveys-report-form" name="action" method="POST">
       <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" />
 
-			<select name="course" multiple="multiple" required>
+			<select name="course" multiple="multiple">
         % for course in courses:
             <option value="${course}">${course}</option>
         % endfor
