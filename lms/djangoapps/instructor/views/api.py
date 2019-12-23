@@ -2696,7 +2696,7 @@ def send_email(request, course_id):
     # If these are None (there is no site configuration enabled for the current site) than
     # the system will use normal system defaults
     course_overview = CourseOverview.get_from_id(course_id)
-    from_addr = configuration_helpers.get_value('course_email_from_addr')
+    from_addr = configuration_helpers.get_value('course_email_from_addr', settings.BULK_EMAIL_DEFAULT_FROM_EMAIL)
     if isinstance(from_addr, dict):
         # If course_email_from_addr is a dict, we are customizing
         # the email template for each organization that has courses
