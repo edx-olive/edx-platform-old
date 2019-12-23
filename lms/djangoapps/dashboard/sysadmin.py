@@ -748,7 +748,6 @@ class PollSurvey(SysadminDashboardView):
                 extension="tmp"
             )
             if tmp_filepath or not courses_ids:
-                # Normally, users don't get here from GUI
                 return HttpResponseRedirect(reverse("sysadmin_poll_survey"))
             else:
                 task_processor = PollsMigrationTaskManager(task=export_poll_survey_csv_data)
