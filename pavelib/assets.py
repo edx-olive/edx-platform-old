@@ -773,10 +773,17 @@ def webpack(options):
     environment = 'NODE_ENV={node_env}'.format(
         node_env="production" if settings != Env.DEVSTACK_SETTINGS else "development"
     )
+
+    # Notes(andrey.lykhoman): This construction is used for correct working in the devstack.
+    if settings not in ('aws', 'static_collector'):
+        config_path = Env.get_django_setting("WEBPACK_CONFIG_PATH", "lms", settings=settings)
+    else:
+        config_path = os.environ['WEBPACK_CONFIG_PATH']
     sh(
         cmd(
-            '{environment} $(npm bin)/webpack --config=$WEBPACK_CONFIG_PATH'.format(
-                environment=environment
+            '{environment} $(npm bin)/webpack --config={config_path}'.format(
+                environment=environment,
+                config_path=config_path
             )
         )
     )
