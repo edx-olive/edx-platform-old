@@ -83,7 +83,7 @@ COURSE_CATALOG_API_URL = 'http://edx.devstack.discovery:18381/api/v1/'
 
 FEATURES.update({
     "RG_GAMIFICATION": {
-        "ENABLED": True,
+        "ENABLED": False,
         "RG_GAMIFICATION_ENDPOINT": "",
         "KEY": "key",
         "SECRET": "secret",
