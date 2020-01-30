@@ -406,6 +406,9 @@ FEATURES = {
 
     # Whether to display the account deletion section the account settings page
     'ENABLE_ACCOUNT_DELETION': True,
+
+    # Hide View My Records button on the learner_profile page
+    'ENABLE_LEARNER_RECORDS': False,
 }
 
 # Settings for the course reviews tool template and identification key, set either to None to disable course reviews
