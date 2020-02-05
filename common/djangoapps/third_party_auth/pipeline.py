@@ -655,6 +655,11 @@ def set_logged_in_cookies(backend=None, user=None, strategy=None, auth_entry=Non
                     # the user log in successfully than that the cookie is set.
                     pass
                 else:
+                    # User object is not likely to be present in the request
+                    # this early in the login pipeline, so let's overwrite it
+                    # with the user we currently have in the pipeline.
+                    if user is not None:
+                        request.user = user
                     response = redirect(redirect_url)
                     return student.cookies.set_logged_in_cookies(request, response, user)
 
