@@ -427,8 +427,9 @@ class EmailChangeConfirmationTests(EmailTestMixin, EmailTemplateTagMixin, CacheI
 
     def assertChangeEmailSent(self, test_body_type):
         """
-        Assert that the correct email was sent to confirm an email change, the same
-        email contents should be sent to both old and new addresses
+        Assert that the correct email was sent to confirm an email change.
+
+        The same email contents should be sent to both old and new addresses.
         """
         self.check_confirm_email_change('email_change_successful.html', {
             'old_email': self.user.email,

@@ -36,7 +36,7 @@ def send_activation_email(self, msg, from_address=None):
             user_email=dest_addr
         ))
     except RecoverableChannelDeliveryError:
-        log.info('Retrying sending email to user {dest_addr}, attempt # {attempt} of {max_attempts}'.format(
+        log.exception('Retrying sending email to user {dest_addr}, attempt # {attempt} of {max_attempts}'.format(
             dest_addr=dest_addr,
             attempt=retries,
             max_attempts=max_retries

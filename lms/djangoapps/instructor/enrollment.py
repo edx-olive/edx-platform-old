@@ -35,8 +35,10 @@ from lms.djangoapps.instructor.message_types import (
     EnrolledUnenroll,
     RemoveBetaTester,
 )
+from openedx.core.djangoapps.ace_common.template_context import get_base_template_context
 from openedx.core.djangoapps.lang_pref import LANGUAGE_KEY
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangoapps.theming.helpers import get_current_site
 from openedx.core.djangoapps.user_api.models import UserPreference
 from student.models import (
     CourseEnrollment,
@@ -444,6 +446,9 @@ def send_mail_to_student(student, param_dict, language=None):
 
     Returns a boolean indicating whether the email was sent successfully.
     """
+
+    site = get_current_site()
+    param_dict.update(get_base_template_context(site))
 
     # Add some helpers and microconfig subsitutions
     if 'display_name' in param_dict:
