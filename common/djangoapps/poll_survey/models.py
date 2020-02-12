@@ -1,15 +1,25 @@
 """Poll/Survey models."""
 
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
 from django.db.models import Max
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from xmodule.modulestore.django import modulestore
 
+from model_utils import Choices
 from model_utils.fields import AutoCreatedField
 from model_utils.models import TimeStampedModel
 from openedx.core.djangoapps.xmodule_django.models import CourseKeyField
+from poll_survey.catalog.constants import (
+    CatalogApiErrors,
+    CatalogApiSuccessCases,
+    CatalogDataPushingErrors,
+    CatalogDataValidationErrors,
+)
 
 
 class AnswerOptionBase(TimeStampedModel):
@@ -48,7 +58,7 @@ class PollAnswerOption(AnswerOptionBase):
                 {'text': 'Red', 'image_url': None, 'image_alt_text': None}
                 ```
         Returns:
-            tuple of answer_entry (`PollAnswerOption` object) and created (boolean)
+            tuple of answer_entry (`PollAnswerOption` object) and created (bool)
         """
         answer_entry = PollAnswerOption.objects.filter(text=data["text"]).first()
         created = False
@@ -76,7 +86,7 @@ class SurveyAnswerOption(AnswerOptionBase):
         Arguments:
             text (str): survey answer text.
         Returns:
-            tuple of answer_entry (`SurveyAnswerOption` object) and created (boolean)
+            tuple of answer_entry (`SurveyAnswerOption` object) and created (bool)
         """
         answer_entry = SurveyAnswerOption.objects.filter(text=text).first()
         created = False
@@ -133,7 +143,7 @@ class SurveyQuestion(QuestionBase):
                 {'text': 'Red', 'image_url': None, 'is_default': True, 'image_alt_text': None}
                 ```
         Returns:
-            tuple of question_entry (`SurveyQuestion` object) and created (boolean)
+            tuple of question_entry (`SurveyQuestion` object) and created (bool)
         """
         question_entry = SurveyQuestion.objects.filter(
             text=data["text"],
@@ -175,7 +185,7 @@ class PollQuestion(QuestionBase):
                 {'text': 'Red', 'image_url': None, 'is_default': True, 'image_alt_text': None}
                 ```
         Returns:
-            tuple of question_entry (`PollQuestion` object) and created (boolean)
+            tuple of question_entry (`PollQuestion` object) and created (bool)
         """
         question_entry = PollQuestion.objects.filter(text=data["text"]).first()
         created = False
@@ -319,7 +329,7 @@ class SubmissionBase(TimeStampedModel):
 
     student = models.ForeignKey(User)
     course = CourseKeyField(max_length=255)
-    submission_date = AutoCreatedField(help_text="First submission date. "
+    submission_date = AutoCreatedField(help_text="The submission/re-submission date. "
                                                  "Might differ from the entry creation date.")
     employee_id = models.CharField(max_length=50, blank=True, null=True)
 
@@ -330,7 +340,7 @@ class SubmissionBase(TimeStampedModel):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self.employee_id = self.get_employee_id()
+        self.employee_id = self.employee_id or self.get_employee_id()
         super(SubmissionBase, self).save(force_insert, force_update, using, update_fields)
 
     def get_employee_id(self):
@@ -380,11 +390,91 @@ class RatingPollSubmission(SubmissionBase):
     Rating Poll submission model.
     """
 
+    # NOTE: Remember to update these choices if new groups (enums) ever arrive.
+    CATALOG_MARKER_CHOICES = Choices(
+        *(
+            tuple([case.code for case in CatalogApiErrors]) +
+            tuple([case.code for case in CatalogApiSuccessCases]) +
+            tuple([case.code for case in CatalogDataPushingErrors]) +
+            tuple([case.code for case in CatalogDataValidationErrors])
+        )
+    )
+
     question = models.ForeignKey(PollQuestion)
     answer = models.ForeignKey(PollAnswerOption)
 
+    # NOTE: needed for rating polls only, no need to add to the base model (at least for now)
+    course_agu_id = models.CharField(max_length=50, blank=True, null=True)
+    catalog_marker = models.CharField(
+        max_length=64, blank=True, null=True, choices=CATALOG_MARKER_CHOICES,
+        help_text="Marker as a result of rating processing and pushing to the "
+                  "AMAT Catalog (Pathway)."
+    )
+    catalog_processed_date = models.DateTimeField(
+        blank=True, null=True,
+        help_text="The date of rating processing for the AMAT Catalog (Pathway)."
+    )
+
     def __unicode__(self):  # NOQA
         return "RatingPollSubmission #{!s}".format(self.id)
+
+    def store_catalog_marker(self, marker):
+        """
+        Store a marker of catalog related processing results.
+        """
+        self.catalog_marker = marker or CatalogApiSuccessCases.CATALOG_DEFAULT_CASE
+        self.catalog_processed_date = datetime.now()
+        self.save()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        """
+        Override `save()` logic.
+
+        Need to always re-fetch the course agu id,
+        since an advanced setting is a subject to change
+        (see `get_course_agu_id()` docstring)
+
+        NOTE: consider creating `refetch_course_agu_id` flag
+        to be able to avoid duplicate `self.get_course_agu_id()` calls.
+        """
+        self.course_agu_id = self.get_course_agu_id()
+        super(RatingPollSubmission, self).save(force_insert, force_update, using, update_fields)
+
+    def store_course_agu_id(self):
+        """
+        Store a course AGU id.
+
+        Need to always re-fetch the course agu id,
+        since an advanced setting is a subject to change
+        (see `get_course_agu_id()` docstring)
+        """
+        self.course_agu_id = self.get_course_agu_id()
+        self.save()
+
+    def get_course_agu_id(self):
+        """
+        Transform `self.course` into the AGU format.
+
+        For courses WITH defined "Course Number Display String" advanced setting
+        (display_number_with_default), the value of such setting will be
+        pushed to the catalog.
+
+        For courses WITHOUT defined "Course Number Display String" advanced setting,
+        the next pattern holds:  <course_code>, e.g. "course-v1: RG+CS101+2019_T1"
+        should become "CS101".
+
+        NOTE: consider creating staticmethod and using it in the client (transfer_rating).
+        """
+        course_agu_id = None
+        course_module = modulestore().get_course(self.course, depth=0)
+        if course_module:
+            course_number = course_module.display_coursenumber
+            if course_number:
+                course_agu_id = course_number
+            elif self.course.course:
+                course_agu_id = self.course.course
+        return course_agu_id
 
 
 class SurveySubmission(SubmissionBase):

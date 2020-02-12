@@ -1,0 +1,3 @@
+"""
+AMAT Catalog integration logic.
+"""

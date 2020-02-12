@@ -22,6 +22,7 @@ import datetime
 import json
 import warnings
 
+from celery.schedules import crontab
 import dateutil
 
 from .common import *
@@ -110,13 +111,27 @@ CELERY_ROUTES = "{}celery.Router".format(QUEUE_VARIANT)
 if os.environ.get('QUEUE') == 'high_mem':
     CELERYD_MAX_TASKS_PER_CHILD = 1
 
-CELERYBEAT_SCHEDULE = {}  # For scheduling tasks, entries can be added to this dict
 
 ########################## NON-SECURE ENV CONFIG ##############################
 # Things like server locations, ports, etc.
 
 with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
     ENV_TOKENS = json.load(env_file)
+
+# Custom AMAT configs
+# Running 'catalog_rating_polls' every minute would allow for better manual testing
+AMAT_RATING_PUSH_EVERY_MINUTE = ENV_TOKENS.get("AMAT_RATING_PUSH_EVERY_MINUTE", False)
+
+# For scheduling tasks, entries can be added to this dict
+CELERYBEAT_SCHEDULE = {
+    # 'catalog_rating_polls' is a celery periodic task
+    # that gathers information about rating polls and pushes the data
+    # to the AMAT Pathway/Catalog. Runs every day at 11.30 a.m.
+    'catalog_rating_polls': {
+        'task': 'catalog_rating_polls',
+        'schedule': crontab() if AMAT_RATING_PUSH_EVERY_MINUTE else crontab(hour=11, minute=30),
+    },
+}
 
 # STATIC_ROOT specifies the directory where static files are
 # collected
@@ -524,13 +539,16 @@ if AWS_SECRET_ACCESS_KEY == "":
 
 AWS_STORAGE_BUCKET_NAME = AUTH_TOKENS.get('AWS_STORAGE_BUCKET_NAME', 'edxuploads')
 
-# Custom AMAT configs
+# Custom AMAT auth configs
 CLOUDFRONT_SIGNING_KEY_ID = AUTH_TOKENS.get("CLOUDFRONT_SIGNING_KEY_ID")
 CLOUDFRONT_SIGNING_KEY_FILE = AUTH_TOKENS.get("CLOUDFRONT_SIGNING_KEY_FILE")
 # for uploading videos using vr xblock and the standard video component
 AWS_VIDEO_ACCESS_KEY = AUTH_TOKENS.get("AWS_VIDEO_ACCESS_KEY")
 AWS_VIDEO_SECRET_ACCESS_KEY = AUTH_TOKENS.get("AWS_VIDEO_SECRET_ACCESS_KEY")
 AWS_VIDEO_BUCKET = ENV_TOKENS.get("AWS_VIDEO_BUCKET")
+# AMAT Catalog/Pathway API
+AMAT_CATALOG_BASE_URL = AUTH_TOKENS.get("AMAT_CATALOG_API", {}).get("AMAT_CATALOG_BASE_URL")
+AMAT_CATALOG_USER = AUTH_TOKENS.get("AMAT_CATALOG_API", {}).get("AMAT_CATALOG_USER")
 
 #
 # To support Azure Storage via the Django-Storages library
