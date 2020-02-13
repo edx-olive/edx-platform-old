@@ -15218,8 +15218,8 @@ msgstr ""
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 #: lms/templates/emails/enroll_email_enrolledmessage.txt
-msgid "To start accessing course materials, please visit {course_url}"
-msgstr "כדי לצפות בחומרי הקורס יש להיכנס ל: {course_url}"
+msgid "To start accessing course materials, please visit {course_about_url}"
+msgstr "כדי לצפות בחומרי הקורס יש להיכנס ל: {course_about_url}"
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {course_about_url} to join the course and begin the beta test."
@@ -15457,8 +15457,8 @@ msgid ""
 msgstr "הוזמנת להצטרף ל{course_name} ב{site_name} על ידי חבר בסגל הקורס.  "
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
-msgid "To access the course visit {course_url} and login."
-msgstr "כדי לגשת לקורס, נא בקר ב-{course_url} והתחבר."
+msgid "To access the course visit {course_about_url} and login."
+msgstr "כדי לגשת לקורס, נא בקר ב-{course_about_url} והתחבר."
 
 #: lms/templates/emails/enroll_email_allowedmessage.txt
 msgid ""

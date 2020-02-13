@@ -75,7 +75,7 @@ def export_polls_submissions(poll_type, courses_ids, chunk_size,
             store_rows(
                 filename=filename,
                 header=header,
-                store_header=store_header,
+                store_header=store_header if offset == 0 else False,
                 datum_processor=prepare_submission_datum,
                 data=fetch_submissions(courses_ids, subs_model_class,
                                        offset, chunk_size),
