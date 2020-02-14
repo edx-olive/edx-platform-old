@@ -366,13 +366,16 @@ def xblock_view_handler(request, usage_key_string, view_name):
                 'is_pages_view': is_pages_view,     # This setting disables the recursive wrapping of xblocks
                 'is_unit_page': is_unit(xblock),
                 'can_edit': can_edit,
-                'root_xblock': xblock if (view_name == 'container_preview') else None,
+                'root_xblock': xblock if (view_name == 'container_preview') else None, # XXX: this is only difference between container_preview and other views
                 'reorderable_items': reorderable_items,
                 'paging': paging,
                 'force_render': force_render,
             }
 
+            log.warning("SE2208 BEFORE get_preview_fragment")
+            # XXX: i suspect this is the function that is getting stuck
             fragment = get_preview_fragment(request, xblock, context)
+            log.warning("SE2208 AFTER get_preview_fragment")
 
             # Note that the container view recursively adds headers into the preview fragment,
             # so only the "Pages" view requires that this extra wrapper be included.

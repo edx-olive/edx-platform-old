@@ -1299,13 +1299,20 @@ class MetricsMixin(object):
         start_time = time.time()
         try:
             status = "success"
+            log.warning("SE2208 BEFORE XBLOCK.RUNTIME.RENDER")
+            log.warning("SE2208 RENDER [block]: %s", block)
+            log.warning("SE2208 RENDER [view_name]: %s", view_name)
+            log.warning("SE2208 RENDER [context]: %s", context)
             return super(MetricsMixin, self).render(block, view_name, context=context)
+            log.warning("SE2208 AFTER XBLOCK.RUNTIME.RENDER")
 
         except:
+            log.warning("SE2208 AFTER XBLOCK.RUNTIME.RENDER (FAILURE)")
             status = "failure"
             raise
 
         finally:
+            log.warning("SE2208 AFTER XBLOCK.RUNTIME.RENDER (FINALLY)")
             end_time = time.time()
             duration = end_time - start_time
             course_id = getattr(self, 'course_id', '')

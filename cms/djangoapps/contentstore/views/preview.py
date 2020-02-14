@@ -274,10 +274,21 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
     """
     Wraps the results of rendering an XBlock view in a div which adds a header and Studio action buttons.
     """
+    log.warning("SE2208 _studio_wrap_xblock -> xblock = %s", xblock)
+    log.warning("SE2208 _studio_wrap_xblock -> view = %s", view)
+    log.warning("SE2208 _studio_wrap_xblock -> frag = %s", frag)
+    log.warning("SE2208 _studio_wrap_xblock -> context = %s", context)
+    log.warning("SE2208 _studio_wrap_xblock -> display_name_only = %s", display_name_only)
     # Only add the Studio wrapper when on the container page. The "Pages" page will remain as is for now.
     if not context.get('is_pages_view', None) and view in PREVIEW_VIEWS:
         root_xblock = context.get('root_xblock')
         is_root = root_xblock and xblock.location == root_xblock.location
+        if xblock:
+            log.warning("SE2208 _studio_wrap_xblock -> xblock.location = %s", xblock.location)
+        log.warning("SE2208 _studio_wrap_xblock -> root_xblock = %s", root_xblock)
+        if root_xblock:
+            log.warning("SE2208 _studio_wrap_xblock -> root_xblock.location = %s", root_xblock.location)
+        log.warning("SE2208 _studio_wrap_xblock -> is_root = %s", is_root)
         is_reorderable = _is_xblock_reorderable(xblock, context)
         selected_groups_label = get_visibility_partition_info(xblock)['selected_groups_label']
         if selected_groups_label:
