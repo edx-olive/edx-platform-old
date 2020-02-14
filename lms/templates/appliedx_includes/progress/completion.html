@@ -2,7 +2,7 @@
     <script type="text/javascript">
         var course_id = "${course.id}";
         var mail = "${user.email}";
-        var user_id = '${request.user.social_auth.get(provider="tpa-saml").uid.split(":")[1]}';
+        var user_id = '${request.user.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]}';
 
         function CheckEnrollment() {
             var data = "{\"course_id\": \"" + "${course.id}" + "\",\"employee_id\": \"" + user_id + "\"}";
@@ -40,7 +40,7 @@
             console.log("Completion Event");
             var course_id = "${course.id}";
             var mail = "${user.email}";
-            var user_id = '${request.user.social_auth.get(provider="tpa-saml").uid.split(":")[1]}';
+            var user_id = '${request.user.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]}';
             console.log(course_id, mail, user_id);
             var data = "{\"course_id\": \"" + "${course.id}" + "\",\"email_id\": \"" + "${user.email}" + "\", \"employee_id\": \"" + user_id + "\"}";
             console.log(data);
