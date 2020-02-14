@@ -355,7 +355,7 @@ class SubmissionBase(TimeStampedModel):
         employee_id = None
         if self.student:
             try:
-                social = self.student.social_auth.get(provider='tpa-saml')
+                social = self.student.social_auth.filter(provider='tpa-saml').last()
             except ObjectDoesNotExist:
                 social = None
             if social and getattr(social, "uid", None):
