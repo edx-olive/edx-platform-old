@@ -237,7 +237,7 @@ def prepare_polls_submissions_queryset(
             pk__gte=from_pk,
             submission_date__lte=submission_date_to,
             course__in=courses_ids,
-            catalog_marker__in=[marker[0] for marker in markers],
+            catalog_marker__in=markers,
         )
     elif courses_ids and not markers:
         queryset = submissions_model.objects.filter(
@@ -250,7 +250,7 @@ def prepare_polls_submissions_queryset(
         queryset = submissions_model.objects.filter(
             pk__gte=from_pk,
             submission_date__lte=submission_date_to,
-            catalog_marker__in=[marker[0] for marker in markers],
+            catalog_marker__in=markers,
         )
     else:
         queryset = submissions_model.objects.filter(
