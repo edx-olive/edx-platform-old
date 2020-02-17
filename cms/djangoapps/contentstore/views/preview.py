@@ -284,10 +284,10 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
         root_xblock = context.get('root_xblock')
         is_root = root_xblock and xblock.location == root_xblock.location
         if xblock:
-            log.warning("SE2208 _studio_wrap_xblock -> xblock.location = %s", xblock.location)
+            log.warning("SE2208 _studio_wrap_xblock -> xblock.location = %s", getattr(xblock, 'location', 'NOT FOUND'))
         log.warning("SE2208 _studio_wrap_xblock -> root_xblock = %s", root_xblock)
         if root_xblock:
-            log.warning("SE2208 _studio_wrap_xblock -> root_xblock.location = %s", root_xblock.location)
+            log.warning("SE2208 _studio_wrap_xblock -> root_xblock.location = %s", getattr(root_xblock, 'location', 'NOT FOUND'))
         log.warning("SE2208 _studio_wrap_xblock -> is_root = %s", is_root)
         is_reorderable = _is_xblock_reorderable(xblock, context)
         selected_groups_label = get_visibility_partition_info(xblock)['selected_groups_label']
