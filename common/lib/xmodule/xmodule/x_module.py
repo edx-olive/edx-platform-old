@@ -1300,7 +1300,6 @@ class MetricsMixin(object):
         try:
             status = "success"
             log.warning("SE2208 BEFORE XBLOCK.RUNTIME.RENDER")
-            log.warning("SE2208 RENDER [block]: %s", block)
             log.warning("SE2208 RENDER [view_name]: %s", view_name)
             log.warning("SE2208 RENDER [context]: %s", context)
             return super(MetricsMixin, self).render(block, view_name, context=context)
