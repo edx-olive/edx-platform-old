@@ -274,7 +274,6 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
     """
     Wraps the results of rendering an XBlock view in a div which adds a header and Studio action buttons.
     """
-    log.warning("SE2208 _studio_wrap_xblock -> xblock = %s", xblock)
     log.warning("SE2208 _studio_wrap_xblock -> view = %s", view)
     log.warning("SE2208 _studio_wrap_xblock -> frag = %s", frag)
     log.warning("SE2208 _studio_wrap_xblock -> context = %s", context)
