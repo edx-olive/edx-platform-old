@@ -290,9 +290,12 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
         log.warning("SE2208 _studio_wrap_xblock -> is_root = %s", is_root)
         is_reorderable = _is_xblock_reorderable(xblock, context)
         selected_groups_label = get_visibility_partition_info(xblock)['selected_groups_label']
+        log.warning("SE2208 _studio_wrap_xblock -> after get_visibility_partition_info")
         if selected_groups_label:
             selected_groups_label = _('Access restricted to: {list_of_groups}').format(list_of_groups=selected_groups_label)
+        log.warning("SE2208 _studio_wrap_xblock -> selected_groups_label", selected_groups_label)
         course = modulestore().get_course(xblock.location.course_key)
+        log.warning("SE2208 _studio_wrap_xblock -> after modulestore().get_course(%s)", xblock.location.course_key)
         template_context = {
             'xblock_context': context,
             'xblock': xblock,
@@ -309,7 +312,11 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
         }
 
         html = render_to_string('studio_xblock_wrapper.html', template_context)
+        log.warning("SE2208 _studio_wrap_xblock -> after render_to_string( )")
         frag = wrap_fragment(frag, html)
+        log.warning("SE2208 _studio_wrap_xblock -> after wrap_fragment( )")
+
+    log.warning("SE2208 _studio_wrap_xblock -> just before return")
     return frag
 
 

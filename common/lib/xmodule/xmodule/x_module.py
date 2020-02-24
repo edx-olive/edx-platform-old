@@ -1251,8 +1251,10 @@ class ConfigurableFragmentWrapper(object):
         See :func:`Runtime.wrap_child`
         """
         for wrapper in self.wrappers:
+            log.warning("SE2208 wrap_xblock -> applying wrapper %s", wrapper)
             frag = wrapper(block, view, frag, context)
 
+        log.warning("SE2208 wrap_xblock -> return")
         return frag
 
     def wrap_aside(self, block, aside, view, frag, context):    # pylint: disable=unused-argument
@@ -1260,8 +1262,10 @@ class ConfigurableFragmentWrapper(object):
         See :func:`Runtime.wrap_child`
         """
         for wrapper in self.wrappers_asides:
+            log.warning("SE2208 wrap_aside -> applying wrapper %s", wrapper)
             frag = wrapper(aside, view, frag, context)
 
+        log.warning("SE2208 wrap_aside -> return")
         return frag
 
 
