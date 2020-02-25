@@ -1308,8 +1308,6 @@ class MetricsMixin(object):
             log.warning("SE2208 RENDER [context]: %s", context)
             # this super.render method takes the time
             return super(MetricsMixin, self).render(block, view_name, context=context)
-            # facepalm this will never run
-            log.warning("SE2208 AFTER XBLOCK.RUNTIME.RENDER")
 
         except:
             log.warning("SE2208 AFTER XBLOCK.RUNTIME.RENDER (FAILURE)")

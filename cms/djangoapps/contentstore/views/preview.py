@@ -293,7 +293,7 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
         log.warning("SE2208 _studio_wrap_xblock -> after get_visibility_partition_info")
         if selected_groups_label:
             selected_groups_label = _('Access restricted to: {list_of_groups}').format(list_of_groups=selected_groups_label)
-        log.warning("SE2208 _studio_wrap_xblock -> selected_groups_label", selected_groups_label)
+        log.warning("SE2208 _studio_wrap_xblock -> selected_groups_label: %s", selected_groups_label)
         course = modulestore().get_course(xblock.location.course_key)
         log.warning("SE2208 _studio_wrap_xblock -> after modulestore().get_course(%s)", xblock.location.course_key)
         template_context = {
