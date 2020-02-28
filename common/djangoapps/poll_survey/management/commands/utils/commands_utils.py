@@ -43,7 +43,7 @@ class UserSocialAuthService(object):
                object itself if found.
         """
         try:
-            return user.social_auth.get(provider='tpa-saml')
+            return user.social_auth.filter(provider='tpa-saml').last()
         except ObjectDoesNotExist:
             return None
 

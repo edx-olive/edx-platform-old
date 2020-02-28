@@ -227,7 +227,7 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
         expires = int(time.time()) + 600
         django_user_id = int(self.descriptor.scope_ids.user_id)
         django_user_obj = User.objects.get(id=django_user_id)
-        employee_id = django_user_obj.social_auth.get(provider="tpa-saml").uid.split(":")[1]
+        employee_id = django_user_obj.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]
         http_resource = url + "?user_id=" + str(employee_id)
         dist = cf.get_all_distributions()[0].get_distribution()
         http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
