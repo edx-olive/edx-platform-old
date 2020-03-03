@@ -25,6 +25,7 @@ from operator import itemgetter
 from pkg_resources import resource_string
 
 import boto
+from boto.exception import NoAuthHandlerFound
 from django.conf import settings
 from django.contrib.auth.models import User
 from lxml import etree
@@ -220,18 +221,22 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
             ENV_TOKENS = json.load(env_file)
         aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
         aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
-        s3 = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
-        cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
-        key_pair_id = ENV_TOKENS.get("SIGNING_KEY_ID")
-        priv_key_file = ENV_TOKENS.get("SIGNING_KEY_FILE")
-        expires = int(time.time()) + 600
-        django_user_id = int(self.descriptor.scope_ids.user_id)
-        django_user_obj = User.objects.get(id=django_user_id)
-        employee_id = django_user_obj.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]
-        http_resource = url + "?user_id=" + str(employee_id)
-        dist = cf.get_all_distributions()[0].get_distribution()
-        http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
-        return http_signed_url
+        try:
+            _ = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
+            cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
+            key_pair_id = ENV_TOKENS.get("SIGNING_KEY_ID")
+            priv_key_file = ENV_TOKENS.get("SIGNING_KEY_FILE")
+            expires = int(time.time()) + 600
+            django_user_id = int(self.descriptor.scope_ids.user_id)
+            django_user_obj = User.objects.get(id=django_user_id)
+            employee_id = django_user_obj.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]
+            http_resource = url + "?user_id=" + str(employee_id)
+            dist = cf.get_all_distributions()[0].get_distribution()
+            http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
+            return http_signed_url
+        except NoAuthHandlerFound as e:
+            # Component-goblin will appear in the course outline (see `xblock_view_handler`)
+            raise ValueError("Couldn't connect to S3: '{!s}'".format(e))
 
     def get_html(self):
         track_status = (self.download_track and self.track)
