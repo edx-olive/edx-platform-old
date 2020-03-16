@@ -124,7 +124,7 @@ from openedx.core.djangoapps.theming import helpers as theming_helpers
         <p>${_("You are not enrolled in any courses yet.")}</p>
 
         % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-          <a href="http://courses/courses/">
+          <a href="http://courses/">
             ${_("Explore courses")}
           </a>
         %endif
@@ -184,7 +184,7 @@ from openedx.core.djangoapps.theming import helpers as theming_helpers
                   ${_("Browse recently launched courses and see what's new in your favorite subjects.")}
               </div>
               <div class="ad-link">
-                  <a class="btn-neutral" href="${marketing_link('COURSES')}">
+                  <a class="btn-neutral" href="http://courses/">
                       <span class="icon fa fa-search" aria-hidden="true"></span>
                       ${_("Explore New Courses")}
                   </a>

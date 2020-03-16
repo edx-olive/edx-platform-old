@@ -13,7 +13,7 @@ import tempfile
 import time
 
 import boto
-from boto.exception import NoAuthHandlerFound
+from boto.exception import NoAuthHandlerFound, S3ResponseError
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponse, JsonResponse
@@ -50,9 +50,8 @@ def sign_cloudfront_url(request):
         ENV_TOKENS = json.load(env_file)
     aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
     aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
-    s3 = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
     try:
-        # TODO: DRY (in this module)
+        _ = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
         cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
         key_pair_id = ENV_TOKENS.get("SIGNING_KEY_ID")
         priv_key_file = ENV_TOKENS.get("SIGNING_KEY_FILE")
@@ -61,11 +60,12 @@ def sign_cloudfront_url(request):
         dist = cf.get_all_distributions()[0].get_distribution()
         http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
         return HttpResponse(http_signed_url)
-    except NoAuthHandlerFound:
+    except NoAuthHandlerFound as e:
         return HttpResponse(
             json.dumps({
                 "status": "error",
-                "message": "Failed to sign CloudFront url."}),
+                "message": "Failed to sign CloudFront url. Error: {!s}".format(e),
+            }),
             status=status.HTTP_401_UNAUTHORIZED
         )
 
@@ -74,7 +74,6 @@ def s3_video_list(request):
     """
     Return a list of videos for a course.
     """
-    # TODO try except
     foldername = request.GET['course_folder']
     s3 = boto.connect_s3(settings.AWS_VIDEO_ACCESS_KEY, settings.AWS_VIDEO_SECRET_ACCESS_KEY)
     try:
@@ -86,30 +85,34 @@ def s3_video_list(request):
                 "message": "AWS bucket not found."}),
             status=status.HTTP_404_NOT_FOUND
         )
+    except S3ResponseError as e:
+        return HttpResponse(
+            json.dumps({
+                "status": "error",
+                "message": "AWS bucket not fetched: {!s}".format(e),
+            }),
+            status=e.status,
+        )
     files = bucket.list(foldername)
-    filenames = []
-    for key in files:
-        filenames.append(key.name)
+    filenames = [key.name for key in files if check_bucket_object_keyname(key.name, foldername)]
     video_list = json.dumps(filenames)
     return HttpResponse(video_list)
 
 
-def upload_to_s3(source, bucketname, target): # TODO remove it, seems like it is never used
+def check_bucket_object_keyname(key_name, course_dir):
     """
-    Upload a video to AWS S3.
+    Check if a key name of a S3 bucket object follows the pattern.
+
+    Example of key names:
+    ```
+    'course-v1_appliedx_SBC-101_all/SBC101_V09_Conclusion_2.mp4'  # Valid
+    'course-v1_appliedx_SBC-101_all/SBC-101/Renders/Revisions/SBC101_V09_Conclusion.mp4'  # Invalid
+    ```
     """
-    try:
-        ENV_TOKENS = get_all_env_tokens()
-        aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
-        aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
-        s3 = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
-        cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
-        bucket = s3.get_bucket(bucketname)
-        key = bucket.new_key(target)
-        key.set_contents_from_filename(source)
-    except Exception, e:
-        return False
-    return True
+    pattern = re.compile("^[^/]+\/[^/]+\.[^/]+")
+    is_not_subdir_nested = pattern.match(key_name)
+    is_course_dir = key_name.split("/")[0] == course_dir
+    return True if is_not_subdir_nested and is_course_dir else False
 
 
 def video_upload(request):
@@ -135,8 +138,14 @@ def video_upload(request):
         key = bucket.new_key(object_name)
         key.set_contents_from_filename('/tmp/' + filename)
         cloudFrontURL += object_name
-    except Exception, e:
-        return HttpResponse(e)
+    except S3ResponseError as e:
+        return HttpResponse(
+            json.dumps({
+                "status": "error",
+                "message": "AWS bucket not fetched: {!s}".format(e),
+            }),
+            status=e.status,
+        )
     message = "Video has been uploaded succesfully."
     #  if bitrate_in_kbps > 1536:
     #      message += "Please note that bitrate is slightly higher than recommended."
