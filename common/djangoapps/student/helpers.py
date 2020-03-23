@@ -380,10 +380,11 @@ def generate_activation_email_context(user, registration):
     """
     site = theming_helpers.get_current_site()
     message_context = get_base_template_context(site)
-    return message_context.update({
+    message_context.update({
         'name': user.profile.name,
         'key': registration.activation_key,
     })
+    return message_context
 
 
 def create_or_set_user_attribute_created_on_site(user, site):
