@@ -82,7 +82,6 @@
                         <option value="edX/Open_DemoX/edx_demo_course">edX Demonstration Course</option>
                     </select>
                     <span class="tip tip-inline">Course that students must complete before beginning this course</span>
-                    <button type="submit" class="sr" name="submit" value="submit">set pre-requisite course</button>
     </li>
         <h3 id="heading-entrance-exam">Entrance Exam</h3>
             <div class="show-data">
