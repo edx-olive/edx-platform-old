@@ -1143,13 +1143,20 @@
             okButton = document.getElementById('new-link-image-ok');
             cancelButton = document.getElementById('new-link-image-cancel');
 
-            okButton.onclick = function() { return close(false); };
+            okButton.onclick = function() {
+                if (imageUploadHandler) {
+                    fileInput = document.getElementById('file-upload');
+                    imageUploadHandler(fileInput, urlInput);
+                }
+                setTimeout(() => { return close(false); }, 100);
+            };
+
             cancelButton.onclick = function() { return close(true); };
 
             if (imageUploadHandler) {
                 var startUploadHandler = function() {
                     document.getElementById('file-upload').onchange = function() {
-                        imageUploadHandler(this, urlInput);
+                        $(urlInput).attr('value', this.files.item(0).name);
                         urlInput.focus();
 
                         // Ensures that a user can update their file choice.
