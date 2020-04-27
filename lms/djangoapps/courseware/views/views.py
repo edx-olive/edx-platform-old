@@ -21,7 +21,7 @@ from django.template.context_processors import csrf
 from django.utils.decorators import method_decorator
 from django.utils.http import urlquote_plus
 from django.utils.text import slugify
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy, ugettext as _
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
@@ -120,24 +120,24 @@ CertData = namedtuple(
 
 AUDIT_PASSING_CERT_DATA = CertData(
     CertificateStatuses.audit_passing,
-    _('Your enrollment: Audit track'),
-    _('You are enrolled in the audit track for this course. The audit track does not include a certificate.'),
+    ugettext_lazy('Your enrollment: Audit track'),
+    ugettext_lazy('You are enrolled in the audit track for this course. The audit track does not include a certificate.'),
     download_url=None,
     cert_web_view_url=None
 )
 
 HONOR_PASSING_CERT_DATA = CertData(
     CertificateStatuses.honor_passing,
-    _('Your enrollment: Honor track'),
-    _('You are enrolled in the honor track for this course. The honor track does not include a certificate.'),
+    ugettext_lazy('Your enrollment: Honor track'),
+    ugettext_lazy('You are enrolled in the honor track for this course. The honor track does not include a certificate.'),
     download_url=None,
     cert_web_view_url=None
 )
 
 GENERATING_CERT_DATA = CertData(
     CertificateStatuses.generating,
-    _("We're working on it..."),
-    _(
+    ugettext_lazy("We're working on it..."),
+    ugettext_lazy(
         "We're creating your certificate. You can keep working in your courses and a link "
         "to it will appear here and on your Dashboard when it is ready."
     ),
@@ -147,24 +147,24 @@ GENERATING_CERT_DATA = CertData(
 
 INVALID_CERT_DATA = CertData(
     CertificateStatuses.invalidated,
-    _('Your certificate has been invalidated'),
-    _('Please contact your course team if you have any questions.'),
+    ugettext_lazy('Your certificate has been invalidated'),
+    ugettext_lazy('Please contact your course team if you have any questions.'),
     download_url=None,
     cert_web_view_url=None
 )
 
 REQUESTING_CERT_DATA = CertData(
     CertificateStatuses.requesting,
-    _('Congratulations, you qualified for a certificate!'),
-    _("You've earned a certificate for this course."),
+    ugettext_lazy('Congratulations, you qualified for a certificate!'),
+    ugettext_lazy("You've earned a certificate for this course."),
     download_url=None,
     cert_web_view_url=None
 )
 
 UNVERIFIED_CERT_DATA = CertData(
     CertificateStatuses.unverified,
-    _('Certificate unavailable'),
-    _(
+    ugettext_lazy('Certificate unavailable'),
+    ugettext_lazy(
         'You have not received a certificate because you do not have a current {platform_name} '
         'verified identity.'
     ).format(platform_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)),

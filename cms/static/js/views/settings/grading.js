@@ -259,7 +259,7 @@ define(['js/views/validation',
         // When a grade is removed, keep the remaining grades consistent.
                 var _this = this;
                 if (_this.descendingCutoffs.length === 1 && _this.descendingCutoffs[0].designation === _this.GRADES[0]) {
-                    _this.descendingCutoffs[0].designation = 'Pass';
+                    _this.descendingCutoffs[0].designation = gettext('Pass');
                     _this.setTopGradeLabel();
                 } else {
                     _.each(_this.descendingCutoffs, function(cutoff, index) {
@@ -352,7 +352,7 @@ define(['js/views/validation',
             },
 
             failLabel: function() {
-                if (this.descendingCutoffs.length === 1) return 'Fail';
+                if (this.descendingCutoffs.length === 1) return gettext('Fail');
                 else return 'F';
             },
             setFailLabel: function() {

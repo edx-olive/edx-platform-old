@@ -11314,3 +11314,35 @@ msgstr ""
 #: cms/templates/js/video/transcripts/messages/transcripts-use-existing.underscore
 msgid "Use Current Transcript"
 msgstr ""
+
+msgid ""
+"Enter your {platform_display_name} username or the URL to your {platform_display_name} page. "
+"Delete the URL to remove the link."
+msgstr ""
+
+msgid ""
+"After the subsection's due date has passed, learners can no longer access its content. "
+"The subsection remains included in grade calculations."
+msgstr ""
+
+msgid "Certificate exceptions group selection"
+msgstr ""
+
+msgid "Course Type"
+msgstr ""
+
+msgid "Error getting due dates"
+msgstr ""
+
+msgid "Error reseting due date"
+msgstr ""
+
+msgid "Error changing due date"
+msgstr ""
+
+msgid "Pass"
+msgstr ""
+
+msgid "Fail"
+msgstr ""
+

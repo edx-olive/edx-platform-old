@@ -54,7 +54,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         % for config in all_group_configurations:
           <div class="wrapper-groups content-groups ${config['scheme']}">
-            <h3 class="title">${config['name']}</h3>
+            <h3 class="title">${_(config['name'])}</h3>
               <div class="ui-loading">
                   <p><span class="spin"><span class="icon fa fa-refresh" aria-hidden="true"></span></span> <span class="copy">${_("Loading")}</span></p>
               </div>

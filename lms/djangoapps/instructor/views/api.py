@@ -31,7 +31,7 @@ from django.db import IntegrityError, transaction
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect
 from django.utils.html import strip_tags
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy, ugettext as _
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods, require_POST
@@ -141,8 +141,8 @@ log = logging.getLogger(__name__)
 
 TASK_SUBMISSION_OK = 'created'
 
-SUCCESS_MESSAGE_TEMPLATE = _("The {report_type} report is being created. "
-                             "To view the status of the report, see Pending Tasks below.")
+SUCCESS_MESSAGE_TEMPLATE = ugettext_lazy("The {report_type} report is being created. "
+                                         "To view the status of the report, see Pending Tasks below.")
 
 
 def common_exceptions_400(func):

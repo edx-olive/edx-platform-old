@@ -12,7 +12,7 @@ var selectablePartitions = userPartitionInfo['selectable_partitions'];
             <select class="user-partition-select" id="partition-select">
                 <option value="-1" selected ="selected"><%- gettext('Select a group type') %></option>
                 <% for (var i=0; i < selectablePartitions.length; i++) { %>
-                    <option id="<%- selectablePartitions[i].id %>-option" value="<%- selectablePartitions[i].id %>"><%- selectablePartitions[i].name %></option>
+                    <option id="<%- selectablePartitions[i].id %>-option" value="<%- selectablePartitions[i].id %>"><%- gettext(selectablePartitions[i].name) %></option>
                 <% } %>
             </select>
         </label>

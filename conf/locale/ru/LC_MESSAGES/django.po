@@ -6997,12 +6997,6 @@ msgid "Information about all courses"
 msgstr "Информация обо всех курсах"
 
 #: lms/djangoapps/dashboard/sysadmin.py
-#, python-brace-format
-msgid "Error - cannot get course with ID {0}<br/><pre>{1}</pre>"
-msgstr ""
-"Ошибка - не удалось открыть курс с идентификатором {0}<br/><pre>{1}</pre>"
-
-#: lms/djangoapps/dashboard/sysadmin.py
 msgid "Deleted"
 msgstr "Удалено"
 
@@ -27063,3 +27057,600 @@ msgid ""
 "A new revision was created: Merge between Revision #%(r1)d and Revision "
 "#%(r2)d"
 msgstr "Создана новая версия: слияние версий #%(r1)d и #%(r2)d"
+
+#: lms/templates/problem.html
+msgid "Answers are displayed within the problem"
+msgstr "Ответы отображаются внутри задачи"
+
+#: lms/static/discussion/templates/fake-breadcrumbs.underscore
+msgid "Pass"
+msgstr "Проходной уровень"
+
+#: lms/templates/instructor/instructor_dashboard_2/extensions.html
+msgid "Choose one"
+msgstr "Выберите один"
+
+#: wiki/forms.py
+msgid "Group"
+msgstr "Группа"
+
+#: lms/templates/certificates/_accomplishment-rendering.html
+msgid "This certificate is proudly presented to"
+msgstr "Этот сертификат с гордостью вручен"
+
+#: lms/djangoapps/dashboard/sysadmin.py
+#, python-brace-format
+msgid "Error - cannot get course with ID {0}<br/><pre>{1}</pre>"
+msgstr "Ошибка - не удалось открыть курс с идентификатором {0}<br/><pre>{1}</pre>"
+
+#: lms/djangoapps/dashboard/sysadmin.py
+#, python-brace-format
+msgid "Error - cannot get course with ID {0}."
+msgstr "Ошибка - не удалось открыть курс с идентификатором {0}."
+
+#: lms/djangoapps/dashboard/sysadmin.py
+#, python-brace-format
+msgid "Please select a course."
+msgstr "Пожалуйста выберете курс."
+
+#: lms/templates/certificates/_accomplishment-rendering.html
+msgid "Certificate"
+msgstr "Сертификат"
+
+msgid "Taiwan"
+msgstr "Тайвань"
+
+msgid "Afar"
+msgstr "Афарский"
+
+msgid "Abkhazian"
+msgstr ""
+
+msgid "Akan"
+msgstr ""
+
+msgid "Albanian"
+msgstr ""
+
+msgid "Amharic"
+msgstr ""
+
+msgid "Arabic"
+msgstr ""
+
+msgid "Aragonese"
+msgstr ""
+
+msgid "Armenian"
+msgstr ""
+
+msgid "Assamese"
+msgstr ""
+
+msgid "Avaric"
+msgstr ""
+
+msgid "Avestan"
+msgstr ""
+
+msgid "Aymara"
+msgstr ""
+
+msgid "Azerbaijani"
+msgstr ""
+
+msgid "Bashkir"
+msgstr ""
+
+msgid "Bambara"
+msgstr ""
+
+msgid "Basque"
+msgstr ""
+
+msgid "Belarusian"
+msgstr ""
+
+msgid "Bengali"
+msgstr ""
+
+msgid "Bihari languages"
+msgstr ""
+
+msgid "Bislama"
+msgstr ""
+
+msgid "Bosnian"
+msgstr ""
+
+msgid "Breton"
+msgstr ""
+
+msgid "Bulgarian"
+msgstr ""
+
+msgid "Burmese"
+msgstr ""
+
+msgid "Catalan"
+msgstr ""
+
+msgid "Chamorro"
+msgstr ""
+
+msgid "Chechen"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Simplified Chinese"
+msgstr ""
+
+msgid "Traditional Chinese"
+msgstr ""
+
+msgid "Church Slavic"
+msgstr ""
+
+msgid "Chuvash"
+msgstr ""
+
+msgid "Cornish"
+msgstr ""
+
+msgid "Corsican"
+msgstr ""
+
+msgid "Cree"
+msgstr ""
+
+msgid "Czech"
+msgstr ""
+
+msgid "Danish"
+msgstr ""
+
+msgid "Divehi"
+msgstr ""
+
+msgid "Dutch"
+msgstr ""
+
+msgid "Dzongkha"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Esperanto"
+msgstr ""
+
+msgid "Estonian"
+msgstr ""
+
+msgid "Ewe"
+msgstr ""
+
+msgid "Faroese"
+msgstr ""
+
+msgid "Fijian"
+msgstr ""
+
+msgid "Finnish"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Western Frisian"
+msgstr ""
+
+msgid "Fulah"
+msgstr ""
+
+msgid "Georgian"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Gaelic"
+msgstr ""
+
+msgid "Irish"
+msgstr ""
+
+msgid "Galician"
+msgstr ""
+
+msgid "Manx"
+msgstr ""
+
+msgid "Greek"
+msgstr ""
+
+msgid "Guarani"
+msgstr ""
+
+msgid "Gujarati"
+msgstr ""
+
+msgid "Haitian"
+msgstr ""
+
+msgid "Hausa"
+msgstr ""
+
+msgid "Hebrew"
+msgstr ""
+
+msgid "Herero"
+msgstr ""
+
+msgid "Hindi"
+msgstr ""
+
+msgid "Hiri Motu"
+msgstr ""
+
+msgid "Croatian"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Igbo"
+msgstr ""
+
+msgid "Icelandic"
+msgstr ""
+
+msgid "Ido"
+msgstr ""
+
+msgid "Sichuan Yi"
+msgstr ""
+
+msgid "Inuktitut"
+msgstr ""
+
+msgid "Interlingue"
+msgstr ""
+
+msgid "Interlingua"
+msgstr ""
+
+msgid "Indonesian"
+msgstr ""
+
+msgid "Inupiaq"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Javanese"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "Kalaallisut"
+msgstr ""
+
+msgid "Kannada"
+msgstr ""
+
+msgid "Kashmiri"
+msgstr ""
+
+msgid "Kanuri"
+msgstr ""
+
+msgid "Kazakh"
+msgstr ""
+
+msgid "Central Khmer"
+msgstr ""
+
+msgid "Kikuyu"
+msgstr ""
+
+msgid "Kinyarwanda"
+msgstr ""
+
+msgid "Kirghiz"
+msgstr ""
+
+msgid "Komi"
+msgstr ""
+
+msgid "Kongo"
+msgstr ""
+
+msgid "Korean"
+msgstr ""
+
+msgid "Kuanyama"
+msgstr ""
+
+msgid "Kurdish"
+msgstr ""
+
+msgid "Lao"
+msgstr ""
+
+msgid "Latin"
+msgstr ""
+
+msgid "Latvian"
+msgstr ""
+
+msgid "Limburgan"
+msgstr ""
+
+msgid "Lingala"
+msgstr ""
+
+msgid "Lithuanian"
+msgstr ""
+
+msgid "Luxembourgish"
+msgstr ""
+
+msgid "Luba-Katanga"
+msgstr ""
+
+msgid "Ganda"
+msgstr ""
+
+msgid "Macedonian"
+msgstr ""
+
+msgid "Marshallese"
+msgstr ""
+
+msgid "Malayalam"
+msgstr ""
+
+msgid "Maori"
+msgstr ""
+
+msgid "Marathi"
+msgstr ""
+
+msgid "Malay"
+msgstr ""
+
+msgid "Malagasy"
+msgstr ""
+
+msgid "Maltese"
+msgstr ""
+
+msgid "Mongolian"
+msgstr ""
+
+msgid "Nauru"
+msgstr ""
+
+msgid "Navajo"
+msgstr ""
+
+msgid "Ndebele, South"
+msgstr ""
+
+msgid "Ndebele, North"
+msgstr ""
+
+msgid "Ndonga"
+msgstr ""
+
+msgid "Nepali"
+msgstr ""
+
+msgid "Norwegian Nynorsk"
+msgstr ""
+
+msgid "Bokmål, Norwegian"
+msgstr ""
+
+msgid "Norwegian"
+msgstr ""
+
+msgid "Chichewa"
+msgstr ""
+
+msgid "Occitan"
+msgstr ""
+
+msgid "Ojibwa"
+msgstr ""
+
+msgid "Oriya"
+msgstr ""
+
+msgid "Oromo"
+msgstr ""
+
+msgid "Ossetian"
+msgstr ""
+
+msgid "Panjabi"
+msgstr ""
+
+msgid "Persian"
+msgstr ""
+
+msgid "Pali"
+msgstr ""
+
+msgid "Polish"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "Pushto"
+msgstr ""
+
+msgid "Quechua"
+msgstr ""
+
+msgid "Romansh"
+msgstr ""
+
+msgid "Romanian"
+msgstr ""
+
+msgid "Rundi"
+msgstr ""
+
+msgid "Russian"
+msgstr ""
+
+msgid "Sango"
+msgstr ""
+
+msgid "Sanskrit"
+msgstr ""
+
+msgid "Sinhala"
+msgstr ""
+
+msgid "Slovak"
+msgstr ""
+
+msgid "Slovenian"
+msgstr ""
+
+msgid "Northern Sami"
+msgstr ""
+
+msgid "Samoan"
+msgstr ""
+
+msgid "Shona"
+msgstr ""
+
+msgid "Sindhi"
+msgstr ""
+
+msgid "Somali"
+msgstr ""
+
+msgid "Sotho, Southern"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Sardinian"
+msgstr ""
+
+msgid "Serbian"
+msgstr ""
+
+msgid "Swati"
+msgstr ""
+
+msgid "Sundanese"
+msgstr ""
+
+msgid "Swahili"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Tahitian"
+msgstr ""
+
+msgid "Tamil"
+msgstr ""
+
+msgid "Tatar"
+msgstr ""
+
+msgid "Telugu"
+msgstr ""
+
+msgid "Tajik"
+msgstr ""
+
+msgid "Tagalog"
+msgstr ""
+
+msgid "Thai"
+msgstr ""
+
+msgid "Tibetan"
+msgstr ""
+
+msgid "Tigrinya"
+msgstr ""
+
+msgid "Tonga (Tonga Islands)"
+msgstr ""
+
+msgid "Tswana"
+msgstr ""
+
+msgid "Tsonga"
+msgstr ""
+
+msgid "Turkmen"
+msgstr ""
+
+msgid "Turkish"
+msgstr ""
+
+msgid "Twi"
+msgstr ""
+
+msgid "Uighur"
+msgstr ""
+
+msgid "Ukrainian"
+msgstr ""
+
+msgid "Urdu"
+msgstr ""
+
+msgid "Uzbek"
+msgstr ""
+
+msgid "Venda"
+msgstr ""
+
+msgid "Vietnamese"
+msgstr ""
+
+msgid "Volapük"
+msgstr ""
+
+msgid "Welsh"
+msgstr ""
+
+msgid "Walloon"
+msgstr ""
+
+msgid "Wolof"
+msgstr ""
+
+msgid "Xhosa"
+msgstr ""
+
+msgid "Yiddish"
+msgstr ""
+
+msgid "Yoruba"
+msgstr ""
+
+msgid "Zhuang"
+msgstr ""
+
+msgid "Zulu"
+msgstr ""

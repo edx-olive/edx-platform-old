@@ -11918,3 +11918,50 @@ msgstr ""
 #: cms/templates/js/video/transcripts/messages/transcripts-use-existing.underscore
 msgid "Use Current Transcript"
 msgstr "Использовать субтитры"
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+#, python-brace-format
+msgid ""
+"Enter your {platform_display_name} username or the URL to your {platform_display_name} page. "
+"Delete the URL to remove the link."
+msgstr ""
+"Введите имя пользователя или ссылку на страницу в {platform_display_name}. "
+"Удалите URL {platform_display_name} чтобы удалить ссылку."
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid ""
+"After the subsection's due date has passed, learners can no longer access its content. "
+"The subsection remains included in grade calculations."
+msgstr ""
+"После истечения срока действия подраздела учащиеся больше не могут получить доступ к его содержимому. "
+"Подраздел остается включенным в расчеты оценок."
+
+#: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+msgid "Certificate exceptions group selection"
+msgstr "Выбор группы для исключительных сертификатов"
+
+#: lms/templates/discovery/facet.underscore
+msgid "Course Type"
+msgstr "Тип курса"
+
+#: lms/static/js/instructor_dashboard/extensions.js
+msgid "Error getting due dates"
+msgstr "Ошибка при получении сроков"
+
+#: lms/static/js/instructor_dashboard/extensions.js
+msgid "Error reseting due date"
+msgstr "Ошибка сброса срока"
+
+#: lms/static/js/instructor_dashboard/extensions.js
+msgid "Error changing due date"
+msgstr "Ошибка изменения срока"
+
+#: common/lib/xmodule/xmodule/course_module.py
+#: cms/static/js/views/settings/grading.js
+msgid "Pass"
+msgstr "Проходной"
+
+#: common/lib/xmodule/xmodule/course_module.py
+#: cms/static/js/views/settings/grading.js
+msgid "Fail"
+msgstr "Провальный"

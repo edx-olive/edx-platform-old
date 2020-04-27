@@ -30,7 +30,7 @@
                         <optgroup label="<%- groupOption.groupTitle %>">
                     <% } %>
                     <% _.each(groupOption.selectOptions, function(selectOption) { %>
-                        <option value="<%- selectOption[0] %>"><%- selectOption[1] %></option>
+                        <option value="<%- selectOption[0] %>"><%- gettext(selectOption[1]) %></option>
                     <% }); %>
             <% }); %>
         </select>

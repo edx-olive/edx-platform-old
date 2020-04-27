@@ -6,6 +6,6 @@
     </span>
     <% contents.forEach(function(content) { %>
         <span class="fa fa-angle-right"></span>
-        <span class="nav-item"><%- content %></span>
+        <span class="nav-item"><%- gettext(content) %></span>
     <% }); %>
 </div>
