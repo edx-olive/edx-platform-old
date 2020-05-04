@@ -1148,7 +1148,7 @@
                     fileInput = document.getElementById('file-upload');
                     imageUploadHandler(fileInput, urlInput);
                 }
-                setTimeout(() => { return close(false); }, 100);
+                setTimeout(function() { return close(false); }, 1000);
             };
 
             cancelButton.onclick = function() { return close(true); };
