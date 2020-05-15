@@ -140,12 +140,17 @@ class VideoStudentViewHandlers(object):
         else:
             # HTML5 case
             if self.transcript_language == 'en':
-                if '.srt' not in sub:  # not bumper case
-                    return Transcript.asset(self.location, sub).data
-                try:
-                    return get_or_create_sjson(self, {'en': sub})
-                except TranscriptException:
-                    pass  # to raise NotFoundError and try to get data in get_static_transcript
+                # NOTE: need to figure out why there's no `sub` for English.
+                #  The fix should be a part of the AMAT video customization.
+                if sub:
+                    if '.srt' not in sub:  # not bumper case
+                        return Transcript.asset(self.location, sub).data
+                    try:
+                        return get_or_create_sjson(self, {'en': sub})
+                    except TranscriptException:
+                        pass  # to raise NotFoundError and try to get data in get_static_transcript
+                elif "en" in other_lang.keys():  # Otherwise initial video upload causes `KeyError`
+                    return get_or_create_sjson(self, other_lang)
             elif other_lang:
                 return get_or_create_sjson(self, other_lang)
 
