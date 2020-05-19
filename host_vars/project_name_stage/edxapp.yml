@@ -1,6 +1,0 @@
----
-edx_platform_version: "ironwood-rg"
-edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
-EDXAPP_SITE_NAME: 'lms-stage-project_name.raccoongang.com'
-EDXAPP_CMS_SITE_NAME: 'cms-stage-project_name.raccoongang.com'
-EDXAPP_PREVIEW_LMS_BASE: 'preview-stage-project_name.raccoongang.com'
