@@ -1,7 +1,0 @@
----
-# edxapp_theme_version: 'ironwood-rg'
-# edxapp_theme_source_repo: 'git@gitlab.raccoongang.com:edx/edx-theme.git'
-# edxapp_theme_name: '{{ edxapp_theme_version }}'
-# EDXAPP_COMPREHENSIVE_THEME_DIRS:  [ '/edx/app/edxapp/themes' ]
-# EDXAPP_DEFAULT_SITE_THEME: "{{ edxapp_theme_name }}"
-# EDXAPP_ENABLE_COMPREHENSIVE_THEMING: true
