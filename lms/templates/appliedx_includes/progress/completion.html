@@ -4,46 +4,43 @@
         var mail = "${user.email}";
         var user_id = '${request.user.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]}';
 
-        function CheckEnrollment() {
-            var data = "{\"course_id\": \"" + "${course.id}" + "\",\"employee_id\": \"" + user_id + "\"}";
-            console.log("Checking For Credit");
-            var settings = {
-                "async": false,
-                "crossDomain": true,
-                "url": "https://services.appliedx.amat.com/saba/api/v1/check_saba/",
-                "method": "POST",
-                "headers": {
-                    "content-type": "application/json",
+        /**
+         * Utility to get Saba credits history.
+         */
+        function storeCreditCompletionResults(response) {
+            $.ajax({
+                // NOTE: it should be POST, but leaving as is.
+                url: "/credit_requested?course_id=${course.id}&credit_completion_status=" + response.Status,
+                success: function (result) {
+                    console.log("Successfully stored the Saba credit with completion status: " + response.Status);
                 },
-                "processData": false,
-                "data": data
-            }
-            $.ajax(settings).done(function (response) {
-                console.log(response);
-                if (response.Status === "200") {
-                    console.log("Already Have Credit With Following Registration" + response.Reg);
-                    $('#saba-reg span').text('You Have Credit For This Course');
-                } else if (response.Status === "100") {
-                    console.log("No Credit Yet");
-                    $('#saba-reg span').text('Click Below To Get Credit');
-                } else {
-                    console.log("Error In Credit");
-                    $('#saba-reg span').text('Error In Registration Contact AppliedX Team');
+                error: function (result) {
+                    console.log("An error occurred trying to store the Saba credit with completion status: " + response.Status);
                 }
-                //alert("Check Credit In SABA");
             });
+        }
+
+        /**
+         * Utility to enable Get-Credit click.
+         */
+        function enableGetCreditRequest() {
+            $('#course_recommend').click(function(e) {
+                CompleteEnrollment();
+            });
+        }
+
+        /**
+         * Utility to disable Get-Credit click.
+         */
+        function disableGetCreditRequest() {
+            $('#course_recommend').off('click');
         }
 
         function CompleteEnrollment() {
             $('#credit_button').hide();
             $('.loader').show();
-            console.log("Completion Event");
-            var course_id = "${course.id}";
-            var mail = "${user.email}";
             var user_id = '${request.user.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]}';
-            console.log(course_id, mail, user_id);
             var data = "{\"course_id\": \"" + "${course.id}" + "\",\"email_id\": \"" + "${user.email}" + "\", \"employee_id\": \"" + user_id + "\"}";
-            console.log(data);
             var settings = {
                 "async": true,
                 "crossDomain": true,
@@ -56,58 +53,71 @@
                 "data": data
             }
             $.ajax(settings).done(function (response) {
-                console.log(response);
                 $(".loader").hide();
+                storeCreditCompletionResults(response);
                 if (response.Status === "Complete") {
-                    $.ajax({
-                        url: "/credit_requested?course_id=${course.id}",
-                        success: function (result) { /*window.open($('#credit_button').attr("href"));*/
-                        },
-                        error: function (result) { /* window.open($('#credit_button').attr("href")); */
-                        }
-                    });
-
                     $('#saba-result span').text('Successfully Got Credit');
+                    $('#course_recommend').text('Credit ✓');
+                    $("#course_recommend").attr("data-saba-credit-result", "success");
+                    disableGetCreditRequest();
                 } else {
-                    $('#saba-result span').text('Error in Obtaining Credit Please Contact appliedx.amat.com');
+                    var message = 'Error in obtaining credit. Please try again or open a ticket <a target="_blank" href="https://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7">here</a>.'
+                    $('#saba-result span').html(decodeURI(message));
+                    $('#course_recommend').text('Try Again');
+                    $("#course_recommend").attr("data-saba-credit-result", "error");
+                    enableGetCreditRequest();
                 }
-                //alert("Check Credit In SABA");
             });
         }
 
-        CheckEnrollment();
     </script>
     <div id="errors-info" class="errors-info"></div>
     %if passed:
         <div id="saba-reg"><span></span></div>
-        <div id="course-success" style="padding-top:20px;"><!--removed class auto-cert-message -->
-            <!--a id="credit_button" style="display:block" onClick="CompleteEnrollment()">
-                Get credit for the course
-           </a-->
-            <a id="course_recommend" onClick="CompleteEnrollment()">Get Credit </a>
+        <div id="course-success" style="padding-top:20px;">
+            <a id="course_recommend">Get Credit </a>
             <div class="loader">
             </div>
             <div id="saba-result">
                 <span></span>
             </div>
-            <!--button id="saba_credit" onClick="CompleteEnrollment()" style="display:none">Complete In SABA</button-->
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
-                //$('#course-success').hide();
-                var course_id = "${course.id}";
                 $.ajax({
                     url: "/last_credit_request?course_id=${course.id}",
+                    dataType: "json",
                     success: function (result) {
-                        if (result != null) $("#course-success").prepend("<div>You have requested credit for taking the course on " + result.responseText + ". To reinitiate credit request, please click <a target='_blank' onClick='CompleteEnrollment()'>here</a></div>")
-                        else {
+                        if (result.credit_requested_date !== null && result.credit_completion_status !== null) {
+                            if (result.credit_completion_status === "Complete") {
+                              $("#course-success").prepend(
+                                "<div>You have requested credit for taking the course on " + result.credit_requested_date + ".</div>"
+                              );
+                              $('#course_recommend').text('Credit ✓');
+                              $("#course_recommend").attr("data-saba-credit-result", "success");
+                            } else {
+                              $("#course-success").prepend(
+                                "<div>Please try requesting for Credit again or else open a ticket <a target='_blank' href='https://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7'>here</a>.</div>"
+                              );
+                              $('#course_recommend').text('Try Again');
+                              $("#course_recommend").attr("data-saba-credit-result", "error");
+                              enableGetCreditRequest();
+                            }
+
+                        } else {
+                            enableGetCreditRequest();
                             $("#credit_button").show();
                             $(".loader").hide();
-                            InitiateAutoCompletion();
                         }
                     },
                     error: function (result) {
-                        if (result != null) $("#course-success").prepend("<div>You have requested credit for taking the course on " + result.responseText + ". To reinitiate credit request, please click <a onClick='CompleteEnrollment()'>here</a></div>")
+                        // NOTE: it seems we never hit this case. Preconditions and UX remain unclear here.
+                        enableGetCreditRequest();
+                        if (result.credit_requested_date != null) {
+                            $("#course-success").prepend(
+                              "<div>You have requested credit for taking the course on " + result.credit_requested_date + ". To reinitiate credit request, please click <a target='_blank' onClick='CompleteEnrollment()'>here</a></div>"
+                            );
+                        }
                         else {
                             $("#credit_button").show();
                             $(".loader").hide();
@@ -116,13 +126,18 @@
                     }
                 });
                 InitiateAutoCompletion = function () {
+                    // NOTE: `/credit_requested` doesn't make any call to Saba to actually autocomplete
+                    //   (if it was supposed to get Saba credits automatically).
+                    //   Leaving as is though to keep the legacy flow.
                     $("#credit_button").click(function (event) {
                         event.preventDefault()
                         $.ajax({
                             url: "/credit_requested?course_id=${course.id}",
-                            success: function (result) { /*window.open($('#credit_button').attr("href"));*/
+                            success: function (result) {
+                                console.log("Successfully stored the Saba credit.");
                             },
-                            error: function (result) { /*window.open($('#credit_button').attr("href"));*/
+                            error: function (result) {
+                                console.log("An error occurred trying to store the Saba credit.");
                             }
                         });
                     });
@@ -131,37 +146,44 @@
             var creditURL = "${course.cert_name_long}";
             var split = creditURL.split("C=");
             courseID = split[1];
-            var getCurrentUserEmail = function () {
-                return "${student.email}";
-            }
-            var encryptToSequence = function (courseID) {
-                var email = getCurrentUserEmail();
-                var len = courseID.length;
-                var creditKey = [];
-                for (var index = 0; index < len; index++) {
-                    var keyIndex = index % len;
-                    creditKey.push(courseID.charCodeAt(index) ^ email.charCodeAt(keyIndex));
-                }
-                return creditKey.join("-")
-            }
-            var decryptToSequence = function (creditKeySequence) {
-                creditKey = creditKeySequence.split("-");
-                var email = getCurrentUserEmail();
-                var len = creditKey.len;
-                var courseID = "";
-                for (var index = 0; index < len; index++) {
-                    var keyIndex = index % length;
-                    courseID += String.fromCharCode(creditKey[index] ^ email.charCodeAt(keyIndex));
-                }
-                return courseID;
-            }
-            // $("#credit_button").attr("href", split[0] + "C=" + encryptToSequence(courseID) + "&src=appliedx");
         </script>
     % endif
 </div>
 <style>
-    .auto-cert-message {
-        display: none;
+
+    .profile-wrapper .course-info #course-success>#course_recommend[data-saba-credit-result="error"] {
+        border: 1px solid #990000;
+        box-shadow: inset 0 1px 0 0 #f73636;
+        background-color: #e00000;
+        background-image: linear-gradient(#e00000, #a80000);
+        text-shadow: 0 1px 0 #840000;
+        /*background-image: -webkit-linear-gradient(#e00000,#a80000);*/
+    }
+
+    .profile-wrapper .course-info #course-success>#course_recommend[data-saba-credit-result="error"]:hover {
+        box-shadow: inset 0 1px 0 0 #f10909;
+        background-color: #c30404;
+        background-image: linear-gradient(#c30e04, #991600);
+        /*background-image: -webkit-linear-gradient(#c30e04,#991600);*/
+    }
+
+    .profile-wrapper .course-info #course-success>#course_recommend[data-saba-credit-result="error"]:active {
+        border: 1px solid #990000;
+        box-shadow: inset 0 0 8px 4px #890000, inset 0 0 8px 4px #890000;
+    }
+
+    .profile-wrapper .course-info #course-success>#course_recommend[data-saba-credit-result="success"] {
+        border: 1px solid #67946d;
+        box-shadow: inset 0 1px 0 0 #6aa970;
+        background-color: #79b380;
+        background-image: -webkit-linear-gradient(#8db18b, #5f8464);
+        background-image: linear-gradient(#8db18b, #5f8464);
+        text-shadow: 0 1px 0 #628865;
+    }
+
+    .profile-wrapper .course-info #course-success>#course_recommend[data-saba-credit-result="success"]:hover {
+        pointer-events: none;
+        cursor: default;
     }
 
     .loader {
