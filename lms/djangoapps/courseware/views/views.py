@@ -16,7 +16,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import Q
-from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, QueryDict
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse, QueryDict
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.text import slugify
@@ -1739,42 +1739,61 @@ def check_access_to_course(request, course):
         raise CourseAccessRedirect(reverse('course_survey', args=[unicode(course.id)]))
 
 
-def PCSurvey(user, course_id):
-    if len(StudentModule.objects.filter(student=user, course_id=course_id, module_type="PCSurvey")) == 0:
-        smod = StudentModule(student=user, course_id=course_id, module_type="PCSurvey")
-        smod.save()
-
-
 @login_required
+@require_GET
 def capture_credit_requested(request):
+    """
+    Store Saba credit completion results in `StudentModule`.
+
+    Legacy AMAT customization.
+
+    NOTE: should be POST by its nature (updating an entry). Leaving as is for now.
+    """
     user = request.user
+    request_datetime = None
     course_id_str = request.GET['course_id']
+    credit_completion_status = request.GET.get('credit_completion_status')
+
     course_id = CourseKey.from_string(course_id_str.replace(' ', '+'))
-    PCSurvey(user, course_id)
 
     for exam in StudentModule.objects.filter(student=user, course_id=course_id, module_type="course"):
         state = json.loads(exam.state)
         request_datetime = datetime.now()
-        if not state.get("credit_requested"):
-           state["credit_requested"] = str(request_datetime)
-           exam.state = json.dumps(state)
+        state["credit_requested"] = str(request_datetime)
+        if credit_completion_status:
+            state["credit_completion_status"] = credit_completion_status
+        exam.state = json.dumps(state)
         exam.save()
-    return HttpResponse(request_datetime)
+    response_data = {
+        'credit_requested_date': request_datetime,
+    }
+    return JsonResponse(response_data)
 
 
 def credit_requested_details(request):
+    """
+    Get Saba credit completion results from `StudentModule`.
+
+    Legacy AMAT customization.
+    """
     user = request.user
     course_id_str = request.GET['course_id']
     course_id = CourseKey.from_string(course_id_str.replace(" ", "+"))
-    credit_requested = ""
+    credit_requested = None
+    credit_completion_status = None
     for exam in StudentModule.objects.filter(student=user, course_id=course_id, module_type="course"):
         state = json.loads(exam.state)
         if state.get("credit_requested"):
             request_date = datetime.strptime(state["credit_requested"], "%Y-%m-%d %H:%M:%S.%f")
-            if credit_requested == "" or credit_requested < request_date:
+            if not credit_requested or credit_requested < request_date:
                 credit_requested = request_date
-    req_date = ""
-    if credit_requested != "":
+        credit_completion_status = state.get("credit_completion_status")
+    req_date = None
+    if credit_requested:
         req_date = str(credit_requested.day) + " " + \
                    ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][credit_requested.month - 1] + ", " + str(credit_requested.year)
-    return HttpResponse(req_date)
+    response_data = {
+        'credit_requested_date': req_date,
+        'credit_completion_status': credit_completion_status,
+    }
+    return JsonResponse(response_data)
