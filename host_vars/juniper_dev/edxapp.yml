@@ -1,22 +1,26 @@
 ---
-edx_platform_version: "juniper.rc2-rg"
-edx_platform_repo: "git@gitlab.raccoongang.com:dmytro.kaliberda/edx-platform.git"
-EDXAPP_SITE_NAME: "lms-dev2-juniper.raccoongang.com"
-EDXAPP_CMS_SITE_NAME: "cms-dev2-juniper.raccoongang.com"
-EDXAPP_PREVIEW_LMS_BASE: "preview-dev2-juniper.raccoongang.com"
+EDX_PLATFORM_VERSION: "open-release/juniper.master"
+edx_platform_repo: "https://github.com/edx/edx-platform.git"
+  #"git@gitlab.raccoongang.com:dmytro.kaliberda/edx-platform.git"
+EDXAPP_SITE_NAME: "lms-juniper-test.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-juniper-test.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-juniper-test.raccoongang.com"
 
 ## extra
-ECOMMERCE_VERSION: 'open-release/juniper.rc2'
-DISCOVERY_VERSION: 'open-release/juniper.rc2'
-ANALYTICS_API_VERSION: 'open-release/juniper.rc2'
-INSIGHTS_VERSION: 'open-release/juniper.rc2'
-NOTIFIER_VERSION: 'open-release/juniper.rc2'
-CREDENTIALS_VERSION: 'open-release/juniper.rc2'
+ECOMMERCE_VERSION: 'open-release/juniper.master'
+DISCOVERY_VERSION: 'open-release/juniper.master'
+ANALYTICS_API_VERSION: 'open-release/juniper.master'
+INSIGHTS_VERSION: 'open-release/juniper.master'
+NOTIFIER_VERSION: 'open-release/juniper.master'
+CREDENTIALS_VERSION: 'open-release/juniper.master'
 SANDBOX_ENABLE_NOTES: True
-forum_version: 'open-release/juniper.rc2'
+SANDBOX_ENABLE_BLOCKSTORE: True
+FORUM_VERSION: 'open-release/juniper.master'
 COMMON_CONFIG_NO_LOGGING: False
 DEVPI_SERVER_VERSION: '5.4.0'
 DEVPI_WEB_VERSION: '3.5.2'
 DEVPI_CLIENT_VERSION: '5.1.1'
+EDX_NOTES_API_VERSION: 'open-release/juniper.master'
+CERTS_VERSION: 'open-release/juniper.master'
 
 EDXAPP_ENV_EXTRA:

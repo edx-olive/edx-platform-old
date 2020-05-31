@@ -3,9 +3,9 @@ How to start
 
 1. Fork this repo into project group
 2. Clone repo locally
-3. Switch to `ironwood-rg` branch
+3. Switch to `juniper-rg` branch
 ```
-git checkout ironwood-rg
+git checkout juniper-rg
 ```
 4. Generate secrets by running this command
 ```
@@ -13,7 +13,7 @@ perl -pi -e 's/(XXX+)/join "", map { ("a" .. "z", "A" .. "Z", 0 .. 9)[rand(62)] 
 ```
 5. Encrypt secrets with raccoondeploy vault password
 ```
-ansible-vault encrypt --ask-vault-pass group_vars/project_name_group/secrets.yml 
+ansible-vault encrypt --ask-vault-pass group_vars/project_name_group/secrets.yml
 ```
 6. Rename inventory directories `project_name` to group and hosts from [inventory](https://gitlab.raccoongang.com/DevOps/inventory) repository
 ```

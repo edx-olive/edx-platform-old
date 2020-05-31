@@ -1,5 +1,5 @@
 ---
-EDXAPP_PLATFORM_NAME: "RG Ironwood RC"
+EDXAPP_PLATFORM_NAME: "RG Juniper RC"
 EDXAPP_LANG: "en_US.UTF-8"
 EDXAPP_LANGUAGE_CODE: "en"
 EDXAPP_TIME_ZONE: "Europe/Dublin"
@@ -24,10 +24,10 @@ EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
 
 EDXAPP_USE_GIT_IDENTITY: True
 # TODO unificated repositories structures
-edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
-edx_platform_version: "ironwood-rg"
+edx_platform_repo: "https://github.com/edx/edx-platform.git"
+edx_platform_version: "open-release/juniper.rc2"
 edx_ansible_source_repo: "https://gitlab.raccoongang.com/edx/configuration.git"
-configuration_version: "ironwood-rg"
+configuration_version: "juniper-rg"
 
 EDXAPP_GRADE_STORAGE_TYPE_LOCAL: true
 EDXAPP_GRADE_STORAGE_TYPE: ''
