@@ -71,3 +71,5 @@ EDXAPP_LMS_ENV_EXTRA:
 #     extra_args: '-e'
 #   - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics-log-collector@v2.2.1#egg=rg_instructor_analytics_log_collector'
 #     extra_args: '-e'
+
+CONFIGURE_JWTS: True
