@@ -2,6 +2,6 @@ touch-deploy:
     stage: deploy
     script:
         - apk add curl
-        - "curl -X POST -F token=$SF_DEPLOY_TRIGGER_TOKEN -F ref=master https://gitlab.raccoongang.com/api/v4/projects/750/trigger/pipeline"
+        - "curl -X POST -F token=$DEPLOY_TRIGGER_TOKEN -F ref=master https://gitlab.raccoongang.com/api/v4/projects/750/trigger/pipeline"
     only:
         - open-release/juniper.master
