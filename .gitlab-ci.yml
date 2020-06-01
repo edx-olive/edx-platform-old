@@ -3,13 +3,13 @@ stages:
 
 deploy-dev:
     stage: deploy
-    image: registry-gitlab.raccoongang.com/dmytro.kaliberda/configuration:juniper-rc2-rg-v0-0-2-develop
+    image: registry-gitlab.raccoongang.com/hippoteam/juniper/configuration:juniper-rg-develop
     variables:
         ANSIBLE_SSH_KEY: $JENKINS_DEPLOY_KEY
         ANSIBLE_VAULT_KEY: $DEVOPS_VAULT_KEY
     environment:
       name: dev
-      url: https://lms-dev2-juniper.raccoongang.com/
+      url: https://lms-juniper-test.raccoongang.com/
     script:
         - ansible-playbook dev.yml
     only:
