@@ -4,5 +4,3 @@
 
   roles:
     - role: "{{ run_role | default('rg-edx-single') }}"
-#    - role: forum
-#      when: False
