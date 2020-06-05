@@ -1121,7 +1121,7 @@ def do_email_change_request(user, new_email, activation_key=None, secondary_emai
 
     use_https = theming_helpers.get_current_request().is_secure()
 
-    site = Site.objects.get_current()
+    site = get_current_site()
     message_context = get_base_template_context(site)
     message_context.update({
         'old_email': user.email,
@@ -1223,7 +1223,7 @@ def confirm_email_change(request, key):  # pylint: disable=unused-argument
                 link=reverse('contact'),
             )
 
-        site = Site.objects.get_current()
+        site = get_current_site()
         message_context = get_base_template_context(site)
         message_context.update({
             'old_email': user.email,
