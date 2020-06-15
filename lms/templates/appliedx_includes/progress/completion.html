@@ -7,15 +7,15 @@
         /**
          * Utility to get Saba credits history.
          */
-        function storeCreditCompletionResults(response) {
+        function storeCreditCompletionResults(data) {
             $.ajax({
                 // NOTE: it should be POST, but leaving as is.
-                url: "/credit_requested?course_id=${course.id}&credit_completion_status=" + response.Status,
+                url: "/credit_requested?course_id=${course.id}&credit_completion_status=" + data.Status,
                 success: function (result) {
-                    console.log("Successfully stored the Saba credit with completion status: " + response.Status);
+                    console.log("Successfully stored the Saba credit with completion status: " + data.Status);
                 },
                 error: function (result) {
-                    console.log("An error occurred trying to store the Saba credit with completion status: " + response.Status);
+                    console.log("An error occurred trying to store the Saba credit with completion status: " + data.Status);
                 }
             });
         }
@@ -36,6 +36,32 @@
             $('#course_recommend').off('click');
         }
 
+        /**
+         * UX upon Get Credit request success.
+         */
+        function handleGetCreditSuccessUX() {
+            $('#saba-result span').text('Successfully Got Credit');
+            $('.data-saba-credit-error-message').text('');
+            $('#course_recommend').text('Credit ✓');
+            $("#course_recommend").attr("data-saba-credit-result", "success");
+            disableGetCreditRequest();
+        }
+
+        /**
+         * UX upon Get Credit request failure of any kind.
+         *
+         * Either services server errors (500) or business logic
+         * non-success completion status (200) fall into the
+         * Get-Credit failure category.
+         */
+        function handleGetCreditFailureUX() {
+            var message = 'Error in obtaining credit. Please try again or open a ticket <a target="_blank" href="https://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7">here</a>.'
+            $('#saba-result span').html(decodeURI(message));
+            $('#course_recommend').text('Try Again');
+            $("#course_recommend").attr("data-saba-credit-result", "error");
+            enableGetCreditRequest();
+        }
+
         function CompleteEnrollment() {
             $('#credit_button').hide();
             $('.loader').show();
@@ -53,20 +79,19 @@
                 "data": data
             }
             $.ajax(settings).done(function (response) {
+                console.log("Saba services responded with the completion status " + response.Status);
                 $(".loader").hide();
                 storeCreditCompletionResults(response);
                 if (response.Status === "Complete") {
-                    $('#saba-result span').text('Successfully Got Credit');
-                    $('#course_recommend').text('Credit ✓');
-                    $("#course_recommend").attr("data-saba-credit-result", "success");
-                    disableGetCreditRequest();
+                    handleGetCreditSuccessUX();
                 } else {
-                    var message = 'Error in obtaining credit. Please try again or open a ticket <a target="_blank" href="https://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7">here</a>.'
-                    $('#saba-result span').html(decodeURI(message));
-                    $('#course_recommend').text('Try Again');
-                    $("#course_recommend").attr("data-saba-credit-result", "error");
-                    enableGetCreditRequest();
+                    handleGetCreditFailureUX();
                 }
+            }).fail(function(jqXHR, textStatus){
+                console.log("Error occurred when requesting Saba credits from services. " + textStatus);
+                $(".loader").hide();
+                storeCreditCompletionResults({"Status": "ServicesError"}); // NOTE: configure status
+                handleGetCreditFailureUX();
             });
         }
 
@@ -91,13 +116,13 @@
                         if (result.credit_requested_date !== null && result.credit_completion_status !== null) {
                             if (result.credit_completion_status === "Complete") {
                               $("#course-success").prepend(
-                                "<div>You have requested credit for taking the course on " + result.credit_requested_date + ".</div>"
+                                "<div class='data-saba-credit-success-message'>You have requested credit for taking the course on " + result.credit_requested_date + ".</div>"
                               );
                               $('#course_recommend').text('Credit ✓');
                               $("#course_recommend").attr("data-saba-credit-result", "success");
                             } else {
                               $("#course-success").prepend(
-                                "<div>Please try requesting for Credit again or else open a ticket <a target='_blank' href='https://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7'>here</a>.</div>"
+                                "<div class='data-saba-credit-error-message'>Please try requesting for Credit again or else open a ticket <a target='_blank' href='https://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7'>here</a>.</div>"
                               );
                               $('#course_recommend').text('Try Again');
                               $("#course_recommend").attr("data-saba-credit-result", "error");
@@ -115,7 +140,7 @@
                         enableGetCreditRequest();
                         if (result.credit_requested_date != null) {
                             $("#course-success").prepend(
-                              "<div>You have requested credit for taking the course on " + result.credit_requested_date + ". To reinitiate credit request, please click <a target='_blank' onClick='CompleteEnrollment()'>here</a></div>"
+                              "<div class='data-saba-credit-success-message'>You have requested credit for taking the course on " + result.credit_requested_date + ". To reinitiate credit request, please click <a target='_blank' onClick='CompleteEnrollment()'>here</a></div>"
                             );
                         }
                         else {
@@ -173,11 +198,11 @@
     }
 
     .profile-wrapper .course-info #course-success>#course_recommend[data-saba-credit-result="success"] {
-        border: 1px solid #67946d;
-        box-shadow: inset 0 1px 0 0 #6aa970;
-        background-color: #79b380;
-        background-image: -webkit-linear-gradient(#8db18b, #5f8464);
-        background-image: linear-gradient(#8db18b, #5f8464);
+        border: 1px solid #67946D;
+        box-shadow: inset 0 1px 0 0 #BBE1B2;
+        background-color: #67946D;
+        background-image: -webkit-linear-gradient(#91CE83, #6EBF5B);
+        background-image: linear-gradient(#91CE83, #6EBF5B);
         text-shadow: 0 1px 0 #628865;
     }
 
