@@ -1751,7 +1751,7 @@ def capture_credit_requested(request):
     - "Complete": credit is successfully granted by Saba services.
     - "Incomplete": credit was not granted, `Registration` entry is created in the services' db.
     - "Error": credit was not granted, `Registration` entry is created in the services' db.
-    - "ServerError": 500 status codes from services when calling '/saba/api/v1/complete/'.
+    - "ServicesError": error status codes from services when calling '/saba/api/v1/complete/'.
 
     NOTE: should be POST by its nature (updating an entry). Leaving as is for now.
     """

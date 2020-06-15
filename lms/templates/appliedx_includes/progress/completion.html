@@ -90,7 +90,7 @@
             }).fail(function(jqXHR, textStatus){
                 console.log("Error occurred when requesting Saba credits from services. " + textStatus);
                 $(".loader").hide();
-                storeCreditCompletionResults({"Status": "ServerError"});
+                storeCreditCompletionResults({"Status": "ServicesError"}); // NOTE: configure status
                 handleGetCreditFailureUX();
             });
         }
