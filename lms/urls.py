@@ -71,7 +71,7 @@ urlpatterns = (
     url(r'^search_courses$', 'util.custom_views.search'),
     # url(r'^latest_app_version$', 'util.custom_views.latest_app_version'),
     # url(r'^latest_app_version_vr$', 'util.custom_views.latest_app_version_vr'),
-    # Get credit, AGU related
+    # Get credit, AGU (Saba) related
     url(r'^credit_requested$', 'courseware.views.views.capture_credit_requested'),
     url(r'^last_credit_request$', 'courseware.views.views.credit_requested_details'),
     url(r'^services_reset_course/$', 'student.custom_views.service_reset_course'),
@@ -1058,4 +1058,3 @@ if settings.FEATURES.get('ENABLE_FINANCIAL_ASSISTANCE_FORM'):
             name='submit_financial_assistance_request'
         )
     )
-
