@@ -18,10 +18,10 @@ urlpatterns = patterns(
         UserCourseStatus.as_view(),
         name='user-course-status'),
     # AMAT customization
-    url(
-        '^' + settings.USERNAME_PATTERN + '/course_enrollments_vr_hc/$',
-        UserHardcodedVRCourseEnrollmentsList.as_view(),
-        # 'courseenrollment-detail' space existed; renamed to 'courseenrollment-detail-vr-hc'
-        name='courseenrollment-detail-vr-hc'
-    )
+    # url(
+    #     '^' + settings.USERNAME_PATTERN + '/course_enrollments_vr_hc/$',
+    #     UserHardcodedVRCourseEnrollmentsList.as_view(),
+    #     # 'courseenrollment-detail' space existed; renamed to 'courseenrollment-detail-vr-hc'
+    #     name='courseenrollment-detail-vr-hc'
+    # )
 )
