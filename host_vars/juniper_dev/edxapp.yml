@@ -1,5 +1,5 @@
 ---
-EDX_PLATFORM_VERSION: "open-release/juniper.master"
+EDX_PLATFORM_VERSION: "juniper-rg"
 edx_platform_repo: "git@gitlab.raccoongang.com:hippoteam/juniper/edx-platform.git"
 EDXAPP_SITE_NAME: "lms-juniper-test.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-juniper-test.raccoongang.com"
