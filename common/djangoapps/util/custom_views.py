@@ -14,6 +14,11 @@ import time
 
 import boto
 from boto.exception import NoAuthHandlerFound, S3ResponseError
+from botocore.signers import CloudFrontSigner
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponse, JsonResponse
@@ -68,6 +73,34 @@ def sign_cloudfront_url(request):
             }),
             status=status.HTTP_401_UNAUTHORIZED
         )
+
+
+def form_cloudfront_url(url):
+    """
+    Sign cloudfront URL with private signing key.
+
+    :param url: Cloudfront media URL with restricted access.
+    :return: Signed URL with expiration time.
+    """
+    def rsa_signer(message):
+        with open(settings.SIGNING_KEY_FILE, 'rb') as key_file:
+            private_key = serialization.load_pem_private_key(
+                key_file.read(),
+                password=None,
+                backend=default_backend()
+            )
+        return private_key.sign(message, padding.PKCS1v15(), hashes.SHA1())
+
+    expire_date = datetime.datetime.now(pytz.utc) + datetime.timedelta(minutes=10)
+    cloudfront_signer = CloudFrontSigner(settings.SIGNING_KEY_ID, rsa_signer)
+
+    url = url.replace(" ", "+")
+    try:
+        signed_url = cloudfront_signer.generate_presigned_url(url, date_less_than=expire_date)
+    except ValueError as e:
+        signed_url = ""
+        logger.error('The provided Cloudfront signing key is not valid ' + str(e))
+    return signed_url
 
 
 def s3_video_list(request):
