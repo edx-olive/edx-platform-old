@@ -83,7 +83,7 @@ def form_cloudfront_url(url):
     :return: Signed URL with expiration time.
     """
     def rsa_signer(message):
-        with open(settings.SIGNING_KEY_FILE, 'rb') as key_file:
+        with open(settings.CLOUDFRONT_SIGNING_KEY_FILE, 'rb') as key_file:
             private_key = serialization.load_pem_private_key(
                 key_file.read(),
                 password=None,
@@ -92,7 +92,7 @@ def form_cloudfront_url(url):
         return private_key.sign(message, padding.PKCS1v15(), hashes.SHA1())
 
     expire_date = datetime.datetime.now(pytz.utc) + datetime.timedelta(minutes=10)
-    cloudfront_signer = CloudFrontSigner(settings.SIGNING_KEY_ID, rsa_signer)
+    cloudfront_signer = CloudFrontSigner(settings.CLOUDFRONT_SIGNING_KEY_ID, rsa_signer)
 
     url = url.replace(" ", "+")
     try:
