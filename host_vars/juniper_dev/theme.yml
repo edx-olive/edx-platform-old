@@ -2,6 +2,6 @@
  edxapp_theme_version: 'master'
  edxapp_theme_source_repo: 'git@gitlab.raccoongang.com:hippoteam/juniper/edx-theme.git'
  edxapp_theme_name: '{{ edxapp_theme_version }}'
-# EDXAPP_COMPREHENSIVE_THEME_DIRS:  [ '/edx/app/edxapp/themes' ]
-# EDXAPP_DEFAULT_SITE_THEME: "{{ edxapp_theme_name }}"
-# EDXAPP_ENABLE_COMPREHENSIVE_THEMING: true
+ EDXAPP_COMPREHENSIVE_THEME_DIRS:  [ '/edx/app/edxapp/themes' ]
+ EDXAPP_DEFAULT_SITE_THEME: "{{ edxapp_theme_name }}"
+ EDXAPP_ENABLE_COMPREHENSIVE_THEMING: true
