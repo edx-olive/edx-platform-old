@@ -30,7 +30,7 @@ from eventtracking import tracker
 from track.event_transaction_utils import create_new_event_transaction_id, set_event_transaction_type, \
     get_event_transaction_id
 from submissions import api as sub_api
-from util.custom_views import get_all_env_tokens, _get_course_team
+
 
 log = logging.getLogger(__name__)
 

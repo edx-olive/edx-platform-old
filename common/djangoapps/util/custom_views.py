@@ -13,7 +13,7 @@ import tempfile
 import time
 
 import boto
-from boto.exception import NoAuthHandlerFound, S3ResponseError
+from boto.exception import S3ResponseError
 from botocore.signers import CloudFrontSigner
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -46,34 +46,10 @@ def sign_cloudfront_url(request):
 
     Used to upload videos (`vr_xblock`, default video).
     """
-    url = request.GET['url']
-    url = url.replace(" ", "+")
-    SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
-    CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', "/edx/app/edxapp/"))
-    CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
-    with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
-        ENV_TOKENS = json.load(env_file)
-    aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
-    aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
-    try:
-        _ = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
-        cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
-        key_pair_id = ENV_TOKENS.get("SIGNING_KEY_ID")
-        priv_key_file = ENV_TOKENS.get("SIGNING_KEY_FILE")
-        expires = int(time.time()) + 600
-        http_resource = url
-        dist = cf.get_all_distributions()[0].get_distribution()
-        http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
-        return HttpResponse(http_signed_url)
-    except NoAuthHandlerFound as e:
-        return HttpResponse(
-            json.dumps({
-                "status": "error",
-                "message": "Failed to sign CloudFront url. Error: {!s}".format(e),
-            }),
-            status=status.HTTP_401_UNAUTHORIZED
-        )
-
+    resource_url = request.GET.get('url', '')
+    if 'cloudfront.' in resource_url:
+        resource_url = form_cloudfront_url(resource_url)
+    return JsonResponse({'url': resource_url})
 
 def form_cloudfront_url(url):
     """
@@ -224,18 +200,6 @@ def get_video_metadata(filepath):
                 metadata['audio']['frequency'] = re.search(', (.*? Hz),', l).group(1)
                 metadata['audio']['bitrate'] = re.search(', (\d+ kb/s)', l).group(1)
     return metadata
-
-
-def get_all_env_tokens():
-    try:
-        SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
-        CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', "/edx/app/edxapp/"))
-        CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
-        with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
-            ENV_TOKENS = json.load(env_file)
-    except Exception, e:
-        return HttpResponse(e)
-    return ENV_TOKENS
 
 
 def to_kilo_bits_per_second(raw):
