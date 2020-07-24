@@ -472,16 +472,7 @@ function(HTML5Video, HTML5HLSVideo, Resizer, HLS, _, Time) {
         if (isUnplayed && this.isYoutubeType()) {
             this.videoPlayer.player.cueVideoById(this.youtubeId(), time);
         } else {
-            // Youtube video cannot be rewinded during bufferization, so wait to
-            // finish bufferization and then rewind the video.
-            if (this.isYoutubeType() && this.videoPlayer.isBuffering()) {
-                this.el.on('play.seek', function() {
-                    this.videoPlayer.player.seekTo(time, true);
-                }.bind(this));
-            } else {
-                // Otherwise, just seek the video
-                this.videoPlayer.player.seekTo(time, true);
-            }
+            this.videoPlayer.player.seekTo(time, true);
         }
 
         this.videoPlayer.updatePlayTime(time, true);
