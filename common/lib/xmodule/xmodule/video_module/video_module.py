@@ -34,7 +34,6 @@ from opaque_keys.edx.locator import AssetLocator
 from openedx.core.djangoapps.video_config.models import HLSPlaybackEnabledFlag
 from openedx.core.lib.cache_utils import memoize_in_request_cache
 from openedx.core.lib.license import LicenseMixin
-from util.custom_views import form_cloudfront_url
 from xblock.core import XBlock
 from xblock.fields import ScopeIds
 from xblock.runtime import KvsFieldData
@@ -89,6 +88,11 @@ try:
     from branding.models import BrandingInfoConfig
 except ImportError:
     BrandingInfoConfig = None
+
+try:
+    from util.custom_views import form_cloudfront_url
+except ImportError:
+    form_cloudfront_url = None
 
 log = logging.getLogger(__name__)
 
@@ -158,7 +162,8 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
             resource_string(module, 'js/src/video/09_poster.js'),
             resource_string(module, 'js/src/video/095_video_context_menu.js'),
             resource_string(module, 'js/src/video/10_commands.js'),
-            resource_string(module, 'js/src/video/10_main.js')
+            resource_string(module, 'js/src/video/10_main.js'),
+            resource_string(module, 'js/src/video/video_error.js'),
         ]
     }
     css = {'scss': [
@@ -215,7 +220,7 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
         """
         Sign video URL with cloudfront key and AMAT employee ID.
         """
-        if 'cloudfront.' in url:
+        if form_cloudfront_url is not None and 'cloudfront.' in url:
             django_user_id = int(self.descriptor.scope_ids.user_id)
             django_user_obj = User.objects.get(id=django_user_id)
             employee_id = django_user_obj.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]
