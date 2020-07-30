@@ -22,10 +22,12 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from path import Path as path
 import pytz
+from raven.contrib.django.raven_compat.models import client
 from rest_framework import status
 from search.api import course_discovery_search
 from xmodule.modulestore.django import modulestore
@@ -458,3 +460,15 @@ def latest_app_version_vr(request):
         return HttpResponse('{"app_version":"' + version + '"}')
     else:
         return HttpResponse("Version is undefined.")
+
+
+@require_POST
+def report_error(request):
+    error_text = request.POST.get('error', '')
+    user_text = None
+    if request.user.is_authenticated():
+        email = request.user.email
+        user_text = ', for user: ' + email
+    logger.error('An external error recieved{0}. {1}'.format(user_text, error_text))
+    client.captureMessage(error_text)
+    return JsonResponse({'success': True})
