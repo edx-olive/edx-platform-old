@@ -38,10 +38,10 @@ if($.browser.chrome === undefined){
         $.ajax({
             url: "/sign_url?url="+originalURL,
             success: function(result){
-                $(player).attr("src", result.responseText);
+                $(player).attr("src", result.url;
             },
             error: function(result){
-                $(player).attr("src", result.responseText);
+                $(player).attr("src", result.url);
             }
         });
     }

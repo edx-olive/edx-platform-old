@@ -75,6 +75,8 @@ urlpatterns = (
     url(r'^credit_requested$', 'courseware.views.views.capture_credit_requested'),
     url(r'^last_credit_request$', 'courseware.views.views.credit_requested_details'),
     url(r'^services_reset_course/$', 'student.custom_views.service_reset_course'),
+    # Report errors
+    url(r'^report_error/$', 'util.custom_views.report_error'),
 
     # Enrollment API RESTful endpoints
     url(r'^api/enrollment/v1/', include('enrollment.urls')),

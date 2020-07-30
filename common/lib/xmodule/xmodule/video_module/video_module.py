@@ -13,27 +13,27 @@ Examples of html5 videos for manual testing:
     https://s3.amazonaws.com/edx-course-videos/edx-intro/edX-FA12-cware-1_100.ogv
 """
 import copy
+from collections import OrderedDict
 import json
 import logging
+from operator import itemgetter
 import os
 from path import Path as path
 import random
 import time
-from collections import OrderedDict
-from operator import itemgetter
-
-from pkg_resources import resource_string
+from urlparse import urlparse
 
 import boto
 from boto.exception import NoAuthHandlerFound
 from django.conf import settings
 from django.contrib.auth.models import User
 from lxml import etree
+from pkg_resources import resource_string
+
 from opaque_keys.edx.locator import AssetLocator
 from openedx.core.djangoapps.video_config.models import HLSPlaybackEnabledFlag
 from openedx.core.lib.cache_utils import memoize_in_request_cache
 from openedx.core.lib.license import LicenseMixin
-from urlparse import urlparse
 from xblock.core import XBlock
 from xblock.fields import ScopeIds
 from xblock.runtime import KvsFieldData
@@ -88,6 +88,11 @@ try:
     from branding.models import BrandingInfoConfig
 except ImportError:
     BrandingInfoConfig = None
+
+try:
+    from util.custom_views import form_cloudfront_url
+except ImportError:
+    form_cloudfront_url = None
 
 log = logging.getLogger(__name__)
 
@@ -157,7 +162,8 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
             resource_string(module, 'js/src/video/09_poster.js'),
             resource_string(module, 'js/src/video/095_video_context_menu.js'),
             resource_string(module, 'js/src/video/10_commands.js'),
-            resource_string(module, 'js/src/video/10_main.js')
+            resource_string(module, 'js/src/video/10_main.js'),
+            resource_string(module, 'js/src/video/video_error.js'),
         ]
     }
     css = {'scss': [
@@ -212,31 +218,15 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
 
     def get_signed_url(self, url):
         """
-        Sign Cloudfront URL.
+        Sign video URL with cloudfront key and AMAT employee ID.
         """
-        SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
-        CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', "/edx/app/edxapp/"))
-        CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
-        with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
-            ENV_TOKENS = json.load(env_file)
-        aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
-        aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
-        try:
-            _ = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
-            cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
-            key_pair_id = ENV_TOKENS.get("SIGNING_KEY_ID")
-            priv_key_file = ENV_TOKENS.get("SIGNING_KEY_FILE")
-            expires = int(time.time()) + 600
+        if form_cloudfront_url is not None and 'cloudfront.' in url:
             django_user_id = int(self.descriptor.scope_ids.user_id)
             django_user_obj = User.objects.get(id=django_user_id)
             employee_id = django_user_obj.social_auth.filter(provider="tpa-saml").last().uid.split(":")[1]
             http_resource = url + "?user_id=" + str(employee_id)
-            dist = cf.get_all_distributions()[0].get_distribution()
-            http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
-            return http_signed_url
-        except NoAuthHandlerFound as e:
-            # Component-goblin will appear in the course outline (see `xblock_view_handler`)
-            raise ValueError("Couldn't connect to S3: '{!s}'".format(e))
+            url = form_cloudfront_url(http_resource)
+        return url
 
     def get_html(self):
         track_status = (self.download_track and self.track)
