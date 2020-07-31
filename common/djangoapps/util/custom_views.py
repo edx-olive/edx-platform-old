@@ -13,14 +13,21 @@ import tempfile
 import time
 
 import boto
-from boto.exception import NoAuthHandlerFound, S3ResponseError
+from boto.exception import S3ResponseError
+from botocore.signers import CloudFrontSigner
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from path import Path as path
 import pytz
+from raven.contrib.django.raven_compat.models import client
 from rest_framework import status
 from search.api import course_discovery_search
 from xmodule.modulestore.django import modulestore
@@ -41,33 +48,37 @@ def sign_cloudfront_url(request):
 
     Used to upload videos (`vr_xblock`, default video).
     """
-    url = request.GET['url']
+    resource_url = request.GET.get('url', '')
+    if 'cloudfront.' in resource_url:
+        resource_url = form_cloudfront_url(resource_url)
+    return JsonResponse({'url': resource_url})
+
+def form_cloudfront_url(url):
+    """
+    Sign cloudfront URL with private signing key.
+
+    :param url: Cloudfront media URL with restricted access.
+    :return: Signed URL with expiration time.
+    """
+    def rsa_signer(message):
+        with open(settings.CLOUDFRONT_SIGNING_KEY_FILE, 'rb') as key_file:
+            private_key = serialization.load_pem_private_key(
+                key_file.read(),
+                password=None,
+                backend=default_backend()
+            )
+        return private_key.sign(message, padding.PKCS1v15(), hashes.SHA1())
+
+    expire_date = datetime.datetime.now(pytz.utc) + datetime.timedelta(minutes=10)
+    cloudfront_signer = CloudFrontSigner(settings.CLOUDFRONT_SIGNING_KEY_ID, rsa_signer)
+
     url = url.replace(" ", "+")
-    SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
-    CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', "/edx/app/edxapp/"))
-    CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
-    with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
-        ENV_TOKENS = json.load(env_file)
-    aws_access_key_id = ENV_TOKENS.get("AWS_ACCESS_KEY_ID")
-    aws_secret_access_key = ENV_TOKENS.get("AWS_SECRET_ACCESS_KEY")
     try:
-        _ = boto.connect_s3(aws_access_key_id, aws_secret_access_key)
-        cf = boto.connect_cloudfront(aws_access_key_id, aws_secret_access_key)
-        key_pair_id = ENV_TOKENS.get("SIGNING_KEY_ID")
-        priv_key_file = ENV_TOKENS.get("SIGNING_KEY_FILE")
-        expires = int(time.time()) + 600
-        http_resource = url
-        dist = cf.get_all_distributions()[0].get_distribution()
-        http_signed_url = dist.create_signed_url(http_resource, key_pair_id, expires, private_key_file=priv_key_file)
-        return HttpResponse(http_signed_url)
-    except NoAuthHandlerFound as e:
-        return HttpResponse(
-            json.dumps({
-                "status": "error",
-                "message": "Failed to sign CloudFront url. Error: {!s}".format(e),
-            }),
-            status=status.HTTP_401_UNAUTHORIZED
-        )
+        signed_url = cloudfront_signer.generate_presigned_url(url, date_less_than=expire_date)
+    except ValueError as e:
+        signed_url = ""
+        logger.error('The provided Cloudfront signing key is not valid ' + str(e))
+    return signed_url
 
 
 def s3_video_list(request):
@@ -191,18 +202,6 @@ def get_video_metadata(filepath):
                 metadata['audio']['frequency'] = re.search(', (.*? Hz),', l).group(1)
                 metadata['audio']['bitrate'] = re.search(', (\d+ kb/s)', l).group(1)
     return metadata
-
-
-def get_all_env_tokens():
-    try:
-        SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
-        CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', "/edx/app/edxapp/"))
-        CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
-        with open(CONFIG_ROOT / CONFIG_PREFIX + "env.json") as env_file:
-            ENV_TOKENS = json.load(env_file)
-    except Exception, e:
-        return HttpResponse(e)
-    return ENV_TOKENS
 
 
 def to_kilo_bits_per_second(raw):
@@ -461,3 +460,15 @@ def latest_app_version_vr(request):
         return HttpResponse('{"app_version":"' + version + '"}')
     else:
         return HttpResponse("Version is undefined.")
+
+
+@require_POST
+def report_error(request):
+    error_text = request.POST.get('error', '')
+    user_text = None
+    if request.user.is_authenticated():
+        email = request.user.email
+        user_text = ', for user: ' + email
+    logger.error('An external error recieved{0}. {1}'.format(user_text, error_text))
+    client.captureMessage(error_text)
+    return JsonResponse({'success': True})

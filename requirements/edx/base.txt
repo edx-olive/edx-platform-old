@@ -12,6 +12,7 @@ beautifulsoup==3.2.1
 bleach==1.4
 html5lib==0.999
 boto==2.39.0
+boto3==1.14.20
 rsa==4.0
 celery==3.1.18
 cryptography==1.5.3
@@ -125,6 +126,8 @@ django-webpack-loader==0.4.1
 pyuca==1.1
 wrapt==1.10.5
 zendesk==1.1.1
+# Note this pinned version of urllib3 is required by boto3 library.
+urllib3==1.20
 
 # This needs to be installed *after* Cython, which is in pre.txt
 lxml==3.4.4
