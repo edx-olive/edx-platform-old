@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    'use strict';
+  'use strict';
 
   /**
    * AMAT customization
@@ -8,6 +8,7 @@ $(document).ready(function () {
    *
    * Sends generic video error to /report_error enpoint.
    */
+  if (!document.querySelector('.studio-xblock-wrapper')) {
     setTimeout(function () {
       var videos = document.querySelectorAll('video')
       videos.forEach(function (video) {
@@ -26,6 +27,7 @@ $(document).ready(function () {
         }
       })
     }, 7000);
+  }
 
 
   var displayError = function (event) {
@@ -42,7 +44,7 @@ $(document).ready(function () {
     errorDiv.css('height', elementHeight)
     errorDiv.css('display', 'flex')
 
-    var error = 'VideoLoadingError: An error occured for user while loading the video file.' 
+    var error = 'VideoLoadingError: An error occured for user while loading the video file.'
     $.post('/report_error/', { error: error })
   }
 });
