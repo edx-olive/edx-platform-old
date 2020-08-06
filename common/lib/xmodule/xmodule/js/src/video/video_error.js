@@ -9,8 +9,8 @@ $(document).ready(function () {
    * Sends generic video error to /report_error enpoint.
    */
   var listenErrors = function () {
-   if (!document.querySelector('.studio-xblock-wrapper')) {
-     setTimeout(function () {
+    if (!document.querySelector('.studio-xblock-wrapper')) {
+      setTimeout(function () {
         var videos = document.querySelectorAll('video')
         videos.forEach(function (video) {
           var sources = video.querySelectorAll('source')
@@ -27,12 +27,11 @@ $(document).ready(function () {
             video.addClass('err-listened')
           }
         })
-      }, 100);
+      }, 100)
     }
   }
 
   var displayError = function (event) {
-    $('.sequence').on('sequence:change', displayAll)
     var target = $(event.target)
     var elementHeight = target.height()
     if (target.parents('video').length > 0) {
@@ -44,7 +43,9 @@ $(document).ready(function () {
     }
     var errorDiv = target.siblings('.video-load-error')
     target.hide()
-    errorDiv.css('height', elementHeight)
+    if (elementHeight) {
+      errorDiv.css('height', elementHeight)
+    }
     errorDiv.css('display', 'flex')
 
     var error = 'VideoLoadingError: An error occured for user while loading the video file.'
@@ -52,7 +53,7 @@ $(document).ready(function () {
   }
 
   var displayAll = function () {
-    setTimeout(function ()  {
+    setTimeout(function () {
       var videos = document.querySelectorAll('.video-wrapper')
       videos.forEach(function (video) { displayAllErrors(video) })
     }, 10)
@@ -60,16 +61,24 @@ $(document).ready(function () {
 
   var displayAllErrors = function (target) {
     target = $(target)
-    var elementHeight = target.height()
     var errorDiv = target.siblings('.video-load-error')
     target.hide()
-    errorDiv.css('height', elementHeight)
     errorDiv.css('display', 'flex')
   }
 
   listenErrors()
-  $('.sequence').on('sequence:change', listenErrors);
+  $('.sequence').on('sequence:change', listenErrors)
 
-  window.onerror = function(message, source, lineno, colno, error) { displayAll() };
-
+  window.onerror = function (message, source, lineno, colno, error) {
+    var target = $(message.target)
+    var sources = []
+    try {
+      sources = [target.find('video')[0].currentSrc, target.find('source')[0].src]
+    } catch (error) {
+      // skip an error
+    }
+    if (sources.some(function (src) { return src.indexOf('cloudfront.net') !== -1 })) {
+      displayAll()
+    }
+  }
 });
