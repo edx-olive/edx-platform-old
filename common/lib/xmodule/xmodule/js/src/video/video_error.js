@@ -2,12 +2,12 @@ $(document).ready(function () {
   'use strict';
 
   /**
-   * AMAT customization
-   * Add error reporting and display errors on UI for video elements.
-   * Timeout was set to wait until the video xblock is initialized.
-   *
-   * Sends generic video error to /report_error enpoint.
-   */
+  * AMAT customization
+  * Add error reporting and display errors on UI for video elements.
+  * Timeout was set to wait until the video xblock is initialized.
+  *
+  * Sends generic video error to /report_error enpoint.
+  */
   var listenErrors = function () {
     if (!document.querySelector('.studio-xblock-wrapper')) {
       setTimeout(function () {
@@ -42,32 +42,35 @@ $(document).ready(function () {
       target = target.parents('.video-wrapper')
     }
     var errorDiv = target.siblings('.video-load-error')
-    target.hide()
-    if (elementHeight) {
-      errorDiv.css('height', elementHeight)
+    if (errorDiv.length > 0) {
+      target.hide()
+      if (elementHeight) {
+        errorDiv.css('height', elementHeight)
+      }
+      errorDiv.css('display', 'flex')
     }
-    errorDiv.css('display', 'flex')
 
     var error = 'VideoLoadingError: An error occured for user while loading the video file.'
     $.post('/report_error/', { error: error })
   }
 
   var displayAll = function () {
-    setTimeout(function () {
-      var videos = document.querySelectorAll('.video-wrapper')
-      videos.forEach(function (video) { displayAllErrors(video) })
-    }, 10)
+    var videos = document.querySelectorAll('.video-wrapper')
+    videos.forEach(function (video) { displayAllErrors(video) })
   }
 
   var displayAllErrors = function (target) {
     target = $(target)
+    var elementHeight = target.height()
     var errorDiv = target.siblings('.video-load-error')
-    target.hide()
-    errorDiv.css('display', 'flex')
+    if (errorDiv.length > 0) {
+      target.hide()
+      if (elementHeight) {
+        errorDiv.css('height', elementHeight)
+      }
+      errorDiv.css('display', 'flex')
+    }
   }
-
-  listenErrors()
-  $('.sequence').on('sequence:change', listenErrors)
 
   window.onerror = function (message, source, lineno, colno, error) {
     var target = $(message.target)
@@ -81,4 +84,12 @@ $(document).ready(function () {
       displayAll()
     }
   }
-});
+
+  listenErrors()
+  var seq = $('.sequence')
+  if (!seq.hasClass('video-err-listened')) {
+    seq.on('sequence:change', listenErrors)
+    seq.addClass('video-err-listened')
+  }
+
+})
