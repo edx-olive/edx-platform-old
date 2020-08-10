@@ -979,3 +979,25 @@ LOGO_URL = ENV_TOKENS.get('LOGO_URL', LOGO_URL)
 LOGO_URL_PNG = ENV_TOKENS.get('LOGO_URL_PNG', LOGO_URL_PNG)
 LOGO_TRADEMARK_URL = ENV_TOKENS.get('LOGO_TRADEMARK_URL', LOGO_TRADEMARK_URL)
 FAVICON_URL = ENV_TOKENS.get('FAVICON_URL', FAVICON_URL)
+
+#RACCOONGANG
+
+if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
+    import sentry_sdk
+    import subprocess
+    from sentry_sdk.integrations.django import DjangoIntegration
+    from sentry_sdk.integrations.celery import CeleryIntegration
+
+    try:
+        platform_git_commit = subprocess.check_output(['git', 'describe', '--always']).strip()
+    except (subprocess.CalledProcessError, OSError):
+        platform_git_commit = ''
+    sentry_sdk.init(
+            AUTH_TOKENS.get('RG_SENTRY_DSN'),
+            integrations=[DjangoIntegration(),CeleryIntegration()],
+            environment=ENV_TOKENS.get('RG_SENTRY_ENVIRONMENT', ''),
+            release=platform_git_commit,
+            send_default_pii=True
+            )
+
+#RACCOONGANG
