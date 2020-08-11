@@ -24,3 +24,6 @@ CERTS_VERSION: 'open-release/juniper.master'
 
 
 #EDXAPP_ENV_EXTRA:
+
+EDXAPP_AUTH_EXTRA:
+  RG_SENTRY_DSN: "{{ COMMON_RG_SENTRY_DSN }}"
