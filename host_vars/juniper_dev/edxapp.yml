@@ -5,6 +5,8 @@ EDXAPP_SITE_NAME: "lms-juniper-test.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-juniper-test.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-juniper-test.raccoongang.com"
 
+EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
+
 ## extra
 ECOMMERCE_VERSION: 'open-release/juniper.master'
 DISCOVERY_VERSION: 'open-release/juniper.master'
