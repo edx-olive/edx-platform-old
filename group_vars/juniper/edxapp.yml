@@ -21,6 +21,8 @@ EDXAPP_LMS_BASE_SCHEME: "{{ 'https' if nginx_ssl else 'http' }}"
 EDXAPP_LMS_ROOT_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
 
 EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
+EDXAPP_CSRF_COOKIE_SECURE: true
+EDXAPP_SESSION_COOKIE_SECURE: true
 
 EDXAPP_USE_GIT_IDENTITY: True
 # TODO unificated repositories structures
@@ -52,6 +54,7 @@ EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recurs
 ELASTICSEARCH_CLUSTERED: False
 
 EDXAPP_LMS_ENV_EXTRA:
+  RG_SENTRY_DSN: "{{ COMMON_RG_SENTRY_DSN }}"
   THIRD_PARTY_AUTH_BACKENDS:
     - "social_core.backends.google.GoogleOAuth2"
     - "social_core.backends.linkedin.LinkedinOAuth2"
@@ -60,6 +63,9 @@ EDXAPP_LMS_ENV_EXTRA:
     - "social_core.backends.vk.VKOAuth2"
     - "third_party_auth.saml.SAMLAuthBackend"
     - "third_party_auth.lti.LTIAuthBackend"
+
+EDXAPP_CMS_ENV_EXTRA:
+  RG_SENTRY_DSN: "{{ COMMON_RG_SENTRY_DSN }}"
 
 # rg_analytics
 # EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics_log_collector']
