@@ -21,6 +21,8 @@ EDXAPP_LMS_BASE_SCHEME: "{{ 'https' if nginx_ssl else 'http' }}"
 EDXAPP_LMS_ROOT_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
 
 EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
+EDXAPP_CSRF_COOKIE_SECURE: true
+EDXAPP_SESSION_COOKIE_SECURE: true
 
 EDXAPP_USE_GIT_IDENTITY: True
 # TODO unificated repositories structures
