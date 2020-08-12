@@ -23,9 +23,3 @@ DEVPI_WEB_VERSION: '3.5.2'
 DEVPI_CLIENT_VERSION: '5.1.1'
 EDX_NOTES_API_VERSION: 'open-release/juniper.master'
 CERTS_VERSION: 'open-release/juniper.master'
-
-
-#EDXAPP_ENV_EXTRA:
-
-EDXAPP_AUTH_EXTRA:
-  RG_SENTRY_DSN: "{{ COMMON_RG_SENTRY_DSN }}"
