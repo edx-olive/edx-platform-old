@@ -118,15 +118,12 @@ function($, _, AbstractEditor, FileUpload, UploadDialog) {
                     'lang': key,
                     'value': value,
                     'url': self.model.get('urlRoot') + '/' + key
-                }));
-                HtmlUtils.append($html, dropdown.clone().val(newLang));
-                frag.appendChild($html[0]);
+                })).prepend(dropdown.clone().val(key))[0];
+
+                frag.appendChild($html);
             });
 
-            HtmlUtils.setHtml(
-                this.$el.find('ol'),
-                HtmlUtils.HTML([frag])
-            );
+            this.$el.find('ol').html([frag]);
         },
 
         addEntry: function(event) {
