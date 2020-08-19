@@ -51,13 +51,13 @@ class SendActivationEmailTestCase(TestCase):
 
         # Asserts sending email retry logging.
         for attempt in range(email_max_attempts):
-            mock_log.info.assert_any_call(
+            mock_log.exception.assert_any_call(
                 'Retrying sending email to user {dest_addr}, attempt # {attempt} of {max_attempts}'.format(
                     dest_addr=self.student.email,
                     attempt=attempt,
                     max_attempts=email_max_attempts
                 ))
-        self.assertEquals(mock_log.info.call_count, 6)
+        self.assertEquals(mock_log.exception.call_count, 6)
 
         # Asserts that the error was logged on crossing max retry attempts.
         mock_log.error.assert_called_with(
