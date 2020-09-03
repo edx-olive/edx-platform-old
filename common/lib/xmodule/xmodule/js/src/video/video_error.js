@@ -31,6 +31,11 @@ $(document).ready(function () {
     }
   }
 
+  var hide_all_transcripts = function () {
+      $('.subtitles').hide()
+      $('.wrapper-downloads').hide()
+  }
+
   var displayError = function (event) {
     var target = $(event.target)
     var elementHeight = target.height()
@@ -42,12 +47,18 @@ $(document).ready(function () {
       target = target.parents('.video-wrapper')
     }
     var errorDiv = target.siblings('.video-load-error')
+    var transcriptDiv = target.siblings('.subtitles')
+    var downloadDiv = target.parent().siblings('.wrapper-downloads')
     if (errorDiv.length > 0) {
       target.hide()
+      transcriptDiv.hide()
+      downloadDiv.hide()
       if (elementHeight) {
         errorDiv.css('height', elementHeight)
       }
       errorDiv.css('display', 'flex')
+      setTimeout(hide_all_transcripts, 2000)
+      setTimeout(hide_all_transcripts, 5000)
     }
 
     var error = 'VideoLoadingError: An error occured for user while loading the video file.'
@@ -63,12 +74,18 @@ $(document).ready(function () {
     target = $(target)
     var elementHeight = target.height()
     var errorDiv = target.siblings('.video-load-error')
+    var transcriptDiv = target.siblings('.subtitles')
+    var downloadDiv = target.parent().siblings('.wrapper-downloads')
     if (errorDiv.length > 0) {
       target.hide()
+      transcriptDiv.hide()
+      downloadDiv.hide()
       if (elementHeight) {
         errorDiv.css('height', elementHeight)
       }
       errorDiv.css('display', 'flex')
+      setTimeout(hide_all_transcripts, 2000)
+      setTimeout(hide_all_transcripts, 5000)
     }
   }
 
