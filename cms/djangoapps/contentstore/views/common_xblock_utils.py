@@ -140,7 +140,7 @@ def create_common_xblock(section_name, user_email, parent_locator, update=False,
         published_on = now.strftime("%Y-%m-%d %H:%M:%S%Z")
     user = User.objects.get(email=user_email)
     usage_key_with_run(parent_locator)
-    url = '{}{}'.format(settings.FEATURES['GET_CREDIT_SERVICE_URL'], '/commonsection/api/v1/')
+    url = '{}{}'.format(settings.SABA_SERVICES_BASE_URL, 'commonsection/api/v1/')
 
     headers = {"content-type": "application/json"}
     if section_name == 'Introduction':
