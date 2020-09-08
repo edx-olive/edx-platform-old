@@ -1,11 +1,23 @@
 <%!
+  from django.conf import settings
   from django.utils.translation import ugettext as _
+
+  get_add_attribute_base_url = settings.SABA_SERVICES_BASE_URL+'appliedx_controls/api/get_add_attribute?attr_type='
+  get_instructor_designer_base_url = settings.SABA_SERVICES_BASE_URL+'appliedx_controls/get_instructor_designer/?type='
+
+  get_add_attribute_url_stream = get_add_attribute_base_url + 'stream'
+  get_add_attribute_url_topic = get_add_attribute_base_url + 'topic'
+  get_add_attribute_url_learning = get_add_attribute_base_url + 'learning'
+
+  get_instructor_designer_url_type_i = get_instructor_designer_base_url + 'I'
+  get_instructor_designer_url_type_id = get_instructor_designer_base_url + 'ID'
 %>
         <section class="group-settings marketing">
               <header>
                 <h2 class="title-2">${_("Searching your course")}</h2>
                 <span class="tip">${_("Making your course searchable with custom attributes")}</span>
               </header>
+              <div data-saba-services-base-url="${saba_services_base_url}"></div>
 
               <ol class="list-input">
 
@@ -27,11 +39,11 @@
 
                 <li class="field">
                         <label for="appliedx-custom-mobile">Mobile Availability</label>
-                        <select id="appliedx-custom-mobile" class="appliedx-custom-settings" data-filter-mapping="mobile"> 
+                        <select id="appliedx-custom-mobile" class="appliedx-custom-settings" data-filter-mapping="mobile">
                                 <option>Yes</option>
                                 <option>No</option>
                         </select>
-                       
+
                 </li>
 	        <li class="field">
                         <label for="appliedx-custom-availibility_status">Availability</label>
@@ -70,7 +82,7 @@
                         <label for="appliedx-custom-streams" class="required">Stream</label>
                         <input id="appliedx-custom-streams" style="display:none" name="appliedx-custom-streams">
                         <ControlledInput data-id="appliedx-custom-streams" class="appliedx-custom-settings" data-filter-mapping="streams" allow-unapproved-values="false" layout-x='fluid'
-                        data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=stream" data-path="value"></ControlledInput>
+                        data-source="${get_add_attribute_url_stream}" data-path="value"></ControlledInput>
                         </input>
                         <span class="tip tip-stacked">${_("The subject matter your course deals with")}</span>
                 </li>
@@ -79,7 +91,7 @@
                         <label for="appliedx-custom-tags" class="required">Topics</label>
                         <input id="appliedx-custom-tags" style="display:none" name="appliedx-custom-tags">
                         <ControlledInput data-id="appliedx-custom-tags" class="appliedx-custom-settings" data-filter-mapping="tags" allow-unapproved-values="false" layout-x='fluid'
-                            data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=topic" data-path="value"></ControlledInput>
+                            data-source="${get_add_attribute_url_topic}" data-path="value"></ControlledInput>
                          </input>
                          <span class="tip tip-stacked">${_("The main category your course falls under")}</span>
                 </li>
@@ -95,7 +107,7 @@
                                 <label for="appliedx-custom-objectives" class="required">Learning Objectives</label>
                                 <input id="appliedx-custom-objectives"  style="display:none" name="appliedx-custom-objectives">
                                 <ControlledInput data-id="appliedx-custom-objectives" class="appliedx-custom-settings" data-filter-mapping="objectives" allow-unapproved-values="true"
-                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=learning" data-path="value"></ControlledInput>
+                                layout-x='line-item' data-source="${get_add_attribute_url_learning}" data-path="value"></ControlledInput>
                                 </input>
                                 <span class="tip tip-stacked">${_("Learning Objective")}</span>
                 </li>
@@ -105,7 +117,7 @@
                                 <label for="appliedx-custom-course_prerequisites">Course Prerequisites</label>
                                 <input id="appliedx-custom-course_prerequisites"  style="display:none" name="appliedx-custom-course_prerequisites">
                                 <ControlledInput data-id="appliedx-custom-course_prerequisites" class="appliedx-custom-settings" data-filter-mapping="course_prerequisites" allow-unapproved-values="true"
-                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/api/get_add_attribute?attr_type=learning" data-path="value"></ControlledInput>
+                                layout-x='line-item' data-source="${get_add_attribute_url_learning}" data-path="value"></ControlledInput>
                                 </input>
                                 <span class="tip tip-stacked">${_("Pre Requisites for this course")}</span>
                 </li>
@@ -115,7 +127,7 @@
                                 <label for="appliedx-custom-instructors">Instructor</label>
                                 <input id="appliedx-custom-instructors"  style="display:none" name="appliedx-custom-instructors">
                                 <ControlledInput data-id="appliedx-custom-instructors" class="appliedx-custom-settings" data-filter-mapping="instructors" allow-unapproved-values="false"
-                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/get_instructor_designer/?type=I" data-path="value"></ControlledInput>
+                                layout-x='line-item' data-source="${get_instructor_designer_url_type_i}" data-path="value"></ControlledInput>
                                 </input>
                                 <span class="tip tip-stacked">${_("Instructor")}</span>
                 </li>
@@ -124,7 +136,7 @@
                                 <label for="appliedx-custom-instructor_designers">Instructional Designer</label>
                                 <input id="appliedx-custom-instructor_designers"  style="display:none" name="appliedx-custom-instructor_designers">
                                 <ControlledInput data-id="appliedx-custom-instructor_designers" class="appliedx-custom-settings" data-filter-mapping="instructor_designers" allow-unapproved-values="false"
-                                layout-x='line-item' data-source="https://services.appliedx.amat.com/appliedx_controls/get_instructor_designer/?type=ID" data-path="value"></ControlledInput>
+                                layout-x='line-item' data-source="${get_instructor_designer_url_type_id}" data-path="value"></ControlledInput>
                                 </input>
                                 <span class="tip tip-stacked">${_("Instructional Designer")}</span>
                 </li>
@@ -277,11 +289,11 @@ AJAX = function(calltype, api, data, processor){
 $("ControlledInput").each(function(){
     $(this).html($("#controlledInputTemplate").html())
     this.keywords = () => $(".keywords", $(this));
-    this.keys = () => { 
+    this.keys = () => {
             let keys = [];
             $(".key", $(this)).each(function(){
                     keys.push($(this).html());
-            }); 
+            });
             return keys;
     }
     this.suggestionKeywords = [];
@@ -292,7 +304,7 @@ $("ControlledInput").each(function(){
     this.attr = $(this).attr("data-attr");
     this.datapath = $(this).attr("data-path");
     this.textEntered = () => $(".input-keyword", $(this)).val();
-    
+
     this.removeKeyWord = (keyword) => {
         var input_parent = $(this).attr('data-id');
         var get_this = $(this)
@@ -314,7 +326,7 @@ $("ControlledInput").each(function(){
     });
 
     this.highlightNextSuggestion = function(){
-        const hoveredSuggestion = $(".suggestion-hovered", $(this)); 
+        const hoveredSuggestion = $(".suggestion-hovered", $(this));
         if(!hoveredSuggestion.length)
             $("li", this.suggestions).first().addClass("suggestion-hovered")
         else if(hoveredSuggestion.next().length){
@@ -346,7 +358,7 @@ $("ControlledInput").each(function(){
 
             var firstKWIndex = this.suggestionKeywords[keyword].toLowerCase().indexOf(iKeyword.toLowerCase());
             if(firstKWIndex != -1){
-                for(let key in this.keys()) 
+                for(let key in this.keys())
                 {
                    if(this.keys()[key] == this.suggestionKeywords[keyword])
                     addWord = false;
@@ -377,7 +389,7 @@ $("ControlledInput").each(function(){
 
     this.textbox.keyup((e)=>{
         const hoveredSuggestion = $(".suggestion-hovered", $(this));
-        if($(e.target).val() == "") return;	
+        if($(e.target).val() == "") return;
         switch(e.keyCode){
         case 13:
 	    var input_parent = $(e.target).parent().parent().attr('data-id');
@@ -394,23 +406,23 @@ $("ControlledInput").each(function(){
             }
 	else{
             console.log($(e.target).text());
-		
+
 	}
             if($.inArray( $(e.target).val() ,this.keys()) === -1)
             {
-            this.appendKeyFromInput(this);     
+            this.appendKeyFromInput(this);
             console.log(this.keys());
             $("#" + input_parent).val(JSON.stringify(this.keys()));
             $("#"+ input_parent).trigger("change");
             }
             break;
-        case 27:	
+        case 27:
             this.pushKeyToInput("", this);
             break;
-        case 40:	
+        case 40:
             this.highlightNextSuggestion();
             break;
-        case 38:	
+        case 38:
             this.highlightPreviousSuggestion();
             break;
         case 8:
@@ -485,13 +497,13 @@ $("ControlledInput").each(function(){
             ci.textbox.val("");
                 //});
             }
-         else 
+         else
 	{
 	//alert("Type in values are not allowed")
 	}
         }
     }
-    
+
 
 
     this.pushKeyToInput = (key, ci) =>{

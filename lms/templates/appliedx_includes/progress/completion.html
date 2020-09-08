@@ -64,7 +64,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "https://services.appliedx.amat.com/saba/api/v1/complete/",
+                "url": "${settings.SABA_SERVICES_BASE_URL}" + "saba/api/v1/complete/",
                 "method": "POST",
                 "headers": {
                     "content-type": "application/json",
