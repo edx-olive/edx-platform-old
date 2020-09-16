@@ -1037,6 +1037,7 @@ def settings_handler(request, course_key_string):
                 'enable_extended_course_details': enable_extended_course_details,
                 'yammer_id': yammer_id,
                 'yammer_group_id': CourseDetails.fetch_about_attribute(course_key, 'yammer'),
+                'saba_services_base_url': settings.SABA_SERVICES_BASE_URL,
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)

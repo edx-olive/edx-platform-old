@@ -1340,3 +1340,6 @@ RECALCULATE_GRADES_ROUTING_KEY = LOW_PRIORITY_QUEUE
 
 ############## Settings for CourseGraph ############################
 COURSEGRAPH_JOB_QUEUE = LOW_PRIORITY_QUEUE
+
+# AMAT SABA services configs
+SABA_SERVICES_BASE_URL = "https://services.appliedx.amat.com/"

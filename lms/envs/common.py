@@ -3239,3 +3239,6 @@ COURSES_API_CACHE_TIMEOUT = 3600  # Value is in seconds
 
 ############## Settings for CourseGraph ############################
 COURSEGRAPH_JOB_QUEUE = LOW_PRIORITY_QUEUE
+
+# AMAT SABA services configs
+SABA_SERVICES_BASE_URL = "https://services.appliedx.amat.com/"

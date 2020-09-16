@@ -319,6 +319,8 @@ AWS_VIDEO_BUCKET = ENV_TOKENS.get("AWS_VIDEO_BUCKET")
 # AMAT Catalog/Pathway API
 AMAT_CATALOG_BASE_URL = AUTH_TOKENS.get("AMAT_CATALOG_API", {}).get("AMAT_CATALOG_BASE_URL")
 AMAT_CATALOG_USER = AUTH_TOKENS.get("AMAT_CATALOG_API", {}).get("AMAT_CATALOG_USER")
+# AMAT SABA services configs
+SABA_SERVICES_BASE_URL = ENV_TOKENS.get("SABA_SERVICES_BASE_URL", SABA_SERVICES_BASE_URL)
 
 
 # Disabling querystring auth instructs Boto to exclude the querystring parameters (e.g. signature, access key) it

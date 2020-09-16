@@ -5,6 +5,15 @@ define(['js/views/validation','tinymce', 'codemirror', 'underscore', 'jquery', '
        function(ValidatingView, tinymce, CodeMirror, _, $, ui, DateUtils, FileUploadModel,
                 FileUploadDialog, LicenseView, LicenseModel, NotificationView,
                 timepicker, date, gettext, LearningInfoView, InstructorInfoView, StringUtils) {
+
+           var getSabaServicesBaseUrl = function () {
+               var servicesUrlConfig = $("[data-saba-services-base-url]").attr("data-saba-services-base-url");
+               if (servicesUrlConfig === undefined) {
+                 servicesUrlConfig = "https://services.appliedx.amat.com/";
+               }
+               return servicesUrlConfig;
+           };
+
            var DetailsView = ValidatingView.extend({
     // Model class is CMS.Models.Settings.CourseDetails
                events: {
@@ -306,7 +315,7 @@ define(['js/views/validation','tinymce', 'codemirror', 'underscore', 'jquery', '
                 $(".course-staff-instructor").css('display','block');
                 $.each( instructors, function( key, value ) {
                   $.ajax({
-                    url: "https://services.appliedx.amat.com/appliedx_controls/instructor_details/",
+                    url: getSabaServicesBaseUrl() + "appliedx_controls/instructor_details/",
                     type: "get", //send it through get method
                     data: {
                       name: value
@@ -319,7 +328,6 @@ define(['js/views/validation','tinymce', 'codemirror', 'underscore', 'jquery', '
                       $(".course-staff-instructor").append(instructor_html);
                   new_course_overview = $("#new_course_overview_hidden").html()
                   tinymce.get('course-overview').setContent(new_course_overview);
-
                     },
                     error: function(xhr) {
                       console.log("Error in fetching instructors")
@@ -341,7 +349,7 @@ define(['js/views/validation','tinymce', 'codemirror', 'underscore', 'jquery', '
                 $(".course-staff-instructional-designer").css('display','block');
                 $.each( instructor_designers, function( key, value ) {
                   $.ajax({
-                    url: "https://services.appliedx.amat.com/appliedx_controls/instructor_details/",
+                    url: getSabaServicesBaseUrl() + "appliedx_controls/instructor_details/",
                     type: "get", //send it through get method
                     data: {
                       name: value

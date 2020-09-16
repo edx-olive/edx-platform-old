@@ -256,7 +256,7 @@ class CourseDetailSerializer(CourseSerializer):  # pylint: disable=abstract-meth
                 null = None
                 for instructor in instructors:
                     instructor_dict = {}
-                    req = requests.get('https://services.appliedx.amat.com/appliedx_controls/instructor_details?name='+instructor, verify=False)
+                    req = requests.get(settings.SABA_SERVICES_BASE_URL + 'appliedx_controls/instructor_details?name='+instructor, verify=False)
                     #response = eval(req.text)[0]
                     #instructor_dict['name'] = response['name'] if response['name'] is not '' else None
                     #instructor_dict['image_url'] = response['image_url'] if response['image_url'] is not '' else None
@@ -283,7 +283,7 @@ class CourseDetailSerializer(CourseSerializer):  # pylint: disable=abstract-meth
                 null = None
                 for instructor_designer in instructor_designers:
                     instructor_designer_dict = {}
-                    req = requests.get('https://services.appliedx.amat.com/appliedx_controls/instructor_details?name='+instructor_designer, verify=False)
+                    req = requests.get(settings.SABA_SERVICES_BASE_URL + 'appliedx_controls/instructor_details?name='+instructor_designer, verify=False)
                     response = eval(req.text)[0]
                     #instructor_designer_dict['name'] = response['name'] if response['name'] is not '' else None
                     #instructor_designer_dict['image_url'] = response['image_url'] if response['image_url'] is not '' else None
@@ -505,7 +505,7 @@ class AppliedXCourseSerializer(serializers.Serializer):  # pylint: disable=abstr
                 null = None
                 for instructor in instructors:
                     instructor_dict = {}
-                    req = requests.get('https://services.appliedx.amat.com/appliedx_controls/instructor_details_plain?name='+instructor, verify=False)
+                    req = requests.get(settings.SABA_SERVICES_BASE_URL + 'appliedx_controls/instructor_details_plain?name='+instructor, verify=False)
                     #response = eval(req.text)[0]
                     #instructor_dict['name'] = response['name'] if response['name'] is not '' else None
                     #instructor_dict['image_url'] = response['image_url'] if response['image_url'] is not '' else None
@@ -532,7 +532,7 @@ class AppliedXCourseSerializer(serializers.Serializer):  # pylint: disable=abstr
                 null = None
                 for instructor_designer in instructor_designers:
                     instructor_designer_dict = {}
-                    req = requests.get('https://services.appliedx.amat.com/appliedx_controls/instructor_details_plain?name='+instructor_designer, verify=False)
+                    req = requests.get(settings.SABA_SERVICES_BASE_URL + 'appliedx_controls/instructor_details_plain?name='+instructor_designer, verify=False)
                     #response = eval(req.text)[0]
                     #instructor_designer_dict['name'] = response['name'] if response['name'] is not '' else None
                     #instructor_designer_dict['image_url'] = response['image_url'] if response['image_url'] is not '' else None
@@ -644,7 +644,7 @@ class AppliedXCourseSerializer(serializers.Serializer):  # pylint: disable=abstr
             if course_id:
                 payload = {'course_id': course_id}
                 headers = {'content-type': "application/json"}
-                url = "https://services.appliedx.amat.com/saba/api/v1/get_saba_details_from_db/"
+                url = settings.SABA_SERVICES_BASE_URL + "saba/api/v1/get_saba_details_from_db/"
                 req = requests.post(url, json=payload, headers=headers, verify=False)
                 response = req.text
                 return json.loads(response)
