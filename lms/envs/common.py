@@ -2032,6 +2032,7 @@ INSTALLED_APPS = (
     'bulk_email',
     'branding',
     'lms.djangoapps.grades.apps.GradesConfig',
+    'lms.djangoapps.discussion.apps.DiscussionConfig',
 
     # Student support tools
     'support',
