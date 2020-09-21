@@ -1,5 +1,4 @@
 import logging
-# import six
 
 from celery import task
 from celery_utils.logged_task import LoggedTask
@@ -9,16 +8,14 @@ from django.contrib.sites.models import Site
 from edx_ace import ace
 from edx_ace.recipient import Recipient
 from edx_ace.utils import date
-# from eventtracking import tracker
 from opaque_keys.edx.keys import CourseKey
 from six.moves.urllib.parse import urljoin
-from django_comment_common import comment_client as cc
+import lms.lib.comment_client as cc
 from django_comment_client.utils import permalink
 from openedx.core.djangoapps.ace_common.message import BaseMessageType
 from openedx.core.djangoapps.ace_common.template_context import get_base_template_context
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.lib.celery.task_utils import emulate_http_request
-# from track import segment
 
 log = logging.getLogger(__name__)
 
