@@ -236,7 +236,7 @@ def xblock_handler(request, usage_key_string):
             )
             return JsonResponse({'locator': unicode(dest_usage_key), 'courseKey': unicode(dest_usage_key.course_key)})
         else:
-            return _create_item(request)
+            return _create_item(request, is_video=True, publish=True)  # TODO: proper category should come with the request
     elif request.method == 'PATCH':
         if 'move_source_locator' in request.json:
             move_source_usage_key = usage_key_with_run(request.json.get('move_source_locator'))
@@ -324,7 +324,7 @@ def xblock_view_handler(request, usage_key_string, view_name):
 
     if 'application/json' in accept_header:
         store = modulestore()
-        xblock = store.get_item(usage_key)
+        xblock = store.get_item(usage_key)  # FIXME check/fix video transcripts
         container_views = ['container_preview', 'reorderable_container_child_preview', 'container_child_preview']
 
         # wrap the generated fragment in the xmodule_editor div so that the javascript
@@ -599,7 +599,7 @@ def _save_xblock(user, xblock, data=None, children_strings=None, metadata=None, 
 
         # for static tabs, their containing course also records their display name
         course = store.get_course(xblock.location.course_key)
-        if xblock.location.category == 'static_tab':
+        if xblock.location.category == 'static_tab' or xblock.location.category == 'video':
             # find the course's reference to this tab and update the name.
             static_tab = CourseTabList.get_tab_by_slug(course.tabs, xblock.location.name)
             # only update if changed
@@ -664,7 +664,7 @@ def create_item(request):
 
 @login_required
 @expect_json
-def _create_item(request):
+def _create_item(request, publish=False, is_video=False):
     """View for create items."""
     parent_locator = request.json['parent_locator']
     usage_key = usage_key_with_run(parent_locator)
@@ -682,10 +682,13 @@ def _create_item(request):
     created_block = create_xblock(
         parent_locator=parent_locator,
         user=request.user,
-        category=category,
+        category="video" if is_video else category,
         display_name=request.json.get('display_name'),
         boilerplate=request.json.get('boilerplate'),
     )
+
+    if publish:  # NOTE: Required for video only. Consider using `is_video` condition here
+        modulestore().publish(created_block.location, request.user.id)
 
     return JsonResponse(
         {'locator': unicode(created_block.location), 'courseKey': unicode(created_block.location.course_key)}
@@ -930,7 +933,7 @@ def _delete_item(usage_key, user):
         # VS[compat] cdodge: This is a hack because static_tabs also have references from the course module, so
         # if we add one then we need to also add it to the policy information (i.e. metadata)
         # we should remove this once we can break this reference from the course to static tabs
-        if usage_key.category == 'static_tab':
+        if usage_key.category == 'static_tab' or usage_key.category == 'video':
 
             dog_stats_api.increment(
                 DEPRECATION_VSCOMPAT_EVENT,

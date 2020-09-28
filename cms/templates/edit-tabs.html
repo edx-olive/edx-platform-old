@@ -5,7 +5,7 @@
 <%!
   from django.utils.translation import ugettext as _
   from django.core.urlresolvers import reverse
-  from xmodule.tabs import StaticTab
+  from xmodule.tabs import StaticTab, VideoTab
   from openedx.core.djangolib.js_utils import js_escaped_string
 %>
 <%block name="title">${_("Pages")}</%block>
@@ -72,7 +72,7 @@
                     css_class = css_class + " is-fixed"
                 %>
 
-                % if isinstance(tab, StaticTab):
+                % if isinstance(tab, StaticTab) or isinstance(tab, VideoTab):
                     <li class="component ${css_class}" data-locator="${tab.locator}" data-tab-id="${tab.tab_id}"></li>
 
                 % else:

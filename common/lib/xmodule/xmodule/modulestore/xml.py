@@ -610,6 +610,12 @@ class XMLModuleStore(ModuleStoreReadBase):
         )
 
         self.load_extra_content(
+            system, course_descriptor, 'video',
+            self.data_dir / course_dir / 'tabs',
+            course_dir, url_name
+        )
+
+        self.load_extra_content(
             system, course_descriptor, 'custom_tag_template',
             self.data_dir / course_dir / 'custom_tags',
             course_dir, url_name
@@ -718,7 +724,7 @@ class XMLModuleStore(ModuleStoreReadBase):
                         # VS[compat]:
                         # Hack because we need to pull in the 'display_name' for static tabs (because we need to edit them)
                         # from the course policy
-                        if category == "static_tab":
+                        if category == "static_tab" or category == 'video':
                             dog_stats_api.increment(
                                 DEPRECATION_VSCOMPAT_EVENT,
                                 tags=(

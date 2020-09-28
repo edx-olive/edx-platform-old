@@ -155,7 +155,7 @@ def _preview_module_system(request, descriptor, field_data):
     """
 
     course_id = descriptor.location.course_key
-    display_name_only = (descriptor.category == 'static_tab')
+    display_name_only = (descriptor.category == 'static_tab') or (descriptor.category == 'video')
 
     wrappers = [
         # This wrapper wraps the module in the template specified above

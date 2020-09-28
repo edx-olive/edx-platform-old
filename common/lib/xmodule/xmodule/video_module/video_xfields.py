@@ -3,6 +3,8 @@ XFields for video module.
 """
 import datetime
 
+import textwrap
+
 from xblock.fields import Scope, String, Float, Boolean, List, Dict, DateTime
 from xmodule.fields import RelativeTime
 
@@ -181,4 +183,22 @@ class VideoFields(object):
         display_name=_("Do not show bumper again"),
         scope=Scope.preferences,
         default=False,
+    )
+    # `course_staff_only` and `data` are required for video xblocks
+    # to be compatible with Pages, and are not used in GUI.
+    # Copied from `xmodule.html_module.StaticTabFields`.
+    # See also: `xmodule.tabs.VideoTab`.
+    course_staff_only = Boolean(
+        display_name=_("Hide Page From Learners"),
+        help=_("If you select this option, only course team members with"
+               " the Staff or Admin role see this page."),
+        default=True,
+        scope=Scope.settings
+    )
+    data = String(
+        default=textwrap.dedent(u"""\
+            <p>Add the content you want students to see on this page.</p>
+        """),
+        scope=Scope.content,
+        help=_("HTML for the additional pages")
     )

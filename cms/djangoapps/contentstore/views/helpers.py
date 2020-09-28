@@ -19,7 +19,7 @@ from edxmako.shortcuts import render_to_string
 from models.settings.course_grading import CourseGradingModel
 from util.milestones_helpers import is_entrance_exams_enabled
 from xmodule.modulestore.django import modulestore
-from xmodule.tabs import StaticTab
+from xmodule.tabs import StaticTab, VideoTab
 from xmodule.x_module import DEPRECATION_VSCOMPAT_EVENT
 
 __all__ = ['event']
@@ -267,7 +267,7 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
         # VS[compat] cdodge: This is a hack because static_tabs also have references from the course module, so
         # if we add one then we need to also add it to the policy information (i.e. metadata)
         # we should remove this once we can break this reference from the course to static tabs
-        if category == 'static_tab':
+        if category == 'static_tab' or category == 'video':
 
             dog_stats_api.increment(
                 DEPRECATION_VSCOMPAT_EVENT,
@@ -279,12 +279,21 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
 
             display_name = display_name or _("Empty")  # Prevent name being None
             course = store.get_course(dest_usage_key.course_key)
-            course.tabs.append(
-                StaticTab(
-                    name=display_name,
-                    url_slug=dest_usage_key.name,
+            if category == 'static_tab':
+                course.tabs.append(
+                    StaticTab(
+                        name=display_name,
+                        url_slug=dest_usage_key.name,
+                    )
                 )
-            )
+            elif category == 'video':
+                course.tabs.append(
+                    VideoTab(
+                        name=display_name,
+                        url_slug=dest_usage_key.name,
+                    )
+                )
+            # TODO else - raise ..?
             store.update_item(course, user.id)
 
         return created_block
