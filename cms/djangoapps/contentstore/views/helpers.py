@@ -185,7 +185,7 @@ def remove_entrance_exam_graders(course_key, user):
             CourseGradingModel.delete_grader(course_key, i, user)
 
 
-def create_xblock(parent_locator, user, category, display_name, boilerplate=None, is_entrance_exam=False):
+def create_xblock(parent_locator, user, category, display_name, boilerplate=None, is_entrance_exam=False, is_video_tab=False):
     """
     Performs the actual grunt work of creating items/xblocks -- knows nothing about requests, views, etc.
     """
@@ -220,6 +220,9 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
                 fields['is_entrance_exam'] = is_entrance_exam
                 fields['in_entrance_exam'] = True  # Inherited metadata, all children will have it
                 child_position = 0
+
+        if category == 'video' and is_video_tab:
+            fields['hide_from_courseware'] = True
 
         # TODO need to fix components that are sending definition_data as strings, instead of as dicts
         # For now, migrate them into dicts here.
@@ -286,14 +289,13 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
                         url_slug=dest_usage_key.name,
                     )
                 )
-            elif category == 'video':
+            elif category == 'video' and is_video_tab:
                 course.tabs.append(
                     VideoTab(
                         name=display_name,
                         url_slug=dest_usage_key.name,
                     )
                 )
-            # TODO else - raise ..?
             store.update_item(course, user.id)
 
         return created_block

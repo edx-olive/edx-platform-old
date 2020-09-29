@@ -146,7 +146,7 @@
                         scrollTop: $('.new-component-item').offset().top
                     }, 500);
                     editor.createItem(this.model.get('id'), {
-                        category: 'static_tab'  // TODO add 'video' `TabsEdit.prototype.addNewVideoTab` (to create too)
+                        category: 'static_tab'
                     });
                     return analytics.track('Added Page', {
                         course: course_location_analytics

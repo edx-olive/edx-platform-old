@@ -236,7 +236,7 @@ def xblock_handler(request, usage_key_string):
             )
             return JsonResponse({'locator': unicode(dest_usage_key), 'courseKey': unicode(dest_usage_key.course_key)})
         else:
-            return _create_item(request, is_video=True, publish=True)  # TODO: proper category should come with the request
+            return _create_item(request)
     elif request.method == 'PATCH':
         if 'move_source_locator' in request.json:
             move_source_usage_key = usage_key_with_run(request.json.get('move_source_locator'))
@@ -324,7 +324,7 @@ def xblock_view_handler(request, usage_key_string, view_name):
 
     if 'application/json' in accept_header:
         store = modulestore()
-        xblock = store.get_item(usage_key)  # FIXME check/fix video transcripts
+        xblock = store.get_item(usage_key)
         container_views = ['container_preview', 'reorderable_container_child_preview', 'container_child_preview']
 
         # wrap the generated fragment in the xmodule_editor div so that the javascript
@@ -664,9 +664,11 @@ def create_item(request):
 
 @login_required
 @expect_json
-def _create_item(request, publish=False, is_video=False):
+def _create_item(request):
     """View for create items."""
     parent_locator = request.json['parent_locator']
+    is_video_tab = request.json.get('is_video_tab', False)
+
     usage_key = usage_key_with_run(parent_locator)
     if not has_studio_write_access(request.user, usage_key.course_key):
         raise PermissionDenied()
@@ -682,12 +684,14 @@ def _create_item(request, publish=False, is_video=False):
     created_block = create_xblock(
         parent_locator=parent_locator,
         user=request.user,
-        category="video" if is_video else category,
+        category="video" if is_video_tab else category,
+        is_video_tab=is_video_tab,
         display_name=request.json.get('display_name'),
         boilerplate=request.json.get('boilerplate'),
     )
 
-    if publish:  # NOTE: Required for video only. Consider using `is_video` condition here
+    if is_video_tab:
+        # Otherwise, the component isn't available on `/xblock/{usage_key}`
         modulestore().publish(created_block.location, request.user.id)
 
     return JsonResponse(
@@ -1118,7 +1122,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
         course = modulestore().get_course(xblock.location.course_key)
 
     # Compute the child info first so it can be included in aggregate information for the parent
-    should_visit_children = include_child_info and (course_outline and not is_xblock_unit or not course_outline)
+    should_visit_children = include_child_info and (course_outline and not is_xblock_unit or not course_outline) and not xblock.hide_from_courseware
     if should_visit_children and xblock.has_children:
         child_info = _create_xblock_child_info(
             xblock,
@@ -1168,7 +1172,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
         'id': unicode(xblock.location),
         'display_name': xblock.display_name_with_default,
         'category': xblock.category,
-        'has_children': xblock.has_children
+        'has_children': xblock.has_children,
     }
     if is_concise:
         if child_info and len(child_info.get('children', [])) > 0:
@@ -1418,6 +1422,7 @@ def _create_xblock_child_info(xblock, course_outline, graders, include_children_
                 course=course,
                 is_concise=is_concise
             ) for child in xblock.get_children()
+            if not child.hide_from_courseware
         ]
     return child_info
 

@@ -33,7 +33,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def _create_xblock(parent_locator, user, category, display_name, boilerplate=None, is_entrance_exam=False,
-                   child_position=None):
+                   child_position=None, is_video_tab=False):
     """
     Performs the actual grunt work of creating items/xblocks -- knows nothing about requests, views, etc.
     """
@@ -42,7 +42,6 @@ def _create_xblock(parent_locator, user, category, display_name, boilerplate=Non
     with store.bulk_operations(usage_key.course_key):
         parent = store.get_item(usage_key)
         dest_usage_key = usage_key.replace(category=category, name=uuid4().hex)
-        import pdb; pdb.set_trace()
 
         # get the metadata, display_name, and definition from the caller
         metadata = {}
@@ -86,7 +85,7 @@ def _create_xblock(parent_locator, user, category, display_name, boilerplate=Non
         # VS[compat] cdodge: This is a hack because static_tabs also have references from the course module, so
         # if we add one then we need to also add it to the policy information (i.e. metadata)
         # we should remove this once we can break this reference from the course to static tabs
-        if category == 'static_tab' or category == 'video':
+        if category == 'static_tab' or (category == 'video' and is_video_tab):
             dog_stats_api.increment(
                 DEPRECATION_VSCOMPAT_EVENT,
                 tags=(
@@ -104,27 +103,27 @@ def _create_xblock(parent_locator, user, category, display_name, boilerplate=Non
                         url_slug=dest_usage_key.name,
                     )
                 )
-            elif category == 'video':
+            elif category == 'video' and is_video_tab:
                 course.tabs.append(
                     VideoTab(
                         name=display_name,
                         url_slug=dest_usage_key.name,
                     )
                 )
-            # TODO else... raise..?
             store.update_item(course, user.id)
 
         return created_block
 
 
-def create_section(parent_locator, user, category, display_name, boilerplate=None, child_position=None):
+def create_section(parent_locator, user, category, display_name, boilerplate=None, child_position=None, is_video_tab=False):
     survey_credit_block = _create_xblock(
         parent_locator=parent_locator,
         user=user,
         category=category,
         display_name=display_name,
         boilerplate=boilerplate,
-        child_position=child_position
+        child_position=child_position,
+        is_video_tab=is_video_tab,
     )
     return survey_credit_block
 

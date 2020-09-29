@@ -192,7 +192,7 @@ class VideoFields(object):
         display_name=_("Hide Page From Learners"),
         help=_("If you select this option, only course team members with"
                " the Staff or Admin role see this page."),
-        default=True,
+        default=False,
         scope=Scope.settings
     )
     data = String(
