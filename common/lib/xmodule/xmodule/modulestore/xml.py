@@ -724,7 +724,7 @@ class XMLModuleStore(ModuleStoreReadBase):
                         # VS[compat]:
                         # Hack because we need to pull in the 'display_name' for static tabs (because we need to edit them)
                         # from the course policy
-                        if category == "static_tab" or category == 'video':  # TODO watch out video xblocks creation from the courseware
+                        if category == "static_tab" or category == 'video':  # TODO: consider adding is_video_tab
                             dog_stats_api.increment(
                                 DEPRECATION_VSCOMPAT_EVENT,
                                 tags=(
