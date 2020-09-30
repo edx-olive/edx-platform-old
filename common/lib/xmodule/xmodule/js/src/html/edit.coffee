@@ -81,7 +81,7 @@ class @HTMLEditingDescriptor
         },
         image_advtab: true,
         # We may want to add "styleselect" when we collect all styles used throughout the LMS
-        toolbar: "formatselect | fontselect | bold italic underline forecolor wrapAsCode | bullist numlist outdent indent blockquote | link unlink image | code",
+        toolbar: "formatselect | fontselect | bold italic underline forecolor wrapAsCode | bullist numlist outdent indent blockquote | link unlink image | code | addVideo editVideo deleteVideo",
         block_formats: interpolate("%(paragraph)s=p;%(preformatted)s=pre;%(heading3)s=h3;%(heading4)s=h4;%(heading5)s=h5;%(heading6)s=h6", {
             paragraph: gettext("Paragraph"),
             preformatted: gettext("Preformatted"),
@@ -937,6 +937,26 @@ class @HTMLEditingDescriptor
         ed.formatter.toggle('code')
     })
 
+    ed.addButton('addVideo', {
+      text : 'Add Video',
+      onclick : () ->
+        $('.new-button.new-video-tab').click();
+        delayedFrame = () ->
+          locator = $('.new-component-item').siblings('.component').last().data('locator');
+          lmsRoot = $('.new-component-item').data('lms-url')
+          ed.insertContent("<iframe data-locator='#{locator}' style='width: 600px; height: 400px' src='#{lmsRoot}/xblock/#{locator}'></iframe>")
+          editButton = $("[data-usage-id='#{locator}']").siblings(".wrapper.wrapper-component-action-header").find(".edit-button")
+          $('.metadata_edit').data('metadata')['video_locators']['value'].push(locator)
+          $(editButton).click();
+        setTimeout(delayedFrame, 5000);
+    })
+
+    ed.addButton('editVideo', {
+      type : 'menubutton',
+      text : 'Edit Video',
+      menu: @getMenuItems(ed)
+    })
+
     @visualEditor = ed
 
     # These events were added to the plugin code as the TinyMCE PluginManager
@@ -947,6 +967,24 @@ class @HTMLEditingDescriptor
     ed.on('EditLink', @editLink)
     ed.on('ShowCodeEditor', @showCodeEditor)
     ed.on('SaveCodeEditor', @saveCodeEditor)
+
+  getMenuItems: (ed) =>
+    locators = @.element.find('.metadata_edit').data('metadata')['video_locators']['value']
+    menuItems = []
+    for l, i in locators
+      do (l, i) ->
+        menuItems.push({
+          text: 'Video ' + (i+1),
+          menu: [{
+            text: 'Edit',
+            onclick: () -> $("[data-usage-id='#{l}']").siblings(".wrapper.wrapper-component-action-header").find(".edit-button").click()
+            }, {
+            text: 'Delete',
+            onclick: () ->
+              $("[data-usage-id='#{l}']").siblings(".wrapper.wrapper-component-action-header").find(".delete-button").click()
+            }]
+        })
+    menuItems
 
   editImage: (data) =>
     # Called when the image plugin will be shown. Input arg is the JSON version of the image data.

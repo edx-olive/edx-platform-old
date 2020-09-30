@@ -24,6 +24,9 @@
                 <h3 class="sr"><%- gettext("Actions") %></h3>
                 <ul></ul>
             </div>
+            <div class="modal-video-block">
+                <p>ABABAGALAMAGA</p>
+            </div>
         </div>
     </div>
 </div>

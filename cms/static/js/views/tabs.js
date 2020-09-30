@@ -1,5 +1,4 @@
 /* globals analytics, course_location_analytics */
-
 (function(analytics, course_location_analytics) {
     'use strict';
 
@@ -36,6 +35,9 @@
                     this.addNewTab = function() {
                         return TabsEdit.prototype.addNewTab.apply(self, arguments);
                     };
+                    this.addNewVideoTab = function() {
+                        return TabsEdit.prototype.addNewVideoTab.apply(self, arguments);
+                    };
                     this.tabMoved = function() {
                         return TabsEdit.prototype.tabMoved.apply(self, arguments);
                     };
@@ -64,6 +66,7 @@
                     this.options = _.extend({}, options);
                     this.options.mast.find('.new-tab').on('click', this.addNewTab);
                     $('.add-pages .new-tab').on('click', this.addNewTab);
+                    $('.add-pages .new-video-tab').on('click', this.addNewVideoTab);
                     $('.toggle-checkbox').on('click', this.toggleVisibilityOfTab);
                     return this.$('.course-nav-list').sortable({
                         handle: '.drag-handle',
@@ -129,7 +132,7 @@
                     });
                 };
 
-                TabsEdit.prototype.addNewTab = function(event) {
+                TabsEdit.prototype.addNewTab = function(event) { // TODO: clone to new method addNewVideoTab
                     var editor;
                     event.preventDefault();
                     editor = new ModuleEditView({
@@ -148,6 +151,32 @@
                     editor.createItem(this.model.get('id'), {
                         category: 'static_tab'
                     });
+
+                    return analytics.track('Added Page', {
+                        course: course_location_analytics
+                    });
+                };
+
+                TabsEdit.prototype.addNewVideoTab = function(event) {
+                    var editor;
+                    event.preventDefault();
+                    editor = new ModuleEditView({
+                        onDelete: this.deleteTab,
+                        model: new ModuleModel()
+                    });
+                    $('.new-component-item').before(editor.$el);
+                    editor.$el.addClass('course-tab is-movable');
+                    editor.$el.addClass('new');
+                    setTimeout(function() {
+                        return editor.$el.removeClass('new');
+                    }, 1000);
+                    $('html, body').animate({
+                        scrollTop: $('.new-component-item').offset().top
+                    }, 500);
+                    editor.createItem(this.model.get('id'), {
+                        category: 'video',
+                        is_video_tab: true
+                    });
                     return analytics.track('Added Page', {
                         course: course_location_analytics
                     });
@@ -162,9 +191,13 @@
                             primary: {
                                 text: gettext('OK'),
                                 click: function(view) {
-                                    var $component, deleting;
+                                    var $component, deleting, iframeToRemove, l;
                                     view.hide();
                                     $component = $(event.currentTarget).parents('.component');
+                                    if (!$component.length) {
+                                        $component = $(event.target).parents('.component');
+                                        l = $component.data('locator')
+                                    }
                                     analytics.track('Deleted Page', {
                                         course: course_location_analytics,
                                         id: $component.data('locator')
@@ -178,6 +211,13 @@
                                         url: ModuleUtils.getUpdateUrl($component.data('locator'))
                                     }).success(function() {
                                         $component.remove();
+                                        if ($('.edit-xblock-modal').length) {
+                                            $('.metadata_edit').data('metadata').video_locators.value.pop(l)
+                                            iframeToRemove = document.querySelector(".modal-editor iframe").contentWindow.document.querySelector(`iframe[data-locator='${l}']`)
+                                            iframeToRemove.remove()
+
+                                            setTimeout($('.edit-xblock-modal').find('.action-save').click(), 1000);
+                                        }
                                         return deleting.hide();
                                     });
                                 }
