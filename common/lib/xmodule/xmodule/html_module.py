@@ -383,6 +383,12 @@ class StaticTabFields(object):
         scope=Scope.content,
         help=_("HTML for the additional pages")
     )
+    video_locators = List(
+        display_name="Video locators",
+        default=[],
+        scope=Scope.settings,
+        help=_("Video locators")
+    )
 
 
 @XBlock.tag("detached")

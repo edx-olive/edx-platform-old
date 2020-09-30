@@ -1,6 +1,7 @@
 """
 Views related to course tabs
 """
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound
@@ -71,7 +72,11 @@ def tabs_handler(request, course_key_string):
             if tab.type != "course_info":
                 tabs_to_render.append(tab)
 
+        prefix = 'https://' if request.is_secure() else 'http://'
+        lms_root_url = prefix + settings.SITE_NAME
+
         return render_to_response('edit-tabs.html', {
+            'lms_root_url': lms_root_url,
             'context_course': course_item,
             'tabs_to_render': tabs_to_render,
             'lms_link': get_lms_link_for_item(course_item.location),

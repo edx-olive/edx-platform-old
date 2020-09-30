@@ -174,6 +174,9 @@ define(['jquery', 'underscore', 'gettext', 'js/views/modals/base_modal', 'common
                 if (refresh) {
                     refresh(this.xblockInfo);
                 }
+                if ($('.edit-xblock-modal').length) {
+                    $('.edit-xblock-modal').find('.action-save').click();
+                }
             },
 
             hide: function() {

@@ -126,13 +126,15 @@
 
                  % endif
               % endfor
-
-              <li class="new-component-item"></li>
+              <li class="new-component-item" data-lms-url="${lms_root_url}"></li>
             </ol>
           </div>
 
           <div class="add-pages">
               <p>${_("You can add additional custom pages to your course.")} <a href="#" class="button new-button new-tab"><span class="icon fa fa-plus" aria-hidden="true"></span>${_("Add a New Page")}</a></p>
+          </div>
+          <div class="add-pages">
+              <p>${_("You can add additional custom video pages to your course.")} <a href="#" class="button new-button new-video-tab"><span class="icon fa fa-plus" aria-hidden="true"></span>${_("Add a New Video Page")}</a></p>
           </div>
         </article>
       </div>

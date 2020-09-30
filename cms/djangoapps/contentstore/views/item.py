@@ -180,7 +180,8 @@ def xblock_handler(request, usage_key_string):
         elif request.method == 'DELETE':
             _delete_item(usage_key, request.user, is_video_tab=request.json.get('is_video_tab', False))
             return JsonResponse()
-        else:  # Since we have a usage_key, we are updating an existing xblock.
+        else:
+            # Since we have a usage_key, we are updating an existing xblock.
             return _save_xblock(
                 request.user,
                 _get_xblock(usage_key, request.user),
@@ -201,12 +202,12 @@ def xblock_handler(request, usage_key_string):
             if request.json['section_info']['newintroductionsection'] is True:
                 blk = create_common_xblock('Introduction', request.user.email, request.json['section_info']['parent_value'])
             if request.json['section_info']['newyameersection'] is True:
-                '''yammer_block = create_xblock(                                                                                                                                                          
-                    parent_locator=request.json['section_info']['parent_value'],                                                                                                                          
-                    user=request.user,                                                                                                                                                                    
-                    category='static_tab',                                                                                                                                                                
-                    display_name='Yammer Discussion',                                                                                                                                                     
-                    boilerplate=None,                                                                                                                                                                     
+                '''yammer_block = create_xblock(
+                    parent_locator=request.json['section_info']['parent_value'],
+                    user=request.user,
+                    category='static_tab',
+                    display_name='Yammer Discussion',
+                    boilerplate=None,
                 )'''
                 blk = create_yammer_discussion_page(request)
             if request.json['section_info']['newcreditsection'] is True:
@@ -412,10 +413,15 @@ def xblock_view_handler(request, usage_key_string, view_name):
         for resource in fragment.resources:
             hashed_resources[hash_resource(resource)] = resource._asdict()
 
-        return JsonResponse({
+        response = {
             'html': fragment.content,
             'resources': hashed_resources.items()
-        })
+        }
+
+        if xblock.category == 'static_tab':
+            response['video_locators'] = xblock.video_locators
+
+        return JsonResponse(response)
 
     else:
         return HttpResponse(status=406)
@@ -1178,6 +1184,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
         'category': xblock.category,
         'has_children': xblock.has_children,
     }
+
     if is_concise:
         if child_info and len(child_info.get('children', [])) > 0:
             xblock_info['child_info'] = child_info
@@ -1208,6 +1215,11 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
             'user_partitions': user_partitions,
             'show_correctness': xblock.show_correctness,
         })
+
+        if xblock.category == 'static_tab':
+            xblock_info.update({
+                'video_locators': xblock.video_locators
+            })
 
         if xblock.category == 'sequential':
             xblock_info.update({
