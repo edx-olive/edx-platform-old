@@ -178,7 +178,7 @@ def xblock_handler(request, usage_key_string):
                 return HttpResponse(status=406)
 
         elif request.method == 'DELETE':
-            _delete_item(usage_key, request.user)
+            _delete_item(usage_key, request.user, is_video_tab=request.json.get('is_video_tab', False))
             return JsonResponse()
         else:  # Since we have a usage_key, we are updating an existing xblock.
             return _save_xblock(
@@ -926,10 +926,14 @@ def delete_item(request, usage_key):
     _delete_item(usage_key, request.user)
 
 
-def _delete_item(usage_key, user):
+def _delete_item(usage_key, user, is_video_tab=False):
     """
     Deletes an existing xblock with the given usage_key.
     If the xblock is a Static Tab, removes it from course.tabs as well.
+
+    FIXME fix video static tab VideoTab removal - rid of `saveStateUrl` call on the frontend (getting ItemNotFound even though an item gets removed)
+
+    TODO pass `is_video_tab` with the DELETE request to xblock_handler
     """
     store = modulestore()
 
@@ -937,7 +941,7 @@ def _delete_item(usage_key, user):
         # VS[compat] cdodge: This is a hack because static_tabs also have references from the course module, so
         # if we add one then we need to also add it to the policy information (i.e. metadata)
         # we should remove this once we can break this reference from the course to static tabs
-        if usage_key.category == 'static_tab' or usage_key.category == 'video':
+        if usage_key.category == 'static_tab' or usage_key.category == 'video':  # TODO and is_video_tab:
 
             dog_stats_api.increment(
                 DEPRECATION_VSCOMPAT_EVENT,
