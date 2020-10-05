@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load ace %}
 
 {% get_current_language as LANGUAGE_CODE %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
@@ -24,7 +23,6 @@
     <img src="{image_src}" alt="" role="presentation" aria-hidden="true" />
 {% endfor %}
 
-{% google_analytics_tracking_pixel %}
 
 <div bgcolor="#f5f5f5" lang="{{ LANGUAGE_CODE|default:"en" }}" dir="{{ LANGUAGE_BIDI|yesno:"rtl,ltr" }}" style="
     margin: 0;
@@ -60,12 +58,9 @@
                 <table role="presentation" width="100%" align="left" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                         <td width="70">
-                            <a href="{% with_link_tracking homepage_url %}"><img
-                                    src="https://media.sailthru.com/595/1k1/8/o/599f355101b3f.png" width="70"
-                                    height="30" alt="{% blocktrans %}Go to {{ platform_name }} Home Page{% endblocktrans %}"/></a>
                         </td>
                         <td align="right" style="text-align: {{ LANGUAGE_BIDI|yesno:"left,right" }};">
-                            <a class="login" href="{% with_link_tracking dashboard_url %}" style="color: #005686;">{%  trans "Sign In" %}</a>
+                            <a class="login" href="https://courses.stage.campus.gov.il/dashboard" style="color: #005686;">{%  trans "Sign In" %}</a>
                         </td>
                     </tr>
                 </table>
@@ -78,7 +73,28 @@
                 padding: 30px 20px;
                 box-shadow: 0 1px 5px rgba(0,0,0,0.25);
             ">
-                {% block content %}{% endblock %}
+                {% block content %}
+                    <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                        <tr>
+                            <td>
+                                <p>
+                                    {% blocktrans trimmed %}
+                                        {{ comment_username }} replied to <b>{{ thread_title }}</b>:
+                                    {% endblocktrans %}
+                                </p>
+                                <div style="border-left: 1px solid rgba(0,0,0,0.25);
+                                    padding: 1px 1px 1px 15px;
+                                    margin: 20px 20px 30px 30px;
+                                    color: rgba(0,0,0,.75);">
+                                    {{ comment_body }}
+                                </div>
+
+                                {% trans "View discussion" as course_cta_text %}
+                                {% include "ace_common/edx_ace/return_to_course_cta.html" with course_cta_text=course_cta_text course_cta_url=post_link%}
+                            </td>
+                        </tr>
+                    </table>
+                {% endblock %}
             </td>
         </tr>
 
@@ -187,32 +203,3 @@
     <![endif]-->
 
 </div>
-
-{% load i18n %}
-{% load static %}
-{% block content %}
-<table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
-    <tr>
-        <td>
-            <p>
-                {% blocktrans trimmed %}
-                    {{ comment_username }} replied to <b>{{ thread_title }}</b>:
-                {% endblocktrans %}
-            </p>
-            <div style="border-left: 1px solid rgba(0,0,0,0.25);
-                    padding: 1px 1px 1px 15px;
-                    margin: 20px 20px 30px 30px;
-                    color: rgba(0,0,0,.75);">
-                {{ comment_body }}
-            </div>
-
-            {% trans "View discussion" as course_cta_text %}
-            {% include "ace_common/edx_ace/common/return_to_course_cta.html" with course_cta_text=course_cta_text course_cta_url=post_link%}
-
-            {% block google_analytics_pixel %}
-                <img src="{{ ga_tracking_pixel_url }}" alt="" role="presentation" aria-hidden="true" style="display: block;"/>
-            {% endblock %}
-        </td>
-    </tr>
-</table>
-{% endblock %}

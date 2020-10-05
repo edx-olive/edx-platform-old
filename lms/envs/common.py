@@ -3234,15 +3234,12 @@ COURSES_API_CACHE_TIMEOUT = 3600  # Value is in seconds
 COURSEGRAPH_JOB_QUEUE = LOW_PRIORITY_QUEUE
 
 ############### Settings for the ace_common plugin #################
-ACE_ENABLED_CHANNELS = [
-    'sailthru_email',
-    'django_email',
-]
+ACE_ENABLED_CHANNELS = ['django_email']
 ACE_ENABLED_POLICIES = ['bulk_email_optout']
-ACE_CHANNEL_SAILTHRU_DEBUG = False
+ACE_CHANNEL_SAILTHRU_DEBUG = True
 ACE_CHANNEL_SAILTHRU_TEMPLATE_NAME = None
 ACE_ROUTING_KEY = 'edx.lms.core.default'
-ACE_CHANNEL_DEFAULT_EMAIL = 'sailthru_email'
+ACE_CHANNEL_DEFAULT_EMAIL = 'django_email'
 ACE_CHANNEL_TRANSACTIONAL_EMAIL = 'django_email'
 ACE_CHANNEL_SAILTHRU_API_KEY = ""
 ACE_CHANNEL_SAILTHRU_API_SECRET = ""

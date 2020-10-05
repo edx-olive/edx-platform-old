@@ -6,7 +6,6 @@ Context dictionary for templates that use the ace_common base template.
 from django.conf import settings
 from django.core.urlresolvers import NoReverseMatch, reverse
 
-from edxmako.shortcuts import marketing_link
 from openedx.core.djangoapps.theming.helpers import get_config_value_from_site_or_settings
 
 
@@ -23,7 +22,6 @@ def get_base_template_context(site):
 
     return {
         # Platform information
-        'homepage_url': marketing_link('ROOT'),
         'dashboard_url': dashboard_url,
         'template_revision': getattr(settings, 'EDX_PLATFORM_REVISION', None),
         'platform_name': get_config_value_from_site_or_settings(

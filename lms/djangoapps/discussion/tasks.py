@@ -42,37 +42,6 @@ def send_ace_message(context):
             )
             log.info(u'Sending forum comment email notification with context %s', message_context)
             ace.send(message)
-            # _track_notification_sent(message, context)
-
-
-# def _track_notification_sent(message, context):
-#     """
-#     Send analytics event for a sent email
-#     """
-#     properties = {
-#         'app_label': 'discussion',
-#         'name': 'responsenotification',  # This is 'Campaign' in GA
-#         'language': message.language,
-#         'uuid': six.text_type(message.uuid),
-#         'send_uuid': six.text_type(message.send_uuid),
-#         'thread_id': context['thread_id'],
-#         'course_id': six.text_type(context['course_id']),
-#         'thread_created_at': date.deserialize(context['thread_created_at']),
-#         'nonInteraction': 1,
-#     }
-#     tracking_context = {
-#         'host': context['site'].domain,
-#         'path': '/',  # make up a value, in order to allow the host to be passed along.
-#     }
-#     # The event used to specify the user_id as being the recipient of the email (i.e. the thread_author_id).
-#     # This has the effect of interrupting the actual chain of events for that author, if any, while the
-#     # email-sent event should really be associated with the sender, since that is what triggers the event.
-#     with tracker.get_tracker().context(properties['app_label'], tracking_context):
-#         segment.track(
-#             user_id=context['thread_author_id'],
-#             event_name='edx.bi.email.sent',
-#             properties=properties
-#         )
 
 
 def _should_send_message(context):
