@@ -947,7 +947,7 @@ class @HTMLEditingDescriptor
           ed.insertContent(
             "<iframe
               data-locator='#{locator}'
-              style='width: 900px; height: 600px; border: none; overflow: hidden; display: block; margin: auto'
+              style='width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto'
               src='#{lmsRoot}/xblock/#{locator}'>
             </iframe>"
           )
