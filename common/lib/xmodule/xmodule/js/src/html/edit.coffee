@@ -944,7 +944,13 @@ class @HTMLEditingDescriptor
         delayedFrame = () ->
           locator = $('.new-component-item').siblings('.component').last().data('locator');
           lmsRoot = $('.new-component-item').data('lms-url')
-          ed.insertContent("<iframe data-locator='#{locator}' style='width: 600px; height: 400px' src='#{lmsRoot}/xblock/#{locator}'></iframe>")
+          ed.insertContent(
+            "<iframe
+              data-locator='#{locator}'
+              style='width: 900px; height: 600px; border: none; overflow: hidden; display: block; margin: auto'
+              src='#{lmsRoot}/xblock/#{locator}'>
+            </iframe>"
+          )
           editButton = $("[data-usage-id='#{locator}']").siblings(".wrapper.wrapper-component-action-header").find(".edit-button")
           $('.metadata_edit').data('metadata')['video_locators']['value'].push(locator)
           $(editButton).click();

@@ -167,6 +167,7 @@
                     $('.new-component-item').before(editor.$el);
                     editor.$el.addClass('course-tab is-movable');
                     editor.$el.addClass('new');
+                    editor.$el.hide();
                     setTimeout(function() {
                         return editor.$el.removeClass('new');
                     }, 1000);
@@ -176,6 +177,32 @@
                     editor.createItem(this.model.get('id'), {
                         category: 'video',
                         is_video_tab: true
+                    });
+                    return analytics.track('Added Page', {
+                        course: course_location_analytics
+                    });
+                };
+
+                TabsEdit.prototype.addNewVideoTab = function(event) {
+                    var editor;
+                    event.preventDefault();
+                    editor = new ModuleEditView({
+                        onDelete: this.deleteTab,
+                        model: new ModuleModel()
+                    });
+                    $('.new-component-item').before(editor.$el);
+                    editor.$el.addClass('course-tab is-movable');
+                    editor.$el.addClass('new');
+                    editor.$el.hide();
+                    setTimeout(function() {
+                        return editor.$el.removeClass('new');
+                    }, 1000);
+                    $('html, body').animate({
+                        scrollTop: $('.new-component-item').offset().top
+                    }, 500);
+                    editor.createItem(this.model.get('id'), {
+                        category: 'video',
+                        is_video_tab: true,
                     });
                     return analytics.track('Added Page', {
                         course: course_location_analytics

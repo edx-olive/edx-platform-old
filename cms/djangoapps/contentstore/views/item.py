@@ -610,6 +610,8 @@ def _save_xblock(user, xblock, data=None, children_strings=None, metadata=None, 
             static_tab = CourseTabList.get_tab_by_slug(course.tabs, xblock.location.name)
             # only update if changed
             if static_tab:
+                # Need to mark for publishing for `xmodule.tabs.VideoTab` changes to take effect
+                publish = "make_public"
                 update_tab = False
                 if static_tab['name'] != xblock.display_name:
                     static_tab['name'] = xblock.display_name
@@ -936,10 +938,6 @@ def _delete_item(usage_key, user, is_video_tab=False):
     """
     Deletes an existing xblock with the given usage_key.
     If the xblock is a Static Tab, removes it from course.tabs as well.
-
-    FIXME fix video static tab VideoTab removal - rid of `saveStateUrl` call on the frontend (getting ItemNotFound even though an item gets removed)
-
-    TODO pass `is_video_tab` with the DELETE request to xblock_handler
     """
     store = modulestore()
 
@@ -947,7 +945,7 @@ def _delete_item(usage_key, user, is_video_tab=False):
         # VS[compat] cdodge: This is a hack because static_tabs also have references from the course module, so
         # if we add one then we need to also add it to the policy information (i.e. metadata)
         # we should remove this once we can break this reference from the course to static tabs
-        if usage_key.category == 'static_tab' or usage_key.category == 'video':  # TODO and is_video_tab:
+        if usage_key.category == 'static_tab' or usage_key.category == 'video':
 
             dog_stats_api.increment(
                 DEPRECATION_VSCOMPAT_EVENT,
@@ -1177,7 +1175,6 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
             # Translators: This is the percent sign. It will be used to represent
             # a percent value out of 100, e.g. "58%" means "58/100".
             pct_sign=_('%'))
-
     xblock_info = {
         'id': unicode(xblock.location),
         'display_name': xblock.display_name_with_default,
