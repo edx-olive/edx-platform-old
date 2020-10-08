@@ -13,7 +13,7 @@ from student.auth import has_course_author_access
 from util.json_request import JsonResponse, expect_json
 from xmodule.modulestore import ModuleStoreEnum
 from xmodule.modulestore.django import modulestore
-from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException, StaticTab
+from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException, StaticTab, VideoTab
 
 from ..utils import get_lms_link_for_item
 
@@ -65,6 +65,9 @@ def tabs_handler(request, course_key_string):
                 # static tab needs its locator information to render itself as an xmodule
                 static_tab_loc = course_key.make_usage_key('static_tab', tab.url_slug)
                 tab.locator = static_tab_loc
+            if isinstance(tab, VideoTab):
+                video_tab_loc = course_key.make_usage_key('video', tab.url_slug)
+                tab.locator = video_tab_loc
             if tab.type != "course_info":
                 tabs_to_render.append(tab)
 
@@ -167,6 +170,11 @@ def get_tab_by_locator(tab_list, usage_key_string):
         name=item.display_name,
         url_slug=item.location.name,
     )
+    if not static_tab:
+        static_tab = VideoTab(
+            name=item.display_name,
+            url_slug=item.location.name,
+        )
     return CourseTabList.get_tab_by_id(tab_list, static_tab.tab_id)
 
 
@@ -181,6 +189,8 @@ def validate_args(num, tab_type):
         raise ValueError('Tabs 1 and 2 cannot be edited')
     if tab_type == 'static_tab':
         raise ValueError('Tabs of type static_tab cannot be edited here (use Studio)')
+    if tab_type == 'video':
+        raise ValueError('Tabs of type video cannot be edited here (use Studio)')
 
 
 def primitive_delete(course, num):

@@ -178,7 +178,7 @@ def xblock_handler(request, usage_key_string):
                 return HttpResponse(status=406)
 
         elif request.method == 'DELETE':
-            _delete_item(usage_key, request.user)
+            _delete_item(usage_key, request.user, is_video_tab=request.json.get('is_video_tab', False))
             return JsonResponse()
         else:  # Since we have a usage_key, we are updating an existing xblock.
             return _save_xblock(
@@ -599,7 +599,7 @@ def _save_xblock(user, xblock, data=None, children_strings=None, metadata=None, 
 
         # for static tabs, their containing course also records their display name
         course = store.get_course(xblock.location.course_key)
-        if xblock.location.category == 'static_tab':
+        if xblock.location.category == 'static_tab' or xblock.location.category == 'video':
             # find the course's reference to this tab and update the name.
             static_tab = CourseTabList.get_tab_by_slug(course.tabs, xblock.location.name)
             # only update if changed
@@ -667,6 +667,8 @@ def create_item(request):
 def _create_item(request):
     """View for create items."""
     parent_locator = request.json['parent_locator']
+    is_video_tab = request.json.get('is_video_tab', False)
+
     usage_key = usage_key_with_run(parent_locator)
     if not has_studio_write_access(request.user, usage_key.course_key):
         raise PermissionDenied()
@@ -682,10 +684,15 @@ def _create_item(request):
     created_block = create_xblock(
         parent_locator=parent_locator,
         user=request.user,
-        category=category,
+        category="video" if is_video_tab else category,
+        is_video_tab=is_video_tab,
         display_name=request.json.get('display_name'),
         boilerplate=request.json.get('boilerplate'),
     )
+
+    if is_video_tab:
+        # Otherwise, the component isn't available on `/xblock/{usage_key}`
+        modulestore().publish(created_block.location, request.user.id)
 
     return JsonResponse(
         {'locator': unicode(created_block.location), 'courseKey': unicode(created_block.location.course_key)}
@@ -919,10 +926,14 @@ def delete_item(request, usage_key):
     _delete_item(usage_key, request.user)
 
 
-def _delete_item(usage_key, user):
+def _delete_item(usage_key, user, is_video_tab=False):
     """
     Deletes an existing xblock with the given usage_key.
     If the xblock is a Static Tab, removes it from course.tabs as well.
+
+    FIXME fix video static tab VideoTab removal - rid of `saveStateUrl` call on the frontend (getting ItemNotFound even though an item gets removed)
+
+    TODO pass `is_video_tab` with the DELETE request to xblock_handler
     """
     store = modulestore()
 
@@ -930,7 +941,7 @@ def _delete_item(usage_key, user):
         # VS[compat] cdodge: This is a hack because static_tabs also have references from the course module, so
         # if we add one then we need to also add it to the policy information (i.e. metadata)
         # we should remove this once we can break this reference from the course to static tabs
-        if usage_key.category == 'static_tab':
+        if usage_key.category == 'static_tab' or usage_key.category == 'video':  # TODO and is_video_tab:
 
             dog_stats_api.increment(
                 DEPRECATION_VSCOMPAT_EVENT,
@@ -1115,7 +1126,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
         course = modulestore().get_course(xblock.location.course_key)
 
     # Compute the child info first so it can be included in aggregate information for the parent
-    should_visit_children = include_child_info and (course_outline and not is_xblock_unit or not course_outline)
+    should_visit_children = include_child_info and (course_outline and not is_xblock_unit or not course_outline) and not xblock.hide_from_courseware
     if should_visit_children and xblock.has_children:
         child_info = _create_xblock_child_info(
             xblock,
@@ -1165,7 +1176,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
         'id': unicode(xblock.location),
         'display_name': xblock.display_name_with_default,
         'category': xblock.category,
-        'has_children': xblock.has_children
+        'has_children': xblock.has_children,
     }
     if is_concise:
         if child_info and len(child_info.get('children', [])) > 0:
@@ -1415,6 +1426,7 @@ def _create_xblock_child_info(xblock, course_outline, graders, include_children_
                 course=course,
                 is_concise=is_concise
             ) for child in xblock.get_children()
+            if not child.hide_from_courseware
         ]
     return child_info
 
