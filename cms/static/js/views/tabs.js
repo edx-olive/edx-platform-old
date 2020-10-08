@@ -167,6 +167,7 @@
                     $('.new-component-item').before(editor.$el);
                     editor.$el.addClass('course-tab is-movable');
                     editor.$el.addClass('new');
+                    editor.$el.hide();
                     setTimeout(function() {
                         return editor.$el.removeClass('new');
                     }, 1000);

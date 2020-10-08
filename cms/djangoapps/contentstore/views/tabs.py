@@ -73,7 +73,7 @@ def tabs_handler(request, course_key_string):
                 tabs_to_render.append(tab)
 
         prefix = 'https://' if request.is_secure() else 'http://'
-        lms_root_url = prefix + settings.SITE_NAME
+        lms_root_url = prefix + settings.LMS_BASE
 
         return render_to_response('edit-tabs.html', {
             'lms_root_url': lms_root_url,
