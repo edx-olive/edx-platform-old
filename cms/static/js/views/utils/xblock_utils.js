@@ -306,7 +306,7 @@ define(['jquery', 'underscore', 'gettext', 'common/js/components/utils/view_util
                     courseKey: xblockWrapperElement.data('course-key'),
                     category: xblockElement.data('block-type'),
                     display_name: displayName,
-                    has_children: hasChildren// add video locators here?
+                    has_children: hasChildren
                 });
             }
             return xblockInfo;
