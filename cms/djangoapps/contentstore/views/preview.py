@@ -30,6 +30,7 @@ from openedx.core.lib.xblock_utils import (
     xblock_local_resource_url
 )
 from util.sandboxing import can_execute_unsafe_code, get_python_lib_zip
+from util.json_request import JsonResponse
 from xblock_config.models import StudioConfig
 from xblock_django.user_service import DjangoXBlockUserService
 from xmodule.contentstore.django import contentstore
@@ -40,6 +41,7 @@ from xmodule.partitions.partitions_service import PartitionService
 from xmodule.services import SettingsService
 from xmodule.studio_editable import has_author_view
 from xmodule.x_module import AUTHOR_VIEW, PREVIEW_VIEWS, STUDENT_VIEW, ModuleSystem
+from xmodule.modulestore.exceptions import ItemNotFoundError
 
 from .helpers import render_from_lms
 from .session_kv_store import SessionKeyValueStore
@@ -60,7 +62,19 @@ def preview_handler(request, usage_key_string, handler, suffix=''):
     """
     usage_key = UsageKey.from_string(usage_key_string)
 
-    descriptor = modulestore().get_item(usage_key)
+    descriptor = None
+    # Workaround to catch `xmodule.tabs.VideoTab` obj removal traceback. Consider avoiding
+    # save_user_state call instead.
+    if usage_key.category == "video":
+        try:
+            descriptor = modulestore().get_item(usage_key)
+        except ItemNotFoundError:
+            log.info("VideoTab {!s} got removed and consecutive save_user_state is called".format(
+                usage_key_string,
+            ))
+            return JsonResponse({"success": False})
+
+    descriptor = descriptor or modulestore().get_item(usage_key)
     instance = _load_preview_module(request, descriptor)
 
     # Let the module handle the AJAX
@@ -315,6 +329,6 @@ def get_preview_fragment(request, descriptor, context):
     try:
         fragment = module.render(preview_view, context)
     except Exception as exc:                          # pylint: disable=broad-except
-        log.warning("Unable to render %s for %r", preview_view, module, exc_info=True)
+        log.warning("Unable to render %s for %r", preview_view, module, exc_info=True)  # FIXME fix occasional AttributeError upon tabs load
         fragment = Fragment(render_to_string('html_error.html', {'message': str(exc)}))
     return fragment

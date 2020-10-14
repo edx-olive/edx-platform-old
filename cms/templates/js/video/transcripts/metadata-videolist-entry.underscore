@@ -254,8 +254,9 @@
                     break;
                 case "video_select_box":
                     $("#video_select_box").show();
-                    var courseId = $(".studio-xblock-wrapper").attr("data-course-key")
-                        if(courseId != null)    courseId = courseId.replace(/[+:/]/g, '_');
+                    var courseKey = $(".studio-xblock-wrapper").attr("data-course-key");
+                    var courseId = (courseKey !== undefined) ? courseKey :  $('[data-course-key-custom]').attr("data-course-key-custom");
+                    if (courseId != null) courseId = courseId.replace(/[+:/]/g, '_');
                     folderName = courseId;
                     url = "/list_s3_videos?course_folder=" + folderName
                     selectAction = function(e){
@@ -368,7 +369,8 @@
             $(".uploader-progressbar-background").show()
             var files =  $("#video-file-upload")[0].files;
             var formData = new FormData();
-            var courseId = $(".studio-xblock-wrapper").attr("data-course-key")
+            var courseKey = $(".studio-xblock-wrapper").attr("data-course-key");
+            var courseId = (courseKey !== undefined) ? courseKey :  $('[data-course-key-custom]').attr("data-course-key-custom");
             if(courseId != null)    courseId = courseId.replace(/[+:/]/g, '_')
             folderName = courseId;
             formData.append('file', files[0], files[0].name);

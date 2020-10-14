@@ -55,11 +55,12 @@ define(['jquery', 'underscore', 'gettext', 'js/views/xblock', 'js/views/metadata
             createMetadataEditor: function() {
                 var metadataEditor,
                     metadataData,
+                    videoLocatorsEl,
                     models = [],
                     key,
                     xblock = this.xblock,
                     metadataView = null;
-                metadataEditor = this.$('.metadata_edit');
+                    metadataEditor = this.$('.metadata_edit');
                 if (metadataEditor.length === 1) {
                     metadataData = metadataEditor.data('metadata');
                     for (key in metadataData) {
@@ -73,6 +74,10 @@ define(['jquery', 'underscore', 'gettext', 'js/views/xblock', 'js/views/metadata
                     });
                     if (xblock.setMetadataEditor) {
                         xblock.setMetadataEditor(metadataView);
+                    }
+                    videoLocatorsEl = $('li span:contains("Video locators")').closest('li.metadata_entry');
+                    if (videoLocatorsEl.length) {
+                        videoLocatorsEl.addClass('hidden');
                     }
                 }
                 return metadataView;
@@ -92,7 +97,7 @@ define(['jquery', 'underscore', 'gettext', 'js/views/xblock', 'js/views/metadata
              * XModules as well as for XBlocks that provide a 'collectFieldData' API.
              */
             getXBlockFieldData: function() {
-                var xblock = this.xblock,
+                var xblock = this.xblock, // HTMLEditingDescriptor
                     metadataEditor = this.getMetadataEditor(),
                     data = null;
                 // If the xblock supports returning its field data then collect it
@@ -101,6 +106,25 @@ define(['jquery', 'underscore', 'gettext', 'js/views/xblock', 'js/views/metadata
                 // ... else if this is an XModule then call its save method
                 } else if (xblock.save) {
                     data = xblock.save();
+                    if (xblock.type === 'static_tab') {
+                        var videoLocators = $('.metadata_edit').data('metadata').video_locators.value;
+                        var iframes = document.querySelector(".modal-editor iframe").contentWindow.document.querySelectorAll("iframe[data-locator]");
+                        var iframesLocators = [];
+                        iframes.forEach(function(iframe) {
+                            iframesLocators.push(iframe.dataset.locator);
+                        })
+                        if (iframesLocators.length < videoLocators.length) {
+                            videoLocators.forEach(function(loc) {
+                                if (!iframesLocators.includes(loc)) {
+                                    videoLocators.pop(loc);
+                                    $(`[data-usage-id='${loc}']`).siblings(".wrapper.wrapper-component-action-header").find(".delete-button").click()
+                                }
+                            });
+                        } else if (iframesLocators.length > videoLocators.length) {
+                            videoLocators = iframesLocators;
+                        }
+                        data['fields'] = {'video_locators': videoLocators};
+                    }
                     if (metadataEditor) {
                         data.metadata = _.extend(data.metadata || {}, this.getChangedMetadata());
                     }

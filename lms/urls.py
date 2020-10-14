@@ -10,7 +10,7 @@ from django.views.generic.base import RedirectView
 from ratelimitbackend import admin
 
 from courseware.views.index import CoursewareIndex
-from courseware.views.views import CourseTabView, EnrollStaffView, StaticCourseTabView
+from courseware.views.views import CourseTabView, EnrollStaffView, StaticCourseTabView, VideoCourseTabView
 from django_comment_common.models import ForumsConfig
 from openedx.core.djangoapps.auth_exchange.views import LoginWithAccessTokenView
 from openedx.core.djangoapps.catalog.models import CatalogIntegration
@@ -788,6 +788,17 @@ urlpatterns += (
         ),
         StaticCourseTabView.as_view(),
         name='static_tab',
+    ),
+)
+
+urlpatterns += (
+    # UPD: This MUST be the last view in the courseware--it's for VIDEO custom tabs.
+    url(
+        r'^courses/{}/(?P<tab_slug>[^/]+)/$'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        VideoCourseTabView.as_view(),
+        name='video',
     ),
 )
 

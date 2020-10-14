@@ -83,13 +83,19 @@ define(['jquery', 'underscore', 'gettext', 'js/views/baseview'],
 
             renderContents: function() {
                 var contentHtml = this.getContentHtml();
+                var contentVideoBlock = this.getContentVideo();
                 this.$('.modal-content').html(contentHtml);
+                this.$('.modal-video-block').html(contentVideoBlock);
             },
 
             /**
              * Returns the content to be shown in the modal.
              */
             getContentHtml: function() {
+                return '';
+            },
+
+            getContentVideo: function() {
                 return '';
             },
 
