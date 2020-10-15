@@ -15,6 +15,7 @@ from six.moves import range
 
 from edx_toggles.toggles.testutils import override_waffle_flag
 from lms.djangoapps.courseware.courses import get_course_by_id
+from lms.djangoapps.courseware.masquerade import CourseMasquerade
 from lms.djangoapps.courseware.tabs import (
     CourseInfoTab,
     CoursewareTab,
@@ -948,3 +949,27 @@ class DatesTabTestCase(TabListTestCase):
             if tab.type == 'dates':
                 num_dates_tabs += 1
         self.assertEqual(num_dates_tabs, 1)
+
+
+class DynamicTabsTestCase(TabTestCase):
+    """
+    Test cases for dynamic tabs.
+    """
+
+    def setUp(self):
+        self.staff_user = StaffFactory(course_key=self.course.id)
+        self.client.login(username=self.staff_user.username, password='test')
+
+    def test_instructor_tab_for_staff_with_masquerade_settings_as_student(self):
+        masquerade_settings = {self.course.id: CourseMasquerade(self.course.id, role='student')}
+        course_tab_list = get_course_tab_list(self.staff_user, self.course, masquerade_settings)
+        name_list = [x.name for x in course_tab_list]
+        self.assertNotIn('Instructor', name_list)
+        self.assertEqual(len(course_tab_list), 3)
+
+    def test_instructor_tab_for_staff_with_masquerade_settings_as_staff(self):
+        masquerade_settings = {self.course.id: CourseMasquerade(self.course.id, role='staff')}
+        course_tab_list = get_course_tab_list(self.staff_user, self.course, masquerade_settings)
+        name_list = [x.name for x in course_tab_list]
+        self.assertIn('Instructor', name_list)
+        self.assertEqual(len(course_tab_list), 4)
