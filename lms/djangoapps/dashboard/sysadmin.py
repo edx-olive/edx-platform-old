@@ -25,7 +25,7 @@ from django.views.decorators.http import condition
 from django.views.generic.base import TemplateView
 from opaque_keys.edx.keys import CourseKey
 from path import Path as path
-from six import StringIO, text_type
+from io import BytesIO
 
 import lms.djangoapps.dashboard.git_import as git_import
 from common.djangoapps.track import views as track_views
@@ -69,6 +69,38 @@ class SysadminDashboardView(TemplateView):
         """ Get an iterable list of courses."""
 
         return self.def_ms.get_courses()
+
+    def return_csv(self, filename, header, data):
+        """
+        Convenient function for handling the http response of a csv.
+        data should be iterable and is used to stream object over http
+        """
+
+        csv_file = BytesIO()
+        writer = csv.writer(csv_file, dialect='excel', quotechar='"',
+                            quoting=csv.QUOTE_ALL)
+
+        writer.writerow(header)
+
+        # Setup streaming of the data
+        def read_and_flush():
+            """Read and clear buffer for optimization"""
+            csv_file.seek(0)
+            csv_data = csv_file.read()
+            csv_file.seek(0)
+            csv_file.truncate()
+            return csv_data
+
+        def csv_data():
+            """Generator for handling potentially large CSVs"""
+            for row in data:
+                writer.writerow(row)
+            csv_data = read_and_flush()
+            yield csv_data
+        response = HttpResponse(csv_data(), content_type='text/csv')
+        response['Content-Disposition'] = u'attachment; filename={0}'.format(
+            filename)
+        return response
 
 
 class Users(SysadminDashboardView):
@@ -226,7 +258,7 @@ class Courses(SysadminDashboardView):
                     output_json['date'],
                     output_json['author'], ]
         except OSError as error:
-            log.warning(text_type(u"Error fetching git data: %s - %s"), text_type(cdir), text_type(error))
+            log.warning("Error fetching git data: {} - {}".format(cdir, error))
         except (ValueError, subprocess.CalledProcessError):
             pass
 
@@ -253,7 +285,7 @@ class Courses(SysadminDashboardView):
         log.debug(u'Adding course using git repo %s', gitloc)
 
         # Grab logging output for debugging imports
-        output = StringIO()
+        output = BytesIO()
         import_log_handler = logging.StreamHandler(output)
         import_log_handler.setLevel(logging.DEBUG)
 
@@ -299,7 +331,7 @@ class Courses(SysadminDashboardView):
         courses = courses or self.get_courses()
         for course in courses:
             gdir = course.id.course
-            data.append([course.display_name, text_type(course.id)]
+            data.append([course.display_name, course.id]
                         + self.git_info_for_course(gdir))
 
         return dict(header=[_('Course Name'),
@@ -366,8 +398,8 @@ class Courses(SysadminDashboardView):
                 del courses[course.id]
                 # don't delete user permission groups, though
                 self.msg += \
-                    HTML(u"<font color='red'>{0} {1} = {2} ({3})</font>").format(
-                        _('Deleted'), text_type(course.location), text_type(course.id), course.display_name)
+                    HTML("<font color='red'>{0} {1} = {2} ({3})</font>").format(
+                        _('Deleted'), course.location, course.id, course.display_name)
 
         context = {
             'datatable': self.make_datatable(list(courses.values())),
@@ -492,7 +524,7 @@ class GitLogs(TemplateView):
         mdb.close()
         context = {
             'logs': logs,
-            'course_id': text_type(course_id) if course_id else None,
+            'course_id': course_id if course_id else None,
             'error_msg': error_msg,
             'page_size': page_size
         }
