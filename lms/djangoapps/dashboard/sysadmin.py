@@ -24,6 +24,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import condition
 from django.views.generic.base import TemplateView
+from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from path import Path as path
 from six import StringIO, text_type
@@ -382,12 +383,17 @@ class Courses(SysadminDashboardView):
 
         elif action == 'del_course':
             course_id = request.POST.get('course_id', '').strip()
-            course_key = CourseKey.from_string(course_id)
+            try:
+                course_key = CourseKey.from_string(course_id)
+            except InvalidKeyError:
+                self.msg += _(HTML('Invalid course key: {}')).format(course_id)
+                # course_key = None to skip next condition
+                course_key = None
             course_found = False
             if course_key in courses:
                 course_found = True
                 course = courses[course_key]
-            else:
+            elif course_key is not None:
                 try:
                     course = get_course_by_id(course_key)
                     course_found = True
