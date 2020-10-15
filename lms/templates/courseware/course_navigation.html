@@ -38,7 +38,8 @@ masquerading_as_student = is_masquerading_as_student(request.user, course.id)
 
 % if disable_tabs is UNDEFINED or not disable_tabs:
     <%
-    tab_list = get_course_tab_list(request.user, course)
+    masquerade_settings = request.session.get('masquerade_settings', None)
+    tab_list = get_course_tab_list(request.user, course, masquerade_settings)
     %>
     % if uses_bootstrap:
         <nav class="navbar course-tabs pb-0 navbar-expand" aria-label="${_('Course')}">
