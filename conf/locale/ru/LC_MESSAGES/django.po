@@ -6989,6 +6989,10 @@ msgstr ""
 "Ошибка - не удалось открыть курс с идентификатором {0}<br/><pre>{1}</pre>"
 
 #: lms/djangoapps/dashboard/sysadmin.py
+msgid "Invalid course key: {}"
+msgstr "Неверный ID курса: {}"
+
+#: lms/djangoapps/dashboard/sysadmin.py
 msgid "Deleted"
 msgstr "Удалено"
 
