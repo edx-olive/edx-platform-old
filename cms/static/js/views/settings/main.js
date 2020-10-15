@@ -1,7 +1,7 @@
 define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui', 'js/utils/date_utils',
     'js/models/uploads', 'js/views/uploads', 'js/views/license', 'js/models/license',
     'common/js/components/views/feedback_notification', 'jquery.timepicker', 'date', 'gettext',
-    'js/views/learning_info', 'js/views/instructor_info', 'edx-ui-toolkit/js/utils/string-utils'],
+    'js/views/learning_info', 'js/views/instructor_info', 'edx-ui-toolkit/js/utils/string-utils', 'tinymce'],
        function(ValidatingView, CodeMirror, _, $, ui, DateUtils, FileUploadModel,
                 FileUploadDialog, LicenseView, LicenseModel, NotificationView,
                 timepicker, date, gettext, LearningInfoView, InstructorInfoView, StringUtils) {
@@ -15,7 +15,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    'change textarea': 'updateModel',
                    'change select': 'updateModel',
                    'click .remove-course-introduction-video': 'removeVideo',
-                   'focus #course-overview': 'codeMirrorize',
                    'focus #course-about-sidebar-html': 'codeMirrorize',
                    'mouseover .timezone': 'updateTime',
         // would love to move to a general superclass, but event hashes don't inherit in backbone :-(
@@ -86,7 +85,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    DateUtils.setupDatePicker('upgrade_deadline', this);
 
                    this.$el.find('#' + this.fieldToSelectorMap.overview).val(this.model.get('overview'));
-                   this.codeMirrorize(null, $('#course-overview')[0]);
+                   this.tinymceInit('#' + this.fieldToSelectorMap.overview, 'overview');
 
                    if (this.model.get('title') !== '') {
                        this.$el.find('#' + this.fieldToSelectorMap.title).val(this.model.get('title'));
@@ -157,6 +156,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                    return this;
                },
+
                fieldToSelectorMap: {
                    language: 'course-language',
                    start_date: 'course-start',
@@ -224,6 +224,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                    $(e.currentTarget).attr('title', currentTimeText);
                },
+
                updateModel: function(event) {
                    var value;
                    var index = event.currentTarget.getAttribute('data-index');
@@ -309,12 +310,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    case 'course-duration':
                    case 'course-description':
                    case 'course-short-description':
+                   case 'course-overview':
                        this.setField(event);
                        break;
                    default: // Everything else is handled by datepickers and CodeMirror.
                        break;
                    }
                },
+
                updateImageField: function(event, image_field, selector) {
                    this.setField(event);
                    var url = $(event.currentTarget).val();
@@ -324,6 +327,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    this.model.set(image_field, image_name);
                    this.updateImagePreview(event.currentTarget, selector);
                },
+
                updateImagePreview: function(imagePathInputElement, previewSelector) {
         // Wait to set the image src until the user stops typing
                    clearTimeout(this.imageTimer);
@@ -331,6 +335,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                        $(previewSelector).attr('src', $(imagePathInputElement).val());
                    }, 1000);
                },
+
                removeVideo: function(event) {
                    event.preventDefault();
                    if (this.model.has('intro_video')) {
@@ -340,7 +345,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                        this.$el.find('.remove-course-introduction-video').hide();
                    }
                },
+
                codeMirrors: {},
+
                codeMirrorize: function(e, forcedTarget) {
                    var thisTarget, cachethis, field, cmTextArea;
                    if (forcedTarget) {
@@ -375,12 +382,36 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    }
                },
 
+               tinymceInit: function (elem, model) {
+                   var self = this;
+                   var directionality = $('head').attr('dir');
+
+                   tinymce.init({
+                     selector: elem,
+                     directionality : directionality,
+                     theme: 'modern',
+                     plugins: 'link image lists code table media textcolor',
+                     toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright forecolor backcolor | blockquote link image | numlist bullist outdent indent',
+                     setup: function (ed) {
+                       ed.on('keyup change', function () {
+                         if (self.model.get(model) != ed.getContent()) {
+                           self.setAndValidate(model, ed.getContent())
+                         }
+                       });
+                     }
+                   });
+                 },
+
+
                revertView: function() {
         // Make sure that the CodeMirror instance has the correct
         // data from its corresponding textarea
                    var self = this;
                    this.model.fetch({
                        success: function() {
+                           // Sets the specified content to the editor instance and repaint
+                           tinymce.get('course-overview').setContent($('#' + self.fieldToSelectorMap.overview).val());
+                           tinymce.execCommand('mceRepaint');
                            self.render();
                            _.each(self.codeMirrors, function(mirror) {
                                var ele = mirror.getTextArea();
@@ -391,7 +422,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                            self.licenseView.render();
                        },
                        reset: true,
-                       silent: true});
+                       silent: true
+                   });
                },
                setAndValidate: function(attr, value) {
         // If we call model.set() with {validate: true}, model fields
