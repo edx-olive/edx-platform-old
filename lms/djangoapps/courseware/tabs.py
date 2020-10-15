@@ -324,9 +324,16 @@ class DatesTab(CourseTab):
         return RELATIVE_DATES_FLAG.is_enabled(course.id)
 
 
-def get_course_tab_list(user, course):
+def get_course_tab_list(user, course, masquerade_settings=None):
     """
-    Retrieves the course tab list from xmodule.tabs and manipulates the set as necessary
+    Retrieves the course tab list from xmodule.tabs and manipulates
+    the set as necessary.
+
+    Arguments:
+        user: current request user
+        course: course object
+        masquerade_settings: the masquerade settings are stored in the Django
+        session as a dict from course keys to CourseMasquerade objects
     """
     xmodule_tab_list = CourseTabList.iterate_displayable(course, user=user)
 
@@ -356,8 +363,9 @@ def get_course_tab_list(user, course):
             continue
         course_tab_list.append(tab)
 
-    # Add in any dynamic tabs, i.e. those that are not persisted
-    course_tab_list += _get_dynamic_tabs(course, user)
+    if not masquerade_settings or getattr(masquerade_settings.get(course.id, None), 'role', None) != 'student':
+        # Add in any dynamic tabs, i.e. those that are not persisted
+        course_tab_list += _get_dynamic_tabs(course, user)
     return course_tab_list
 
 
