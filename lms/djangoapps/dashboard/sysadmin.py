@@ -402,6 +402,7 @@ class Courses(SysadminDashboardView):
             if course_found:
                 # delete course that is stored with mongodb backend
                 self.def_ms.delete_course(course.id, request.user.id)
+                del courses[course.id]
                 # don't delete user permission groups, though
                 self.msg += \
                     HTML(u"<font color='red'>{0} {1} = {2} ({3})</font>").format(
