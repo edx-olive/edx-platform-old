@@ -168,13 +168,16 @@ class TestSysAdminMongoCourseImport(SysadminBaseTestCase):
         def_ms = modulestore()
         self.assertNotEqual('xml', def_ms.get_modulestore_type(None))
 
-        self._add_edx4edx()
+        response = self._add_edx4edx()
         course = def_ms.get_course(CourseLocator('MITx', 'edx4edx', 'edx4edx'))
         self.assertIsNotNone(course)
+        course_id_in_cell = '<td>{}</td>'.format(course.id)
+        self.assertIn(course_id_in_cell, response.content.decode())
 
-        self._rm_edx4edx()
+        response = self._rm_edx4edx()
         course = def_ms.get_course(CourseLocator('MITx', 'edx4edx', 'edx4edx'))
         self.assertIsNone(course)
+        self.assertNotIn(course_id_in_cell, response.content.decode())
 
     def test_course_info(self):
         """
