@@ -11,6 +11,7 @@ import unittest
 from datetime import datetime
 from uuid import uuid4
 
+import ddt
 import mongoengine
 from django.conf import settings
 from django.test.client import Client
@@ -360,3 +361,27 @@ class TestSysAdminMongoCourseImport(SysadminBaseTestCase):
         self.assertContains(response, '======&gt; IMPORTING course')
 
         self._rm_edx4edx()
+
+
+@unittest.skipUnless(settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD'), "ENABLE_SYSADMIN_DASHBOARD not set")
+@ddt.ddt
+class TestSysAdminDashboardCourseDelete(SysadminBaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self._setstaff_login()
+        self._mkdir(settings.GIT_REPO_DIR)
+
+    @ddt.data(
+        ('wrong_course_ID', 'Invalid course key: {}'),
+        ('course-v1:org+course+run', 'Error - cannot get course with ID {}'),
+    )
+    @ddt.unpack
+    def test_course_delete_with_wrong_course_id_or_nonexistent_course(self, course_id, message):
+        """
+        Checking for deleting a course with:
+        - an invalid course ID;
+        - a valid course ID for a non-existent course.
+        """
+        response = self.client.post(reverse('sysadmin_courses'), {'course_id': course_id, 'action': 'del_course'})
+        self.assertIn(message.format(course_id), response.content.decode())

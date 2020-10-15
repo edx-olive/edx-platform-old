@@ -6745,6 +6745,10 @@ msgstr ""
 "Erro - não foi possível carregar o curso com o ID {0}<br/><pre>{1}</pre>"
 
 #: lms/djangoapps/dashboard/sysadmin.py
+msgid "Invalid course key: {}"
+msgstr ""
+
+#: lms/djangoapps/dashboard/sysadmin.py
 msgid "Deleted"
 msgstr "Apagado"
 
