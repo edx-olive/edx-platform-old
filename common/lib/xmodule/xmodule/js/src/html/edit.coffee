@@ -940,9 +940,11 @@ class @HTMLEditingDescriptor
     ed.addButton('addVideo', {
       text : 'Add Video',
       onclick : () ->
+        addVideoButton = $('button:contains("Add Video")')
+        addVideoButton.prop('disabled', true);
         $('.new-button.new-video-tab').click();
-        delayedFrame = () ->
-          locator = $('.new-component-item').siblings('.component').last().data('locator');
+        delayedFrame = (locator, editButton) ->
+          clearInterval(interval);
           lmsRoot = $('.new-component-item').data('lms-url')
           ed.insertContent(
             "<iframe
@@ -951,10 +953,19 @@ class @HTMLEditingDescriptor
               src='#{lmsRoot}/xblock/#{locator}'>
             </iframe>"
           )
-          editButton = $("[data-usage-id='#{locator}']").siblings(".wrapper.wrapper-component-action-header").find(".edit-button")
           $('.metadata_edit').data('metadata')['video_locators']['value'].push(locator)
           $(editButton).click();
-        setTimeout(delayedFrame, 5000);
+          addVideoButton.prop('disabled', false);
+        interval = setInterval(() ->
+          locator = $('.new-video').data('locator')
+          `if (typeof locator !== "undefined" && locator !== null) {
+            editButton = $("[data-usage-id='" + locator + "']").siblings(".wrapper.wrapper-component-action-header").find(".edit-button");
+            if (editButton.length){
+              delayedFrame(locator, editButton);
+            }
+          }`
+          return
+        , 200);
     })
 
     ed.addButton('editVideo', {
