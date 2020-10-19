@@ -99,7 +99,8 @@ define(['jquery', 'underscore', 'gettext', 'js/views/xblock', 'js/views/metadata
             getXBlockFieldData: function() {
                 var xblock = this.xblock, // HTMLEditingDescriptor
                     metadataEditor = this.getMetadataEditor(),
-                    data = null;
+                    data = null,
+                    iframes = [];
                 // If the xblock supports returning its field data then collect it
                 if (xblock.collectFieldData) {
                     data = xblock.collectFieldData();
@@ -108,23 +109,29 @@ define(['jquery', 'underscore', 'gettext', 'js/views/xblock', 'js/views/metadata
                     data = xblock.save();
                     if (xblock.type === 'static_tab') {
                         var videoLocators = $('.metadata_edit').data('metadata').video_locators.value;
-                        var iframes = document.querySelector(".modal-editor iframe").contentWindow.document.querySelectorAll("iframe[data-locator]");
-                        var iframesLocators = [];
-                        iframes.forEach(function(iframe) {
-                            iframesLocators.push(iframe.dataset.locator);
-                        })
-                        if (iframesLocators.length < videoLocators.length) {
-                            videoLocators.forEach(function(loc) {
-                                if (!iframesLocators.includes(loc)) {
-                                    videoLocators.pop(loc);
-                                    $(`[data-usage-id='${loc}']`).siblings(".wrapper.wrapper-component-action-header").find(".delete-button").click()
-                                }
-                            });
-                        } else if (iframesLocators.length > videoLocators.length) {
-                            videoLocators = iframesLocators;
+                        if (document.querySelector(".modal-editor iframe") !== null) {
+                          iframes = document.querySelector(".modal-editor iframe").contentWindow.document.querySelectorAll("iframe[data-locator]");
+                        } else {
+                          var parser = new DOMParser();
+                          var htmlDoc = parser.parseFromString(document.querySelector(".modal-editor .edit-box").textContent, 'text/html');
+                          iframes = htmlDoc.querySelectorAll("iframe[data-locator]");
                         }
-                        data['fields'] = {'video_locators': videoLocators};
-                    }
+                          var iframesLocators = [];
+                          iframes.forEach(function(iframe) {
+                              iframesLocators.push(iframe.dataset.locator);
+                          });
+                          if (iframesLocators.length < videoLocators.length) {
+                              videoLocators.forEach(function(loc) {
+                                  if (!iframesLocators.includes(loc)) {
+                                      videoLocators.pop(loc);
+                                      $(`[data-usage-id='${loc}']`).siblings(".wrapper.wrapper-component-action-header").find(".delete-button").click();
+                                  }
+                              });
+                          } else if (iframesLocators.length > videoLocators.length) {
+                              videoLocators = iframesLocators;
+                          }
+                          data.fields = {'video_locators': videoLocators};
+                        }
                     if (metadataEditor) {
                         data.metadata = _.extend(data.metadata || {}, this.getChangedMetadata());
                     }
