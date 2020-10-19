@@ -545,6 +545,23 @@ class ViewsTestCase(BaseViewsTestCase):
         type(mock_user).is_authenticated = PropertyMock(return_value=False)
         self.assertEqual(views.user_groups(mock_user), [])
 
+    @ddt.data('none', 'about')
+    @patch('lms.djangoapps.courseware.views.views.get_courses')
+    @patch.dict('django.conf.settings.FEATURES', {'ENABLE_COURSE_DISCOVERY': False})
+    def test_courses_with_catalog_visibility_none_and_about(self, visibility_mode, mock_get_courses):
+        learner_user = UserFactory(username='learner', is_staff=False, password='learner')
+        msg = 'Course with visibility {}'.format(visibility_mode)
+        CourseFactory.create(
+            display_name=msg, catalog_visibility=visibility_mode
+        )
+        self.client.login(username='learner', password='learner')
+        response = self.client.get(reverse('courses'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(msg.encode(), response.content)
+
+        mock_get_courses.assert_called_once_with(learner_user, filter_={'catalog_visibility': 'both'})
+
     def test_get_redirect_url(self):
         # test the course location
         self.assertEqual(

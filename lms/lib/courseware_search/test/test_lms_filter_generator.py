@@ -142,3 +142,11 @@ class LmsSearchFilterGeneratorTestCase(ModuleStoreTestCase):
         self.assertNotIn('org', exclude_dictionary)
         self.assertIn('org', field_dictionary)
         self.assertEqual(['TestSite3'], field_dictionary['org'])
+
+    def test_excludes_catalog_visibility(self):
+        _, _, exclude_dictionary = LmsSearchFilterGenerator.generate_field_filters(
+            user=self.user
+        )
+        self.assertIn('about', exclude_dictionary['catalog_visibility'])
+        self.assertIn('none', exclude_dictionary['catalog_visibility'])
+        self.assertNotIn('both', exclude_dictionary['catalog_visibility'])
