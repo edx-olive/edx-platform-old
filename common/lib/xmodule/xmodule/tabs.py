@@ -550,10 +550,6 @@ class CourseTabList(List):
         if len(tabs) < 2:
             raise InvalidTabsException("Expected at least two tabs.  tabs: '{0}'".format(tabs))
 
-        if tabs[0].get('type') != 'courseware':
-            raise InvalidTabsException(
-                "Expected first tab to have type 'courseware'.  tabs: '{0}'".format(tabs))
-
         # the following tabs should appear only once
         # TODO: don't import openedx capabilities from common
         from openedx.core.lib.course_tabs import CourseTabPluginManager
