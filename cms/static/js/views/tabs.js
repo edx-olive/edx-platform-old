@@ -167,10 +167,12 @@
                     $('.new-component-item').before(editor.$el);
                     editor.$el.addClass('course-tab is-movable');
                     editor.$el.addClass('new');
+                    editor.$el.addClass('new-video');
                     editor.$el.hide();
                     setTimeout(function() {
-                        return editor.$el.removeClass('new');
-                    }, 1000);
+                        editor.$el.removeClass('new');
+                        editor.$el.removeClass('new-video');
+                    }, 5000);
                     $('html, body').animate({
                         scrollTop: $('.new-component-item').offset().top
                     }, 500);
