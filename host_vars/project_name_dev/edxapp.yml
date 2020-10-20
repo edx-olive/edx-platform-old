@@ -1,9 +1,9 @@
 ---
 EDX_PLATFORM_VERSION: "juniper-rg"
-edx_platform_repo: "git@gitlab.raccoongang.com:hippoteam/juniper/edx-platform.git"
-EDXAPP_SITE_NAME: "lms-juniper-test.raccoongang.com"
-EDXAPP_CMS_SITE_NAME: "cms-juniper-test.raccoongang.com"
-EDXAPP_PREVIEW_LMS_BASE: "preview-juniper-test.raccoongang.com"
+edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
+EDXAPP_SITE_NAME: "lms-dev-project_name.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-dev-project_name.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-dev-project_name.raccoongang.com"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
