@@ -52,6 +52,7 @@ from edxmako.shortcuts import render_to_string
 from models.settings.course_grading import CourseGradingModel
 from openedx.core.djangoapps.schedules.config import COURSE_UPDATE_WAFFLE_FLAG
 from openedx.core.djangoapps.waffle_utils import WaffleSwitch
+from openedx.core.djangoapps.bookmarks import api as bookmarks_api
 from openedx.core.lib.gating import api as gating_api
 from openedx.core.lib.xblock_utils import hash_resource, request_token, wrap_xblock, wrap_xblock_aside
 from static_replace import replace_static_urls
@@ -943,6 +944,8 @@ def _delete_item(usage_key, user):
             course.tabs = [tab for tab in existing_tabs if tab.get('url_slug') != usage_key.block_id]
             store.update_item(course, user.id)
 
+        # Delete user bookmark
+        bookmarks_api.delete_bookmarks(usage_key)
         store.delete_item(usage_key, user.id)
 
 
