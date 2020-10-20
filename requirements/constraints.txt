@@ -102,3 +102,8 @@ zipp==1.0.0
 
 # Matplotlib 3.1 requires Python 3.6
 matplotlib<3.1
+
+# Generally this is required by pynliner 0.8.0, but it requires BeautifulSoup4 >= 4.4.1
+# Pin version under 4.9.0 to be compatible with le-pycaption dependency,
+# which is beautifulsoup4<4.9.0,>=4.6.3
+beautifulsoup4<4.9.0
