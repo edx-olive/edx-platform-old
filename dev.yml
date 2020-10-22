@@ -1,5 +1,5 @@
 - name: Deploy a full stack Edx
-  hosts: juniper_dev
+  hosts: project_name_dev
   become: true
 
   roles:

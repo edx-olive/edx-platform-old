@@ -26,9 +26,9 @@ EDXAPP_SESSION_COOKIE_SECURE: true
 
 EDXAPP_USE_GIT_IDENTITY: True
 # TODO unificated repositories structures
-edx_platform_repo: "git@gitlab.raccoongang.com:hippoteam/juniper/edx-platform.git"
+edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
 EDX_PLATFORM_VERSION: "juniper-rg"
-edx_ansible_source_repo: "https://gitlab.raccoongang.com/hippoteam/juniper/configuration.git"
+edx_ansible_source_repo: "https://gitlab.raccoongang.com/edx/configuration.git"
 CONFIGURATION_VERSION: "juniper-rg"
 
 EDXAPP_GRADE_STORAGE_TYPE_LOCAL: true
