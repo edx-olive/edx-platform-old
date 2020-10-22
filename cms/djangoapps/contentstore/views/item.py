@@ -15,7 +15,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_http_methods
-from opaque_keys.edx.keys import CourseKey
+from opaque_keys.edx.keys import CourseKey, UsageKey
 from opaque_keys.edx.locator import LibraryUsageLocator
 from pytz import UTC
 from xblock.core import XBlock
@@ -178,7 +178,7 @@ def xblock_handler(request, usage_key_string):
                 return HttpResponse(status=406)
 
         elif request.method == 'DELETE':
-            _delete_item(usage_key, request.user, is_video_tab=request.json.get('is_video_tab', False))
+            _delete_item(usage_key, request.user)
             return JsonResponse()
         else:
             # Since we have a usage_key, we are updating an existing xblock.
@@ -934,7 +934,7 @@ def delete_item(request, usage_key):
     _delete_item(usage_key, request.user)
 
 
-def _delete_item(usage_key, user, is_video_tab=False):
+def _delete_item(usage_key, user):
     """
     Deletes an existing xblock with the given usage_key.
     If the xblock is a Static Tab, removes it from course.tabs as well.
@@ -954,6 +954,76 @@ def _delete_item(usage_key, user, is_video_tab=False):
                     u"course:{}".format(unicode(usage_key.course_key)),
                 )
             )
+
+            if usage_key.category == 'static_tab':
+                # Remove video_locators if any: both video tab and video block structures
+                # `html_xblock` is an XBlock obj corresponding to the static tab being removed
+                html_xblock = store.get_item(usage_key, depth=None)
+                deletion_error_msg = "An error happened when removing a video {!s} {!s} " \
+                                     "of the static tab {!s}. Error: {!s}. Course: {!s}"
+                deletion_success_msg = "Removed a video {!s} {!s} of the static tab {!s}. " \
+                                       "Course: {!s}"
+                if html_xblock:
+                    for i, video_xblock_loc in enumerate(html_xblock.video_locators):
+                        try:
+                            video_tab_loc = html_xblock.video_tabs_locators[i]
+                            _delete_item(UsageKey.from_string(video_tab_loc), user)
+                            log.debug(
+                                deletion_success_msg.format(
+                                    "tab",
+                                    video_xblock_loc,
+                                    usage_key,
+                                    usage_key.course_key,
+                                )
+                            )
+                        except IndexError:
+                            log.error(
+                                "An error happened when fetching a video tab {!s} "
+                                "of the static tab {!s}. Error: {!s}. Course: {!s}".format(
+                                    video_tab_loc,
+                                    usage_key,
+                                    e,
+                                    usage_key.course_key,
+                                ))
+                            continue
+                        except Exception as e:
+                            log.error(
+                                deletion_error_msg.format(
+                                    "tab",
+                                    video_xblock_loc,
+                                    usage_key,
+                                    e,
+                                    usage_key.course_key,
+                                )
+                            )
+                        try:
+                            _delete_item(UsageKey.from_string(video_xblock_loc), user)
+                            log.debug(
+                                deletion_success_msg.format(
+                                    "xblock",
+                                    video_xblock_loc,
+                                    usage_key,
+                                    usage_key.course_key,
+                                )
+                            )
+                        except Exception as e:
+                            log.error(
+                                deletion_error_msg.format(
+                                    "xblock",
+                                    video_xblock_loc,
+                                    usage_key,
+                                    e,
+                                    usage_key.course_key,
+                                )
+                            )
+                else:
+                    log.error(
+                        "Can't find an html xblock corresponding to the static tab {!s} "
+                        "of the course {!s}".format(
+                            usage_key,
+                            usage_key.course_key,
+                        )
+                    )
 
             course = store.get_course(usage_key.course_key)
             existing_tabs = course.tabs or []
