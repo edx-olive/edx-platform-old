@@ -234,6 +234,15 @@ class InheritanceMixin(XBlockMixin):
         default=False,
         scope=Scope.settings
     )
+    # `hide_from_courseware` was introduced to support the `xmodule.tabs.VideoTab` flow.
+    # Unlike tabs-created xblocks of `html` type, `video` xblock created from /tabs shows up
+    # in the courseware otherwise. This is a workaround.
+    hide_from_courseware = Boolean(
+        display_name=_("Hide From Courseware"),
+        help=_("Instruction to hide an XBlock from the courseware."),
+        default=False,
+        scope=Scope.settings,
+    )
 
 
 def compute_inherited_metadata(descriptor):

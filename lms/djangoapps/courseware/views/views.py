@@ -414,6 +414,45 @@ class StaticCourseTabView(EdxFragmentView):
         })
 
 
+class VideoCourseTabView(EdxFragmentView):
+    """
+    View that displays a video course tab with a given name.
+
+    Copied from `StaticCourseTabView`.
+    """
+    @method_decorator(ensure_csrf_cookie)
+    @method_decorator(ensure_valid_course_key)
+    def get(self, request, course_id, tab_slug, **kwargs):
+        """
+        Displays a static course tab page with a given name
+        """
+        course_key = CourseKey.from_string(course_id)
+        course = get_course_with_access(request.user, 'load', course_key)
+        tab = CourseTabList.get_tab_by_slug(course.tabs, tab_slug)
+        if tab is None:
+            raise Http404
+        return super(VideoCourseTabView, self).get(request, course=course, tab=tab, **kwargs)
+
+    def render_to_fragment(self, request, course=None, tab=None, **kwargs):
+        """
+        Renders the static tab to a fragment.
+        """
+        return get_static_tab_fragment(request, course, tab)
+
+    def render_standalone_response(self, request, fragment, course=None, tab=None, **kwargs):
+        """
+        Renders this static tab's fragment to HTML for a standalone page.
+        """
+        return render_to_response('courseware/static_tab.html', {
+            'course': course,
+            'active_page': 'video_{0}'.format(tab['url_slug']),
+            'tab': tab,
+            'fragment': fragment,
+            'uses_pattern_library': False,
+            'disable_courseware_js': True,
+        })
+
+
 class CourseTabView(EdxFragmentView):
     """
     View that displays a course tab page.

@@ -5,14 +5,14 @@
 <%!
   from django.utils.translation import ugettext as _
   from django.core.urlresolvers import reverse
-  from xmodule.tabs import StaticTab
+  from xmodule.tabs import StaticTab, VideoTab
   from openedx.core.djangolib.js_utils import js_escaped_string
 %>
 <%block name="title">${_("Pages")}</%block>
 <%block name="bodyclass">is-signedin course view-static-pages</%block>
 
 <%block name="header_extras">
-% for template_name in ["basic-modal", "modal-button", "edit-xblock-modal", "editor-mode-button"]:
+% for template_name in ["basic-modal", "modal-button", "edit-xblock-modal", "editor-mode-button", "upload-dialog"]:
 <script type="text/template" id="${template_name}-tpl">
     <%static:include path="js/${template_name}.underscore" />
 </script>
@@ -26,6 +26,7 @@
 </%block>
 
 <%block name="content">
+<div data-course-key-custom="${ context_course.id }"></div>
 <div class="wrapper-mast wrapper">
   <header class="mast has-actions has-subtitle">
     <h1 class="page-header">
@@ -74,6 +75,9 @@
 
                 % if isinstance(tab, StaticTab):
                     <li class="component ${css_class}" data-locator="${tab.locator}" data-tab-id="${tab.tab_id}"></li>
+
+                % elif isinstance(tab, VideoTab):
+                    <li style="display: none" class="component ${css_class}" data-locator="${tab.locator}" data-tab-id="${tab.tab_id}"></li>
 
                 % else:
                     <li class="course-nav-item ${css_class}" data-tab-id="${tab.tab_id}">
@@ -126,13 +130,15 @@
 
                  % endif
               % endfor
-
-              <li class="new-component-item"></li>
+              <li class="new-component-item" data-lms-url="${lms_root_url}"></li>
             </ol>
           </div>
 
           <div class="add-pages">
               <p>${_("You can add additional custom pages to your course.")} <a href="#" class="button new-button new-tab"><span class="icon fa fa-plus" aria-hidden="true"></span>${_("Add a New Page")}</a></p>
+          </div>
+          <div class="add-pages" style="display: none">
+              <p>${_("You can add additional custom video pages to your course.")} <a href="#" class="button new-button new-video-tab"><span class="icon fa fa-plus" aria-hidden="true"></span>${_("Add a New Video Page")}</a></p>
           </div>
         </article>
       </div>

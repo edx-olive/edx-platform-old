@@ -351,6 +351,73 @@ class StaticTab(CourseTab):
         return self.url_slug == other.get('url_slug')
 
 
+class VideoTab(CourseTab):
+    """
+    A custom video tab.
+
+    Copied from `StaticTab`.
+    """
+    type = 'video'
+    is_default = False  # A static tab is never added to a course by default
+    allow_multiple = True
+
+    def __init__(self, tab_dict=None, name=None, url_slug=None):
+        def link_func(course, reverse_func):
+            """ Returns a function that returns the static tab's URL. """
+            return reverse_func(self.type, args=[course.id.to_deprecated_string(), self.url_slug])
+
+        self.url_slug = tab_dict.get('url_slug') if tab_dict else url_slug
+
+        if tab_dict is None:
+            tab_dict = dict()
+
+        if name is not None:
+            tab_dict['name'] = name
+
+        tab_dict['link_func'] = link_func
+        tab_dict['tab_id'] = 'video_{0}'.format(self.url_slug)
+
+        super(VideoTab, self).__init__(tab_dict)
+
+    @classmethod
+    def is_enabled(cls, course, user=None):
+        """
+        Static tabs are viewable to everyone, even anonymous users.
+        """
+        return True
+
+    @classmethod
+    def validate(cls, tab_dict, raise_error=True):
+        """
+        Ensures that the specified tab_dict is valid.
+        """
+        return (super(VideoTab, cls).validate(tab_dict, raise_error)
+                and key_checker(['name', 'url_slug'])(tab_dict, raise_error))
+
+    def __getitem__(self, key):
+        if key == 'url_slug':
+            return self.url_slug
+        else:
+            return super(VideoTab, self).__getitem__(key)
+
+    def __setitem__(self, key, value):
+        if key == 'url_slug':
+            self.url_slug = value
+        else:
+            super(VideoTab, self).__setitem__(key, value)
+
+    def to_json(self):
+        """ Return a dictionary representation of this tab. """
+        to_json_val = super(VideoTab, self).to_json()
+        to_json_val.update({'url_slug': self.url_slug})
+        return to_json_val
+
+    def __eq__(self, other):
+        if not super(VideoTab, self).__eq__(other):
+            return False
+        return self.url_slug == other.get('url_slug')
+
+
 class CourseTabList(List):
     """
     An XBlock field class that encapsulates a collection of Tabs in a course.
@@ -482,14 +549,6 @@ class CourseTabList(List):
 
         if len(tabs) < 2:
             raise InvalidTabsException("Expected at least two tabs.  tabs: '{0}'".format(tabs))
-
-        if tabs[0].get('type') != 'course_info':
-            raise InvalidTabsException(
-                "Expected first tab to have type 'course_info'.  tabs: '{0}'".format(tabs))
-
-        if tabs[1].get('type') != 'courseware':
-            raise InvalidTabsException(
-                "Expected second tab to have type 'courseware'.  tabs: '{0}'".format(tabs))
 
         # the following tabs should appear only once
         # TODO: don't import openedx capabilities from common
