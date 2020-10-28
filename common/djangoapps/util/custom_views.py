@@ -51,7 +51,7 @@ def sign_cloudfront_url(request):
     resource_url = request.GET.get('url', '')
     if 'cloudfront.' in resource_url:
         resource_url = form_cloudfront_url(resource_url)
-    return JsonResponse({'url': resource_url})
+    return HttpResponse(resource_url)
 
 def form_cloudfront_url(url):
     """

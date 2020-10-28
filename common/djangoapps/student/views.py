@@ -175,6 +175,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
     """
+    if settings.FEATURES.get("ENABLE_NEW_HOMEPAGE", False):
+        return redirect(reverse("home"))
+
     if extra_context is None:
         extra_context = {}
 
