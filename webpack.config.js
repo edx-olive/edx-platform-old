@@ -2,7 +2,7 @@
 
 'use strict';
 require("babel-polyfill");
-
+var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
@@ -171,7 +171,7 @@ if (isProd) {
         new webpack.LoaderOptionsPlugin({  // This may not be needed; legacy option for loaders written for webpack 1
             minimize: true
         }),
-        new webpack.optimize.UglifyJsPlugin()
+        new UglifyJSPlugin()
     ]);
 }
 
