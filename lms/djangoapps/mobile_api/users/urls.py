@@ -17,7 +17,7 @@ urlpatterns = patterns(
     url('^{}/course_status_info/{}'.format(settings.USERNAME_PATTERN, settings.COURSE_ID_PATTERN),
         UserCourseStatus.as_view(),
         name='user-course-status'),
-    AMAT customization
+    # AMAT customization
     url(
         '^' + settings.USERNAME_PATTERN + '/course_enrollments_vr_hc/$',
         UserHardcodedVRCourseEnrollmentsList.as_view(),
