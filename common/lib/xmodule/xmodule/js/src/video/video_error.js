@@ -49,7 +49,8 @@ $(document).ready(function () {
     var errorDiv = target.siblings('.video-load-error')
     var transcriptDiv = target.siblings('.subtitles')
     var downloadDiv = target.parent().siblings('.wrapper-downloads')
-    if (errorDiv.length > 0) {
+    var isAdventureXblock = target.parents('div[data-init="AdventureBlock"]').length > 0
+    if (errorDiv.length > 0 && !isAdventureXblock) {
       target.hide()
       transcriptDiv.hide()
       downloadDiv.hide()
@@ -61,8 +62,10 @@ $(document).ready(function () {
       setTimeout(hide_all_transcripts, 5000)
     }
 
-    var error = 'VideoLoadingError: An error occured for user while loading the video file.'
-    $.post('/report_error/', { error: error })
+    if (!isAdventureXblock) {
+      var error = 'VideoLoadingError: An error occured for user while loading the video file.'
+      $.post('/report_error/', {error: error})
+    }
   }
 
   var displayAll = function () {
@@ -76,7 +79,8 @@ $(document).ready(function () {
     var errorDiv = target.siblings('.video-load-error')
     var transcriptDiv = target.siblings('.subtitles')
     var downloadDiv = target.parent().siblings('.wrapper-downloads')
-    if (errorDiv.length > 0) {
+    var isAdventureXblock = target.parents('div[data-init="AdventureBlock"]').length > 0
+    if (errorDiv.length > 0 && !isAdventureXblock) {
       target.hide()
       transcriptDiv.hide()
       downloadDiv.hide()

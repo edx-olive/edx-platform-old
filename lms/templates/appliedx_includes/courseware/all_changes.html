@@ -35,15 +35,17 @@ if($.browser.chrome === undefined){
          return (parseInt(videoURL.split("?Expires=")[1].split("&")[0])<parseInt(new Date().getTime()/1000 - 10))
     }
     reloadVideoURL = function(player, originalURL){
-        $.ajax({
-            url: "/sign_url?url="+originalURL,
-            success: function(result){
-                $(player).attr("src", result.url;
+        if (player.parents('div[data-init="AdventureBlock"]').length == 0) {
+          $.ajax({
+            url: "/sign_url?url=" + originalURL,
+            success: function (result) {
+              $(player).attr("src", result.url);
             },
-            error: function(result){
-                $(player).attr("src", result.url);
+            error: function (result) {
+              $(player).attr("src", result.url);
             }
-        });
+          });
+        }
     }
     resetButtons = function(){
         if(isVideoURLExpired()){
