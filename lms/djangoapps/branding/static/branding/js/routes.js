@@ -7,7 +7,7 @@ const routes = [
         'context': {'noPopup': false}
     },
     {
-        'path': '/pathway/',
+        'path': 'http://pathway/',
         'title': 'My Pathway',
         'inMenu': true,
     },

@@ -3,7 +3,7 @@ const navcards = [
         title: 'My Pathway',
         image: 'Test',
         description: 'Select your role and courses so you can begin your 40 hours of learning.',
-        link: '/pathway',
+        link: 'http://pathway',
         name: 'Pathway',
     },
     {
