@@ -13,18 +13,20 @@ $(document).ready(function () {
       setTimeout(function () {
         var videos = document.querySelectorAll('video')
         videos.forEach(function (video) {
-          var sources = video.querySelectorAll('source')
-          sources.forEach(function (source) {
-            source = $(source)
-            if (!source.hasClass('err-listened')) {
-              source.on('error', displayError)
-              source.addClass('err-listened')
+          if (!$(video).parents('.image-explorer-hotspot').length) {
+            var sources = video.querySelectorAll('source')
+            sources.forEach(function (source) {
+              source = $(source)
+              if (!source.hasClass('err-listened')) {
+                source.on('error', displayError)
+                source.addClass('err-listened')
+              }
+            })
+            video = $(video)
+            if (!video.hasClass('err-listened')) {
+              video.on('error', displayError)
+              video.addClass('err-listened')
             }
-          })
-          video = $(video)
-          if (!video.hasClass('err-listened')) {
-            video.on('error', displayError)
-            video.addClass('err-listened')
           }
         })
       }, 100)
