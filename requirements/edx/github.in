@@ -100,3 +100,6 @@ git+https://github.com/open-craft/xblock-poll@da2d8fd21791a7af128595cf82bee83ee5
 git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.2.10#egg=xblock-drag-and-drop-v2==2.2.10
 git+https://github.com/django-compressor/django-appconf@1526a842ee084b791aa66c931b3822091a442853#egg=django-appconf
 -e git+https://github.com/raccoongang/edx_xblock_scorm.git@v1.1.0#egg=xblock-scorm==1.1.0
+
+# Raccoongang Edx Examus Proctoring
+git+ssh://@gitlab.raccoongang.com/rg-developers/edx-examus-proctoring.git@juniper-v1.0.0#egg=edx-examus-proctoring==1.0.0
