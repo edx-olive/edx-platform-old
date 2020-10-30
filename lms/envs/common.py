@@ -2620,7 +2620,7 @@ MKTG_URL_LINK_MAP = {
     'SITEMAP.XML': 'sitemap_xml',
 
     # Verified Certificates
-    'WHAT_IS_VERIFIED_CERT': 'verified-certificate',
+    'WHAT_IS_VERIFIED_CERT': 'https://www.edx.org/verified-certificate',
 }
 
 STATIC_TEMPLATE_VIEW_DEFAULT_FILE_EXTENSION = 'html'
