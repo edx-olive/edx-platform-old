@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const MenuListItem = (props) => {
     const {path, pathname, title, args} = props;
-    const isActive = (path === '/' && pathname === path) ||
+    const isActive = (path === '/home' && pathname === path) ||
         (pathname.startsWith(path) && path !== '/') ||
         (pathname.startsWith('/manager/') && title === 'Dashboard');
 

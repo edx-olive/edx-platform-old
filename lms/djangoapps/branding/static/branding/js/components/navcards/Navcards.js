@@ -3,14 +3,20 @@ import PropTypes from 'prop-types';
 
 
 const NavCardsListItem = (props) => {
-    return <div className="NavCardsListItem">
-        <div className="NavCardsListItemTitle">{props.title}</div>
-        <div className="NavCardsListItemImage">{props.image}</div>
-        <div className="NavCardsListItemDescription">{props.description}</div>
-        <div className="NavCardsListItemLinkHolder">
-            <a href={props.link} className="NavCardsListItemLink">Go to {props.name}</a>
-        </div>
-    </div>
+    return ( 
+        <li className="NavCardsListItem">
+            <h2 className="NavCardsListItemTitle">{props.title}</h2>
+            <div className="NavCardsListItemImage">
+                <img src={props.image} />
+            </div>
+            <div className="NavCardsListItemDescription">
+                <p>{props.description}</p>
+            </div>
+            <div className="NavCardsListItemLinkHolder">
+                <a href={props.link} className="NavCardsListItemLink">Go to {props.name}</a>
+            </div>
+        </li>
+    );
 }
 
 const NavCardsList = (props) => (

@@ -13,31 +13,31 @@ const footerLinks = {
         name: 'About appliedx',
         links: [
             {
-                name: 'ONDEMAND',
+                name: 'OnDemand',
                 url: 'https://team.amat.com/sites/appliedx/SitePages/appliedx-ON-DEMAND.aspx',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'PATHWAY',
-                url: 'http://pathway/',
+                name: 'Pathway',
+                url: 'https://courses/pathway',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'CLASSROOM',
+                name: 'Classroom',
                 url: 'https://team.amat.com/sites/CorpEngrappliedxClassroom',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'CONNECT',
+                name: 'Connect',
                 url: 'https://team.amat.com/sites/CorpEngrappliedxCONNECT',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'IMMERSIVE TECH',
+                name: 'Immersive Tech',
                 url: 'https://team.amat.com/sites/amaa/coevr/SitePages/Home.aspx',
                 args: defaultArgs,
                 context: {}
@@ -68,7 +68,7 @@ const footerLinks = {
         ]
     },
     section3: {
-        name: 'Help desk',
+        name: 'Help',
         links: [
             {
                 name: 'Open a ticket',

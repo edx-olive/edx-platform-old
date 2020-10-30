@@ -80,7 +80,7 @@ class Header extends React.Component {
                     </div>
                     <MenuList items={routes} isOpen={this.state.isMenuOpened} pathname={pathname}/>
                     <UserPanel/>
-                    <div className="Opener-Holder" onClick={this.toggleMenu}>
+                    <div className="Opener-Holder">
                         <span className="Opener" onClick={this.toggleMenu}/>
                     </div>
                 </div>
