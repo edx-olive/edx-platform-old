@@ -5,7 +5,6 @@ import Footer from './Footer';
 import Header from './Header';
 import Navcards from '../components/navcards/Navcards';
 
-const logoImg = "/static/edx-theme/images/logo.png";
 
 export class Homepage extends React.Component {
     constructor(props) {
@@ -24,9 +23,9 @@ export class Homepage extends React.Component {
                             <a href="/dashboard">Click here</a>
                         </div>
                         <div className="Big-Logo-Img">
-                            <img src={logoImg} alt="appliedx"/>
+                            <img src={this.props.amatLogo} alt="appliedx"/>
                         </div>
-                        <Navcards items={navcards}></Navcards>
+                        <Navcards items={navcards} navcardsImgs={this.props.navcardsImgs}></Navcards>
                     </div>
                 </div>
                 <Footer/>
