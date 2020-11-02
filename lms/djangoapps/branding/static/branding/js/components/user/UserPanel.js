@@ -66,7 +66,6 @@ class UserPanel extends Component {
                         </div>
                     </div>
                     <div className={this.state.userActive ? "User User_active" : "User"} ref={(el) => {this.userPanel = el;}}>
-                        <span className="User-Name" onClick={this.toggleActive}>Test Name</span>
                         <div className="User-AvatarHolder" onClick={this.toggleActive}>
                             <span className="User-Tips">My Roles</span>
                             <img className="User-Avatar" src={avatarImg} alt="Test ava"/>
@@ -83,9 +82,8 @@ class UserPanel extends Component {
                                 ))}
                             </div>
                         </div>
+                    </div>
                 </div>
-            </div>
-
             </div>
         );
     }
