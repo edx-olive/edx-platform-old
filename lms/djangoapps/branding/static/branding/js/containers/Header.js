@@ -6,8 +6,6 @@ import routes from '../routes'
 
 import PropTypes from 'prop-types';
 
-// import logoImg from '../images/amat_logo.svg';
-const logoImg = "/static/edx-theme/images/logo.png";
 
 class Header extends React.Component {
 
@@ -75,7 +73,7 @@ class Header extends React.Component {
                 <div className="Header-Wrapper">
                     <div className="Logo-Wrapper">
                         <a href="/home" {...logoLinkAttrs}>
-                            <img className="Logo-Img" src={logoImg} alt="appliedx"/>
+                            <img className="Logo-Img" src={this.props.logoImg} alt="appliedx"/>
                         </a>
                     </div>
                     <MenuList items={routes} isOpen={this.state.isMenuOpened} pathname={pathname}/>

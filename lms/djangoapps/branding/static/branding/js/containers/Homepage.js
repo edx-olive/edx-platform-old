@@ -13,7 +13,7 @@ export class Homepage extends React.Component {
     render() {
         return (
             <div>
-                <Header pathname='/home'></Header>
+                <Header pathname='/home' logoImg={this.props.amatLogo}></Header>
                 <div className="MainHolder">
                     <div className="MainHolderWrapper">
                         <div className="OnDemandDash">
