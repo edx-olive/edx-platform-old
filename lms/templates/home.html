@@ -6,5 +6,12 @@
 ${static.renderReact(
   component="Homepage",
   id="home-page-root",
-  props={}
+  props={
+    "amatLogo": "/static/"+settings.DEFAULT_SITE_THEME+"/images/logo.png",
+    "navcardsImgs": [
+      "/static/"+settings.DEFAULT_SITE_THEME+"/images/nav-cards-1.png",
+      "/static/"+settings.DEFAULT_SITE_THEME+"/images/nav-cards-2.png",
+      "/static/"+settings.DEFAULT_SITE_THEME+"/images/nav-cards-3.png"
+    ]
+  }
 )}

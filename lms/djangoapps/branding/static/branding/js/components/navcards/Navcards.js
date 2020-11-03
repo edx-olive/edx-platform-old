@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 
 const NavCardsListItem = (props) => {
-    return ( 
+    return (
         <li className="NavCardsListItem">
             <h2 className="NavCardsListItemTitle">{props.title}</h2>
             <div className="NavCardsListItemImage">
@@ -22,7 +22,7 @@ const NavCardsListItem = (props) => {
 const NavCardsList = (props) => (
     <ul className="NavCardsList">
         {props.items.map((item, index) => {
-            return <NavCardsListItem key={index} {...item}/>;
+            return <NavCardsListItem key={index} image={props.navcardsImgs[index]} {...item}/>;
         })}
     </ul>
 );
