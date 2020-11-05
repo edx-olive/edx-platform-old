@@ -5,7 +5,6 @@ import Footer from './Footer';
 import Header from './Header';
 import Navcards from '../components/navcards/Navcards';
 
-const logoImg = "/static/edx-theme/images/logo.png";
 
 export class Homepage extends React.Component {
     constructor(props) {
@@ -14,17 +13,22 @@ export class Homepage extends React.Component {
     render() {
         return (
             <div>
-                <Header pathname='/'></Header>
+                <Header pathname='/home' logoImg={this.props.amatLogo}></Header>
                 <div className="MainHolder">
-                    <div className="OnDemandDash">
-                        <p>
-                            Looking for ON DEMAND Dashboard? <a href="/dashboard">Click here</a>
-                        </p>
+                    <div className="MainHolderWrapper">
+                        <div className="OnDemandDash">
+                            <p>
+                                Looking for ON DEMAND Dashboard?
+                            </p>
+                            <a href="/dashboard">Click here</a>
+                        </div>
+                        <div className="Big-Logo-Img">
+                            <img src={this.props.amatLogo} alt="appliedx"/>
+                        </div>
+                        <Navcards items={navcards} navcardsImgs={this.props.navcardsImgs}></Navcards>
                     </div>
-                    <img className="Big-Logo-Img" src={logoImg} alt="appliedx"/>
-                    <Navcards items={navcards}></Navcards>
                 </div>
-                <Footer></Footer>
+                <Footer/>
             </div>
         );
     }

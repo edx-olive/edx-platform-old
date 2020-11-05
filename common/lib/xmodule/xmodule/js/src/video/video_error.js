@@ -13,18 +13,20 @@ $(document).ready(function () {
       setTimeout(function () {
         var videos = document.querySelectorAll('video')
         videos.forEach(function (video) {
-          var sources = video.querySelectorAll('source')
-          sources.forEach(function (source) {
-            source = $(source)
-            if (!source.hasClass('err-listened')) {
-              source.on('error', displayError)
-              source.addClass('err-listened')
+          if (!$(video).parents('.image-explorer-hotspot').length) {
+            var sources = video.querySelectorAll('source')
+            sources.forEach(function (source) {
+              source = $(source)
+              if (!source.hasClass('err-listened')) {
+                source.on('error', displayError)
+                source.addClass('err-listened')
+              }
+            })
+            video = $(video)
+            if (!video.hasClass('err-listened')) {
+              video.on('error', displayError)
+              video.addClass('err-listened')
             }
-          })
-          video = $(video)
-          if (!video.hasClass('err-listened')) {
-            video.on('error', displayError)
-            video.addClass('err-listened')
           }
         })
       }, 100)
@@ -49,7 +51,8 @@ $(document).ready(function () {
     var errorDiv = target.siblings('.video-load-error')
     var transcriptDiv = target.siblings('.subtitles')
     var downloadDiv = target.parent().siblings('.wrapper-downloads')
-    if (errorDiv.length > 0) {
+    var isAdventureXblock = target.parents('div[data-init="AdventureBlock"]').length > 0
+    if (errorDiv.length > 0 && !isAdventureXblock) {
       target.hide()
       transcriptDiv.hide()
       downloadDiv.hide()
@@ -61,8 +64,10 @@ $(document).ready(function () {
       setTimeout(hide_all_transcripts, 5000)
     }
 
-    var error = 'VideoLoadingError: An error occured for user while loading the video file.'
-    $.post('/report_error/', { error: error })
+    if (!isAdventureXblock) {
+      var error = 'VideoLoadingError: An error occured for user while loading the video file.'
+      $.post('/report_error/', {error: error})
+    }
   }
 
   var displayAll = function () {
@@ -76,7 +81,8 @@ $(document).ready(function () {
     var errorDiv = target.siblings('.video-load-error')
     var transcriptDiv = target.siblings('.subtitles')
     var downloadDiv = target.parent().siblings('.wrapper-downloads')
-    if (errorDiv.length > 0) {
+    var isAdventureXblock = target.parents('div[data-init="AdventureBlock"]').length > 0
+    if (errorDiv.length > 0 && !isAdventureXblock) {
       target.hide()
       transcriptDiv.hide()
       downloadDiv.hide()

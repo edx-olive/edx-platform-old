@@ -40,6 +40,8 @@ from openedx.core.djangolib.js_utils import (
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="path_prefix" content="${EDX_ROOT_URL}">
 
+    <!-- commons webpack bundle needed for other webpack entries -->
+    <%static:webpack entry="commons"/>
     <%static:css group='style-vendor'/>
     <%static:css group='style-vendor-tinymce-content'/>
     <%static:css group='style-vendor-tinymce-skin'/>
