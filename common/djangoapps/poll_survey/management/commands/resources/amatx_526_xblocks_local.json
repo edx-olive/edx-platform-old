@@ -1,0 +1,183 @@
+[
+  {
+    "type": "course_quality_survey",
+    "block_id": "5f285be385044b89b6a7007c79409188",
+    "org": "PDE1",
+    "run": "Anytime",
+    "course": "217",
+    "block_name": "Based on the following elements/topics, Please rate the overall experience of this course:",
+    "block_type": "survey",
+    "questions": [
+      [
+        "5",
+        {
+          "label": "Effectively organized content",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "6",
+        {
+          "label": "Provides deeper insights of the Subject",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "7",
+        {
+          "label": "Effective Video materials",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "8",
+        {
+          "label": "Appropriate Quizzes based on the course content",
+          "img": null,
+          "img_alt": null
+        }
+      ]
+    ],
+    "answers": [
+      ["11", "Strongly disagree"],
+      ["12", "Disagree"],
+      ["13", "Neither"],
+      ["14", "Agree"],
+      ["15", "Strongly Agree"]
+    ]
+  },
+
+  {
+    "type": "pre_course_survey",
+    "block_id": "3f5b0f75210f4bd6929c8fd8d5fedea9",
+    "org": "PDE1",
+    "run": "Anytime",
+    "course": "217",
+    "block_name": "Before you start the course, please rate your level of ability/knowledge on the following topics:",
+    "block_type": "survey",
+    "questions": [
+      [
+        "2",
+        {
+          "label": "Explain the need and importance of validation",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "3",
+        {
+          "label": "Identify minimum viable product through testing value tradeoffs",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "7",
+        {
+          "label": "Effective Video materials",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "4",
+        {
+          "label": "Describe validation product roadmap",
+          "img": null,
+          "img_alt": null
+        }
+      ]
+    ],
+    "answers": [
+      ["6", "Not at All"],
+      ["7", "Very little"],
+      ["8", "Neutral"],
+      ["9", "Moderate"],
+      ["10", "Very Much"]
+    ]
+  },
+
+  {
+    "type": "post_course_survey",
+    "block_id": "1bfa5b55ea3d40a0a714887263a9cebd",
+    "org": "PDE1",
+    "run": "Anytime",
+    "course": "217",
+    "block_name": "After the course, please rate your level of ability/knowledge on the following topics:",
+    "block_type": "survey",
+    "questions": [
+      [
+        "2",
+        {
+          "label": "Explain the need and importance of validation",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "3",
+        {
+          "label": "Identify minimum viable product through testing value tradeoffs",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "7",
+        {
+          "label": "Effective Video materials",
+          "img": null,
+          "img_alt": null
+        }
+      ],
+      [
+        "4",
+        {
+          "label": "Describe validation product roadmap",
+          "img": null,
+          "img_alt": null
+        }
+      ]
+    ],
+    "answers": [
+      ["6", "Not at All"],
+      ["7", "Very little"],
+      ["8", "Neutral"],
+      ["9", "Moderate"],
+      ["10", "Very Much"]
+    ]
+  },
+
+  {
+    "type": "rating_poll",
+    "block_id": "1079e2d120094c07bfc7635afdcc2c36",
+    "org": "PDE1",
+    "run": "Anytime",
+    "course": "217",
+    "block_name": "Course Rating",
+    "block_type": "survey",
+    "questions": [
+        [
+        "1",
+        {
+          "label": "How would you rate the overall effectiveness of this course on a scale of 1-5, (where 5 being very good )?",
+          "img": null,
+          "img_alt": null
+        }
+      ]
+
+    ],
+    "answers": [
+      ["1", "1"],
+      ["2", "2"],
+      ["3", "3"],
+      ["4", "4"],
+      ["5", "5"]
+    ]
+  }
+
+]
