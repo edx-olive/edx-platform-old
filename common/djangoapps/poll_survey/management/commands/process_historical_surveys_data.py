@@ -191,6 +191,8 @@ class Command(BaseCommand):
                             # won't be found, and their submissions won't be affected.
                             print("A question or an answer must have been removed from the xblock. "
                                   "Won't persist the submission.")
+
+                processed_subs_counter += 1                
                 print("Processed {!s} survey xblock submissions (submissions entries) out of {!s}.".format(
                     processed_subs_counter,
                     subs_count
