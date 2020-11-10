@@ -3,32 +3,44 @@ import React from 'react';
 import navcards from '../constants';
 import Footer from './Footer';
 import Header from './Header';
+import ManagerDashboard from '../pages/ManagerDashboard';
 import Navcards from '../components/navcards/Navcards';
+import { UserProfileProvider } from '../context/UserProfile'
+import { APIDataProvider } from '../context/APIContext'
 
 
 export class Homepage extends React.Component {
     constructor(props) {
         super(props);
     };
+
     render() {
+
         return (
             <div>
-                <Header pathname='/home' logoImg={this.props.amatLogo}></Header>
-                <div className="MainHolder">
-                    <div className="MainHolderWrapper">
-                        <div className="OnDemandDash">
-                            <p>
-                                Looking for ON DEMAND Dashboard?
-                            </p>
-                            <a href="/dashboard">Click here</a>
+                <APIDataProvider baseAPIUrl={this.props.baseAPIUrl} awsSettings={this.props.awsSettings} userId={this.props.userId}>
+                    <UserProfileProvider>
+                        <Header pathname='/home' logoImg={this.props.amatLogo}></Header>
+                        <div className="MainHolder">
+                            <div className="MainHolderWrapper">
+                                <div className="OnDemandDash">
+                                    <p>
+                                        Looking for ON DEMAND Dashboard?
+                                    </p>
+                                    <a href="/dashboard">Click here</a>
+                                </div>
+                                <div className="Big-Logo-Img">
+                                    <img src={this.props.amatLogo} alt="appliedx"/>
+                                </div>
+                                <div className="Mainwrapper Mainwrapper_dashboard">
+                                    <ManagerDashboard />
+                                </div>
+                                <Navcards items={navcards} navcardsImgs={this.props.navcardsImgs}></Navcards>
+                            </div>
                         </div>
-                        <div className="Big-Logo-Img">
-                            <img src={this.props.amatLogo} alt="appliedx"/>
-                        </div>
-                        <Navcards items={navcards} navcardsImgs={this.props.navcardsImgs}></Navcards>
-                    </div>
-                </div>
-                <Footer/>
+                        <Footer/>
+                    </UserProfileProvider>
+                </APIDataProvider>
             </div>
         );
     }

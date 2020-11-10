@@ -15,6 +15,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 import branding.api as branding_api
+from branding.utils import get_employee_id
 import courseware.views.views
 import student.views
 from edxmako.shortcuts import marketing_link, render_to_response
@@ -31,7 +32,20 @@ def home(request):
     """
     AMATX react-based home page view
     """
-    return render_to_response("home.html")
+    context = {}
+    aws_settings = settings.FEATURES.get("CATALOG_AWS_SETTINGS", {})
+    aws_credentials = aws_settings.get("CREDENTIALS", {})
+    context["employee_id"] = get_employee_id(request.user) if request.user.is_authenticated() else None
+    context["base_api_url"] = aws_settings.get("BASE_API_URL", "")
+    context["catalog_aws_settings"] = {
+        "credentials": {
+            "accessKeyId": aws_credentials.get("AWS_ACCESS_KEY_ID"),
+            "secretAccessKey": aws_credentials.get("AWS_SECRET_ACCESS_KEY"),
+            "sessionToken": aws_credentials.get("AWS_SESSION_TOKEN")
+        },
+        "region": aws_settings.get("REGION", {})
+    }
+    return render_to_response("home.html", context)
 
 @login_required
 @ensure_csrf_cookie
