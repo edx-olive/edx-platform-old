@@ -48,7 +48,7 @@ from poll_survey.models import (
 
 
 # Configs for our particular case
-PRE_COURSE_SURVEY_QUESTIONS_LOW = POST_COURSE_SURVEY_QUESTIONS_LOW= [
+PRE_COURSE_SURVEY_QUESTIONS_LOW = POST_COURSE_SURVEY_QUESTIONS_LOW = [
     "Explain the need and importance of validation".strip().lower(),
     "Identify minimum viable product through testing value tradeoffs".strip().lower(),
     "Describe validation product roadmap".strip().lower(),
