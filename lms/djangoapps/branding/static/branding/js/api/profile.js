@@ -64,7 +64,7 @@ const patchAWSSign = (url, awsSettings, params = {}) => {
         params.headers = signedRequest.headers;
         url = signedRequest.url;
     } else {
-        reloadRequired();
+        console.error("An error happened signing url " + url);
     }
     return { url, params };
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import navcards from '../constants';
 import Footer from './Footer';
 import Header from './Header';
+import ManagerDashboard from '../pages/ManagerDashboard';
 import Navcards from '../components/navcards/Navcards';
 import { UserProfileProvider } from '../context/UserProfile'
 import { APIDataProvider } from '../context/APIContext'
@@ -30,6 +31,9 @@ export class Homepage extends React.Component {
                                 </div>
                                 <div className="Big-Logo-Img">
                                     <img src={this.props.amatLogo} alt="appliedx"/>
+                                </div>
+                                <div className="Mainwrapper Mainwrapper_dashboard">
+                                    <ManagerDashboard />
                                 </div>
                                 <Navcards items={navcards} navcardsImgs={this.props.navcardsImgs}></Navcards>
                             </div>
