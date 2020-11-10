@@ -1,5 +1,9 @@
 """Convenient functionality for `poll_survey` management commands."""
 
+import os
+import json
+
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from xmodule.modulestore.django import modulestore
@@ -107,6 +111,81 @@ def fetch_xblock(module_state_key):
         xblock = store.get_item(module_state_key)
         print("XBlock component has been found: {!s}.".format(module_state_key))
     except ItemNotFoundError:
+        # If xblock is not found, we won't persist its submissions
+        # since there is no available questions/answers text
+        # to recognize particular surveys.
+        print("XBlock {!s} must have been removed from the courseware. "
+              "Won't persist its submissions.".format(module_state_key))
+    return xblock
+
+
+class HardcodedSurveyXblock(object):
+    """
+    Hardcoded survey/poll xBlock data.
+
+    Support a specific case AMATX-526.
+    """
+    def __init__(self, block_id, answers, block_name, questions=None, question=None):
+        self.block_id = block_id  # Added for information
+        self.answers = answers
+        self.block_name = block_name  # XBlock title
+        self.questions = questions  # Surveys
+        self.question = question # Rating poll
+
+
+def fetch_hardcoded_xblock(module_state_key):
+    """
+    Fetch an xblock from hardcoded data.
+
+    Support a specific case AMATX-526.
+
+    Survey questions and answers  should be hardcoded like real xblock's
+    (`xblock.internal.SurveyBlockWithMixins` obj):
+    ```
+    (Pdb) xblock.answers
+    [[u'8', u'aaaaaa'], [u'9', u'aaaa2']]
+    (Pdb) xblock.questions
+    [[u'6', {u'img': u'', u'img_alt': u'', u'label': u'qqqqq'}],]
+    ```
+    """
+    xblock = None
+
+    # Open and process the file for every xblock component, for the sake of code simplicity.
+    # We don't have a lot of data anyway.
+    with open(os.path.join(
+        settings.COMMON_ROOT,
+        # Hardcoded xblock structures and definitions taken from the DEV modulestore dump
+        "djangoapps/poll_survey/management/commands/resources/amatx_526_xblocks_dev.json"
+    )) as f:
+        surveys = json.load(f)
+        for survey in surveys:
+            # Stored in modulestore.structures
+            org = survey.get("org", "PDE1")
+            run = survey.get("run", "Anytime")
+            course = survey.get("course", "217")
+            block_id = survey.get("block_id")
+            questions = survey.get("questions")
+            answers = survey.get("answers")
+            # Stored in modulestore.definitions
+            block_name = survey.get("block_name")
+
+            if (
+                block_id == module_state_key.html_id()
+                and course == module_state_key.course
+                and org == module_state_key.org
+                and run == module_state_key.run
+            ):
+                xblock = HardcodedSurveyXblock(
+                    block_id=block_id,
+                    answers=answers,
+                    block_name=block_name,
+                    questions=questions,
+                )
+                break
+
+    if xblock:
+        print("XBlock component has been found: {!s}.".format(module_state_key))
+    else:
         # If xblock is not found, we won't persist its submissions
         # since there is no available questions/answers text
         # to recognize particular surveys.
