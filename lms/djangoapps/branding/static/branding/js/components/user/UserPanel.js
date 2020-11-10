@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { UserProfileContext } from '../../context/UserProfile';
 
 
 const avatarImg = "https://s3-us-west-2.amazonaws.com/pathway-frontend-assets/placeholder.png";
@@ -54,36 +55,40 @@ class UserPanel extends Component {
     render() {
         return (
             <div className="UserPanel">
-                <div className="UserPanel-Tools">
-                    <div className="NotificationIcon-Holder">
-                        <div className="NotificationIconHolder">
-                            <svg className="Icon" viewBox="0 0 24 24">
-                                <svg viewBox="0 0 24 24" id="notifications">
-                                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path>
+                <UserProfileContext.Consumer>
+                    {({profile}) =>
+                    <div className="UserPanel-Tools">
+                        <div className="NotificationIcon-Holder">
+                            <div className="NotificationIconHolder">
+                                <svg className="Icon" viewBox="0 0 24 24">
+                                    <svg viewBox="0 0 24 24" id="notifications">
+                                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path>
+                                    </svg>
                                 </svg>
-                            </svg>
-                            <span className="NotificationsCounter">1</span>
+                                <span className="NotificationsCounter">1</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className={this.state.userActive ? "User User_active" : "User"} ref={(el) => {this.userPanel = el;}}>
-                        <div className="User-AvatarHolder" onClick={this.toggleActive}>
-                            <span className="User-Tips">My Roles</span>
-                            <img className="User-Avatar" src={avatarImg} alt="Test ava"/>
-                        </div>
-                        <div className="User-Box">
-                            <div className="User-Wrapper">
-                                {LINKS.map((item, idx) => (
-                                    <div className="User-Item" key={idx}>
-                                        <p className="User-Text">
-                                            <a href={item.url} {...item.args}>{item.name}</a>
-                                        </p>
-                                        {item.extraItem}
-                                    </div>
-                                ))}
+                        <div className={this.state.userActive ? "User User_active" : "User"} ref={(el) => {this.userPanel = el;}}>
+                            <div className="User-AvatarHolder" onClick={this.toggleActive}>
+                                <span className="User-Tips">My Roles</span>
+                                <img className="User-Avatar" src={profile.imgageSrc || avatarImg} alt="Test ava"/>
+                            </div>
+                            <div className="User-Box">
+                                <div className="User-Wrapper">
+                                    {LINKS.map((item, idx) => (
+                                        <div className="User-Item" key={idx}>
+                                            <p className="User-Text">
+                                                <a href={item.url} {...item.args}>{item.name}</a>
+                                            </p>
+                                            {item.extraItem}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    }
+                </UserProfileContext.Consumer>
             </div>
         );
     }
