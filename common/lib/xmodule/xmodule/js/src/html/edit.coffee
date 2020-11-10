@@ -937,42 +937,43 @@ class @HTMLEditingDescriptor
         ed.formatter.toggle('code')
     })
 
-    ed.addButton('addVideo', {
-      text : 'Add Video',
-      onclick : () ->
-        addVideoButton = $('button:contains("Add Video")')
-        addVideoButton.prop('disabled', true);
-        $('.new-button.new-video-tab').click();
-        delayedFrame = (locator, editButton) ->
-          clearInterval(interval);
-          lmsRoot = $('.new-component-item').data('lms-url')
-          ed.insertContent(
-            "<iframe
-              data-locator='#{locator}'
-              style='width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto'
-              src='#{lmsRoot}/xblock/#{locator}'>
-            </iframe>"
-          )
-          $('.metadata_edit').data('metadata')['video_locators']['value'].push(locator)
-          $(editButton).click();
-          addVideoButton.prop('disabled', false);
-        interval = setInterval(() ->
-          locator = $('.new-video').data('locator')
-          `if (typeof locator !== "undefined" && locator !== null) {
-            editButton = $("[data-usage-id='" + locator + "']").siblings(".wrapper.wrapper-component-action-header").find(".edit-button");
-            if (editButton.length){
-              delayedFrame(locator, editButton);
-            }
-          }`
-          return
-        , 200);
-    })
+    if @.element[0].classList.contains("xmodule_StaticTabDescriptor")
+      ed.addButton('addVideo', {
+        text : 'Add Video',
+        onclick : () ->
+          addVideoButton = $('button:contains("Add Video")')
+          addVideoButton.prop('disabled', true);
+          $('.new-button.new-video-tab').click();
+          delayedFrame = (locator, editButton) ->
+            clearInterval(interval);
+            lmsRoot = $('.new-component-item').data('lms-url')
+            ed.insertContent(
+              "<iframe
+                data-locator='#{locator}'
+                style='width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto'
+                src='#{lmsRoot}/xblock/#{locator}'>
+              </iframe>"
+            )
+            $('.metadata_edit').data('metadata')['video_locators']['value'].push(locator)
+            $(editButton).click();
+            addVideoButton.prop('disabled', false);
+          interval = setInterval(() ->
+            locator = $('.new-video').data('locator')
+            `if (typeof locator !== "undefined" && locator !== null) {
+              editButton = $("[data-usage-id='" + locator + "']").siblings(".wrapper.wrapper-component-action-header").find(".edit-button");
+              if (editButton.length){
+                delayedFrame(locator, editButton);
+              }
+            }`
+            return
+          , 200);
+      })
 
-    ed.addButton('editVideo', {
-      type : 'menubutton',
-      text : 'Edit Video',
-      menu: @getMenuItems(ed)
-    })
+      ed.addButton('editVideo', {
+        type : 'menubutton',
+        text : 'Edit Video',
+        menu: @getMenuItems(ed)
+      })
 
     @visualEditor = ed
 
