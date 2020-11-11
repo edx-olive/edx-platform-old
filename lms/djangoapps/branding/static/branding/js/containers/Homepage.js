@@ -22,13 +22,11 @@ export class Homepage extends React.Component {
                     <UserProfileProvider>
                         <Header pathname='/home' logoImg={this.props.amatLogo}></Header>
                         <div className="MainHolder">
+                            <div className="OnDemandDash">
+                                <p>Looking for the ON DEMAND Dashboard?</p>
+                                <a href="/dashboard">Click here</a>
+                            </div>
                             <div className="MainHolderWrapper">
-                                <div className="OnDemandDash">
-                                    <p>
-                                        Looking for ON DEMAND Dashboard?
-                                    </p>
-                                    <a href="/dashboard">Click here</a>
-                                </div>
                                 <div className="Big-Logo-Img">
                                     <img src={this.props.amatLogo} alt="appliedx"/>
                                 </div>
