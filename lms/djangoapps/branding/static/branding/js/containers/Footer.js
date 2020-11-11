@@ -10,34 +10,34 @@ const defaultArgs = {
 
 const footerLinks = {
     section1: {
-        name: 'About appliedx',
+        name: 'About appliedX',
         links: [
             {
-                name: 'OnDemand',
+                name: 'ON DEMAND',
                 url: 'https://team.amat.com/sites/appliedx/SitePages/appliedx-ON-DEMAND.aspx',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'Pathway',
+                name: 'PATHWAY',
                 url: 'https://courses/pathway',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'Classroom',
+                name: 'CLASSROOM',
                 url: 'https://team.amat.com/sites/CorpEngrappliedxClassroom',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'Connect',
+                name: 'CONNECT',
                 url: 'https://team.amat.com/sites/CorpEngrappliedxCONNECT',
                 args: defaultArgs,
                 context: {}
             },
             {
-                name: 'Immersive Tech',
+                name: 'IMMERSIVE TECH',
                 url: 'https://team.amat.com/sites/amaa/coevr/SitePages/Home.aspx',
                 args: defaultArgs,
                 context: {}
