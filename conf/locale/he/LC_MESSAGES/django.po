@@ -15236,7 +15236,7 @@ msgstr "נדרשת פעולה: הפעל את חשבון {platform_name} שלך"
 #: lms/templates/emails/remove_beta_tester_email_message.txt
 #: lms/templates/emails/unenroll_email_enrolledmessage.txt
 msgid "Dear {full_name}"
-msgstr "{full_name} יקר"
+msgstr "{full_name} שלום"
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid ""
@@ -15250,13 +15250,11 @@ msgstr ""
 #: lms/templates/emails/enroll_email_enrolledmessage.txt
 msgid "To start accessing course materials, please visit {course_url}"
 msgstr ""
-"על מנת לפתוח את הכיתה הפרטית שלך יש להתחבר אל הקורס: {course_url}"
-", ולבצע את הצעדים הבאים: \n"
+"על מנת לפתוח את הכיתה הפרטית שלך יש להתחבר אל הקורס: {course_url}, ולבצע את הצעדים הבאים: \n"
 "- לחצו על לשונית 'מנחה כיתה'.\n"
-"- הזינו את השדה 'צור את שם ה-CCX שלך' לפי הפורמט הבא: שם "
-"הקורס_שם המורה_שם - --הכיתה_שם ביה'ס_שם יישוב.\n"
+"- הזינו את השדה \"צור את שם ה-CCX שלך\" לפי הפורמט הבא: שם הקורס_שם המורה_שם - --הכיתה_שם ביה\"ס_שם יישוב.\n"
 "- לחצו על 'צור את הכיתה' פעם אחת והמתינו לפתיחתה.\n"
-"למידע נוסף, אתם מוזמנים לצפות בסרטוני ההדרכה: shorturl.at/eitM6 \n"
+"למידע נוסף, אתם מוזמנים לצפות בסרטוני ההדרכה: shorturl.at/eitM6\n"
 "\n"
 "המון בהצלחה,\n"
 "צוות קמפוסIL."
