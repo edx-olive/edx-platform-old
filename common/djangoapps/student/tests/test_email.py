@@ -5,13 +5,15 @@ import json
 import unittest
 
 import ddt
+import mock
 import six
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.core import mail
 from django.db import transaction
 from django.http import HttpResponse
-from django.test import TransactionTestCase, override_settings
+from django.test import RequestFactory, TransactionTestCase, override_settings
 from django.test.client import RequestFactory
 from django.urls import reverse
 from django.utils.html import escape
@@ -28,6 +30,7 @@ from student.models import PendingEmailChange, Registration, UserProfile
 from student.tests.factories import PendingEmailChangeFactory, UserFactory
 from student.views import (
     SETTING_CHANGE_INITIATED,
+    compose_and_send_activation_email,
     confirm_email_change,
     do_email_change_request,
     generate_activation_email_context,
@@ -199,6 +202,41 @@ class ActivationEmailTests(EmailTemplateTagMixin, CacheIsolationTestCase):
                             self.assertEqual(user.is_active, True)
                             self.assertEqual(email.called, False, msg='method should not have been called')
 
+    @with_comprehensive_theme("edx.org")
+    @mock.patch('student.tasks.send_activation_email.delay')
+    def test_compose_and_send_activation_email_with_site_and_theming(self, mock_send_activation_email):
+        """
+        Tests that correct site with theming is sent to the send_activation celery task
+        """
+        user = UserFactory()
+        Registration().register(user)
+        user_registration = Registration.objects.get(user=user)
+        site = Site.objects.get(domain='edx.org')
+
+        compose_and_send_activation_email(user, user.profile, user_registration)
+
+        arg_site_id = tuple(mock_send_activation_email.call_args.args)[1]
+        self.assertEqual(arg_site_id, site.id)
+
+    @mock.patch('student.tasks.send_activation_email.delay')
+    def test_compose_and_send_activation_email_without_site_theming(self, mock_send_activation_email):
+        """
+        Tests that default site is sent to the send_activation celery task if no theming were provided
+
+        The default Site based on the SITE_ID in the project's settings.
+        If SITE_ID isn't defined, get the site with domain matching
+        request.get_host(). As default site it takes site with id 1.
+        """
+        user = UserFactory()
+        Registration().register(user)
+        user_registration = Registration.objects.get(user=user)
+
+        compose_and_send_activation_email(user, user.profile, user_registration)
+
+        arg_site_id = tuple(mock_send_activation_email.call_args.args)[1]
+
+        self.assertEqual(arg_site_id, 1)
+
     @patch('student.views.management.compose_activation_email')
     def test_send_email_to_inactive_user(self, email):
         """
@@ -213,6 +251,21 @@ class ActivationEmailTests(EmailTemplateTagMixin, CacheIsolationTestCase):
             with patch('third_party_auth.pipeline.running', return_value=False):
                 inactive_user_view(request)
                 self.assertEqual(email.called, True, msg='method should have been called')
+
+    @patch("django.conf.settings.LMS_ROOT_URL", "https://test-domain.com")
+    def test_generate_activation_email_context(self):
+        """
+        Tests that generate activation email context is formed and returned
+        """
+        user = UserFactory()
+        Registration().register(user)
+        user_registration = Registration.objects.get(user=user)
+
+        message_context = generate_activation_email_context(user, user_registration)
+
+        self.assertEqual(message_context['lms_url'], 'https://test-domain.com')
+        self.assertEqual(message_context['name'], user.profile.name)
+        self.assertEqual(message_context['key'], user_registration.activation_key)
 
 
 @unittest.skipUnless(settings.ROOT_URLCONF == 'lms.urls', "Test only valid in LMS")
