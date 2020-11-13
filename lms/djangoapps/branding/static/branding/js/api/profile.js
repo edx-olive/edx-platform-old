@@ -77,5 +77,6 @@ export const getProfile = (baseUrl, userId, awsSettings) => {
     return_data = fetch(signedUrl.url, signedUrl.params)
         .then(checkStatus)
         .catch(raiseError)
+    return_data["isManager"] = true
     return return_data
 }
