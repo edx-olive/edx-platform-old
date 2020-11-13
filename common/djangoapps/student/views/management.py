@@ -211,7 +211,8 @@ def compose_and_send_activation_email(user, profile, user_registration=None):
     root_url = configuration_helpers.get_value('LMS_ROOT_URL', settings.LMS_ROOT_URL)
     msg = compose_activation_email(root_url, user, user_registration, route_enabled, profile.name)
 
-    send_activation_email.delay(str(msg))
+    site = theming_helpers.get_current_site() or Site.objects.get_current()
+    send_activation_email.delay(str(msg), site.id)
 
 
 @login_required
@@ -644,7 +645,7 @@ def do_email_change_request(user, new_email, activation_key=None, secondary_emai
 
     use_https = theming_helpers.get_current_request().is_secure()
 
-    site = Site.objects.get_current()
+    site = theming_helpers.get_current_site()
     message_context = get_base_template_context(site)
     message_context.update({
         'old_email': user.email,
@@ -754,7 +755,7 @@ def confirm_email_change(request, key):
                 link=reverse('contact'),
             )
 
-        site = Site.objects.get_current()
+        site = theming_helpers.get_current_site()
         message_context = get_base_template_context(site)
         message_context.update({
             'old_email': user.email,
