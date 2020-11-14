@@ -10176,6 +10176,12 @@ msgstr "ערך '{preference_value}' אינו בחירת אזור זמן חוקי
 msgid "Review the Terms of Service"
 msgstr "לקריאת תנאי השימוש"
 
+#. Translators: users agree to receive marketing e-mails
+#: openedx/core/djangoapps/user_api/views.py
+#, python-brace-format
+msgid "I agree to get marketing emails from {platform_name}"
+msgstr "אני מסכים לקבל אימיילים שיווקיים מ- {platform_name}"
+
 #: openedx/core/djangoapps/verified_track_content/models.py
 msgid "The course key for the course we would like to be auto-cohorted."
 msgstr "מפתח הקורס עבור הקורס שברצוננו להפוך לקבוצת לימוד אוטומטית."

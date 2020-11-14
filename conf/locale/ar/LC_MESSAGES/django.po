@@ -10599,6 +10599,12 @@ msgstr "يجب أن توافق على {terms_of_service} ل- {platform_name}"
 msgid "Review the Terms of Service"
 msgstr "راجع شروط الاستخدام"
 
+#. Translators: users agree to receive marketing e-mails
+#: openedx/core/djangoapps/user_api/views.py
+#, python-brace-format
+msgid "I agree to get marketing emails from {platform_name}"
+msgstr "أوافق على تلقي رسائل بريد إلكتروني تسويقية من {platform_name}"
+
 #: openedx/core/djangoapps/verified_track_content/models.py
 msgid "The course key for the course we would like to be auto-cohorted."
 msgstr "مفتاح الدورة للدورة التدريبية التي تود جعلها تشعبية بشكل تلقائي. "

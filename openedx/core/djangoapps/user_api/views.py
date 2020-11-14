@@ -178,6 +178,7 @@ class RegistrationView(APIView):
         "goals",
         "honor_code",
         "terms_of_service",
+        "allow_marketing_emails",
     ]
 
     # This end-point is available to anonymous users,
@@ -913,6 +914,30 @@ class RegistrationView(APIView):
             },
             supplementalLink=terms_link,
             supplementalText=terms_text
+        )
+
+    def _add_allow_marketing_emails_field(self, form_desc, required=False):
+        """Add a marketing emails field to a form description.
+
+        Arguments:
+            form_desc: A form description
+
+        Keyword Arguments:
+            required (bool): Whether this field is required; defaults to True
+
+        """
+
+        # Translators: users agree to receive marketing e-mails
+        label = _(u"I agree to get marketing emails from {platform_name}").format(
+            platform_name=configuration_helpers.get_value("PLATFORM_NAME", settings.PLATFORM_NAME)
+        )
+
+        form_desc.add_field(
+            "allow_marketing_emails",
+            label=label,
+            field_type="checkbox",
+            default=False,
+            required=required
         )
 
     def _apply_third_party_auth_overrides(self, request, form_desc):
