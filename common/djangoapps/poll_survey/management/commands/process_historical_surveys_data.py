@@ -1,5 +1,6 @@
 """Save historical surveys to the `poll_survey` tables."""
 
+from collections import OrderedDict
 from datetime import datetime
 import json
 from optparse import make_option
@@ -11,6 +12,7 @@ from courseware.models import StudentModule
 from poll_survey.configs import RATING_POLL_NAME, REGULAR_SURVEY_NAME, POLLS_SUBMISSIONS_MAPPING
 from poll_survey.management.commands.process_historical_polls_data import Command as PollCommand
 from poll_survey.management.commands.utils.commands_utils import (
+    fetch_hardcoded_xblock,
     fetch_xblock,
     get_comma_separated_args,
     get_employee_id,
@@ -39,6 +41,7 @@ class Command(BaseCommand):
     CHUNK_SIZE = 2000
     FROM_PK = 1L
     MEASURE = 0
+    RESTORE_REMOVED = 0
 
     args = ""
     help = "Store historical polls data in poll_survey tables"
@@ -70,7 +73,13 @@ class Command(BaseCommand):
                     dest="measure",
                     type="int",
                     default=MEASURE,
-                    help="Instruction to measure submissions processing."),
+                    help="Instruction to measure submissions processing (1 for yes, 0 for no)."),
+        make_option("--restore_removed",
+                    dest="restore_removed",
+                    type="int",
+                    default=RESTORE_REMOVED,
+                    help="Specific case : instruction to restore submissions of removed xblocks "
+                         "(1 for yes, 0 for no)."),
         make_option("--chunk_size",
                     dest="chunk_size",
                     type="int",
@@ -108,6 +117,7 @@ class Command(BaseCommand):
         from_pk = options.get("from_pk")
         submission_date_to = datetime.strptime(options.get("submission_date_to"), '%Y-%m-%d')
         measure = options.get("measure")
+        restore_removed = options.get("restore_removed")
 
         if courses_ids:
             print("Considering particular courses only: {!s}".format(courses_ids))
@@ -143,7 +153,10 @@ class Command(BaseCommand):
                                                                 courses_ids=courses_ids):
                 sub_t1 = datetime.now() if measure else 0
                 print("=============submission entry {!s}=============".format(submission_entry.id))
-                xblock = fetch_xblock(module_state_key=submission_entry.module_state_key)
+
+                get_xblock = fetch_hardcoded_xblock if restore_removed else fetch_xblock
+                xblock = get_xblock(module_state_key=submission_entry.module_state_key)
+
                 if xblock:
                     _, survey_type = self._define_survey_type(xblock)
                     print("XBlock's type is '{!s}'.".format(survey_type))
@@ -169,12 +182,17 @@ class Command(BaseCommand):
                                     survey_type=survey_type
                                 )
                             else:
+                                # If restore_removed, all non-hardcoded xblocks' entities
+                                # won't be found, and their submissions won't be affected.
                                 print("A question or an answer couldn't be persisted. "
                                       "Won't persist the submission either.")
                         else:
+                            # If restore_removed, all non-hardcoded xblocks' entities
+                            # won't be found, and their submissions won't be affected.
                             print("A question or an answer must have been removed from the xblock. "
                                   "Won't persist the submission.")
-                processed_subs_counter += 1
+
+                processed_subs_counter += 1                
                 print("Processed {!s} survey xblock submissions (submissions entries) out of {!s}.".format(
                     processed_subs_counter,
                     subs_count
@@ -216,7 +234,10 @@ class Command(BaseCommand):
                      ```
         """
         data = []
-        choices = json.loads(submission_state).get("choices")
+        # It is important to preserve the order of submissions, to be able to restore
+        # submissions' labels with questions/answers texts. This wasn't always the case:
+        # legacy submissions are stored as unordered.
+        choices = OrderedDict(json.loads(submission_state).get("choices", {}) or {})
         if choices:
             for key, value in choices.items():
                 data.append((key, value))
