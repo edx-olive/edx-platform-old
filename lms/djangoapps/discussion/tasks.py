@@ -5,6 +5,7 @@ from celery_utils.logged_task import LoggedTask
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from django.core.urlresolvers import reverse
 from edx_ace import ace
 from edx_ace.recipient import Recipient
 from edx_ace.utils import date
@@ -28,6 +29,12 @@ class ResponseNotification(BaseMessageType):
 
 @task(base=LoggedTask, routing_key=ROUTING_KEY)
 def send_ace_message(context):
+    course_root = reverse('course_root', kwargs={'course_id': context['course_id']})
+    course_url = '{}{}'.format(
+        settings.LMS_ROOT_URL,
+        course_root
+    )
+    context['course_url'] = course_url
     context['course_id'] = CourseKey.from_string(context['course_id'])
 
     if _should_send_message(context):
@@ -95,7 +102,8 @@ def _build_message_context(context):
         'comment_username': comment_author.username,
         'post_link': _get_thread_url(context),
         'comment_created_at': date.deserialize(context['comment_created_at']),
-        'thread_created_at': date.deserialize(context['thread_created_at'])
+        'thread_created_at': date.deserialize(context['thread_created_at']),
+        'course_url': context['course_url']
     })
     return message_context
 

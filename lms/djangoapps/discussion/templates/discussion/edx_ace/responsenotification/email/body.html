@@ -60,7 +60,7 @@
                         <td width="70">
                         </td>
                         <td align="right" style="text-align: {{ LANGUAGE_BIDI|yesno:"left,right" }};">
-                            <a class="login" href="https://courses.stage.campus.gov.il/dashboard" style="color: #005686;">{%  trans "Sign In" %}</a>
+                            <a class="login" href="https://courses.stage.campus.gov.il/dashboard" style="color: #005686;">{%  trans "Log In" %}</a>
                         </td>
                     </tr>
                 </table>
@@ -183,12 +183,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <!-- COPYRIGHT -->
                         <td>
-                            &copy; {% now "Y" %} {{ platform_name }}, {% trans "All rights reserved" %}.<br/>
+                            &copy; {% now "Y" %} {% trans "Campus IL staff"%}.<br/>
                             <br/>
-                            {% trans "Our mailing address is" %}:<br/>
-                            {{ contact_mailing_address }}
+                            {% trans "For other questions, please contact our support e-mail: " %}:{{ contact_mailing_address }}
                         </td>
                     </tr>
                 </table>
