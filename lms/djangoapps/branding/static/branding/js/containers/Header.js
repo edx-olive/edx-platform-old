@@ -13,7 +13,6 @@ class Header extends React.Component {
         super(props);
         this.state = {
             'isMenuOpened': false,
-
             'scrollY': 0,
             'scrollDirection': 'top',
         };

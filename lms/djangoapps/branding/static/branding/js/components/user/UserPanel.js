@@ -33,6 +33,7 @@ class UserPanel extends Component {
 
         this.toggleActive = this.toggleActive.bind(this);
         this.closeUserPanel = this.closeUserPanel.bind(this);
+        this.getUserAvatar = this.getUserAvatar.bind(this);
     }
 
     toggleActive(e) {
@@ -50,6 +51,13 @@ class UserPanel extends Component {
                 document.removeEventListener('click', this.closeUserPanel);
             });
         }
+    }
+
+    getUserAvatar(profile) {
+      if (profile) {
+        return profile.imageSrc || avatarImg
+      }
+      return avatarImg
     }
 
     render() {
@@ -71,7 +79,7 @@ class UserPanel extends Component {
                         <div className={this.state.userActive ? "User User_active" : "User"} ref={(el) => {this.userPanel = el;}}>
                             <div className="User-AvatarHolder" onClick={this.toggleActive}>
                                 <span className="User-Tips">My Roles</span>
-                                <img className="User-Avatar" src={profile.imgageSrc || avatarImg} alt="Test ava"/>
+                                <img className="User-Avatar" src={this.getUserAvatar(profile)} alt="Test ava"/>
                             </div>
                             <div className="User-Box">
                                 <div className="User-Wrapper">

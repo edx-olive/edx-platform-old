@@ -32,11 +32,13 @@ def home(request):
     """
     AMATX react-based home page view
     """
-    context = {}
     aws_settings = settings.FEATURES.get("CATALOG_AWS_SETTINGS", {})
     aws_credentials = aws_settings.get("CREDENTIALS", {})
-    context["employee_id"] = get_employee_id(request.user) if request.user.is_authenticated() else None
-    context["base_api_url"] = aws_settings.get("BASE_API_URL", "")
+    context = {
+        "employee_id": get_employee_id(request.user) if request.user.is_authenticated() else None,
+        "base_api_url": aws_settings.get("BASE_API_URL", ""),
+        "catalog_headers": aws_settings.get("CATALOG_HEADERS", {}),
+    }
     context["catalog_aws_settings"] = {
         "credentials": {
             "accessKeyId": aws_credentials.get("AWS_ACCESS_KEY_ID"),
@@ -45,6 +47,7 @@ def home(request):
         },
         "region": aws_settings.get("REGION", {})
     }
+
     return render_to_response("home.html", context)
 
 @login_required

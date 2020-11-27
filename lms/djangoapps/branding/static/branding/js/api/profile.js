@@ -25,7 +25,7 @@ function checkStatus(response) {
             : response
     } else {
         let error
-        if (response.status < 500) {
+        if (response.status < 500 || response.status !== 404) {
             error = response.json()
         } else {
             error = response.text()
@@ -69,14 +69,24 @@ const patchAWSSign = (url, awsSettings, params = {}) => {
     return { url, params };
 }
 
-export const getProfile = (baseUrl, userId, awsSettings) => {
+export const getProfile = async (baseUrl, userId, awsSettings, headers) => {
     const fullUrl = baseUrl + USER_PROFILE_URL.replace(/%USER_ID%/g, userId);
-    const signedUrl = patchAWSSign(fullUrl, awsSettings);
-    let return_data
-    // condition for pushed parameters to url in browser
-    return_data = fetch(signedUrl.url, signedUrl.params)
-        .then(checkStatus)
-        .catch(raiseError)
-    return_data["isManager"] = true
-    return return_data
+    let url
+    let params = {}
+    if ( awsSettings.credentials.secretAccessKey )  {
+        const signedUrl = patchAWSSign(fullUrl, awsSettings)
+        url = signedUrl.url
+        params = signedUrl.params
+    } else {
+        url = fullUrl
+        params.headers = headers
+    }
+    let response
+    try {
+      response = await fetch(url, params).then(checkStatus).catch(raiseError)
+    } catch(err) {
+      console.error(String(err))
+      response = {}
+    }
+    return response
 }

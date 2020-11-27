@@ -18,7 +18,9 @@ export class Homepage extends React.Component {
 
         return (
             <div>
-                <APIDataProvider baseAPIUrl={this.props.baseAPIUrl} awsSettings={this.props.awsSettings} userId={this.props.userId}>
+                <APIDataProvider
+                  baseAPIUrl={this.props.baseAPIUrl} awsSettings={this.props.awsSettings}
+                  userId={this.props.userId} reqHeaders={this.props.reqHeaders}>
                     <UserProfileProvider>
                         <Header pathname='/home' logoImg={this.props.amatLogo}></Header>
                         <div className="MainHolder">
