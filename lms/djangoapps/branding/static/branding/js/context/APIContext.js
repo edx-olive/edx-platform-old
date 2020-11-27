@@ -13,7 +13,8 @@ export class APIDataProvider extends React.Component {
         const apiContext = {
             baseUrl: this.props.baseAPIUrl,
             awsSettings: this.props.awsSettings,
-            userId: this.props.userId
+            userId: this.props.userId,
+            reqHeaders: this.props.reqHeaders
         };
         return (
             <APIDataContext.Provider value={apiContext}>

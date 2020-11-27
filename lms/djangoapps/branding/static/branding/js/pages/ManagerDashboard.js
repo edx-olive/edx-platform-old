@@ -7,8 +7,9 @@ import { UserProfileContext } from '../context/UserProfile';
 const ManagerDashboard = () => {
     return <UserProfileContext.Consumer>
         {({profile}) => {
-            if (profile && profile.isManager) {
                 return (
+                  <React.Fragment>
+                    {(profile && profile.userId && profile.isManager) &&
                     <div className="ManagerDashboard-Wrapper">
                         <div className="ManagerDashboard-Heading">
                             <h2 className="ManagerDashboard-Title">PATHWAY TEAMS OVERVIEW</h2>
@@ -17,10 +18,11 @@ const ManagerDashboard = () => {
                         <div className="ManagerDashboardLinkHolder">
                             <a href="http://courses/manager/v2" className="ManagerDashboardLink">Go to Manager Dashboard</a>
                         </div>
-                    </div>
+                    </div>}
+                  </React.Fragment>
                 );
-            }
-        }}
+        }
+      }
     </UserProfileContext.Consumer>;
 };
 

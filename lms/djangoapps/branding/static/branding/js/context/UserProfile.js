@@ -19,7 +19,10 @@ export class UserProfileProvider extends React.Component {
     async componentDidMount() {
         this.setState({'isLoading': true, didMount: true});
 
-        const profile = getProfile(this.context.baseUrl, this.context.userId, this.context.awsSettings);
+        const profile = await getProfile(
+          this.context.baseUrl, this.context.userId,
+          this.context.awsSettings, this.context.reqHeaders
+        ) || {};
         const imgData = profile.profileImage;
         if (imgData) {
             profile.imageSrc = 'data:image/png;base64,' + imgData;
