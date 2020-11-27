@@ -22,6 +22,7 @@ from django.views.decorators.http import require_GET, require_http_methods
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import Location
+from opaque_keys.edx.locator import BlockUsageLocator
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.waffle_utils import WaffleSwitchNamespace
 
@@ -47,6 +48,8 @@ from contentstore.utils import (
     reverse_usage_url
 )
 from contentstore.views.entrance_exam import create_entrance_exam, delete_entrance_exam, update_entrance_exam
+from contentstore.views.helpers import create_xblock
+from contentstore.views.item import _save_xblock, _get_xblock
 from course_action_state.managers import CourseActionStateItemNotFoundError
 from course_action_state.models import CourseRerunState, CourseRerunUIStateManager
 from course_creators.views import add_user_with_status_unrequested, get_course_creator_status
@@ -807,10 +810,35 @@ def _create_new_course(request, org, number, run, fields):
     store_for_new_course = modulestore().default_modulestore.get_modulestore_type()
     new_course = create_new_course_in_store(store_for_new_course, request.user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
+
+    tab_display_name = _('Learning on appliedx')
+    create_custom_static_page(request, new_course, display_name=tab_display_name)
+
     return JsonResponse({
         'url': reverse_course_url('course_handler', new_course.id),
         'course_key': unicode(new_course.id),
     })
+
+
+def create_custom_static_page(request, course, display_name, tab_content=""):
+    """
+    Create a static page with custom content.
+
+    NOTE: could have placed this util in cms/djangoapps/contentstore/views/common_xblock_utils.py,
+    but getting ImportError's when importing utils (looks like circular dependency).
+    """
+    parent_locator = BlockUsageLocator(course.id, 'course', 'course')
+    intro_static_page = create_xblock(
+        parent_locator=str(parent_locator),
+        user=request.user,
+        category='static_tab',
+        display_name=display_name,
+    )
+    _save_xblock(
+        request.user,
+        _get_xblock(intro_static_page.location, request.user),
+        data=tab_content,
+    )
 
 
 def create_new_course_in_store(store, user, org, number, run, fields):
