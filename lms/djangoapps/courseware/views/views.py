@@ -980,9 +980,17 @@ def _progress(request, course_key, student_id):
             for i in section.problem_scores:
                 count = count + 1
 
+    # Workaround: need to exclude sections created with `xmodule.tabs.VideoTab` entities.
+    # Note that any regular courseware chapter meeting exclusion criteria will also be excluded.
+    # Couldn't set up the exclusion in `progress.html`.
+    courseware_summary_updated = [
+        chapter for chapter in courseware_summary
+        if chapter['sections']
+    ]
+
     context = {
         'course': course,
-        'courseware_summary': courseware_summary,
+        'courseware_summary': courseware_summary_updated,
         'studio_url': studio_url,
         'grade_summary': grade_summary,
         'staff_access': staff_access,
