@@ -19,10 +19,7 @@ function raiseError(e) {
 
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
-        return isJson(response) ?
-            response.json()
-                .then(json => json, () => response) //return response if no content or can't parse json;
-            : response
+      return response.json().then(json => json, () => response)
     } else {
         let error
         if (response.status < 500 || response.status !== 404) {
@@ -81,12 +78,6 @@ export const getProfile = async (baseUrl, userId, awsSettings, headers) => {
         url = fullUrl
         params.headers = headers
     }
-    let response
-    try {
-      response = await fetch(url, params).then(checkStatus).catch(raiseError)
-    } catch(err) {
-      console.error(String(err))
-      response = {}
-    }
+    response = await fetch(url, params).then(checkStatus).catch(raiseError)
     return response
 }
