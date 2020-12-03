@@ -78,6 +78,5 @@ export const getProfile = async (baseUrl, userId, awsSettings, headers) => {
         url = fullUrl
         params.headers = headers
     }
-    response = await fetch(url, params).then(checkStatus).catch(raiseError)
-    return response
+    return await fetch(url, params).then(checkStatus).catch(raiseError)
 }
