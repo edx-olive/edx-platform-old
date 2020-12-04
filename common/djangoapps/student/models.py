@@ -210,6 +210,29 @@ class UserStanding(models.Model):
     standing_last_changed_at = models.DateTimeField(auto_now=True)
 
 
+class CharNullField(models.CharField):
+    description = "CharField that stores NULL but returns ''. It's important to set null=True blank=True"
+    __metaclass__ = models.SubfieldBase  # this ensures to_python will be called
+
+    def to_python(self, value):
+        # this is the value right out of the db, or an instance
+        # if an instance, just return the instance
+        if isinstance(value, models.CharField):
+            return value
+        if value is None:  # if the db has a NULL (None in Python)
+            return ''      # convert it into an empty string
+        else:
+            return value   # otherwise, just return the value
+
+    def get_prep_value(self, value):  # catches value right before sending to db
+        if value == '':
+            # if Django tries to save an empty string, send the db None (NULL)
+            return None
+        else:
+            # otherwise, just pass the value
+            return value
+
+
 class UserProfile(models.Model):
     """This is where we store all the user demographic fields. We have a
     separate table for this rather than extending the built-in Django auth_user.
@@ -293,7 +316,8 @@ class UserProfile(models.Model):
     profile_image_uploaded_at = models.DateTimeField(null=True, blank=True)
 
     # PingSSO employee id
-    employee_id = models.CharField(blank=True, null=True, unique=True, max_length=50)
+    # Field should be unique and nullable (support saving with blank values)
+    employee_id = CharNullField(blank=True, null=True, unique=True, max_length=50)
 
     @property
     def has_profile_image(self):
