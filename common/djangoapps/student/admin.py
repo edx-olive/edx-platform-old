@@ -201,6 +201,11 @@ class UserChangeFormExtended(UserChangeForm):
 class UserAdmin(BaseUserAdmin):
     """ Admin interface for the User model. """
     inlines = (UserProfileInline,)
+    list_display = ('username', 'email',  'employee_id', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('username', 'first_name', 'last_name', 'email', 'profile__employee_id')
+
+    def employee_id(self, obj):
+        return obj.profile.employee_id
 
     def get_readonly_fields(self, request, obj=None):
         """
