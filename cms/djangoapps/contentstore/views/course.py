@@ -107,6 +107,16 @@ __all__ = ['course_info_handler', 'course_handler', 'course_listing',
 
 WAFFLE_NAMESPACE = 'studio_home'
 
+# The data is very specific to AMAT.
+CUSTOM_VIDEO_METADATA = {
+        "html5_sources":
+            [
+                # Custom AMAT video: Gary's Welcome
+                "https://d2a8rd6kt4zb64.cloudfront.net/course-v1_Appliedx_AX001_Self-Paced/Appliedx_Gary-Promo_edit3(720p)HB2.mp4",
+            ],
+        "youtube_id_1_0": "",
+    }
+
 
 class AccessListFallback(Exception):
     """
@@ -811,8 +821,18 @@ def _create_new_course(request, org, number, run, fields):
     new_course = create_new_course_in_store(store_for_new_course, request.user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
 
-    tab_display_name = _('Learning on appliedx')
-    create_custom_static_page(request, new_course, display_name=tab_display_name)
+    # NOTE: tab content will be replaced
+    tab_content = '''
+    <p>Gary's Welcome</p>
+    <iframe
+      data-locator="{!s}"
+      src="{!s}"
+      style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
+    >
+    </iframe>
+    '''
+
+    _create_custom_static_page(request, new_course, tab_content)
 
     return JsonResponse({
         'url': reverse_course_url('course_handler', new_course.id),
@@ -820,24 +840,111 @@ def _create_new_course(request, org, number, run, fields):
     })
 
 
-def create_custom_static_page(request, course, display_name, tab_content=""):
+def get_lms_root_url(request):
+    """
+    Get a prefixed LMS root url.
+
+    Arguments:
+        request (`Request`): The Django Request object.
+
+    Returns:
+        url (str): full path to LMS w/o the trailing slash,
+            e.g. "https://example.com"
+    """
+    prefix = 'https://' if request.is_secure() else 'http://'
+    return prefix + settings.LMS_BASE
+
+
+def _create_custom_static_page(request, course, tab_content):
     """
     Create a static page with custom content.
 
-    NOTE: could have placed this util in cms/djangoapps/contentstore/views/common_xblock_utils.py,
-    but getting ImportError's when importing utils (looks like circular dependency).
+    NOTE: could have placed this util in
+    cms/djangoapps/contentstore/views/common_xblock_utils.py,
+    but getting ImportError's when importing utils
+    (looks like circular dependency).
     """
-    parent_locator = BlockUsageLocator(course.id, 'course', 'course')
+    parent_course_locator = BlockUsageLocator(course.id, 'course', 'course')
+
+    video_xblock = _create_custom_video_xblock(request, course)
+
+    data_locator = str(video_xblock.location)
+
     intro_static_page = create_xblock(
-        parent_locator=str(parent_locator),
+        parent_locator=str(parent_course_locator),
         user=request.user,
         category='static_tab',
-        display_name=display_name,
+        display_name=_('Learning on appliedx'),
     )
+
+    static_xblock = _get_xblock(intro_static_page.location, request.user)
+    static_xblock.video_locators = [data_locator]
+
+    content = _update_custom_tab_content(request, data_locator, tab_content)
+
     _save_xblock(
         request.user,
-        _get_xblock(intro_static_page.location, request.user),
-        data=tab_content,
+        static_xblock,
+        data=content,
+    )
+
+
+def _create_custom_video_xblock(request, course):
+    """
+    Create a static video component with custom content.
+    """
+    parent_course_locator = BlockUsageLocator(course.id, 'course', 'course')
+
+    video_static_page = create_xblock(
+        parent_locator=str(parent_course_locator),
+        user=request.user,
+        category='video',
+        display_name="",
+        is_video_tab=True,
+    )
+    # Make the component available on `/xblock/{usage_key}`
+    modulestore().publish(video_static_page.location, request.user.id)
+
+    # NOTE: adding metadata handling inside the `create_xblock()` util didn't work;
+    #  have to re-fetch the xblock and update it.
+    video_xblock = _get_xblock(video_static_page.location, request.user)
+
+    _save_xblock(
+        request.user,
+        video_xblock,
+        metadata=CUSTOM_VIDEO_METADATA,
+    )
+
+    return video_xblock
+
+
+def _update_custom_tab_content(request, locator, content):
+    """
+    Update a custom static tab content.
+
+    Update provided content's placeholders with iframe data loc and src.
+
+    Arguments:
+        request (`Request`): The Django Request object.
+        locator (`str`): string from the `BlockUsageLocator` obj.
+        content (str): content with 2 placeholders for iframe;
+            'data-locator' (first to go) and 'src' (second to go).
+            Example:
+            ```
+            <p>Gary's Welcome</p>
+            <iframe
+              data-locator="{!s}"
+              src="{!s}"
+              style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
+            >
+            </iframe>
+            ```
+    """
+    lms_root_url = get_lms_root_url(request)
+    src = "{!s}/xblock/{!s}".format(lms_root_url, locator)
+    return content.format(
+        locator,
+        src,
     )
 
 
