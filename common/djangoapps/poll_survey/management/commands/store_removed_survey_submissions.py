@@ -141,7 +141,6 @@ class Command(BaseCommand):
 
     MODULE_TYPE = "survey"
     CHUNK_SIZE = 2000
-    FROM_PK = 1L
     MEASURE = 0
 
     args = ""
