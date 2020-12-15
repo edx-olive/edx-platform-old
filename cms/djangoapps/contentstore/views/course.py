@@ -48,7 +48,7 @@ from contentstore.utils import (
     reverse_usage_url
 )
 from contentstore.views.entrance_exam import create_entrance_exam, delete_entrance_exam, update_entrance_exam
-from contentstore.views.helpers import create_xblock
+from contentstore.views.helpers import create_xblock, CUSTOM_VIDEO_METADATA, CUSTOM_STATIC_TAB_DISPLAY_NAME
 from contentstore.views.item import _save_xblock, _get_xblock
 from course_action_state.managers import CourseActionStateItemNotFoundError
 from course_action_state.models import CourseRerunState, CourseRerunUIStateManager
@@ -106,16 +106,6 @@ __all__ = ['course_info_handler', 'course_handler', 'course_listing',
            'group_configurations_list_handler', 'group_configurations_detail_handler']
 
 WAFFLE_NAMESPACE = 'studio_home'
-
-# The data is very specific to AMAT.
-CUSTOM_VIDEO_METADATA = {
-        "html5_sources":
-            [
-                # Custom AMAT video: Gary's Welcome
-                "https://d2a8rd6kt4zb64.cloudfront.net/course-v1_Appliedx_AX001_Self-Paced/Appliedx_Gary-Promo_edit3(720p)HB2.mp4",
-            ],
-        "youtube_id_1_0": "",
-    }
 
 
 class AccessListFallback(Exception):
@@ -855,7 +845,7 @@ def get_lms_root_url(request):
     return prefix + settings.LMS_BASE
 
 
-def _create_custom_static_page(request, course, tab_content):
+def _create_custom_static_page(request, course, tab_content, update_custom_tabs_order=False):
     """
     Create a static page with custom content.
 
@@ -874,7 +864,8 @@ def _create_custom_static_page(request, course, tab_content):
         parent_locator=str(parent_course_locator),
         user=request.user,
         category='static_tab',
-        display_name=_('Learning on appliedx'),
+        display_name=_(CUSTOM_STATIC_TAB_DISPLAY_NAME),
+        update_custom_tabs_order=update_custom_tabs_order,
     )
 
     static_xblock = _get_xblock(intro_static_page.location, request.user)

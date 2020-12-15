@@ -13,6 +13,22 @@ from contentstore.views.course import (
     CUSTOM_VIDEO_METADATA,
     get_lms_root_url,
 )
+from contentstore.views.helpers import _update_custom_tabs_order
+
+
+class DummyTab(object):
+    """
+    Mimic required static course tab functionality.
+    """
+
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self, *args, **kwargs):
+        return self
+
+    def __getitem__(self, item):
+        return getattr(self, item)
 
 
 class CustomStaticPageUtilsTest(TestCase):
@@ -170,6 +186,7 @@ class CustomStaticPageUtilsTest(TestCase):
             user=request.user,
             category='static_tab',
             display_name="Learning on appliedx",
+            update_custom_tabs_order=False,
         )
 
         update_custom_tab_content_mck.assert_called_once()
@@ -207,3 +224,49 @@ class CustomStaticPageUtilsTest(TestCase):
                 "https://example.com/xblock/loc",
             )
         )
+
+    def test_update_custom_tabs_order(self):
+        """
+        Test the util updating course tabs order.
+
+        Reordering happens per custom AMAT rules
+        (see doctring of the util under test).
+        """
+        kourse = Mock()
+        kourse.tabs = Mock()
+        custom_tab = DummyTab(name="Learning on appliedx")
+        tab1 = DummyTab(name="Discussion")
+        tab2 = DummyTab(name="Wiki")
+        tab3 = DummyTab(name="Progress")
+        tab4 = DummyTab(name="Yammer Discussion")
+        tab5 = DummyTab(name="Empty")
+
+        # Case #1: progress tab exists, a new tab is placed right after it, no remaining tabs
+        tabs = [tab1, tab2, tab3]
+        kourse.tabs = tabs
+        _update_custom_tabs_order(course=kourse, static_tab=custom_tab)
+        self.assertEqual(kourse.tabs, [tab1, tab2, tab3, custom_tab])
+
+        # Case #2: progress does not exist
+        tabs = [tab1, tab2, tab4, tab5]
+        kourse.tabs = tabs
+        _update_custom_tabs_order(course=kourse, static_tab=custom_tab)
+        self.assertEqual(kourse.tabs, tabs)
+
+        # Case #3: a tab with new tab's name already exists
+        tabs = [tab1, tab2, tab3, custom_tab]
+        kourse.tabs = tabs
+        _update_custom_tabs_order(course=kourse, static_tab=custom_tab)
+        self.assertEqual(kourse.tabs, tabs)
+
+        # Case #4: empty list of tabs passed in
+        tabs = []
+        kourse.tabs = tabs
+        _update_custom_tabs_order(course=kourse, static_tab=custom_tab)
+        self.assertEqual(kourse.tabs, tabs)
+
+        # Case #5: progress tab exists, new tab is placed right after it, remaining tabs follow
+        tabs = [tab1, tab2, tab3, tab4, tab5]
+        kourse.tabs = tabs
+        _update_custom_tabs_order(course=kourse, static_tab=custom_tab)
+        self.assertEqual(kourse.tabs, [tab1, tab2, tab3, custom_tab, tab4, tab5])
