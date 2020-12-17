@@ -7,10 +7,6 @@ cloud_provider: 'KVM'
 tenancy_type: 'single'
 region_location: ''
 
-# TODO refactor roles/nginx, remove roles/rg-nginx
-# use_raccoongang_ssl: yes
-# nginx_ssl: yes
-
 ## Enable Letsencrypt
 use_letsencrypt: no
 
@@ -22,8 +18,14 @@ use_letsencrypt: no
 #     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
 #     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
 #   - name: credentials
-#     server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
+#     server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.project_name.domain.tld') }}"
 #     nginx_port: 443
 #     nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
+#     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+#     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+#   - name: gamma
+#     server_name: "{{ GAMMA_SITE_NAME | default('gamma.project_name.domain.tld') }}"
+#     nginx_port: 443
+#     nging_proxy_pass_port: 9000
 #     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
 #     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
