@@ -3,20 +3,22 @@ Create a custom AMAT page in existing courses.
 
 """
 from __future__ import print_function
-from datetime import datetime
+
 import logging
-from optparse import make_option
 import os
-from path import Path
 import time
+from datetime import datetime
+from optparse import make_option
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
-from xmodule.modulestore.django import modulestore
-
 from cms.djangoapps.contentstore.views.course import _create_custom_static_page
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from path import Path
+from xmodule.modulestore.django import modulestore
+
+CONTENTSTORE_BASE_DIR = Path(__file__).parent.parent.parent
 
 
 class DummyRequest(object):
@@ -125,16 +127,9 @@ class Command(BaseCommand):
         """
         logging.disable(logging.CRITICAL)
 
-        # NOTE: tab content will be replaced
-        tab_content = '''
-        <p>Gary's Welcome</p>
-        <iframe
-          data-locator="{!s}"
-          src="{!s}"
-          style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
-        >
-        </iframe>
-        '''
+        tab_content = None
+        with open(CONTENTSTORE_BASE_DIR / "views/course_static_tab_content.html") as tab_content_file:
+            tab_content = tab_content_file.read()
 
         chunk_size = options.get("chunk_size")
         # `CourseOverview` has course key for PK, so we are left with slicing
@@ -188,6 +183,8 @@ class Command(BaseCommand):
                         ))
 
                     try:
+                        if not tab_content:
+                            raise ValueError("No static tab content provided.")
                         _create_custom_static_page(
                             request,
                             kourse,
