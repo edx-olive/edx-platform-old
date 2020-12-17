@@ -9,7 +9,6 @@ import string  # pylint: disable=deprecated-module
 
 import django.utils
 import six
-from ccx_keys.locator import CCXLocator
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -19,13 +18,8 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_GET, require_http_methods
-from opaque_keys import InvalidKeyError
-from opaque_keys.edx.keys import CourseKey
-from opaque_keys.edx.locations import Location
-from opaque_keys.edx.locator import BlockUsageLocator
-from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-from openedx.core.djangoapps.waffle_utils import WaffleSwitchNamespace
 
+from ccx_keys.locator import CCXLocator
 from contentstore.course_group_config import (
     COHORT_SCHEME,
     ENROLLMENT_SCHEME,
@@ -48,8 +42,8 @@ from contentstore.utils import (
     reverse_usage_url
 )
 from contentstore.views.entrance_exam import create_entrance_exam, delete_entrance_exam, update_entrance_exam
-from contentstore.views.helpers import create_xblock, CUSTOM_VIDEO_METADATA, CUSTOM_STATIC_TAB_DISPLAY_NAME
-from contentstore.views.item import _save_xblock, _get_xblock
+from contentstore.views.helpers import CUSTOM_STATIC_TAB_DISPLAY_NAME, CUSTOM_VIDEO_METADATA, create_xblock
+from contentstore.views.item import _get_xblock, _save_xblock
 from course_action_state.managers import CourseActionStateItemNotFoundError
 from course_action_state.models import CourseRerunState, CourseRerunUIStateManager
 from course_creators.views import add_user_with_status_unrequested, get_course_creator_status
@@ -57,15 +51,22 @@ from edxmako.shortcuts import render_to_response
 from models.settings.course_grading import CourseGradingModel
 from models.settings.course_metadata import CourseMetadata
 from models.settings.encoder import CourseSettingsEncoder
+from opaque_keys import InvalidKeyError
+from opaque_keys.edx.keys import CourseKey
+from opaque_keys.edx.locations import Location
+from opaque_keys.edx.locator import BlockUsageLocator
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.content.course_structures.api.v0 import api, errors
 from openedx.core.djangoapps.credit.api import get_credit_requirements, is_credit_course
 from openedx.core.djangoapps.credit.tasks import update_credit_course_requirements
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangoapps.waffle_utils import WaffleSwitchNamespace
 from openedx.core.djangolib.js_utils import dump_js_escaped_json
 from openedx.core.lib.course_tabs import CourseTabPluginManager
 from openedx.core.lib.courses import course_image_url
+from path import Path
 from student import auth
 from student.auth import has_course_author_access, has_studio_read_access, has_studio_write_access
 from student.roles import CourseCreatorRole, CourseInstructorRole, CourseStaffRole, GlobalStaff, UserBasedRole
@@ -104,6 +105,8 @@ __all__ = ['course_info_handler', 'course_handler', 'course_listing',
            'course_notifications_handler',
            'textbooks_list_handler', 'textbooks_detail_handler',
            'group_configurations_list_handler', 'group_configurations_detail_handler']
+
+BASE_DIR = Path(__file__).parent
 
 WAFFLE_NAMESPACE = 'studio_home'
 
@@ -811,16 +814,17 @@ def _create_new_course(request, org, number, run, fields):
     new_course = create_new_course_in_store(store_for_new_course, request.user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
 
-    # NOTE: tab content will be replaced
-    tab_content = '''
-    <p>Gary's Welcome</p>
-    <iframe
-      data-locator="{!s}"
-      src="{!s}"
-      style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
-    >
-    </iframe>
-    '''
+    tab_content = """
+        <p>Gary's Welcome</p>
+        <iframe
+          data-locator="{iframe_data_locator}"
+          src="{iframe_src}"
+          style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
+        >
+        </iframe>
+        """
+    with open(BASE_DIR / "course_static_tab_content.html") as tab_content_file:
+        tab_content = tab_content_file.read()
 
     _create_custom_static_page(request, new_course, tab_content)
 
@@ -924,8 +928,8 @@ def _update_custom_tab_content(request, locator, content):
             ```
             <p>Gary's Welcome</p>
             <iframe
-              data-locator="{!s}"
-              src="{!s}"
+              data-locator="{iframe_data_locator}"
+              src="{iframe_src}"
               style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
             >
             </iframe>
@@ -934,8 +938,8 @@ def _update_custom_tab_content(request, locator, content):
     lms_root_url = get_lms_root_url(request)
     src = "{!s}/xblock/{!s}".format(lms_root_url, locator)
     return content.format(
-        locator,
-        src,
+        iframe_data_locator=locator,
+        iframe_src=src,
     )
 
 
