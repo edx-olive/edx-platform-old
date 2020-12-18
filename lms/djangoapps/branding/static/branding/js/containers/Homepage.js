@@ -6,6 +6,7 @@ import Header from './Header';
 import ManagerDashboard from '../pages/ManagerDashboard';
 import Navcards from '../components/navcards/Navcards';
 import { UserProfileProvider } from '../context/UserProfile'
+import { TeamProvider } from '../context/Team'
 import { APIDataProvider } from '../context/APIContext'
 
 
@@ -22,6 +23,7 @@ export class Homepage extends React.Component {
                   baseAPIUrl={this.props.baseAPIUrl} awsSettings={this.props.awsSettings}
                   userId={this.props.userId} reqHeaders={this.props.reqHeaders}>
                     <UserProfileProvider>
+                      <TeamProvider>
                         <Header pathname='/home' logoImg={this.props.amatLogo}></Header>
                         <div className="MainHolder">
                             <div className="OnDemandDash">
@@ -39,6 +41,7 @@ export class Homepage extends React.Component {
                             </div>
                         </div>
                         <Footer/>
+                      </TeamProvider>
                     </UserProfileProvider>
                 </APIDataProvider>
             </div>

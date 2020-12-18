@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import qs from 'qs';
-import { USER_PROFILE_URL } from './urlPatterns';
-import sigV4Client from '../helpers/sigV4Client';
-
+import sigV4Client from "../helpers/sigV4Client";
 
 export function ResponseError(message, body) {
     // message: message of the response exception
@@ -12,12 +10,12 @@ export function ResponseError(message, body) {
     this.name = 'ResponseError'
 }
 
-function raiseError(e) {
+export function raiseError(e) {
     const message = e.body || 'Oops! Something\'s getting wrong'
     throw new ResponseError(message, e.body)
 }
 
-function checkStatus(response) {
+export function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
       return response.json().then(json => json, () => response)
     } else {
@@ -33,7 +31,7 @@ function checkStatus(response) {
     }
 }
 
-const patchAWSSign = (url, awsSettings, params = {}) => {
+export const patchAWSSign = (url, awsSettings, params = {}) => {
     params = _.cloneDeep(params);
 
     const headers = params.headers;
@@ -64,20 +62,4 @@ const patchAWSSign = (url, awsSettings, params = {}) => {
         console.error("An error happened signing url " + url);
     }
     return { url, params };
-}
-
-export const getProfile = async (baseUrl, userId, awsSettings, headers) => {
-    const fullUrl = baseUrl + USER_PROFILE_URL.replace(/%USER_ID%/g, userId);
-    let url
-    let params = {}
-
-    if ( awsSettings.credentials.secretAccessKey )  {
-        const signedUrl = patchAWSSign(fullUrl, awsSettings)
-        url = signedUrl.url
-        params = signedUrl.params
-    } else {
-        url = fullUrl
-        params.headers = headers
-    }
-    return await fetch(url, params).then(checkStatus).catch(raiseError)
 }
