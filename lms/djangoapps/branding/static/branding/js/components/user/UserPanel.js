@@ -14,7 +14,7 @@ const LINKS = [
     },
     {
         name: 'Help desk',
-        url: 'https://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7',
+        url: 'http://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7',
         external: true,
         args: defaultArgs,
         extraItem: <p className="User-Text"><a className="User-Link" href="#footer">About appliedx</a></p>

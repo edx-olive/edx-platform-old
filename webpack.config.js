@@ -26,6 +26,7 @@ var wpconfig = {
 
         // LMS
         Homepage: './lms/djangoapps/branding/static/branding/js/containers/Homepage.js',
+        Footer: './lms/djangoapps/branding/static/branding/js/containers/Footer.js',
 
         // Common
         commons: 'babel-polyfill',
