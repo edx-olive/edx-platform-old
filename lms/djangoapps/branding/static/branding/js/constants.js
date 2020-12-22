@@ -14,7 +14,7 @@ const navcards = [
     {
         title: 'Connect',
         description: 'Find your colleagues on Connect. Search by name, skills, and more.',
-        link: 'https://connect.amat.com/',
+        link: 'http://connect.amat.com/',
         name: 'Connect',
     }
 ];
