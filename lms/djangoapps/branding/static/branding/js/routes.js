@@ -7,7 +7,7 @@ const routes = [
         'context': {'noPopup': false}
     },
     {
-        'path': 'https://courses/pathway',
+        'path': 'http://courses/pathway',
         'title': 'My Pathway',
         'inMenu': true,
     },
@@ -17,7 +17,7 @@ const routes = [
         'inMenu': true,
     },
     {
-        'path': 'https://connect.amat.com/',
+        'path': 'http://connect.amat.com/',
         'title': 'Connect',
         'inMenu': true,
         'args': {'target': '_blank'},
