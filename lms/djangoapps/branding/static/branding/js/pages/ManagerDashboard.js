@@ -16,7 +16,7 @@ const ManagerDashboard = () => {
                         </div>
                         <TeamDashboard userId={profile.userId} />
                         <div className="ManagerDashboardLinkHolder">
-                            <a href="http://courses/manager/v2" className="ManagerDashboardLink">Go to Manager Dashboard</a>
+                            <a href="http://courses/manager/" className="ManagerDashboardLink">Go to Manager Dashboard</a>
                         </div>
                     </div>}
                   </React.Fragment>
