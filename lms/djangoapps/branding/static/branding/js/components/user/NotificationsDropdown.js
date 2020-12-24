@@ -12,10 +12,11 @@ const notificationsList = teamList => {
                     <div className="NotificationsDropdownList__body">
                         <div className="NotificationsDropdownList__name">
                             {item.employeeName}
-                            <span className="NotificationsDropdownList__action">{item.status.tooltip}</span>
                         </div>
                     </div>
-                    <div className="NotificationsDropdownList__status" />
+                    <div className="NotificationsDropdownList__status">
+                      <span className="NotificationsDropdownList__action">{item.status.tooltip}</span>
+                    </div>
                 </li>
             ))}
         </ul>
