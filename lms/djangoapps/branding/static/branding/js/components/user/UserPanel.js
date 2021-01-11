@@ -96,7 +96,7 @@ class UserPanel extends Component {
                     <div className="UserPanel-Tools">
                         <TeamContext.Consumer>
                         { ({team}) => (
-                          team &&
+                          team && profile && profile.userId && profile.isManager &&
                           <div className={this.state.NotificationsDropdownOpen ? "NotificationIcon-Holder is-open" : "NotificationIcon-Holder"} ref={node => { this.node = node; }}>
                             <div
                                 className={teamListCount(team.teamList) < 1 ? "NotificationIconHolder not-clickable" : "NotificationIconHolder"}
