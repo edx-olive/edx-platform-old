@@ -43,7 +43,12 @@ const NotificationsDropdown = () => {
             <TeamContext.Consumer>
                 {({team}) => (
                 <div className="NotificationsDropdownHolder">
-                    {team && notificationsList(team.teamList.reverse().slice(0, 3))}
+                    {team && notificationsList(
+                        team.teamList
+                        .filter(member => member.status.actionRequired)
+                        .reverse()
+                        .slice(0, 3)
+                    )}
                     <div className="NotificationsDropdownLink">
                         <a href="http://courses/manager/">See all notifications</a>
                     </div>
