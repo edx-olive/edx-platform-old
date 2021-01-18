@@ -9,7 +9,6 @@ import string  # pylint: disable=deprecated-module
 
 import django.utils
 import six
-from ccx_keys.locator import CCXLocator
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -19,12 +18,8 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_GET, require_http_methods
-from opaque_keys import InvalidKeyError
-from opaque_keys.edx.keys import CourseKey
-from opaque_keys.edx.locations import Location
-from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-from openedx.core.djangoapps.waffle_utils import WaffleSwitchNamespace
 
+from ccx_keys.locator import CCXLocator
 from contentstore.course_group_config import (
     COHORT_SCHEME,
     ENROLLMENT_SCHEME,
@@ -47,6 +42,8 @@ from contentstore.utils import (
     reverse_usage_url
 )
 from contentstore.views.entrance_exam import create_entrance_exam, delete_entrance_exam, update_entrance_exam
+from contentstore.views.helpers import CUSTOM_STATIC_TAB_DISPLAY_NAME, CUSTOM_VIDEO_METADATA, create_xblock
+from contentstore.views.item import _get_xblock, _save_xblock
 from course_action_state.managers import CourseActionStateItemNotFoundError
 from course_action_state.models import CourseRerunState, CourseRerunUIStateManager
 from course_creators.views import add_user_with_status_unrequested, get_course_creator_status
@@ -54,15 +51,22 @@ from edxmako.shortcuts import render_to_response
 from models.settings.course_grading import CourseGradingModel
 from models.settings.course_metadata import CourseMetadata
 from models.settings.encoder import CourseSettingsEncoder
+from opaque_keys import InvalidKeyError
+from opaque_keys.edx.keys import CourseKey
+from opaque_keys.edx.locations import Location
+from opaque_keys.edx.locator import BlockUsageLocator
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.content.course_structures.api.v0 import api, errors
 from openedx.core.djangoapps.credit.api import get_credit_requirements, is_credit_course
 from openedx.core.djangoapps.credit.tasks import update_credit_course_requirements
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangoapps.waffle_utils import WaffleSwitchNamespace
 from openedx.core.djangolib.js_utils import dump_js_escaped_json
 from openedx.core.lib.course_tabs import CourseTabPluginManager
 from openedx.core.lib.courses import course_image_url
+from path import Path
 from student import auth
 from student.auth import has_course_author_access, has_studio_read_access, has_studio_write_access
 from student.roles import CourseCreatorRole, CourseInstructorRole, CourseStaffRole, GlobalStaff, UserBasedRole
@@ -101,6 +105,8 @@ __all__ = ['course_info_handler', 'course_handler', 'course_listing',
            'course_notifications_handler',
            'textbooks_list_handler', 'textbooks_detail_handler',
            'group_configurations_list_handler', 'group_configurations_detail_handler']
+
+BASE_DIR = Path(__file__).parent
 
 WAFFLE_NAMESPACE = 'studio_home'
 
@@ -807,10 +813,134 @@ def _create_new_course(request, org, number, run, fields):
     store_for_new_course = modulestore().default_modulestore.get_modulestore_type()
     new_course = create_new_course_in_store(store_for_new_course, request.user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
+
+    tab_content = """
+        <p>Gary's Welcome</p>
+        <iframe
+          data-locator="{iframe_data_locator}"
+          src="{iframe_src}"
+          style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
+        >
+        </iframe>
+        """
+    with open(BASE_DIR / "course_static_tab_content.html") as tab_content_file:
+        tab_content = tab_content_file.read()
+
+    _create_custom_static_page(request, new_course, tab_content)
+
     return JsonResponse({
         'url': reverse_course_url('course_handler', new_course.id),
         'course_key': unicode(new_course.id),
     })
+
+
+def get_lms_root_url(request):
+    """
+    Get a prefixed LMS root url.
+
+    Arguments:
+        request (`Request`): The Django Request object.
+
+    Returns:
+        url (str): full path to LMS w/o the trailing slash,
+            e.g. "https://example.com"
+    """
+    prefix = 'https://' if request.is_secure() else 'http://'
+    return prefix + settings.LMS_BASE
+
+
+def _create_custom_static_page(request, course, tab_content, update_custom_tabs_order=False):
+    """
+    Create a static page with custom content.
+
+    NOTE: could have placed this util in
+    cms/djangoapps/contentstore/views/common_xblock_utils.py,
+    but getting ImportError's when importing utils
+    (looks like circular dependency).
+    """
+    parent_course_locator = BlockUsageLocator(course.id, 'course', 'course')
+
+    video_xblock = _create_custom_video_xblock(request, course)
+
+    data_locator = str(video_xblock.location)
+
+    intro_static_page = create_xblock(
+        parent_locator=str(parent_course_locator),
+        user=request.user,
+        category='static_tab',
+        display_name=_(CUSTOM_STATIC_TAB_DISPLAY_NAME),
+        update_custom_tabs_order=update_custom_tabs_order,
+    )
+
+    static_xblock = _get_xblock(intro_static_page.location, request.user)
+    static_xblock.video_locators = [data_locator]
+
+    content = _update_custom_tab_content(request, data_locator, tab_content)
+
+    _save_xblock(
+        request.user,
+        static_xblock,
+        data=content,
+    )
+
+
+def _create_custom_video_xblock(request, course):
+    """
+    Create a static video component with custom content.
+    """
+    parent_course_locator = BlockUsageLocator(course.id, 'course', 'course')
+
+    video_static_page = create_xblock(
+        parent_locator=str(parent_course_locator),
+        user=request.user,
+        category='video',
+        display_name="",
+        is_video_tab=True,
+    )
+    # Make the component available on `/xblock/{usage_key}`
+    modulestore().publish(video_static_page.location, request.user.id)
+
+    # NOTE: adding metadata handling inside the `create_xblock()` util didn't work;
+    #  have to re-fetch the xblock and update it.
+    video_xblock = _get_xblock(video_static_page.location, request.user)
+
+    _save_xblock(
+        request.user,
+        video_xblock,
+        metadata=CUSTOM_VIDEO_METADATA,
+    )
+
+    return video_xblock
+
+
+def _update_custom_tab_content(request, locator, content):
+    """
+    Update a custom static tab content.
+
+    Update provided content's placeholders with iframe data loc and src.
+
+    Arguments:
+        request (`Request`): The Django Request object.
+        locator (`str`): string from the `BlockUsageLocator` obj.
+        content (str): content with 2 placeholders for iframe;
+            'data-locator' (first to go) and 'src' (second to go).
+            Example:
+            ```
+            <p>Gary's Welcome</p>
+            <iframe
+              data-locator="{iframe_data_locator}"
+              src="{iframe_src}"
+              style="width: 900px; height: 610px; border: none; overflow: hidden; display: block; margin: auto;"
+            >
+            </iframe>
+            ```
+    """
+    lms_root_url = get_lms_root_url(request)
+    src = "{!s}/xblock/{!s}".format(lms_root_url, locator)
+    return content.format(
+        iframe_data_locator=locator,
+        iframe_src=src,
+    )
 
 
 def create_new_course_in_store(store, user, org, number, run, fields):

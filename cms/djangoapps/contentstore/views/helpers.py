@@ -35,6 +35,17 @@ GRADER_TYPES = {
     "FINAL_EXAM": "Final Exam"
 }
 
+# The data is very specific to AMAT.
+CUSTOM_VIDEO_METADATA = {
+        "html5_sources":
+            [
+                # Custom AMAT video: Gary's Welcome
+                "https://d2a8rd6kt4zb64.cloudfront.net/course-v1_Appliedx_AX001_Self-Paced/Appliedx_Gary-Promo_edit3(720p)HB2.mp4",
+            ],
+        "youtube_id_1_0": "",
+    }
+CUSTOM_STATIC_TAB_DISPLAY_NAME = "Learning on appliedx"
+
 
 def event(request):
     '''
@@ -185,9 +196,15 @@ def remove_entrance_exam_graders(course_key, user):
             CourseGradingModel.delete_grader(course_key, i, user)
 
 
-def create_xblock(parent_locator, user, category, display_name, boilerplate=None, is_entrance_exam=False, is_video_tab=False):
+def create_xblock(parent_locator, user, category, display_name, boilerplate=None, is_entrance_exam=False, is_video_tab=False, update_custom_tabs_order=False):
     """
     Performs the actual grunt work of creating items/xblocks -- knows nothing about requests, views, etc.
+
+    AMAT customization:
+        is_video_tab (bool): indication that a custom video static tab (`VideoTab` obj)
+            should be created.
+        update_custom_tabs_order (bool): indication to reorder course tabs accordingly to
+            the specific AMAT rules.
     """
     store = modulestore()
     usage_key = usage_key_with_run(parent_locator)
@@ -283,12 +300,19 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
             display_name = display_name or _("Empty")  # Prevent name being None
             course = store.get_course(dest_usage_key.course_key)
             if category == 'static_tab':
-                course.tabs.append(
-                    StaticTab(
+                if update_custom_tabs_order:
+                    static_tab = StaticTab(
                         name=display_name,
                         url_slug=dest_usage_key.name,
                     )
-                )
+                    _update_custom_tabs_order(course, static_tab)
+                else:
+                    course.tabs.append(
+                        StaticTab(
+                            name=display_name,
+                            url_slug=dest_usage_key.name,
+                        )
+                    )
             elif category == 'video' and is_video_tab:
                 course.tabs.append(
                     VideoTab(
@@ -299,6 +323,53 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
             store.update_item(course, user.id)
 
         return created_block
+
+
+def _update_custom_tabs_order(course, static_tab):
+    """
+    Place a new static_tab in course tabs.
+
+    Placement should happen in accordance with the specific order rules:
+    - page location: after "About the Course" page;
+    - add the page only if doesn't exist already.
+    """
+    original_tabs = course.tabs[:]
+    course_names = [tab["name"] for tab in course.tabs]
+    if CUSTOM_STATIC_TAB_DISPLAY_NAME in course_names:
+        return
+
+    # "About the Course" element follows the "Progress" page and is not a static tab per se,
+    # see `lms/templates/courseware/tabs.html`.
+    new_tab_order_i = None
+    for i, tab in enumerate(course.tabs):
+        if tab.name == "Progress":
+            new_tab_order_i = i + 1
+            break
+
+    # Go ahead if there is a "Progress" page in the course pages list
+    if new_tab_order_i is not None:
+
+        # Check if there are tabs after the "Progress" page
+        if len(course.tabs) >= new_tab_order_i - 1:
+
+            try:
+                course.tabs = course.tabs[:new_tab_order_i]
+                course.tabs.append(static_tab)
+
+                # Append the remaining tabs, preserving sequence
+                for j, tab in enumerate(original_tabs[new_tab_order_i:]):
+                    course.tabs.append(tab)
+
+            except IndexError as e:
+                raise Exception(
+                    "IndexError happened when trying to create "
+                    "a custom AMAT static tab: {!s}".format(
+                        e,
+                    )
+                )
+
+        else:
+            course.tabs.append(static_tab)
 
 
 def is_item_in_course_tree(item):
