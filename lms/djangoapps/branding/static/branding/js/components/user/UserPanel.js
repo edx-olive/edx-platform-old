@@ -5,9 +5,9 @@ import NotificationsDropdown from './NotificationsDropdown';
 
 export const avatarImg = "https://s3-us-west-2.amazonaws.com/pathway-frontend-assets/placeholder.png";
 const defaultArgs = {'target': '_blank', rel: 'noopener noreferrer', className: 'User-Link'};
-const teamListCount = array => {
-  if (array) {
-    return array.length
+const teamListCount = teamList => {
+  if (teamList) {
+    return teamList.filter(member => member.status.actionRequired).length
   } else {
     return 0
   }}
