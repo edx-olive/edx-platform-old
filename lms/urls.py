@@ -200,6 +200,17 @@ urlpatterns = [
                                     namespace='api_discounts')),
 ]
 
+if settings.FEATURES.get("ENABLE_RG_INSTRUCTOR_ANALYTICS"):
+    urlpatterns += [
+        url(
+            r'^courses/{}/tab/instructor_analytics/'.format(
+                settings.COURSE_ID_PATTERN,
+            ),
+            include('rg_instructor_analytics.urls'),
+            name='instructor_analytics_endpoint',
+        ),
+    ]
+
 if settings.FEATURES.get('ENABLE_MOBILE_REST_API'):
     urlpatterns += [
         url(r'^api/mobile/(?P<api_version>v(1|0.5))/', include('lms.djangoapps.mobile_api.urls')),
