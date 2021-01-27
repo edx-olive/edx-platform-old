@@ -20,7 +20,7 @@ const footerLinks = {
             },
             {
                 name: 'PATHWAY',
-                url: 'http://courses/pathway',
+                url: 'https://team.amat.com/sites/CorpEngrPathway/',
                 args: defaultArgs,
                 context: {}
             },
