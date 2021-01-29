@@ -12,7 +12,7 @@ deploy-dev:
     script:
         - ansible-playbook dev.yml
     only:
-        - master
+        - koa-rg
     except:
         - tags
     allow_failure: true
