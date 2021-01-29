@@ -29,7 +29,7 @@ EDXAPP_USE_GIT_IDENTITY: True
 edx_platform_repo: "https://github.com/edx/edx-platform.git"
 EDX_PLATFORM_VERSION: "open-release/koa.master"
 edx_ansible_source_repo: "https://gitlab.raccoongang.com/edx/configuration.git"
-CONFIGURATION_VERSION: "koa-rg"
+CONFIGURATION_VERSION: "koa-rg-try-fix-deploy"
 
 EDXAPP_GRADE_STORAGE_TYPE_LOCAL: true
 EDXAPP_GRADE_STORAGE_TYPE: ''
