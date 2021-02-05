@@ -30,6 +30,6 @@ deploy-vanilla:
         url: https://lms-koa-vanilla.raccoongang.com/
     only:
         refs:
-            - master
+            - koa-rg
         variables:
             - $ENVIRONMENT_TYPE == "vanilla"
