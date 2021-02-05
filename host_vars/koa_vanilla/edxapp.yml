@@ -1,10 +1,10 @@
 ---
 
-edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
-EDX_PLATFORM_VERSION: "koa-rg"
-EDXAPP_SITE_NAME: "lms-koa-dev.raccoongang.com"
-EDXAPP_CMS_SITE_NAME: "cms-koa-dev.raccoongang.com"
-EDXAPP_PREVIEW_LMS_BASE: "preview-koa-dev.raccoongang.com"
+edx_platform_repo: "https://github.com/edx/edx-platform.git"
+EDX_PLATFORM_VERSION: "open-release/koa.master"
+EDXAPP_SITE_NAME: "lms-koa-vanilla.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-koa-vanilla.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-koa-vanilla.raccoongang.com"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 

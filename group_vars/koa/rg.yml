@@ -3,18 +3,18 @@ project_environment: 'production'
 project_team: 'PROJECT-Team'
 project_name: 'project_name'
 project_support_package: 'Default'
-cloud_provider: 'KVM'
+cloud_provider: 'aws'
 tenancy_type: 'single'
 region_location: ''
 
 # TODO refactor roles/nginx, remove roles/rg-nginx
-use_raccoongang_ssl: yes
+use_raccoongang_ssl: no
 nginx_ssl: yes
 lms_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
 lms_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
 
 ## Enable Letsencrypt
-use_letsencrypt: no
+use_letsencrypt: yes
 
 # NGINX_ADDITIONAL_SERVICES_CONFIG:
 #   - name: discovery

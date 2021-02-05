@@ -26,8 +26,6 @@ EDXAPP_SESSION_COOKIE_SECURE: true
 
 EDXAPP_USE_GIT_IDENTITY: True
 # TODO unificated repositories structures
-edx_platform_repo: "https://github.com/edx/edx-platform.git"
-EDX_PLATFORM_VERSION: "open-release/koa.master"
 edx_ansible_source_repo: "https://gitlab.raccoongang.com/edx/configuration.git"
 CONFIGURATION_VERSION: "koa-rg-try-fix-deploy"
 
