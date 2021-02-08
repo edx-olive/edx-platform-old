@@ -2,13 +2,20 @@
 
 
 import six
+import mock
 from contracts import new_contract
 from django.test import TestCase
 from opaque_keys.edx.locator import CourseLocator
 from six import text_type
 
 from openedx.core.djangoapps.course_groups.cohorts import CourseCohortsSettings
-from openedx.core.djangoapps.django_comment_common.models import CourseDiscussionSettings, Role
+from openedx.core.djangoapps.django_comment_common.models import (
+    CourseDiscussionSettings,
+    Role,
+    ForumsConfig,
+    follow_new_thread,
+    FORUM_ROLE_ADMINISTRATOR
+)
 from openedx.core.djangoapps.django_comment_common.utils import (
     get_course_discussion_settings,
     set_course_discussion_settings
@@ -22,7 +29,7 @@ from xmodule.modulestore.tests.factories import CourseFactory
 new_contract('basestring', six.string_types[0])
 
 
-class RoleAssignmentTest(TestCase):
+class RoleAssignmentTest(ModuleStoreTestCase):
     """
     Basic checks to make sure our Roles get assigned and unassigned as students
     are enrolled and unenrolled from a course.
@@ -72,6 +79,45 @@ class RoleAssignmentTest(TestCase):
     #     )
     #     self.assertNotIn(student_role, self.student_user.roles.all())
     #     self.assertIn(student_role, another_student.roles.all())
+
+    @mock.patch('openedx.core.djangoapps.django_comment_common.models.thread_followed')
+    @mock.patch('openedx.core.djangoapps.django_comment_common.comment_client.user.User.follow')
+    @mock.patch('openedx.core.djangoapps.django_comment_common.models.get_course_threads')
+    def test_posts_followed_when_discussion_admin_added(
+        self,
+        mock_get_course_threads,
+        mock_user_follow,
+        mock_thread_followed
+    ):
+        # Need to enable forum config to subscribe for updates
+        config = ForumsConfig.current()
+        config.enabled = True
+        config.save()
+        # assign admin role
+        discussion_admin_role, created = Role.objects.get_or_create(
+            course_id=self.course_key,
+            name=FORUM_ROLE_ADMINISTRATOR
+        )
+        self.assertTrue(created)
+
+        mock_get_course_threads.return_value = [{'id': 1}, {'id': 3}]
+        discussion_admin_role.users.add(self.student_user)
+        mock_get_course_threads.assert_called_once_with(str(self.course_key))
+        self.assertIn(discussion_admin_role, self.student_user.roles.all())
+        mock_user_follow.assert_called()
+        self.assertEqual(mock_user_follow.call_count, 2)
+
+    @mock.patch('openedx.core.djangoapps.django_comment_common.models.CourseKey.from_string')
+    @mock.patch('openedx.core.djangoapps.django_comment_common.models.User')
+    @mock.patch('openedx.core.djangoapps.django_comment_common.comment_client.user.User.follow')
+    def test_admin_follow_new_thread(self, mock_cc_user, mock_django_user, mock_course_key):
+        post = mock.Mock()
+        user = mock.Mock()
+        mock_course_key.return_value = self.course_key
+        mock_django_user.objects.filter.return_value = [user(1), user(2)]
+        follow_new_thread(None, post)
+        mock_course_key.assert_called_once()
+        self.assertEqual(mock_cc_user.call_count, 2)
 
 
 class CourseDiscussionSettingsTest(ModuleStoreTestCase):

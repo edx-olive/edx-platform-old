@@ -8,14 +8,18 @@ from config_models.models import ConfigurationModel
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_noop
 from jsonfield.fields import JSONField
 from opaque_keys.edx.django.models import CourseKeyField
+from opaque_keys.edx.keys import CourseKey
 from six import text_type
 
+from openedx.core.djangoapps.django_comment_common.signals import thread_followed, thread_created
+import openedx.core.djangoapps.django_comment_common.comment_client as cc
+from discussion.notification_prefs.views import enable_notifications
 from openedx.core.djangoapps.xmodule_django.models import NoneToEmptyManager
 from student.models import CourseEnrollment
 from student.roles import GlobalStaff
@@ -126,6 +130,61 @@ class Role(models.Model):
         Returns True if the user has one of the given roles for the given course
         """
         return Role.objects.filter(course_id=course_id, name__in=role_names, users=user).exists()
+
+
+def get_course_threads(course_id):
+    """
+    Get all course threads.
+
+    Args:
+        course_id (str): course id to search threads for.
+
+    Returns:
+        list: list containing dicts representing Thread objects
+    """
+    return cc.Thread.search({'course_id': course_id}).collection
+
+
+@receiver(m2m_changed, sender=Role.users.through)
+def handle_discussion_admin_notifications(sender, instance, action, pk_set, **kwargs):
+    """
+    Follow all threads when discussion admin role assigned.
+
+    Args:
+        sender: The intermediate model class describing the ManyToManyField
+        instance (Role): The instance whose many-to-many relation is updated
+        action (str): A string indicating the type of update that is done on the relation
+        pk_set (set): Set of pk values that have been or will be added/removed from relation
+    """
+    if instance.__class__.__name__ == 'Role' and instance.name == FORUM_ROLE_ADMINISTRATOR:
+        user = User.objects.get(pk=next(iter(pk_set)))
+        if action == 'post_add':
+            enable_notifications(user)
+            cc_user = cc.User.from_django_user(user)
+            for t in get_course_threads(str(instance.course_id)):
+                thread = cc.Thread.find(t['id'])
+                cc_user.follow(thread)
+                thread_followed.send(sender=None, user=user, post=thread)
+
+
+@receiver(thread_created)
+def follow_new_thread(sender, post, **kwargs):
+    """
+    Mark new threads as following for discussion admins.
+
+    Args:
+        sender (None): None
+        post (Thread): Thread instance
+    """
+    course_key = CourseKey.from_string(post.course_id)
+    forum_admins = User.objects.filter(
+        roles__name=FORUM_ROLE_ADMINISTRATOR,
+        roles__course_id=course_key
+    )
+
+    for admin in forum_admins:
+        cc_user = cc.User(id=admin.id)
+        cc_user.follow(post)
 
 
 @python_2_unicode_compatible
