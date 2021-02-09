@@ -1,0 +1,150 @@
+---
+SANDBOX_ENABLE_ECOMMERCE: true
+
+ECOMMERCE_VERSION: "open-release/koa.master"
+ECOMMERCE_WORKER_VERSION: open-release/koa.master
+
+ECOMMERCE_REPOS:
+  - REPO: ecommerce.git
+    DOMAIN: github.com
+    VERSION: "{{ ECOMMERCE_VERSION }}"
+    PROTOCOL: https
+    PATH: edx
+    DESTINATION: "{{ ecommerce_code_dir }}"
+
+ECOMMERCE_BROKER_PASSWORD: "{{ EDXAPP_CELERY_PASSWORD }}"
+ECOMMERCE_DATABASE_HOST: localhost
+ECOMMERCE_DATABASE_NAME: ecommerce
+ECOMMERCE_DATABASE_USER: ecomm001
+ECOMMERCE_DJANGO_SETTINGS_MODULE: ecommerce.settings.production
+ECOMMERCE_BASE: "ecommerce-koa-dev.raccoongang.com"
+ECOMMERCE_ECOMMERCE_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ ECOMMERCE_BASE }}"
+EDXAPP_ECOMMERCE_API_URL: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}/api/v2"
+EDXAPP_ECOMMERCE_PUBLIC_URL_ROOT: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}"
+
+ECOMMERCE_EDX_API_KEY: "{{ EDXAPP_EDX_API_KEY }}"
+ECOMMERCE_JWT_ISSUERS:
+  - "{{ COMMON_JWT_ISSUER }}"
+ECOMMERCE_JWT_SECRET_KEYS:
+  - "{{ COMMON_JWT_SECRET_KEY }}"
+ECOMMERCE_LANGUAGE_CODE: "{{ EDXAPP_LANGUAGE_CODE }}"
+ECOMMERCE_LANGUAGE_COOKIE_NAME: "{{ EDXAPP_LANGUAGE_COOKIE }}"
+ECOMMERCE_LMS_URL_ROOT: "{{ EDXAPP_LMS_ROOT_URL }}"
+ECOMMERCE_LOGOUT_URL: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}/logout/"
+ECOMMERCE_MEMCACHE:
+  - "{{ memcached_host }}:11211"
+ECOMMERCE_NGINX_PORT: 18130
+
+#LiqPay sub 1
+ECOMMERCE_SUBSITE1_BASE: "ecommerce-site-koa-dev.raccoongang.com"
+ECOMMERCE_SUBSITE1_LIQPAY_CANCEL_CHECKOUT_PATH: "/checkout/cancel-checkout/"
+ECOMMERCE_SUBSITE1_LIQPAY_ERROR_PATH: "/checkout/error/"
+ECOMMERCE_SUBSITE1_LIQPAY_HOST: "https://www.liqpay.ua/api/"
+
+# PayPal sub 1
+ECOMMERCE_SUBSITE1_PAYPAL_MODE: "sandbox"
+ECOMMERCE_SUBSITE1_PAYPAL_RECEIPT_URL: "/checkout/receipt/"
+ECOMMERCE_SUBSITE1_PAYPAL_CANCEL_URL: "/checkout/cancel-checkout/"
+ECOMMERCE_SUBSITE1_PAYPAL_ERROR_URL: "/checkout/error/"
+#LiqPay sub 2
+ECOMMERCE_LIQPAY_CANCEL_CHECKOUT_PATH: "/checkout/cancel-checkout/"
+ECOMMERCE_LIQPAY_ERROR_PATH: "/checkout/error/"
+ECOMMERCE_LIQPAY_HOST: "https://www.liqpay.ua/api/"
+
+# PayPal sub 2
+ECOMMERCE_PAYPAL_MODE: "sandbox"
+ECOMMERCE_RECEIPT_URL: "/checkout/receipt/"
+ECOMMERCE_PAYPAL_CANCEL_URL: "/checkout/cancel-checkout/"
+ECOMMERCE_PAYPAL_ERROR_URL: "/checkout/error/"
+
+ECOMMERCE_PAYMENT_PROCESSOR_CONFIG:
+  sub1:
+    liqpay:
+      cancel_checkout_path: "{{ ECOMMERCE_SUBSITE1_LIQPAY_CANCEL_CHECKOUT_PATH }}"
+      public_key: "{{ ECOMMERCE_SUBSITE1_LIQPAY_PUBLIC_KEY }}"
+      private_key: "{{ ECOMMERCE_SUBSITE1_LIQPAY_PRIVATE_KEY }}"
+      error_path: "{{ ECOMMERCE_SUBSITE1_LIQPAY_ERROR_PATH }}"
+      host: "{{ ECOMMERCE_SUBSITE1_LIQPAY_HOST }}"
+    paypal:
+      cancel_url: "{{ ECOMMERCE_SUBSITE1_PAYPAL_CANCEL_URL }}"
+      client_id: "{{ ECOMMERCE_SUBSITE1_PAYPAL_CLIENT_ID }}"
+      client_secret: "{{ ECOMMERCE_SUBSITE1_PAYPAL_CLIENT_SECRET }}"
+      error_url: "{{ ECOMMERCE_SUBSITE1_PAYPAL_ERROR_URL }}"
+      mode: "{{ ECOMMERCE_SUBSITE1_PAYPAL_MODE }}"
+      receipt_url: "{{ ECOMMERCE_SUBSITE1_PAYPAL_RECEIPT_URL }}"
+
+  edx:
+    liqpay:
+      cancel_checkout_path: "{{ ECOMMERCE_LIQPAY_CANCEL_CHECKOUT_PATH }}"
+      public_key: "{{ ECOMMERCE_LIQPAY_PUBLIC_KEY }}"
+      private_key: "{{ ECOMMERCE_LIQPAY_PRIVATE_KEY }}"
+      error_path: "{{ ECOMMERCE_LIQPAY_ERROR_PATH }}"
+      host: "{{ ECOMMERCE_LIQPAY_HOST }}"
+    paypal:
+      cancel_url: "{{ ECOMMERCE_PAYPAL_CANCEL_URL }}"
+      client_id: "{{ ECOMMERCE_PAYPAL_CLIENT_ID }}"
+      client_secret: "{{ ECOMMERCE_PAYPAL_CLIENT_SECRET }}"
+      error_url: "{{ ECOMMERCE_PAYPAL_ERROR_URL }}"
+      mode: "{{ ECOMMERCE_PAYPAL_MODE }}"
+      receipt_url: "{{ ECOMMERCE_PAYPAL_RECEIPT_URL }}"
+
+
+ECOMMERCE_PLATFORM_NAME: "{{ EDXAPP_PLATFORM_NAME }}"
+ECOMMERCE_SOCIAL_AUTH_REDIRECT_IS_HTTPS: true
+ECOMMERCE_SSL_NGINX_PORT: 443
+ECOMMERCE_WORKER_BROKER_HOST: "{{ rabbitmq_ip }}"
+ECOMMERCE_WORKER_BROKER_PASSWORD: "{{ EDXAPP_CELERY_PASSWORD }}"
+ECOMMERCE_WORKER_ECOMMERCE_API_ROOT: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}"
+ECOMMERCE_WORKER_JWT_ISSUER: "{{ COMMON_JWT_AUDIENCE }}"
+ECOMMERCE_WORKER_JWT_SECRET_KEY: "{{ COMMON_JWT_SECRET_KEY }}"
+
+ecommerce_post_migrate_commands:
+  - command: >
+      ./manage.py create_or_update_site
+      --site-id 1
+      --site-domain {{ ECOMMERCE_BASE }}
+      --site-name {{ ECOMMERCE_BASE }}
+      --partner-code edx
+      --partner-name "OpenEdx LMS"
+      --payment-processors=cybersource,paypal 
+      --lms-url-root {{ EDXAPP_LMS_ROOT_URL }}
+      --sso-client-id {{ ECOMMERCE_SOCIAL_AUTH_EDX_OIDC_KEY }}
+      --sso-client-secret {{ ECOMMERCE_SOCIAL_AUTH_EDX_OIDC_SECRET }}
+      --from-email {{ EDXAPP_DEFAULT_FROM_EMAIL }}
+      --backend-service-client-id {{ ECOMMERCE_SOCIAL_AUTH_EDX_OIDC_KEY }}
+      --backend-service-client-secret {{ ECOMMERCE_SOCIAL_AUTH_EDX_OIDC_SECRET }}
+      --payment-support-email {{ EDXAPP_PAYMENT_SUPPORT_EMAIL }}
+      --discovery_api_url {{ EDXAPP_LMS_ROOT_URL }}
+    when: True
+
+NGINX_ADDITIONAL_SERVICES_CONFIG:
+  - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
+    nginx_port: 443
+    name: ECOMMERCE
+    server_name: "{{ ECOMMERCE_SUBSITE1_BASE }}"
+    nginx_ssl_certificate_key_path: "{{ lms_ssl_certificate_key_path }}"
+    nginx_ssl_certificate_path: "{{ lms_ssl_certificate_path }}"
+  - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
+    nginx_port: 443
+    name: ECOMMERCE
+    server_name: "{{ ECOMMERCE_BASE }}"
+    nginx_ssl_certificate_key_path: "{{ lms_ssl_certificate_key_path }}"
+    nginx_ssl_certificate_path: "{{ lms_ssl_certificate_path }}"
+  - name: credentials
+    server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+  - name: discovery
+    server_name: "{{ DISCOVERY_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+  - name: gamma
+    server_name: "gamma-koa-dev.raccoongang.com"
+    nginx_port: 443
+    nging_proxy_pass_port: 9000
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
