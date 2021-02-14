@@ -9,15 +9,15 @@ EDXAPP_PREVIEW_LMS_BASE: "preview-koa-vanilla.raccoongang.com"
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
 ## extra
-ECOMMERCE_VERSION: 'master'
-DISCOVERY_VERSION: 'master'
+ECOMMERCE_VERSION: 'open-release/koa.master'
+DISCOVERY_VERSION: 'open-release/koa.master'
 ANALYTICS_API_VERSION: 'open-release/koa.master'
 INSIGHTS_VERSION: 'open-release/koa.master'
 NOTIFIER_VERSION: 'open-release/koa.master'
 CREDENTIALS_VERSION: 'open-release/koa.master'
 SANDBOX_ENABLE_NOTES: True
 SANDBOX_ENABLE_BLOCKSTORE: False
-FORUM_VERSION: 'master'
+FORUM_VERSION: 'open-release/koa.master'
 COMMON_CONFIG_NO_LOGGING: False
 DEVPI_SERVER_VERSION: '5.4.0'
 DEVPI_WEB_VERSION: '3.5.2'
@@ -25,3 +25,16 @@ DEVPI_CLIENT_VERSION: '5.1.1'
 EDX_NOTES_API_VERSION: 'open-release/koa.master'
 CERTS_VERSION: 'open-release/koa.master'
 COMMON_RETIREMENT_SERVICE_SETUP: true
+
+EDXAPP_LMS_ENV_EXTRA:
+  RG_GAMIFICATION:
+    ENABLED: True
+    RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-dev.raccoongang.com/"
+    KEY: "{{ RG_GAMIFICATION_KEY }}"
+    SECRET: "{{ RG_GAMIFICATION_SECRET }}"
+    IGNORED_EVENT_TYPES: []
+EDXAPP_EXTRA_REQUIREMENTS:
+  - name: 'edx-gamma-bridge==1.0.0.juniper.1'
+    extra_args: '--extra-index-url https://pypi.raccoongang.com'
+  - name: 'edx-gamma-dashboard==1.0.0.juniper.1'
+    extra_args: '--extra-index-url https://pypi.raccoongang.com'
