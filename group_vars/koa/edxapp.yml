@@ -48,10 +48,10 @@ EDXAPP_FEATURES_OVERRIDE:
   RG_ANALYTICS_GRADE_CRON_MONTH: '*'
   # RG gamification
   RG_GAMIFICATION:
-    ENABLED: "{{ COMMON_ENABLE_GAMMA }}"
-    RG_GAMIFICATION_ENDPOINT: "https://{{ GAMMA_SITE_NAME }}"
-    SECRET: "{{ GAMMA_APP_SECRET }}"
-    KEY: "{{ GAMMA_APP_KEY }}"
+    ENABLED: True
+    RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-dev.raccoongang.com/"
+    KEY: "{{ RG_GAMIFICATION_KEY }}"
+    SECRET: "{{ RG_GAMIFICATION_SECRET }}"
     IGNORED_EVENT_TYPES:
       - edx.certificate.created
       - edx.course.student_notes.added

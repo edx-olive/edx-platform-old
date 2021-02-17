@@ -26,14 +26,6 @@ EDX_NOTES_API_VERSION: 'open-release/koa.master'
 CERTS_VERSION: 'open-release/koa.master'
 COMMON_RETIREMENT_SERVICE_SETUP: true
 
-EDXAPP_LMS_ENV_EXTRA:
-  RG_GAMIFICATION:
-    ENABLED: True
-    RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-dev.raccoongang.com/"
-    KEY: "{{ RG_GAMIFICATION_KEY }}"
-    SECRET: "{{ RG_GAMIFICATION_SECRET }}"
-    IGNORED_EVENT_TYPES: []
-
 EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics_log_collector']
 analytics_log_watcher_sleep_time: 1200
 analytics_processors_aliases: "enrollment video_views discussion student_step course_activity"
