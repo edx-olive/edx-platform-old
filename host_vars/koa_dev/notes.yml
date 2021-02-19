@@ -1,0 +1,11 @@
+---
+# overrides for configuration:inventory/group_vars/all/notes.yml
+EDXAPP_ENABLE_EDXNOTES: true
+EDX_NOTES_API_MYSQL_DB_USER: "edx_notes_api"
+EDX_NOTES_API_MYSQL_DB_NAME: "edx_notes_api"
+EDXAPP_EDXNOTES_PUBLIC_API: "https://notes-api-koa-dev.raccoongang.com/api/v1"
+EDXAPP_EDXNOTES_INTERNAL_API: "http://localhost:8120/api/v1"
+EDX_NOTES_API_ALLOWED_HOSTS:
+- localhost
+- lms-koa-dev.raccoongang.com
+- notes-api-koa-dev.raccoongang.com
