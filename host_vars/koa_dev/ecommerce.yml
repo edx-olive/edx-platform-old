@@ -150,3 +150,9 @@ NGINX_ADDITIONAL_SERVICES_CONFIG:
     nging_proxy_pass_port: 9000
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+  - name: notes-api
+    server_name: "notes-api-koa-dev.raccoongang.com"
+    nginx_port: 443
+    nging_proxy_pass_port: 8120
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
