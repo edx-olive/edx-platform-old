@@ -22,7 +22,7 @@ log = logging.getLogger('edx.celery.task')
 
 @shared_task(bind=True)
 @set_code_owner_attribute
-def send_activation_email(self, msg_string, from_address=None):
+def send_activation_email(self, msg_string, from_address=None, site_id=None):
     """
     Sending an activation email to the user.
     """
@@ -39,7 +39,7 @@ def send_activation_email(self, msg_string, from_address=None):
 
     dest_addr = msg.recipient.email_address
 
-    site = Site.objects.get_current()
+    site = Site.objects.get(id=site_id) if site_id else Site.objects.get_current()
     user = User.objects.get(id=msg.recipient.lms_user_id)
 
     try:
