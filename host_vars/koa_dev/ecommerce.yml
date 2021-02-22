@@ -108,7 +108,7 @@ ecommerce_post_migrate_commands:
       --site-name {{ ECOMMERCE_BASE }}
       --partner-code edx
       --partner-name "OpenEdx LMS"
-      --payment-processors=cybersource,paypal 
+      --payment-processors=paypal,liqpay 
       --lms-url-root {{ EDXAPP_LMS_ROOT_URL }}
       --sso-client-id {{ ECOMMERCE_SOCIAL_AUTH_EDX_OAUTH2_KEY }}
       --sso-client-secret {{ ECOMMERCE_SOCIAL_AUTH_EDX_OAUTH2_SECRET }}
