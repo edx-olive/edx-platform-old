@@ -1,2 +1,3 @@
 ---
 DISCOVERY_DOMAIN: "discovery-koa-dev.raccoongang.com"
+EDXAPP_DISCOVERY_API_URL: "{{ DISCOVERY_DOMAIN }}/api/v1"
