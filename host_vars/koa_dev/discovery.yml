@@ -1,3 +1,17 @@
 ---
 DISCOVERY_DOMAIN: "discovery-koa-dev.raccoongang.com"
 EDXAPP_DISCOVERY_API_URL: "{{ DISCOVERY_DOMAIN }}/api/v1"
+EDXAPP_ORGANIZATIONS_API_URL: "{{ EDXAPP_LMS_ROOT_URL }}/api/organizations/v0/"
+EDXAPP_COURSES_API_URL: "{{ EDXAPP_LMS_ROOT_URL }}/api/courses/v1/"
+
+discovery_post_migrate_commands:
+  - command: >
+      ./manage.py create_or_update_partner
+      --site-domain "example.com"
+      --code "lms"
+      --name "LMS"
+      --lms-url-root {{ EDXAPP_LMS_ROOT_URL }}
+      --ecommerce_api_url {{ EDXAPP_ECOMMERCE_API_URL }}
+      --organizations-api-url {{ EDXAPP_ORGANIZATIONS_API_URL }}
+      --courses-api-url {{ EDXAPP_COURSES_API_URL }}
+    when: True
