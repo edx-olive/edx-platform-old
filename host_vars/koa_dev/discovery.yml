@@ -8,8 +8,8 @@ discovery_post_migrate_commands:
   - command: >
       ./manage.py create_or_update_partner
       --site-domain "example.com"
-      --code "lms"
-      --name "LMS"
+      --code "rg"
+      --name "RG"
       --lms-url {{ EDXAPP_LMS_ROOT_URL }}
       --ecommerce-api-url {{ EDXAPP_ECOMMERCE_API_URL }}
       --organizations-api-url {{ EDXAPP_ORGANIZATIONS_API_URL }}
