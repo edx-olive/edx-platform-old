@@ -43,7 +43,7 @@ def get_base_template_context(site):
             'CONTACT_MAILING_ADDRESS', site=site, site_config_name='contact_mailing_address'),
         'social_media_urls': get_config_value_from_site_or_settings('SOCIAL_MEDIA_FOOTER_URLS', site=site),
         'mobile_store_urls': get_config_value_from_site_or_settings('MOBILE_STORE_URLS', site=site),
-        'logo_url': '{lms_url_root}/static/{theme_dir}/images/logo.svg'.format(
+        'logo_url': '{lms_url_root}/static/{theme_dir}/images/'.format(
             lms_url_root=get_config_value_from_site_or_settings('LMS_ROOT_URL', site=site),
             theme_dir=theme_dir
         ),
