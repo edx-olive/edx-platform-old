@@ -11,7 +11,7 @@ discovery_post_migrate_commands:
       --code "lms"
       --name "LMS"
       --lms-url-root {{ EDXAPP_LMS_ROOT_URL }}
-      --ecommerce_api_url {{ EDXAPP_ECOMMERCE_API_URL }}
+      --ecommerce-api-url {{ EDXAPP_ECOMMERCE_API_URL }}
       --organizations-api-url {{ EDXAPP_ORGANIZATIONS_API_URL }}
       --courses-api-url {{ EDXAPP_COURSES_API_URL }}
     when: True
