@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import qs from 'qs';
 import { USER_PROFILE_URL } from './urlPatterns';
 import sigV4Client from '../helpers/sigV4Client';
@@ -34,8 +33,6 @@ function checkStatus(response) {
 }
 
 const patchAWSSign = (url, awsSettings, params = {}) => {
-    params = _.cloneDeep(params);
-
     const headers = params.headers;
     const body = params.data;
     const method = params.method || 'get';
