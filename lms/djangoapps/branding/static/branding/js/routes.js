@@ -7,7 +7,7 @@ const routes = [
         'context': {'noPopup': false}
     },
     {
-        'path': 'http://courses/pathway',
+        'path': 'http://courses/pathway/',
         'title': 'My Pathway',
         'inMenu': true,
     },
