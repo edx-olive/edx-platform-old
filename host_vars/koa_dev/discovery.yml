@@ -16,18 +16,6 @@ discovery_post_migrate_commands:
       --courses-api-url {{ EDXAPP_COURSES_API_URL }}
     when: True
 
-discovery_post_migrate_commands:
-  - command: >
-      ./manage.py create_or_update_partner
-      --site-domain "example.com"
-      --code "rg"
-      --name "RG"
-      --lms-url {{ EDXAPP_LMS_ROOT_URL }}
-      --ecommerce-api-url {{ EDXAPP_ECOMMERCE_API_URL }}
-      --organizations-api-url {{ EDXAPP_ORGANIZATIONS_API_URL }}
-      --courses-api-url {{ EDXAPP_COURSES_API_URL }}
-    when: True
-
 discovery_cronjob_auto:
   - script: |
       #!/usr/bin/env bash
