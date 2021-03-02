@@ -156,3 +156,21 @@ NGINX_ADDITIONAL_SERVICES_CONFIG:
     nging_proxy_pass_port: 8120
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+
+ECOMMERCE_ENABLE_COMPREHENSIVE_THEMING: True
+ECOMMERCE_DEFAULT_SITE_THEME: "theme"
+ECOMMERCE_COMPREHENSIVE_THEME_DIRS:
+  - "{{ ECOMMERCE_THEME_DIR }}"
+
+ecommerce_git_home: /edx/app/ecommerce
+ECOMMERCE_STATIC_ROOT: /edx/var/ecommerce/staticfiles
+ECOMMERCE_THEME_DIR: "{{ COMMON_DATA_DIR }}/ecommerce"
+ECOMMERCE_THEME_VERSION: 'koa-rg'
+ECOMMERCE_THEMES_REPOS:
+  - PROTOCOL: 'ssh'
+    DOMAIN: "gitlab.raccoongang.com"
+    PATH: 'edx'
+    REPO: 'ecommerce-theme.git'
+    VERSION: "{{ ECOMMERCE_THEME_VERSION }}"
+    DESTINATION: "{{ ECOMMERCE_THEME_DIR }}/{{ ECOMMERCE_DEFAULT_SITE_THEME }}"
+    SSH_KEY: "{{ RG_COMMON_GIT_IDENTITY }}"

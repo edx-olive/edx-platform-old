@@ -15,3 +15,53 @@ discovery_post_migrate_commands:
       --organizations-api-url {{ EDXAPP_ORGANIZATIONS_API_URL }}
       --courses-api-url {{ EDXAPP_COURSES_API_URL }}
     when: True
+
+discovery_post_migrate_commands:
+  - command: >
+      ./manage.py create_or_update_partner
+      --site-domain "example.com"
+      --code "rg"
+      --name "RG"
+      --lms-url {{ EDXAPP_LMS_ROOT_URL }}
+      --ecommerce-api-url {{ EDXAPP_ECOMMERCE_API_URL }}
+      --organizations-api-url {{ EDXAPP_ORGANIZATIONS_API_URL }}
+      --courses-api-url {{ EDXAPP_COURSES_API_URL }}
+    when: True
+
+discovery_cronjob_auto:
+  - script: |
+      #!/usr/bin/env bash
+      # This is first discovery script
+      if ! test -x /edx/bin/python.discovery -o -x /edx/bin/python.edxapp ; then
+        # for multi-instance installations: do nothing on non edxapp instances
+        exit
+      fi
+      
+      SHELL=/bin/bash
+      DISCOVERY_CFG=/edx/etc/discovery.yml
+      LOG_FILE=/edx/var/log/update_discovery/edx.log
+      mkdir -p `dirname ${LOG_FILE}`
+      exec &>> ${LOG_FILE}
+      exec 2>&1
+      export SHELL
+      export DISCOVERY_CFG
+      
+      if test -x /edx/bin/python.discovery ; then
+        sudo -Eu discovery /edx/app/discovery/venvs/discovery/bin/python /edx/app/discovery/discovery/manage.py refresh_course_metadata --settings=course_discovery.settings.production
+        sudo -Eu discovery /edx/app/discovery/venvs/discovery/bin/python /edx/app/discovery/discovery/manage.py update_index --disable-change-limit       --settings=course_discovery.settings.production      
+        sudo -Eu discovery /edx/app/discovery/venvs/discovery/bin/python /edx/app/discovery/discovery/manage.py remove_unused_indexes --settings=course_discovery.settings.production
+      else      
+        echo "discovery service not found" >&2      
+      fi      
+      if test -x /edx/app/edxapp/venvs/edxapp/bin/python ; then      
+              # random delay for multi-instance installations, where multiple instances runs this task simultaneously      
+              RAND=`head -c 1 /dev/urandom | od -t u1 | cut -c9-`      
+              sleep `expr ${RAND} % 90 + 1`      
+              source /edx/app/edxapp/edxapp_env      
+              sudo -Eu www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/bin/manage.edxapp lms cache_programs --settings=production      
+      else      
+        echo "edxapp service not found" >&2
+      fi
+    name: "discovery first_job_update"
+    filename: "update_discovery.sh"
+    minute: "*/10"
