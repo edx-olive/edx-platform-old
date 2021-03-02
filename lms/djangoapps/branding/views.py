@@ -151,7 +151,7 @@ def videos(request):
         log.info("Redirecting to SSO login using %s provider", provider_backend_name)
         return redirect(sso_login_url)
 
-    log.error("Invalid SSO provider [{}] from site configuration. Available providers: {}".format(
+    log.error("Invalid SSO provider [{}]. Available providers: {}".format(
         provider_backend_name,
         active_providers_backend_names
     ))
