@@ -3916,3 +3916,10 @@ GITHUB_REPO_ROOT = '/edx/var/edxapp/data'
 
 ##################### SUPPORT URL ############################
 SUPPORT_HOW_TO_UNENROLL_LINK = ''
+
+##################### RG Customizations #####################
+# Url for video signin service. Should contain a scheme to pass validation.
+VIDEO_SIGNING_SERVICE_URL = ''
+# Should be equal to provider slug from <LMS>/admin/third_party_auth/oauth2providerconfig/
+# Used to construct SSO login redirect url
+SSO_PROVIDER_FOR_LOGIN_REDIRECT = ''
