@@ -328,6 +328,7 @@ urlpatterns += [
     ),
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
+    url(r'^videos/', branding_views.videos, name='videos'),
 
     # About the course
     url(
