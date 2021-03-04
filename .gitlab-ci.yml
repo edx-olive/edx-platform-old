@@ -1,7 +1,7 @@
-touch-deploy:
+---
+
+deploy-dev:
     stage: deploy
-    script:
-        - apk add curl
-        - "curl -X POST -F token=$DEPLOY_TRIGGER_TOKEN -F ref=master https://gitlab.raccoongang.com/api/v4/projects/750/trigger/pipeline"
+    trigger: Duck-Team/projects/ab-initio/deployment
     only:
-        - open-release/juniper.master
+      - main
