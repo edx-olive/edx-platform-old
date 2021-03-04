@@ -8,8 +8,8 @@
     'use strict';
     define('video/02_html5_hls_video.js', ['underscore', 'video/02_html5_video.js', 'hls'],
     function(_, HTML5Video, HLS) {
+        HLS.DefaultConfig.xhrSetup = function(x,u) {x.withCredentials=true}
         var HLSVideo = {};
-
         HLSVideo.Player = (function() {
             /**
              * Initialize HLS video player.
