@@ -14,7 +14,7 @@ DISCOVERY_VERSION: 'open-release/koa.master'
 ANALYTICS_API_VERSION: 'open-release/koa.master'
 INSIGHTS_VERSION: 'open-release/koa.master'
 NOTIFIER_VERSION: 'open-release/koa.master'
-CREDENTIALS_VERSION: 'open-release/koa.master'
+CREDENTIALS_VERSION: 'koa-rg'
 SANDBOX_ENABLE_NOTES: True
 SANDBOX_ENABLE_BLOCKSTORE: False
 FORUM_VERSION: 'open-release/koa.master'
