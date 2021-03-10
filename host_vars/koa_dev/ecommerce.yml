@@ -125,6 +125,7 @@ ecommerce_post_migrate_commands:
   - command: >
       ./manage.py waffle_switch payment_processor_active_stripe on
       --create
+    when: True
   - command: >
       ./manage.py waffle_flag enable_client_side_checkout
       --everyone
@@ -132,7 +133,7 @@ ecommerce_post_migrate_commands:
       --superusers 
       --authenticated 
       --create
-
+    when: True
 NGINX_ADDITIONAL_SERVICES_CONFIG:
   - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
     nginx_port: 443
