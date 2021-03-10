@@ -89,7 +89,10 @@ ECOMMERCE_PAYMENT_PROCESSOR_CONFIG:
       error_url: "{{ ECOMMERCE_PAYPAL_ERROR_URL }}"
       mode: "{{ ECOMMERCE_PAYPAL_MODE }}"
       receipt_url: "{{ ECOMMERCE_PAYPAL_RECEIPT_URL }}"
-
+    stripe:
+      publishable_key: "{{ ECOMMERCE_STRIPE_PUBLISHABLE_KEY }}"
+      secret_key: "{{ ECOMMERCE_STRIPE_SECRET_KEY }}"
+      country: "{{ ECOMMERCE_STRIPE_COUNTRY_CODE }}"
 
 ECOMMERCE_PLATFORM_NAME: "{{ EDXAPP_PLATFORM_NAME }}"
 ECOMMERCE_SOCIAL_AUTH_REDIRECT_IS_HTTPS: true
@@ -108,7 +111,8 @@ ecommerce_post_migrate_commands:
       --site-name {{ ECOMMERCE_BASE }}
       --partner-code edx
       --partner-name "OpenEdx LMS"
-      --payment-processors=paypal,liqpay 
+      --payment-processors=paypal,liqpay,stripe 
+      --client-side-payment-processor=stripe
       --lms-url-root {{ EDXAPP_LMS_ROOT_URL }}
       --sso-client-id {{ ECOMMERCE_SOCIAL_AUTH_EDX_OAUTH2_KEY }}
       --sso-client-secret {{ ECOMMERCE_SOCIAL_AUTH_EDX_OAUTH2_SECRET }}
@@ -118,6 +122,16 @@ ecommerce_post_migrate_commands:
       --payment-support-email {{ EDXAPP_PAYMENT_SUPPORT_EMAIL }}
       --discovery_api_url https://{{ EDXAPP_DISCOVERY_API_URL }}
     when: True
+  - command: >
+      ./manage.py waffle_switch payment_processor_active_stripe on
+      --create
+  - command: >
+      ./manage.py waffle_flag enable_client_side_checkout
+      --everyone
+      --staff
+      --superusers 
+      --authenticated 
+      --create
 
 NGINX_ADDITIONAL_SERVICES_CONFIG:
   - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
