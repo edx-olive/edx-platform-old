@@ -33,11 +33,15 @@ ECOMMERCE_LANGUAGE_CODE: "{{ EDXAPP_LANGUAGE_CODE }}"
 ECOMMERCE_LANGUAGE_COOKIE_NAME: "{{ EDXAPP_LANGUAGE_COOKIE }}"
 ECOMMERCE_LMS_URL_ROOT: "{{ EDXAPP_LMS_ROOT_URL }}"
 ECOMMERCE_LOGOUT_URL: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}/logout/"
+ECOMMERCE_SUBSITE1_LOGOUT_URL: "{{ ECOMMERCE_SUBSITE1_URL_ROOT }}/logout/"
 ECOMMERCE_MEMCACHE:
   - "{{ memcached_host }}:11211"
 ECOMMERCE_NGINX_PORT: 18130
 
 #LiqPay sub 1
+ECOMMERCE_SUBSITE1_LMS_ROOT_URL: "https://site-koa-dev.raccoongang.com"
+ECOMMERCE_SUBSITE1_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ ECOMMERCE_SUBSITE1_BASE }}"
+
 ECOMMERCE_SUBSITE1_BASE: "ecommerce-site-koa-dev.raccoongang.com"
 ECOMMERCE_SUBSITE1_LIQPAY_CANCEL_CHECKOUT_PATH: "/checkout/cancel-checkout/"
 ECOMMERCE_SUBSITE1_LIQPAY_ERROR_PATH: "/checkout/error/"
@@ -134,6 +138,24 @@ ecommerce_post_migrate_commands:
       --authenticated 
       --create
     when: True
+  - command: >
+      ./manage.py create_or_update_site
+      --site-id 1
+      --site-domain {{ ECOMMERCE_SUBSITE1_BASE }}
+      --site-name {{ ECOMMERCE_SUBSITE1_BASE }}
+      --partner-code sub1
+      --partner-name "OpenEdx LMS Sub1"
+      --payment-processors=paypal,liqpay
+      --lms-url-root {{ ECOMMERCE_SUBSITE1_LMS_ROOT_URL }}
+      --sso-client-id {{ ECOMMERCE_SUBSITE1_SOCIAL_AUTH_EDX_OAUTH2_KEY }}
+      --sso-client-secret {{ ECOMMERCE_SUBSITE1_SOCIAL_AUTH_EDX_OAUTH2_SECRET }}
+      --from-email {{ EDXAPP_DEFAULT_FROM_EMAIL }}
+      --backend-service-client-id {{ ECOMMERCE_SUBSITE1_BACKEND_SERVICE_EDX_OAUTH2_KEY }}
+      --backend-service-client-secret {{ ECOMMERCE_SUBSITE1_BACKEND_SERVICE_EDX_OAUTH2_SECRET }}
+      --payment-support-email {{ EDXAPP_PAYMENT_SUPPORT_EMAIL }}
+      --discovery_api_url https://{{ EDXAPP_DISCOVERY_API_URL }}
+    when: True
+
 NGINX_ADDITIONAL_SERVICES_CONFIG:
   - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
     nginx_port: 443
