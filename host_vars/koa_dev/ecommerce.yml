@@ -140,7 +140,7 @@ ecommerce_post_migrate_commands:
     when: True
   - command: >
       ./manage.py create_or_update_site
-      --site-id 1
+      --site-id 2
       --site-domain {{ ECOMMERCE_SUBSITE1_BASE }}
       --site-name {{ ECOMMERCE_SUBSITE1_BASE }}
       --partner-code sub1
