@@ -11,7 +11,7 @@ oauth_client_setup_oauth2_clients:
         username: "{{ ECOMMERCE_SERVICE_USER_NAME | default('None') }}",
       }
     - {
-        name: "{{ ecommerce_service_name | default('None') }}",
+        name: "{{ ecommerce_subsite_service_name | default('None') }}",
         url_root: "{{ ECOMMERCE_SUBSITE1_URL_ROOT | default('None') }}",
         sso_id: "{{ ECOMMERCE_SUBSITE1_SOCIAL_AUTH_EDX_OAUTH2_KEY | default('None') }}",
         sso_secret: "{{ ECOMMERCE_SUBSITE1_SOCIAL_AUTH_EDX_OAUTH2_SECRET | default('None') }}",

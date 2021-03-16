@@ -39,6 +39,7 @@ ECOMMERCE_MEMCACHE:
 ECOMMERCE_NGINX_PORT: 18130
 
 #LiqPay sub 1
+ecommerce_subsite_service_name: ecommerce-subsite-sso
 ECOMMERCE_SUBSITE1_LMS_ROOT_URL: "https://site-koa-dev.raccoongang.com"
 ECOMMERCE_SUBSITE1_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ ECOMMERCE_SUBSITE1_BASE }}"
 

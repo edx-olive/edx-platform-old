@@ -18,7 +18,7 @@ COMMON_HOSTNAME: "{{ EDXAPP_SITE_NAME }}"
 RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
 
 COMMON_LMS_BASE_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
-EDXAPP_LMS_BASE_SCHEME: "{{ 'https' if nginx_ssl else 'http' }}"
+EDXAPP_LMS_BASE_SCHEME: "{{ 'https' if use_raccoongang_ssl else 'https' if use_letsencrypt else 'http' }}"
 EDXAPP_LMS_ROOT_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
 
 EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
