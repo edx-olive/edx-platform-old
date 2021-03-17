@@ -1,6 +1,7 @@
 stages:
     - deploy
     - deploy-vanilla
+    - deploy-stage
 deploy-dev:
     stage: deploy
     image: registry-gitlab.raccoongang.com/owlox-team/configuration:koa-rg-develop
@@ -17,6 +18,7 @@ deploy-dev:
     except:
         - tags
     allow_failure: true
+
 deploy-vanilla:
     stage: deploy-vanilla
     variables:
@@ -33,3 +35,20 @@ deploy-vanilla:
             - koa-rg
         variables:
             - $ENVIRONMENT_TYPE == "vanilla"
+
+deploy-stage:
+    stage: deploy-stage
+    variables:
+        ANSIBLE_SSH_KEY: $JENKINS_DEPLOY_KEY
+        ANSIBLE_VAULT_KEY: $DEVOPS_VAULT_KEY
+    image: registry-gitlab.raccoongang.com/owlox-team/configuration:koa-rg-develop
+    script:
+        - ansible-playbook stage.yml
+    environment:
+        name: stage
+        url: https://lms-koa-stage.raccoongang.com/
+    only:
+        refs:
+            - koa-rg
+        variables:
+            - $ENVIRONMENT_TYPE == "stage"

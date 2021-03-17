@@ -2,9 +2,9 @@
 
 edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
 EDX_PLATFORM_VERSION: "koa-rg"
-EDXAPP_SITE_NAME: "lms-koa-dev.raccoongang.com"
-EDXAPP_CMS_SITE_NAME: "cms-koa-dev.raccoongang.com"
-EDXAPP_PREVIEW_LMS_BASE: "preview-koa-dev.raccoongang.com"
+EDXAPP_SITE_NAME: "lms-koa-stage.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-koa-stage.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-koa-stage.raccoongang.com"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
@@ -24,7 +24,7 @@ DEVPI_WEB_VERSION: '3.5.2'
 DEVPI_CLIENT_VERSION: '5.1.1'
 EDX_NOTES_API_VERSION: 'open-release/koa.master'
 CERTS_VERSION: 'open-release/koa.master'
-COMMON_RETIREMENT_SERVICE_SETUP: true
+COMMON_RETIREMENT_SERVICE_SETUP: false
 
 EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics_log_collector']
 analytics_log_watcher_sleep_time: 1200
@@ -45,6 +45,6 @@ EDXAPP_RG_INSTRUCTOR_ANALYTICS_ENABLE: True
 EDXAPP_SITE_CONFIGURATION:
     - domain: "{{ EDXAPP_SITE_NAME }}"
       values:
-        COURSE_CATALOG_API_URL: 'https://discovery-koa-dev.raccoongang.com/api/v1'
+        COURSE_CATALOG_API_URL: 'https://discovery-koa-stage.raccoongang.com/api/v1'
         email_from_address: 'no-reply@raccoongang.com'
         payment_support_email: 'info@raccoongang.com'
