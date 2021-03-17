@@ -45,7 +45,7 @@ deploy-stage:
     script:
         - ansible-playbook stage.yml
     environment:
-        name: vanilla
+        name: stage
         url: https://lms-koa-stage.raccoongang.com/
     only:
         refs:
