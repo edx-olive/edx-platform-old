@@ -120,4 +120,4 @@ git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.18#egg=xblock-
 -e git+https://bitbucket.org/appliedxxx/getcredit_xblock.git#egg=getcredit_xblock
 # Based on v0.9.0 tag (does not contain incompatible `i18_service` and relies on compatible `XBlock` version)
 -e git+https://bitbucket.org/appliedxxx/xblock-image-explorer.git@amat-dev#egg=xblock-image-explorer
--e git+https://github.com/edx/xblock-in-video-quiz.git
+-e git+https://github.com/edx/xblock-in-video-quiz.git@release/v0.1.8#egg=xblock-in-video-quiz==0.1.8
