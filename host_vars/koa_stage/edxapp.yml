@@ -34,7 +34,7 @@ analytics_processors_sleep_time: 1200
 EDXAPP_EXTRA_REQUIREMENTS:
   - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics@v3.0.0-rc.8#egg=rg_instructor_analytics'
     extra_args: '-e'
-  - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics-log-collector@v3.0.0-rc.#egg=rg_instructor_analytics_log_collector'
+  - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics-log-collector@v3.0.0-rc.1#egg=rg_instructor_analytics_log_collector'
     extra_args: '-e'
   - name: 'edx-gamma-bridge==1.0.0.juniper.1'
     extra_args: '--extra-index-url https://pypi.raccoongang.com'
