@@ -30,8 +30,8 @@ EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics
 analytics_log_watcher_sleep_time: 1200
 analytics_processors_aliases: "enrollment video_views discussion student_step course_activity"
 analytics_processors_sleep_time: 1200
-
-EDXAPP_EXTRA_REQUIREMENTS:
+EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
+EDXAPP_PRIVATE_REQUIREMENTS:
   - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics@v3.0.0-rc.8#egg=rg_instructor_analytics'
     extra_args: '-e'
   - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics-log-collector@v3.0.0-rc.1#egg=rg_instructor_analytics_log_collector'
@@ -41,7 +41,6 @@ EDXAPP_EXTRA_REQUIREMENTS:
   - name: 'edx-gamma-dashboard==1.0.0.juniper.1'
     extra_args: '--extra-index-url https://pypi.raccoongang.com'
 
-EDXAPP_RG_INSTRUCTOR_ANALYTICS_ENABLE: True
 SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
       values:

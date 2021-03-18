@@ -88,20 +88,4 @@ EDXAPP_LMS_ENV_EXTRA:
 EDXAPP_CMS_ENV_EXTRA:
   RG_SENTRY_DSN: "{{ COMMON_RG_SENTRY_DSN }}"
 
-EDXAPP_EXTRA_REQUIREMENTS: "{{ _EDXAPP_EXTRA_REQUIREMENTS + GAMMA_EDXAPP_EXTRA_REQUIREMENTS + RG_IA_EDXAPP_EXTRA_REQUIREMENTS }}"
-
-_EDXAPP_EXTRA_REQUIREMENTS: []
-
-# rg_analytics
-# EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics_log_collector']
-# analytics_log_watcher_sleep_time: 1200
-# analytics_processors_aliases: "enrollment video_views discussion student_step course_activity"
-# analytics_processors_sleep_time: 1200
-RG_IA_EDXAPP_EXTRA_REQUIREMENTS: []
-# RG_IA_EDXAPP_EXTRA_REQUIREMENTS:
-#   - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics@v2.2.1#egg=rg_instructor_analytics'
-#     extra_args: '-e'
-#   - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics-log-collector@v2.2.1#egg=rg_instructor_analytics_log_collector'
-#     extra_args: '-e'
-
 CONFIGURE_JWTS: True
