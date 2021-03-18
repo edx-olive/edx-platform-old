@@ -42,9 +42,11 @@ EDXAPP_EXTRA_REQUIREMENTS:
     extra_args: '--extra-index-url https://pypi.raccoongang.com'
 
 EDXAPP_RG_INSTRUCTOR_ANALYTICS_ENABLE: True
-EDXAPP_SITE_CONFIGURATION:
+SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
       values:
         COURSE_CATALOG_API_URL: 'https://discovery-koa-stage.raccoongang.com/api/v1'
         email_from_address: 'no-reply@raccoongang.com'
         payment_support_email: 'info@raccoongang.com'
+
+EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE if COMMON_ENABLE_DISCOVERY else [] }}"

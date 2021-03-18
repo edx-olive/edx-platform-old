@@ -1,6 +1,5 @@
 ---
 # overrides for configuration:inventory/group_vars/all/notes.yml
-EDXAPP_ENABLE_EDXNOTES: true
 EDX_NOTES_API_MYSQL_DB_USER: "edx_notes_api"
 EDX_NOTES_API_MYSQL_DB_NAME: "edx_notes_api"
 EDXAPP_EDXNOTES_PUBLIC_API: "https://notes-api-koa-stage.raccoongang.com/api/v1"
