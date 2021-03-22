@@ -14,7 +14,7 @@ deploy-dev:
     script:
         - ansible-playbook dev.yml
     only:
-        - koa-rg
+        - master
     except:
         - tags
     allow_failure: true
@@ -32,7 +32,7 @@ deploy-vanilla:
         url: https://lms-koa-vanilla.raccoongang.com/
     only:
         refs:
-            - koa-rg
+            - master
         variables:
             - $ENVIRONMENT_TYPE == "vanilla"
 
@@ -49,6 +49,6 @@ deploy-stage:
         url: https://lms-koa-stage.raccoongang.com/
     only:
         refs:
-            - koa-rg
+            - master
         variables:
             - $ENVIRONMENT_TYPE == "stage"
