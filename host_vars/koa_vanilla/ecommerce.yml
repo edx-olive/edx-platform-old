@@ -148,7 +148,7 @@ NGINX_ADDITIONAL_SERVICES_CONFIG:
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
 
-ECOMMERCE_ENABLE_COMPREHENSIVE_THEMING: True
+ECOMMERCE_ENABLE_COMPREHENSIVE_THEMING: False
 ECOMMERCE_DEFAULT_SITE_THEME: "theme"
 ECOMMERCE_COMPREHENSIVE_THEME_DIRS:
   - "{{ ECOMMERCE_THEME_DIR }}"

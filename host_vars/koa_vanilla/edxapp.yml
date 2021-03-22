@@ -33,8 +33,9 @@ EDXAPP_LMS_ENV_EXTRA:
     KEY: "{{ RG_GAMIFICATION_KEY }}"
     SECRET: "{{ RG_GAMIFICATION_SECRET }}"
     IGNORED_EVENT_TYPES: []
-EDXAPP_EXTRA_REQUIREMENTS:
-  - name: 'edx-gamma-bridge==1.0.0.juniper.1'
-    extra_args: '--extra-index-url https://pypi.raccoongang.com'
-  - name: 'edx-gamma-dashboard==1.0.0.juniper.1'
-    extra_args: '--extra-index-url https://pypi.raccoongang.com'
+EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
+EDXAPP_PRIVATE_REQUIREMENTS:
+  - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics@v3.0.0-rc.8#egg=rg_instructor_analytics'
+    extra_args: '-e'
+  - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics-log-collector@v3.0.0-rc.1#egg=rg_instructor_analytics_log_collector'
+    extra_args: '-e'
