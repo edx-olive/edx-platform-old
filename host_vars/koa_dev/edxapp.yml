@@ -9,7 +9,7 @@ EDXAPP_PREVIEW_LMS_BASE: "preview-koa-dev.raccoongang.com"
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
 ## extra
-ECOMMERCE_VERSION: 'open-release/koa.master'
+ECOMMERCE_VERSION: 'koa-rg'
 DISCOVERY_VERSION: 'open-release/koa.master'
 ANALYTICS_API_VERSION: 'open-release/koa.master'
 INSIGHTS_VERSION: 'open-release/koa.master'

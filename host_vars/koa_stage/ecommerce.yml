@@ -1,16 +1,17 @@
 ---
 SANDBOX_ENABLE_ECOMMERCE: true
 
-ECOMMERCE_VERSION: "open-release/koa.master"
-ECOMMERCE_WORKER_VERSION: open-release/koa.master
+ECOMMERCE_WORKER_VERSION: "open-release/koa.master"
 
 ECOMMERCE_REPOS:
-  - REPO: ecommerce.git
-    DOMAIN: github.com
-    VERSION: "{{ ECOMMERCE_VERSION }}"
-    PROTOCOL: https
-    PATH: edx
+  - PROTOCOL: 'ssh'
+    DOMAIN: "gitlab.raccoongang.com"
+    PATH: 'edx'
+    REPO: 'ecommerce.git'
     DESTINATION: "{{ ecommerce_code_dir }}"
+    VERSION: "{{ ECOMMERCE_VERSION }}"
+    SSH_KEY: "{{ RG_COMMON_GIT_IDENTITY }}"
+
 
 ECOMMERCE_BROKER_PASSWORD: "{{ EDXAPP_CELERY_PASSWORD }}"
 ECOMMERCE_DATABASE_HOST: localhost
