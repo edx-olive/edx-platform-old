@@ -79,6 +79,7 @@
                     this.pipelineUserDetails = options.third_party_auth.pipeline_user_details;
                     this.enterpriseName = options.enterprise_name || '';
                     this.enterpriseSlugLoginURL = options.enterprise_slug_login_url || '';
+                    this.isEnterpriseEnable = options.is_enterprise_enable || false;
                     this.isAccountRecoveryFeatureEnabled = options.is_account_recovery_feature_enabled || false;
                     this.isMultipleUserEnterprisesFeatureEnabled =
                         options.is_multiple_user_enterprises_feature_enabled || false;
@@ -162,7 +163,8 @@
                             hideAuthWarnings: this.hideAuthWarnings,
                             pipelineUserDetails: this.pipelineUserDetails,
                             enterpriseName: this.enterpriseName,
-                            enterpriseSlugLoginURL: this.enterpriseSlugLoginURL
+                            enterpriseSlugLoginURL: this.enterpriseSlugLoginURL,
+                            isEnterpriseEnable: this.isEnterpriseEnable
                         });
 
                     // Listen for 'password-help' event to toggle sub-views

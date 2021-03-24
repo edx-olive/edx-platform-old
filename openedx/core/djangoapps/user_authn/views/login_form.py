@@ -30,7 +30,7 @@ from openedx.core.djangoapps.user_authn.utils import (
 )
 from openedx.core.djangoapps.user_authn.views.password_reset import get_password_reset_form
 from openedx.core.djangoapps.user_authn.views.registration_form import RegistrationFormFactory
-from openedx.features.enterprise_support.api import enterprise_customer_for_request
+from openedx.features.enterprise_support.api import enterprise_customer_for_request, enterprise_enabled
 from openedx.features.enterprise_support.utils import (
     get_enterprise_slug_login_url,
     handle_enterprise_cookies_for_logistration,
@@ -233,7 +233,8 @@ def login_and_registration_form(request, initial_mode="login"):
                 'ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION', True)),
             'is_account_recovery_feature_enabled': is_secondary_email_feature_enabled(),
             'is_multiple_user_enterprises_feature_enabled': is_multiple_user_enterprises_feature_enabled(),
-            'enterprise_slug_login_url': get_enterprise_slug_login_url()
+            'enterprise_slug_login_url': get_enterprise_slug_login_url(),
+            'is_enterprise_enable': enterprise_enabled(),
         },
         'login_redirect_url': redirect_to,  # This gets added to the query string of the "Sign In" button in header
         'responsive': True,
