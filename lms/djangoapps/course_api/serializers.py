@@ -6,6 +6,7 @@ import urllib
 import ast
 import json
 import requests
+from urlparse import urljoin
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -640,11 +641,10 @@ class AppliedXCourseSerializer(serializers.Serializer):  # pylint: disable=abstr
         # from the CourseOverview object in SQL.
         try:
             course_id = course_overview.id.to_deprecated_string()
-            # logger.error('Course API ' + str(course_id))
             if course_id:
                 payload = {'course_id': course_id}
                 headers = {'content-type': "application/json"}
-                url = settings.SABA_SERVICES_BASE_URL + "saba/api/v1/get_saba_details_from_db/"
+                url = urljoin(settings.SABA_SERVICES_BASE_URL, "saba/api/v1/get_saba_details_from_db/")
                 req = requests.post(url, json=payload, headers=headers, verify=False)
                 response = req.text
                 return json.loads(response)
