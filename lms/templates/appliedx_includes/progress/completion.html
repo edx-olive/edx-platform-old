@@ -24,6 +24,7 @@
          * Utility to enable only one Get-Credit click.
          */
         function enableGetCreditRequest() {
+            $("#course_recommend").off("click");
             $('#course_recommend').one("click", function(e) {
                 event.preventDefault()
                 CompleteEnrollment();
