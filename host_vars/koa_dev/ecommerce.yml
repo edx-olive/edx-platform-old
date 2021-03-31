@@ -197,7 +197,7 @@ NGINX_ADDITIONAL_SERVICES_CONFIG:
   - name: enterprise
     server_name: "enterprise-koa-dev.raccoongang.com"
     nginx_port: 443
-    nging_proxy_pass_port: 8160
+    nging_proxy_pass_port: 18160
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
 

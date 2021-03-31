@@ -6,3 +6,28 @@
  EDXAPP_COMPREHENSIVE_THEME_DIRS:  [ '/edx/app/edxapp/themes' ]
  EDXAPP_DEFAULT_SITE_THEME: "{{ edxapp_theme_name }}"
  EDXAPP_ENABLE_COMPREHENSIVE_THEMING: true
+
+#------Additional edx-sites-------
+ themes_repo_dest_dir: /edx/app/edxapp/themes
+ git_home: /edx/app/edxapp/
+ repo_group: "{{ themes_deploy_user }}"
+ repo_owner: "{{ themes_deploy_user }}"
+ themes_deploy_user: edxapp
+ THEMES_COMMON_GIT_PROTOCOL: ssh
+ THEMES_COMMON_GIT_MIRROR: gitlab.raccoongang.com
+ THEMES_COMMON_GIT_PATH: kraken/tanuki
+ THEMES_COMMON_GIT_REPO: edx-theme
+
+ PHYSIOU_SITE_THEME: "site-courses.physiou.com"
+ PHYSIOU_SITE_THEME_BRANCH: "site-courses.physiou.com"
+
+
+ GIT_REPOS: '{{ THEMES_GIT_REPOS | default({}, true) }}'
+ THEMES_GIT_REPOS:
+   - PROTOCOL: "{{ THEMES_COMMON_GIT_PROTOCOL }}"
+     DOMAIN: "{{ THEMES_COMMON_GIT_MIRROR }}"
+     PATH: "{{ THEMES_COMMON_GIT_PATH }}"
+     REPO: "{{ THEMES_COMMON_GIT_REPO }}"
+     DESTINATION: "{{ themes_repo_dest_dir }}/{{ PHYSIOU_SITE_THEME }}"
+     VERSION: "{{ PHYSIOU_SITE_THEME_BRANCH }}"
+     SSH_KEY: "{{ RG_COMMON_GIT_IDENTITY }}"

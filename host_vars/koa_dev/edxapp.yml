@@ -26,6 +26,44 @@ EDX_NOTES_API_VERSION: 'open-release/koa.master'
 CERTS_VERSION: 'open-release/koa.master'
 COMMON_RETIREMENT_SERVICE_SETUP: true
 
+EDXAPP_FEATURES_OVERRIDE:
+  AUTOMATIC_VERIFY_STUDENT_IDENTITY_FOR_TESTING: true
+  RG_DELETE_RETIRED: "{{ COMMON_ENABLE_ACCOUNT_DELETION }}"
+  ENABLE_XBLOCK_VIEW_ENDPOINT: true
+  ENABLE_ENTERPRISE_INTEGRATION: true
+  # RG Analytics
+  ENABLE_RG_INSTRUCTOR_ANALYTICS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
+  # For task grade_collector_stat
+  RG_ANALYTICS_GRADE_CRON_MINUTE: '*/15'
+  RG_ANALYTICS_GRADE_CRON_HOUR: '*'
+  RG_ANALYTICS_GRADE_CRON_DOM: '*'
+  RG_ANALYTICS_GRADE_CRON_DOW: '*'
+  RG_ANALYTICS_GRADE_CRON_MONTH: '*'
+  #  For task collect_demographics
+  RG_ANALYTICS_DEMOGRAPHICS_SCHEDULE:
+    minute: '*/15'
+    hour: '*'
+    day_of_month: '*'
+    day_of_week: '*'
+    month_of_year: '*'
+  # Microsite theme
+  PHYSIOU_SITE_THEME: "site-courses.physiou.com"
+  PHYSIOU_SITE_THEME_BRANCH: "site-courses.physiou.com"
+
+  # RG Analytics
+  # RG gamification
+  RG_GAMIFICATION:
+    ENABLED: False
+    RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-stage.raccoongang.com/"
+    KEY: "{{ RG_GAMIFICATION_KEY }}"
+    SECRET: "{{ RG_GAMIFICATION_SECRET }}"
+    IGNORED_EVENT_TYPES:
+      - edx.certificate.created
+      - edx.course.student_notes.added
+  # RG gamification
+
+EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
+
 EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics_log_collector']
 analytics_log_watcher_sleep_time: 1200
 analytics_processors_aliases: "enrollment video_views discussion student_step course_activity"

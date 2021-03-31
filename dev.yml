@@ -3,4 +3,5 @@
   become: true
 
   roles:
+    - git_clone
     - role: "{{ run_role | default('rg-edx-single') }}"
