@@ -1,5 +1,5 @@
 """
-Celery tasks used by preiodic_instructor_reports
+Celery tasks used by periodic_instructor_reports
 """
 import logging
 from datetime import date
