@@ -1,0 +1,68 @@
+---
+project_environment: 'ne'
+project_team: 'koa'
+project_name: 'koa'
+project_support_package: 'Default'
+cloud_provider: 'aws'
+tenancy_type: 'single'
+region_location: ''
+
+# TODO refactor roles/nginx, remove roles/rg-nginx
+use_raccoongang_ssl: yes
+nginx_ssl: yes
+lms_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+lms_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+
+## Enable Letsencrypt
+use_letsencrypt: no
+
+# NGINX_ADDITIONAL_SERVICES_CONFIG:
+#   - name: discovery
+#     server_name: "{{ DISCOVERY_DOMAIN | default('discovery.project_name.domain.tld') }}"
+#     nginx_port: 443
+#     nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
+#     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+#     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+#   - name: credentials
+#     server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
+#     nginx_port: 443
+#     nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
+#     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+#     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+NGINX_ADDITIONAL_SERVICES_CONFIG:
+  - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
+    nginx_port: 443
+    name: ECOMMERCE
+    server_name: "{{ ECOMMERCE_SUBSITE1_BASE }}"
+    nginx_ssl_certificate_key_path: "{{ lms_ssl_certificate_key_path }}"
+    nginx_ssl_certificate_path: "{{ lms_ssl_certificate_path }}"
+  - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
+    nginx_port: 443
+    name: ECOMMERCE
+    server_name: "{{ ECOMMERCE_BASE }}"
+    nginx_ssl_certificate_key_path: "{{ lms_ssl_certificate_key_path }}"
+    nginx_ssl_certificate_path: "{{ lms_ssl_certificate_path }}"
+  - name: credentials
+    server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+  - name: discovery
+    server_name: "{{ DISCOVERY_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
+    nginx_port: 443
+    nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+  - name: gamma
+    server_name: "gamma-koa-ne.raccoongang.com"
+    nginx_port: 443
+    nging_proxy_pass_port: 9000
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
+  - name: notes-api
+    server_name: "notes-api-koa-ne.raccoongang.com"
+    nginx_port: 443
+    nging_proxy_pass_port: 8120
+    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
+    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'

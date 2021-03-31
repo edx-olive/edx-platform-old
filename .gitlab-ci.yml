@@ -2,6 +2,7 @@ stages:
     - deploy
     - deploy-vanilla
     - deploy-stage
+    - deploy-ne
 deploy-dev:
     stage: deploy
     image: registry-gitlab.raccoongang.com/owlox-team/configuration:koa-rg-develop
@@ -52,3 +53,19 @@ deploy-stage:
             - master
         variables:
             - $ENVIRONMENT_TYPE == "stage"
+deploy-ne:
+    stage: deploy-ne
+    variables:
+        ANSIBLE_SSH_KEY: $JENKINS_DEPLOY_KEY
+        ANSIBLE_VAULT_KEY: $DEVOPS_VAULT_KEY
+    image: registry-gitlab.raccoongang.com/owlox-team/configuration:koa-rg-develop
+    script:
+        - ansible-playbook ne.yml
+    environment:
+        name: ne
+        url: https://lms-koa-ne.raccoongang.com/
+    only:
+        refs:
+            - master
+        variables:
+            - $ENVIRONMENT_TYPE == "ne"
