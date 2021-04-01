@@ -1115,6 +1115,7 @@ if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
         platform_git_commit = ''
     sentry_sdk.init(
             AUTH_TOKENS.get('RG_SENTRY_DSN'),
+            auto_enabling_integrations=False,
             integrations=[DjangoIntegration(),CeleryIntegration()],
             environment=ENV_TOKENS.get('RG_SENTRY_ENVIRONMENT', ''),
             release=platform_git_commit,
