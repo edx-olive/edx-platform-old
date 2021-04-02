@@ -315,6 +315,8 @@ FEATURES = {
 
     # Course discovery feature
     'ENABLE_COURSE_DISCOVERY': False,
+    # React-based replacement for discovery feature
+    'ENABLE_CUSTOM_SEARCH': False,
 
     # Setting for overriding default filtering facets for Course discovery
     # COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]

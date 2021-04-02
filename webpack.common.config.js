@@ -114,6 +114,7 @@ module.exports = Merge.smart({
 
             AnnouncementsView: './openedx/features/announcements/static/announcements/jsx/Announcements.jsx',
             CookiePolicyBanner: './common/static/js/src/CookiePolicyBanner.jsx',
+            CustomCourseSearch: './common/static/js/src/CourseSearch.jsx',
 
             // Common
             ReactRenderer: './common/static/js/src/ReactRenderer.jsx',
@@ -428,4 +429,3 @@ module.exports = Merge.smart({
 
     }
 }, {web: xmoduleJS}, workerConfig());
-
