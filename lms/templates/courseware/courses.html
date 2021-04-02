@@ -7,10 +7,18 @@
 <%inherit file="../main.html" />
 <%
   course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+  custom_search_enabled = settings.FEATURES.get('ENABLE_CUSTOM_SEARCH')
 %>
 
 <%namespace name='static' file='../static_content.html'/>
 
+% if custom_search_enabled:
+${static.renderReact(
+    component="CustomCourseSearch",
+    id="frontend-component-custom-search",
+    props={'csrfToken': csrf_token}
+)}
+% else:
 % if course_discovery_enabled:
 <%block name="header_extras">
   % for template_name in ["course_card", "filter_bar", "filter", "facet", "facet_option"]:
@@ -78,3 +86,4 @@
       </section>
     </section>
 </main>
+% endif
