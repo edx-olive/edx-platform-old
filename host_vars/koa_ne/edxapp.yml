@@ -24,7 +24,8 @@ DEVPI_WEB_VERSION: '3.5.2'
 DEVPI_CLIENT_VERSION: '5.1.1'
 EDX_NOTES_API_VERSION: 'open-release/koa.master'
 CERTS_VERSION: 'open-release/koa.master'
-COMMON_RETIREMENT_SERVICE_SETUP: false
+COMMON_RETIREMENT_SERVICE_SETUP: true
+EDXAPP_X_FRAME_OPTIONS: ALLOW
 
 EDXAPP_FEATURES_OVERRIDE:
   AUTOMATIC_VERIFY_STUDENT_IDENTITY_FOR_TESTING: true
@@ -56,6 +57,19 @@ EDXAPP_FEATURES_OVERRIDE:
       - edx.certificate.created
       - edx.course.student_notes.added
   # RG gamification
+  SHOW_LANGUAGE_SELECTOR: true
+
+  UNESCO_SITE_THEME: "unesco-juniper-stage"
+  UNESCO_SITE_THEME_BRANCH: "unesco-juniper-stage"
+
+  ATHENA_SITE_THEME: "athena-juniper-stage"
+  ATHENA_SITE_THEME_BRANCH: "master"
+
+  UWS_JUNIPER_SITE_THEME: "uws-juniper-stage"
+  UWS_JUNIPER_SITE_THEME_BRANCH: "uws-juniper-stage"
+
+  EXAM_JUNIPER_SITE_THEME: "exam-juniper-stage"
+  EXAM_JUNIPER_SITE_THEME_BRANCH: "exam-juniper-stage"
 
 EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
 
