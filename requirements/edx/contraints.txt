@@ -1,0 +1,2 @@
+# Fix decorator Py2 issue
+decorator==4.4.2
