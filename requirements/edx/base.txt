@@ -218,3 +218,6 @@ redis==2.10.6
 # Third Party XBlocks
 # this is edx-sga 0.6.2 with extra patches
 -e git+https://github.com/open-craft/edx-sga.git@opencraft-release/ginkgo.2-campus#egg=edx-sga==0.6.2
+
+# Fix decorator Py2 issue
+decorator==4.4.2
