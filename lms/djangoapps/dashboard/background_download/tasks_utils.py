@@ -28,7 +28,6 @@ log = logging.getLogger('edx.celery.task')
 
 
 def export_all_polls_submissions(filename, chunk_size, courses_ids, user_id):
-
     # `settings.POLL_SURVEY_SUBMISSIONS_DIR` is of `Path` type
     if not settings.POLL_SURVEY_SUBMISSIONS_DIR.isdir():
         settings.POLL_SURVEY_SUBMISSIONS_DIR.mkdir()
@@ -64,7 +63,8 @@ def export_polls_submissions(poll_type, courses_ids, chunk_size,
 
     header = (
         'poll_type',
-        'course', 'student_id', 'employee_id',
+        'course', 'section_name', 'subsection_name', 'unit_name', 'unit_link',
+        'employee_email_id', 'student_id', 'employee_id',
         'question_id', 'question_text',
         'answer_id', 'answer_text',
         'submission_date',
