@@ -1,9 +1,13 @@
 """Data preparation for file storage."""
 
+from collections import defaultdict
 import logging
-import time
 
+from django.conf import settings
+
+from courseware.models import StudentModule
 from opaque_keys.edx.keys import CourseKey
+from xmodule.modulestore.django import modulestore
 
 from poll_survey.configs import (
     ALLOWED_POLLS_NAMES,
@@ -12,6 +16,64 @@ from poll_survey.configs import (
 
 
 log = logging.getLogger('edx.celery.task')
+
+
+def _get_closest_to_dt(qs, dt):
+    """
+    Filter given queryset by the givet DateTime.
+
+    Returns value closest to given datetime.
+
+    Args:
+        qs (Queryset): Queryset to filter
+        dt (DateTime): DateTime for what to find closest record in the qs (should be offset-aware)
+
+    Returns:
+        [type]: [description]
+    """
+    greater = qs.filter(created__gte=dt).order_by("created").first()
+    less = qs.filter(created__lte=dt).order_by("-created").first()
+    if greater and less:
+        return greater if abs(greater.created - dt) < abs(less.created - dt) else less
+    else:
+        return greater or less
+
+
+def get_block_info(submission):
+    """
+    Get poll/survey parents and studio unit link.
+
+    Args:
+        submission (`poll_survey.models.PollSubmission` |
+            `poll_survey.models.SurveySubmission` |
+            `poll_survey.models.OpenEndedSubmission` obj): poll/submission obj
+
+    Returns:
+        dict: dict with parent names and studio link to unit containing poll/survey
+    """
+    qs = StudentModule.objects.filter(
+      course_id=submission.course,
+      student=submission.student,
+    )
+    # In most cases closest will be the `greter` one with differense between records ~ 1 sec.
+    closest = _get_closest_to_dt(qs, submission.submission_date)
+    if not closest:
+        return defaultdict(lambda: 'n/a')
+    usage_loc = closest.module_state_key
+    item = modulestore().get_item(usage_loc)
+    unit = item.get_parent()
+    unit_url = '{studio_base}/container/{block_key}'.format(
+        studio_base=settings.CMS_BASE,
+        block_key=str(unit.location)
+    )
+    subsection = unit.get_parent()
+    section = subsection.get_parent()
+    return {
+        'section_name': section.display_name,
+        'subsection_name': subsection.display_name,
+        'unit_name': unit.display_name,
+        'page_link': unit_url
+    }
 
 
 def prepare_submission_datum(submission, **kwargs):
@@ -38,9 +100,17 @@ def prepare_submission_datum(submission, **kwargs):
             submission_date = submission.submission_date.strftime("%m/%d/%Y")  # MM/DD/YYYY e.g. "11/07/2019"
         except:  # Cannot think of any particular error
             submission_date = "-"
+
+        block_info = get_block_info(submission)
+
         return [
             poll_type,
             submission.course,
+            block_info['section_name'],
+            block_info['subsection_name'],
+            block_info['unit_name'],
+            block_info['page_link'],
+            submission.student.email,
             submission.student.id,
             submission.employee_id or "-",
             submission.question.id,
@@ -50,7 +120,7 @@ def prepare_submission_datum(submission, **kwargs):
             submission_date,
         ]
     except AttributeError:
-        return [poll_type, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"]
+        return [poll_type, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"]
 
 
 def validate_poll_type(poll_type):
