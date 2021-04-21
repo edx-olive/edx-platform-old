@@ -8,6 +8,7 @@ from django.conf import settings
 from courseware.models import StudentModule
 from opaque_keys.edx.keys import CourseKey
 from xmodule.modulestore.django import modulestore
+from xmodule.modulestore.exceptions import ItemNotFoundError
 
 from poll_survey.configs import (
     ALLOWED_POLLS_NAMES,
@@ -63,7 +64,7 @@ def get_block_info(submission):
     item = modulestore().get_item(usage_loc)
     unit = item.get_parent()
     unit_url = '{studio_base}/container/{block_key}'.format(
-        studio_base=settings.CMS_BASE,
+        studio_base='https://{}'.format(settings.CMS_BASE),
         block_key=str(unit.location)
     )
     subsection = unit.get_parent()
@@ -119,7 +120,7 @@ def prepare_submission_datum(submission, **kwargs):
             answer_text.encode("utf8"),
             submission_date,
         ]
-    except AttributeError:
+    except (AttributeError, ItemNotFoundError):
         return [poll_type, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"]
 
 
