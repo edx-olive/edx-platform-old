@@ -9,7 +9,7 @@ from django.conf import settings
 from opaque_keys.edx.keys import CourseKey
 from six.moves import range  # pylint: disable=ungrouped-imports
 
-from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from ccx_keys.locator import CCXLocator
 from xmodule.modulestore.django import modulestore
 
 log = logging.getLogger(__name__)
@@ -60,5 +60,24 @@ def enqueue_async_course_overview_update_tasks(
 
 @task(base=LoggedPersistOnFailureTask)
 def async_course_overview_update(*args, **kwargs):
+    # import here to avoid ciclic import
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
     course_keys = [CourseKey.from_string(arg) for arg in args]
     CourseOverview.update_select_courses(course_keys, force_update=kwargs['force_update'])
+
+
+@task
+def task_reindex_courses(course_ids=[]):
+    """
+    Do reindex for given course_id's list.
+
+    Args:
+        course_ids (list, optional): list of course id's (str). Defaults to [].
+    """
+    from cms.djangoapps.contentstore.courseware_index import CoursewareSearchIndexer
+    for course_id in course_ids:
+        course_key = CourseKey.from_string(course_id)
+        # ccx courses are breaking indexing
+        if isinstance(course_id, CCXLocator):
+            continue
+        CoursewareSearchIndexer.do_course_reindex(modulestore(), course_key)

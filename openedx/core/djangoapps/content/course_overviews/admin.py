@@ -8,7 +8,13 @@ name, and start dates, but don't actually need to crawl into course content.
 from config_models.admin import ConfigurationModelAdmin
 from django.contrib import admin
 
-from .models import CourseOverview, CourseOverviewImageConfig, CourseOverviewImageSet, SimulateCoursePublishConfig
+from .models import (
+    CourseOverview,
+    CourseOverviewImageConfig,
+    CourseOverviewImageSet,
+    SimulateCoursePublishConfig,
+    NewAndInterestingTag,
+)
 
 
 class CourseOverviewAdmin(admin.ModelAdmin):
@@ -77,7 +83,23 @@ class SimulateCoursePublishConfigAdmin(ConfigurationModelAdmin):
     pass
 
 
+class NewAndInterestingTagAdmin(admin.ModelAdmin):
+    """
+    NewAndInterestingTag admin representation.
+
+    list_display was modified to represent custom date format.
+    """
+    def formated_date(self, obj):
+        return obj.expiration_date.strftime('%m/%d/%Y')
+
+    formated_date.admin_order_field = 'expiration_date'
+    formated_date.short_description = 'Expiration date (mm/dd/YYYY)'
+
+    list_display = ('course', 'formated_date',)
+
+
 admin.site.register(CourseOverview, CourseOverviewAdmin)
 admin.site.register(CourseOverviewImageConfig, CourseOverviewImageConfigAdmin)
 admin.site.register(CourseOverviewImageSet, CourseOverviewImageSetAdmin)
 admin.site.register(SimulateCoursePublishConfig, SimulateCoursePublishConfigAdmin)
+admin.site.register(NewAndInterestingTag, NewAndInterestingTagAdmin)
