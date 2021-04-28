@@ -4,7 +4,7 @@
 import logging
 import re
 from abc import ABCMeta, abstractmethod
-from datetime import timedelta
+from datetime import timedelta, date
 
 from django.conf import settings
 from django.urls import resolve
@@ -14,8 +14,9 @@ from eventtracking import tracker
 from search.search_engine_base import SearchEngine
 from six import add_metaclass, string_types, text_type
 
-from contentstore.course_group_config import GroupConfiguration
+from cms.djangoapps.contentstore.course_group_config import GroupConfiguration
 from course_modes.models import CourseMode
+from openedx.core.djangoapps.content.course_overviews.models import NewAndInterestingTag
 from openedx.core.lib.courses import course_image_url
 from xmodule.annotator_mixin import html_to_text
 from xmodule.library_tools import normalize_key_for_search
@@ -588,12 +589,24 @@ class CourseAboutSearchIndexer(object):
             return
 
         course_id = text_type(course.id)
+
         course_info = {
             'id': course_id,
             'course': course_id,
             'content': {},
             'image_url': course_image_url(course),
         }
+
+        new_and_interesting_tag = NewAndInterestingTag.objects.filter(course__id=course.id)
+        today = date.today()
+        is_new_and_interesting = False
+        if new_and_interesting_tag.exists():
+            if new_and_interesting_tag.last().expiration_date >= today:
+                is_new_and_interesting = True
+                course_info['new_and_interesting_expiration'] = new_and_interesting_tag.last().expiration_date
+            else:
+                new_and_interesting_tag.delete()
+        course_info['new_and_interesting_tag'] = is_new_and_interesting
 
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
