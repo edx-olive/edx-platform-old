@@ -23909,3 +23909,7 @@ msgstr ""
 #: edx_proctoring_proctortrack/backends/proctortrack_rest.py
 msgid "Click on the \"Start Proctored Exam\" button below to continue."
 msgstr ""
+
+#: openedx/core/djangoapps/content/course_overviews/models.py
+msgid "Please, provide the expiration date in the future."
+msgstr ""
