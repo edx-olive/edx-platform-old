@@ -3,6 +3,7 @@ Declaration of CourseOverview model
 """
 
 
+import datetime
 import json
 import logging
 
@@ -10,6 +11,7 @@ import six
 from ccx_keys.locator import CCXLocator
 from config_models.models import ConfigurationModel
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.fields import BooleanField, DateTimeField, DecimalField, FloatField, IntegerField, TextField
@@ -19,6 +21,7 @@ from django.dispatch import Signal, receiver
 from django.template import defaultfilters
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from opaque_keys.edx.django.models import CourseKeyField, UsageKeyField
 from six import text_type  # pylint: disable=ungrouped-imports
@@ -1103,6 +1106,13 @@ class NewAndInterestingTag(models.Model):
     """
     course = models.OneToOneField(CourseOverview, on_delete=models.CASCADE)
     expiration_date = models.DateField()
+
+    def clean(self):
+        """
+        Restrict creating tags with expired date.
+        """
+        if self.expiration_date < datetime.date.today():
+            raise ValidationError(_('Please, provide the expiration date in the future.'))
 
     @classmethod
     def from_db(cls, db, field_names, values):

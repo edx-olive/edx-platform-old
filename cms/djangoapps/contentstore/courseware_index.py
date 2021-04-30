@@ -596,16 +596,13 @@ class CourseAboutSearchIndexer(object):
             'content': {},
             'image_url': course_image_url(course),
         }
-
-        new_and_interesting_tag = NewAndInterestingTag.objects.filter(course__id=course.id)
         today = date.today()
+        NewAndInterestingTag.objects.filter(expiration_date__lt=today).delete()
+        new_and_interesting_tag = NewAndInterestingTag.objects.filter(course__id=course.id).last()
         is_new_and_interesting = False
-        if new_and_interesting_tag.exists():
-            if new_and_interesting_tag.last().expiration_date >= today:
-                is_new_and_interesting = True
-                course_info['new_and_interesting_expiration'] = new_and_interesting_tag.last().expiration_date
-            else:
-                new_and_interesting_tag.delete()
+        if new_and_interesting_tag:
+            is_new_and_interesting = True
+            course_info['new_and_interesting_expiration'] = new_and_interesting_tag.expiration_date
         course_info['new_and_interesting_tag'] = is_new_and_interesting
 
         # load data for all of the 'about' modules for this course into a dictionary
