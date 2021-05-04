@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 PERIODIC_REPORT_TASKS = {
     "calculate_grades_csv": submit_calculate_grades_csv,
     "calculate_students_features_csv": submit_calculate_students_features_csv,
-    "calculate_problem_grade_report": 
+    "calculate_problem_grade_report": submit_problem_grade_report,
 }
 
 
