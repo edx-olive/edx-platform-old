@@ -12,7 +12,7 @@ html5lib==0.999
 urllib3==1.25.4
 boto==2.39.0
 celery==3.1.18
-cryptography==1.5.3
+cryptography==3.3.2
 cssselect==0.9.1
 dealer==2.0.4
 defusedxml==0.4.1
