@@ -30,14 +30,14 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
     report_task = PERIODIC_REPORT_TASKS.get(task_name)
 
     if not report_task:
-        logger.error('Periodic report generation called for an unknow task: "%s"', task_name)
+        logger.error('Periodic report generation called for an unknown task: "%s"', task_name)
         return
 
     creator_email = kwargs.get("creator_email", "")
     creator = User.objects.filter(email=creator_email)
 
     if not creator.exists():
-        logger.error('Periodic report creator email does not exsist: "%s"', creator_email)
+        logger.error('Periodic report creator email does not exist: "%s"', creator_email)
         return
 
     # Create a fake request object as it is needed for the instructor tasks
