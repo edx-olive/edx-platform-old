@@ -1,33 +1,25 @@
-"""Views for the branding app. """
+"""Views for the branding app."""
 
 import logging
-from urllib.parse import quote, urljoin
-
 import branding.api as branding_api
 import six
 import student.views
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
-from django.core.validators import URLValidator
 from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils import translation
 from django.utils.translation.trans_real import get_supported_language_variant
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
 from edxmako.shortcuts import marketing_link, render_to_response
-from social_django.models import UserSocialAuth
 from util.cache import cache_if_anonymous
 from util.json_request import JsonResponse
 
 import lms.djangoapps.courseware.views.views as courseware_views
-import third_party_auth
 from openedx.core.djangoapps.lang_pref.api import released_languages
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
@@ -108,54 +100,6 @@ def courses(request):
     #  we do not expect this case to be reached in cases where
     #  marketing is enabled or the courses are not browsable
     return courseware_views.courses(request)
-
-
-@ensure_csrf_cookie
-@login_required
-def videos(request):
-    """
-    AB Initio videos signing endpoint.
-
-    Ensures that user has been logged in through SSO and video url is valid,
-    then redirects to the external signing service.
-
-    If user has no SSO login - redirects to the provider login page.
-    If url is invalid - raises http 500 error.
-
-    """
-    # NOTE (Dyudyunov): user login through SSO will be checked by the new middleware in the future
-    user_social_auth_exists = UserSocialAuth.objects.filter(user=request.user).exists()
-    if user_social_auth_exists:
-        signing_service_url = configuration_helpers.get_value(
-            'VIDEO_SIGNING_SERVICE_URL', settings.VIDEO_SIGNING_SERVICE_URL
-        )
-        video_full_url = urljoin(signing_service_url, request.path)
-        validate = URLValidator()  # TODO (Dyudyunov): do we need to restrict particular schemes (like `ftp`)?
-        try:
-            validate(video_full_url)
-            log.info("Redirecting to %s for video signing", video_full_url)
-            return redirect(video_full_url)
-        except ValidationError as err:
-            log.error("Invalid link [%s] set for video. Error: %s", video_full_url, err)
-            return HttpResponse(status=500)
-
-    provider_backend_name = configuration_helpers.get_value(
-        'SSO_PROVIDER_FOR_LOGIN_REDIRECT',
-        settings.SSO_PROVIDER_FOR_LOGIN_REDIRECT
-    )
-    active_providers_backend_names = [p.backend_name for p in third_party_auth.provider.Registry.displayed_for_login()]
-    if provider_backend_name and provider_backend_name in active_providers_backend_names:
-        sso_login_url = '/auth/login/{}/?auth_entry=login&next='.format(
-            provider_backend_name
-        ) + quote(request.path, safe='')
-        log.info("Redirecting to SSO login using %s provider", provider_backend_name)
-        return redirect(sso_login_url)
-
-    log.error("Invalid SSO provider [{}]. Available providers: {}".format(
-        provider_backend_name,
-        active_providers_backend_names
-    ))
-    return HttpResponse(status=500)
 
 
 def _footer_static_url(request, name):
