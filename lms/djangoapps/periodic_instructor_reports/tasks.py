@@ -63,11 +63,12 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
 
     if include_related_ccx:
         custom_courses = CustomCourseForEdX.objects.filter(course_id__in=course_ids)
+        ccx_course_ids = list({ccx.locator for ccx in custom_courses})
 
         if only_ccx:
-            course_ids = {ccx.locator for ccx in custom_courses}
+            course_ids = ccx_course_ids
         else:
-            course_ids.extend(list({ccx.locator for ccx in custom_courses}))
+            course_ids.extend(ccx_course_ids)
 
     for course_id in course_ids:
         task_kwargs = {}
