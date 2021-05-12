@@ -53,8 +53,8 @@ EDXAPP_FEATURES_OVERRIDE:
   # RG Analytics
   # RG gamification
   RG_GAMIFICATION:
-    ENABLED: False
-    RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-stage.raccoongang.com/"
+    ENABLED: True
+    RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-dev.raccoongang.com/"
     KEY: "{{ RG_GAMIFICATION_KEY }}"
     SECRET: "{{ RG_GAMIFICATION_SECRET }}"
     IGNORED_EVENT_TYPES:
