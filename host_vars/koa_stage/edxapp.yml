@@ -7,6 +7,7 @@ EDXAPP_CMS_SITE_NAME: "cms-koa-stage.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-koa-stage.raccoongang.com"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
+COMMON_HOSTNAME: "koa-stage"
 
 ## extra
 ECOMMERCE_VERSION: 'koa-rg'

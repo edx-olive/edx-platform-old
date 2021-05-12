@@ -5,6 +5,7 @@ EDX_PLATFORM_VERSION: "koa-rg"
 EDXAPP_SITE_NAME: "lms-koa-dev.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-koa-dev.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-koa-dev.raccoongang.com"
+COMMON_HOSTNAME: "koa-dev"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
