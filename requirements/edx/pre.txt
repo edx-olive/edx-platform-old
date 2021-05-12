@@ -21,8 +21,5 @@ Cython==0.21.2
 Django==1.8.18
 git+https://github.com/edx/nltk.git@2.0.6#egg=nltk==2.0.6
 
-# https://github.com/edx/MongoDBProxy setup requirements
-pyandoc
-
 # https://github.com/hmarr/django-debug-toolbar-mongo setup requirements
 versiontools
