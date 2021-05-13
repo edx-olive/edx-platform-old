@@ -212,7 +212,7 @@ edx-django-release-util==0.3.0
 
 # Support for plugins
 web-fragments==0.2.2
-xblock==1.0.0
+xblock==1.2.0
 
 # Redis version
 redis==2.10.6
