@@ -16,7 +16,7 @@ from six import add_metaclass, string_types, text_type
 
 from cms.djangoapps.contentstore.course_group_config import GroupConfiguration
 from course_modes.models import CourseMode
-from openedx.core.djangoapps.content.course_overviews.models import NewAndInterestingTag
+from openedx.core.djangoapps.content.course_overviews.models import NewAndInterestingTag, Series
 from openedx.core.lib.courses import course_image_url
 from xmodule.annotator_mixin import html_to_text
 from xmodule.library_tools import normalize_key_for_search
@@ -604,6 +604,8 @@ class CourseAboutSearchIndexer(object):
             is_new_and_interesting = True
             course_info['new_and_interesting_expiration'] = new_and_interesting_tag.expiration_date
         course_info['new_and_interesting_tag'] = is_new_and_interesting
+
+        course_info['series'] = [s.title for s in Series.objects.filter(courses__id=course.id)]
 
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
