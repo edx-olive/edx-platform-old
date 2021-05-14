@@ -501,12 +501,28 @@ class ProblemGradeReport(object):
             if task_progress.attempted % status_interval == 0:
                 task_progress.update_task_state(extra_meta=current_step)
 
+        upload_filename = _task_input.get('filename', 'problem_grade_report')
+        upload_parent_dir = _task_input.get('upload_parent_dir', '')
+
         # Perform the upload if any students have been successfully graded
         if len(rows) > 1:
-            upload_csv_to_report_store(rows, 'problem_grade_report', course_id, start_date)
+            upload_csv_to_report_store(
+                rows,
+                upload_filename,
+                course_id,
+                start_date,
+                parent_dir=upload_parent_dir,
+            )
+
         # If there are any error rows, write them out as well
         if len(error_rows) > 1:
-            upload_csv_to_report_store(error_rows, 'problem_grade_report_err', course_id, start_date)
+            upload_csv_to_report_store(
+                error_rows,
+                '{}_err'.format(upload_filename),
+                course_id,
+                start_date,
+                parent_dir=upload_parent_dir,
+            )
 
         return task_progress.update_task_state(extra_meta={'step': 'Uploading CSV'})
 
