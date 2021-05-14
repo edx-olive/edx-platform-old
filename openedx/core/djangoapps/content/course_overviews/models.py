@@ -6,40 +6,51 @@ Declaration of CourseOverview model
 import datetime
 import json
 import logging
+import os
+import time
 
 import six
 from ccx_keys.locator import CCXLocator
 from config_models.models import ConfigurationModel
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.fields import BooleanField, DateTimeField, DecimalField, FloatField, IntegerField, TextField
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.db.utils import IntegrityError
-from django.dispatch import Signal, receiver
+from django.dispatch import receiver
 from django.template import defaultfilters
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from opaque_keys.edx.django.models import CourseKeyField, UsageKeyField
+from simple_history.models import HistoricalRecords
 from six import text_type  # pylint: disable=ungrouped-imports
 from six.moves.urllib.parse import urlparse, urlunparse  # pylint: disable=import-error
-from simple_history.models import HistoricalRecords
-
-from lms.djangoapps.discussion import django_comment_client
-from openedx.core.djangoapps.catalog.models import CatalogIntegration
-from openedx.core.djangoapps.content.course_overviews.tasks import task_reindex_courses
-from openedx.core.djangoapps.lang_pref.api import get_closest_released_language
-from openedx.core.djangoapps.models.course_details import CourseDetails
-from openedx.core.lib.cache_utils import request_cached, RequestCache
 from static_replace.models import AssetBaseUrlConfig
 from xmodule import block_metadata_utils, course_metadata_utils
 from xmodule.course_module import DEFAULT_START_DATE, CourseDescriptor
 from xmodule.error_module import ErrorDescriptor
 from xmodule.modulestore.django import modulestore
 from xmodule.tabs import CourseTab
+
+from lms.djangoapps.discussion import django_comment_client
+from openedx.core.djangoapps.catalog.models import CatalogIntegration
+from openedx.core.djangoapps.content.course_overviews.tasks import task_reindex_courses
+from openedx.core.djangoapps.lang_pref.api import get_closest_released_language
+from openedx.core.djangoapps.models.course_details import CourseDetails
+from openedx.core.lib.cache_utils import RequestCache, request_cached
+
+from .tasks import task_reindex_courses
+
+ALLOWED_IMAGE_FORMATS = (
+    ".png", ".jpg", ".jpeg", ".gif"
+)
+
+COLLECTIONS_IMAGE_ASSETS_DIRNAME = "collections"
 
 
 log = logging.getLogger(__name__)
@@ -1136,3 +1147,94 @@ def do_reindex(sender, instance, **kwargs):
         course_ids.add(str(instance._loaded_values['course_id']))
     course_ids.add(str(instance.course.id))
     task_reindex_courses.delay(course_ids=list(course_ids))
+
+
+def collection_image_assets_path(_, filename):
+    """
+    Return the collection image asset file path.
+
+    Arguments:
+        _ (`Collection` obj): Collection instance.
+        filename (str): asset filename e.g. "filename.png".
+
+    Returns:
+        asset path (str): path of asset file e.g. base_dir/filename_1269884900.png
+    """
+    file_name, file_extension = os.path.splitext(filename)
+    # Sign with timestamp to avoid duplicates
+    file_name += str(int(time.time()))
+    name = os.path.join(
+        COLLECTIONS_IMAGE_ASSETS_DIRNAME,
+        file_name + file_extension,
+    )
+    # Can't upload to course assets `xmodule.contentstore.content.StaticContent`:
+    # getting `django.security.SuspiciousFileOperation` exception.
+    fullname = os.path.join(settings.MEDIA_ROOT, name)
+    # Improbable, but there can still be duplicates
+    if os.path.exists(fullname):
+        os.remove(fullname)
+    return name
+
+
+def validate_collection_image(image):
+    """
+    Validate that a particular image is of allowed format.
+    """
+    _, file_extension = os.path.splitext(image.name)
+    if file_extension not in ALLOWED_IMAGE_FORMATS:
+        raise ValidationError(
+            "Only {} files can be uploaded. Please select a file in allowed formats to upload.".format(ALLOWED_IMAGE_FORMATS)
+        )
+
+
+class CourseCollection(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(
+        help_text="Allowed extensions: {}".format(ALLOWED_IMAGE_FORMATS),
+        upload_to=collection_image_assets_path,
+        validators=[validate_collection_image],
+        blank=True,
+        null=True,
+    )
+    created_by = models.ForeignKey(User, on_delete=None, editable=False, blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    courses = models.ManyToManyField(CourseOverview)
+
+    class Meta:
+        abstract = True
+
+
+@python_2_unicode_compatible
+class Series(CourseCollection):
+    series_id = models.CharField(max_length=45, unique=True, verbose_name='Series ID')
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta(CourseCollection.Meta):
+        app_label = 'course_overviews'
+        verbose_name_plural = 'Series'
+
+
+@receiver([pre_delete, post_delete], sender=Series)
+def delete_reindex_series(sender, instance, **kwargs):
+    category_courses = instance.courses.all()
+    if category_courses:
+        instance.courses_list = map(lambda x: str(x.id), category_courses)
+    elif instance.courses_list:
+        task_reindex_courses.delay(course_ids=instance.courses_list)
+
+
+@receiver(m2m_changed, sender=Series.courses.through)
+def save_reindex_series(sender, instance, pk_set, action, **kwargs):
+    courses_set = set()
+    if action == 'pre_remove':
+        instance.pre_clear_course_keys = set()
+        instance.pre_clear_course_keys.update(str(x.id) for x in instance.courses.all())
+
+    if action in ['post_add', 'post_remove']:
+        courses_set.update(str(c.id) for c in instance.courses.all())
+        courses_set.update(getattr(instance, 'pre_clear_course_keys', set()))
+        task_reindex_courses.delay(series_id=instance.id, course_ids=list(courses_set))

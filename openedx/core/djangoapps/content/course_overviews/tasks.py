@@ -67,15 +67,25 @@ def async_course_overview_update(*args, **kwargs):
 
 
 @task
-def task_reindex_courses(course_ids=[]):
+def task_reindex_courses(course_ids=[], series_id=None):
     """
     Do reindex for given course_id's list.
 
     Args:
         course_ids (list, optional): list of course id's (str). Defaults to [].
+        series_id: int
     """
+    from openedx.core.djangoapps.content.course_overviews.models import Series
     from cms.djangoapps.contentstore.courseware_index import CoursewareSearchIndexer
-    for course_id in course_ids:
+
+    courses = set(course_ids) if course_ids else set()
+    if series_id:
+        series = Series.objects.filter(id=series_id).first()
+        if series:
+            series_ids = series.courses.values_list('id', flat=True)
+            courses.update(str(x) for x in series_ids)
+
+    for course_id in courses:
         course_key = CourseKey.from_string(course_id)
         # ccx courses are breaking indexing
         if isinstance(course_id, CCXLocator):

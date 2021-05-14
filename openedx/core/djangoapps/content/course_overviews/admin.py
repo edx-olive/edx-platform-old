@@ -14,6 +14,7 @@ from .models import (
     CourseOverviewImageSet,
     SimulateCoursePublishConfig,
     NewAndInterestingTag,
+    Series,
 )
 
 
@@ -98,8 +99,31 @@ class NewAndInterestingTagAdmin(admin.ModelAdmin):
     list_display = ('course', 'formated_date',)
 
 
+class SeriesAdmin(admin.ModelAdmin):
+
+    list_display = [
+        'series_id',
+        'title',
+        'creation_date',
+        'last_modified',
+        'created_by'
+    ]
+
+    readonly_fields = [
+        'created_by',
+        'creation_date',
+        'last_modified',
+    ]
+
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+        obj.save()
+
+
 admin.site.register(CourseOverview, CourseOverviewAdmin)
 admin.site.register(CourseOverviewImageConfig, CourseOverviewImageConfigAdmin)
 admin.site.register(CourseOverviewImageSet, CourseOverviewImageSetAdmin)
 admin.site.register(SimulateCoursePublishConfig, SimulateCoursePublishConfigAdmin)
 admin.site.register(NewAndInterestingTag, NewAndInterestingTagAdmin)
+admin.site.register(Series, SeriesAdmin)

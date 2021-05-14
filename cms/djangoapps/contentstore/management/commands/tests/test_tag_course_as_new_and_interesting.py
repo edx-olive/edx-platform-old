@@ -4,16 +4,14 @@ Tests for the tag_course_as_new_and_interesting management command
 
 
 import datetime
+
 import six
-
-from django.core.management import CommandError, call_command
-from django.core.management.base import BaseCommand, CommandError
-
-from xmodule.modulestore import ModuleStoreEnum
-from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase, SharedModuleStoreTestCase
-from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
-
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview, NewAndInterestingTag
+from xmodule.modulestore import ModuleStoreEnum
+from xmodule.modulestore.tests.django_utils import SharedModuleStoreTestCase
+from xmodule.modulestore.tests.factories import CourseFactory
 
 
 class TestTagAsNewAndInteresting(SharedModuleStoreTestCase):
@@ -26,7 +24,6 @@ class TestTagAsNewAndInteresting(SharedModuleStoreTestCase):
         super(TestTagAsNewAndInteresting, cls).setUpClass()
         cls.course = CourseFactory.create(default_store=ModuleStoreEnum.Type.split)
         cls.course_overview = CourseOverview.get_from_id(cls.course.id)
-        cls.command = Command()
         cls.default_end_date = (datetime.date.today() + datetime.timedelta(days=10)).strftime('%m/%d/%Y')
 
     def test_no_args(self):
