@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.http.request import HttpRequest
 
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from lms.djangoapps.ccx.models import CustomCourseForEdX
 from instructor_task.api import submit_calculate_grades_csv, submit_calculate_students_features_csv
 
 logger = logging.getLogger(__name__)
@@ -22,22 +23,22 @@ PERIODIC_REPORT_TASKS = {
 @task # pylint: disable=not-callable
 def periodic_task_wrapper(course_ids, *args, **kwargs):
     """
-    Call instructor tasks in a periodic way. 
+    Call instructor tasks in a periodic way.
     """
 
     task_name = kwargs.get("task_name")
     report_task = PERIODIC_REPORT_TASKS.get(task_name)
 
     if not report_task:
-        logger.error('Periodic report generation called for an unknow task: "%s"', task_name)
+        logger.error('Periodic report generation called for an unknown task: "%s"', task_name)
         return
 
     creator_email = kwargs.get("creator_email", "")
     creator = User.objects.filter(email=creator_email)
 
     if not creator.exists():
-        logger.error('Periodic report creator email does not exsist: "%s"', creator_email)
-        return 
+        logger.error('Periodic report creator email does not exist: "%s"', creator_email)
+        return
 
     # Create a fake request object as it is needed for the instructor tasks
     request = HttpRequest()
@@ -50,8 +51,24 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
         "SERVER_PORT": 0,
     }
 
+    include_related_ccx = kwargs.get("include_ccx", False)
+    only_ccx = kwargs.get("only_ccx", False)
     use_folders_by_date = kwargs.get("use_folders_by_date", False)
     filename = kwargs.get("filename", None)
+
+    course_ids = [
+        SlashSeparatedCourseKey.from_deprecated_string(course_id)
+        for course_id in course_ids
+    ]
+
+    if include_related_ccx:
+        custom_courses = CustomCourseForEdX.objects.filter(course_id__in=course_ids)
+        ccx_course_ids = list({ccx.locator for ccx in custom_courses})
+
+        if only_ccx:
+            course_ids = ccx_course_ids
+        else:
+            course_ids.extend(ccx_course_ids)
 
     for course_id in course_ids:
         task_kwargs = {}
@@ -67,5 +84,4 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
             })
 
         logger.info('Calling periodic "%s" for course "%s"', task_name, course_id)
-        course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
-        report_task(request, course_key, *args, **task_kwargs)
+        report_task(request, course_id, *args, **task_kwargs)
