@@ -8,7 +8,7 @@ import factory
 from factory.django import DjangoModelFactory
 from opaque_keys.edx.locator import CourseLocator
 
-from ..models import CourseOverview
+from ..models import CourseOverview, Series
 
 
 class CourseOverviewFactory(DjangoModelFactory):
@@ -45,3 +45,9 @@ class CourseOverviewFactory(DjangoModelFactory):
     @factory.lazy_attribute
     def end(self):
         return timezone.now() + timedelta(30)
+
+class SeriesFactory(DjangoModelFactory):
+    class Meta:
+        model = Series
+
+    series_id = factory.Sequence('series_{}'.format)
