@@ -3,7 +3,6 @@
 CourseOverview internal api
 """
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-
 from openedx.core.djangoapps.content.course_overviews.serializers import (
     CourseOverviewBaseSerializer,
 )
