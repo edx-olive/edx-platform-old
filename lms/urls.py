@@ -55,6 +55,7 @@ from staticbook import views as staticbook_views
 from student import views as student_views
 from util import views as util_views
 
+
 RESET_COURSE_DEADLINES_NAME = 'reset_course_deadlines'
 RENDER_XBLOCK_NAME = 'render_xblock'
 COURSE_DATES_NAME = 'dates'
@@ -328,7 +329,7 @@ urlpatterns += [
     ),
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
-    
+
     # About the course
     url(
         r'^courses/{}/about$'.format(
