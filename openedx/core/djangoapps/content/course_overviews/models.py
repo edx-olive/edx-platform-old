@@ -1222,7 +1222,7 @@ class Series(CourseCollection):
 def delete_reindex_series(sender, instance, **kwargs):
     category_courses = instance.courses.all()
     if category_courses:
-        instance.courses_list = map(lambda x: str(x.id), category_courses)
+        instance.courses_list = [str(course.id) for course in category_courses]
     elif instance.courses_list:
         task_reindex_courses.delay(course_ids=instance.courses_list)
 
