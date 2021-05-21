@@ -44,7 +44,6 @@ from openedx.core.djangoapps.lang_pref.api import get_closest_released_language
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from openedx.core.lib.cache_utils import RequestCache, request_cached
 
-from .tasks import task_reindex_courses
 
 ALLOWED_IMAGE_FORMATS = (
     ".png", ".jpg", ".jpeg", ".gif"
@@ -1136,17 +1135,34 @@ class NewAndInterestingTag(models.Model):
         return instance
 
 
-@receiver([post_save, post_delete], sender=NewAndInterestingTag)
-def do_reindex(sender, instance, **kwargs):
+@receiver([pre_delete, post_delete], sender=NewAndInterestingTag)
+def delete_reindex_newAndInteresting(sender, instance, **kwargs):
     """
-    Save/delete reciever to call task_reindex_courses.
+    Save related course on pre_delete and reindex course after NewAndInterestingTag deletion.
+    """
+    course_ids = set()
+    if hasattr(instance, 'related_course'):
+        course_ids.add(instance.related_course)
+    course_id = str(instance.course.id)
+    if course_id:
+        instance.related_course = course_id
+        course_ids.add(course_id)
+    task_reindex_courses.delay(course_ids=list(course_ids))
+
+
+@receiver([post_save], sender=NewAndInterestingTag)
+def do_reindex_newAndInteresting(sender, instance, **kwargs):
+    """
+    Reindex course on NewAndInterestingTag save.
     """
     course_ids = set()
     # If we are creating a new record - there are no _loaded_values yet
     if hasattr(instance, '_loaded_values'):
         course_ids.add(str(instance._loaded_values['course_id']))
-    course_ids.add(str(instance.course.id))
-    task_reindex_courses.delay(course_ids=list(course_ids))
+    if instance.course.id:
+        course_ids.add(str(instance.course.id))
+    if len(course_ids) > 0:
+        task_reindex_courses.delay(course_ids=list(course_ids))
 
 
 def collection_image_assets_path(_, filename):
@@ -1188,6 +1204,8 @@ def validate_collection_image(image):
 
 
 class CourseCollection(models.Model):
+    """Abstract model for all collections instances."""
+
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(
@@ -1206,29 +1224,44 @@ class CourseCollection(models.Model):
         abstract = True
 
 
-@python_2_unicode_compatible
 class Series(CourseCollection):
+    """Model for storing series instances."""
+
     series_id = models.CharField(max_length=45, unique=True, verbose_name='Series ID')
 
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        return '{}: {}'.format(self.series_id, self.title)
 
     class Meta(CourseCollection.Meta):
         app_label = 'course_overviews'
         verbose_name_plural = 'Series'
 
 
+@receiver(post_save, sender=Series)
+def reindex_series(sender, instance, **kwargs):
+    """
+    Reindex related courses after Series save.
+    """
+    task_reindex_courses.delay([str(x.id) for x in instance.courses.all()])
+
+
 @receiver([pre_delete, post_delete], sender=Series)
 def delete_reindex_series(sender, instance, **kwargs):
-    category_courses = instance.courses.all()
-    if category_courses:
-        instance.courses_list = [str(course.id) for course in category_courses]
+    """
+    Save related courses on pre_delete and reindex courses after Series deletion.
+    """
+    series_courses = instance.courses.all()
+    if series_courses:
+        instance.courses_list = list(map(lambda x: str(x.id), series_courses))
     elif instance.courses_list:
-        task_reindex_courses.delay(course_ids=instance.courses_list)
+        task_reindex_courses.delay(course_ids=list(instance.courses_list))
 
 
 @receiver(m2m_changed, sender=Series.courses.through)
-def save_reindex_series(sender, instance, pk_set, action, **kwargs):
+def change_reindex_series(sender, instance, pk_set, action, **kwargs):
+    """
+    Reindex related to Series courses on Courses field change.
+    """
     courses_set = set()
     if action == 'pre_remove':
         instance.pre_clear_course_keys = set()
@@ -1237,4 +1270,4 @@ def save_reindex_series(sender, instance, pk_set, action, **kwargs):
     if action in ['post_add', 'post_remove']:
         courses_set.update(str(c.id) for c in instance.courses.all())
         courses_set.update(getattr(instance, 'pre_clear_course_keys', set()))
-        task_reindex_courses.delay(series_id=instance.id, course_ids=list(courses_set))
+        task_reindex_courses.delay(course_ids=list(courses_set))
