@@ -17879,8 +17879,8 @@ msgid ""
 "link from {platform_name}. If you need help, contact "
 "{link_start}{platform_name} Support{link_end}."
 msgstr "שלחנו מייל אימות ל {email_start}{email}{email_end} ובו ניתן למצוא קישור "
-"לאימות המשתמש שלך בקמפוס {platform_name}. אם נתקלת בבעיות, אנשי התמיכה פה "
-"לשירותך {link_start}{platform_name}קמפוס תמיכה{link_end}."
+"לאימות המשתמש שלך ב{platform_name}. אם נתקלת בבעיות, אנשי התמיכה פה "
+"לשירותך {link_start}{platform_name} תמיכה{link_end}."
 
 #: lms/templates/registration/activate_account_notice.html
 msgid "You're almost there!"
