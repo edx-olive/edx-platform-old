@@ -26,12 +26,17 @@ from util.json_request import JsonResponse
 
 log = logging.getLogger(__name__)
 
+CATALOG_HOMEPAGE_URL = "https://courses/appliedx"
+
 
 @ensure_csrf_cookie
 def home(request):
     """
     AMATX react-based home page view
     """
+    if not settings.FEATURES.get("ENABLE_NEW_HOMEPAGE", False):
+        return redirect(CATALOG_HOMEPAGE_URL)
+
     aws_settings = settings.FEATURES.get("CATALOG_AWS_SETTINGS", {})
     aws_credentials = aws_settings.get("CREDENTIALS", {})
     context = {
@@ -53,11 +58,13 @@ def home(request):
 @login_required
 @ensure_csrf_cookie
 def index(request):
-    '''
+    """
     Redirects to main page -- info page if user authenticated, or marketing if not
-    '''
+    """
     if settings.FEATURES.get("ENABLE_NEW_HOMEPAGE", False):
         return redirect(reverse("home"))
+    else:
+        return redirect(CATALOG_HOMEPAGE_URL)
 
     if request.user.is_authenticated():
         # Only redirect to dashboard if user has
