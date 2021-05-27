@@ -1,6 +1,6 @@
 const routes = [
     {
-        'path': '/home',
+        'path': 'https://courses/appliedx',
         'title': 'Home',
         'inMenu': true,
         'observable': true,
