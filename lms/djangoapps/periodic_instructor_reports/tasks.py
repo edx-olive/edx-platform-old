@@ -58,6 +58,7 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
 
     include_related_ccx = kwargs.get("include_ccx", False)
     only_ccx = kwargs.get("only_ccx", False)
+    upload_folder_prefix = kwargs.get("upload_folder_prefix", "")
     use_folders_by_date = kwargs.get("use_folders_by_date", False)
     filename = kwargs.get("filename", None)
 
@@ -85,7 +86,14 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
 
         if use_folders_by_date:
             task_kwargs.update({
-                "upload_parent_dir": date.today().strftime("%Y/%m/%d")
+                "upload_parent_dir": "{prefix}{folder}".format(
+                    prefix=upload_folder_prefix,
+                    folder=date.today().strftime("%Y/%m/%d")
+                )
+            })
+        elif upload_folder_prefix:
+            task_kwargs.update({
+                "upload_parent_dir": upload_folder_prefix
             })
 
         logger.info('Calling periodic "%s" for course "%s"', task_name, course_id)
