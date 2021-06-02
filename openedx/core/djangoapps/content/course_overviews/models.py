@@ -1121,7 +1121,7 @@ class NewAndInterestingTag(models.Model):
         """
         Restrict creating tags with expired date.
         """
-        if self.expiration_date < datetime.date.today():
+        if self.expiration_date  and self.expiration_date  < datetime.date.today():
             raise ValidationError(_('Please, provide the expiration date in the future.'))
 
     @classmethod
