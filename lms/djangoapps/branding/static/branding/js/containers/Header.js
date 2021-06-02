@@ -71,7 +71,7 @@ class Header extends React.Component {
             <header className={'Header Header_' + this.state.scrollDirection}>
                 <div className="Header-Wrapper">
                     <div className="Logo-Wrapper">
-                        <a href="/home" {...logoLinkAttrs}>
+                        <a href="http://appliedx" {...logoLinkAttrs}>
                             <img className="Logo-Img" src={this.props.logoImg} alt="appliedx"/>
                         </a>
                     </div>
