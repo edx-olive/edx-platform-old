@@ -2,14 +2,22 @@
 
 
 import datetime
-
-from django.conf import settings
-from lms.djangoapps.commerce.utils import EcommerceService
-from pytz import utc
+import logging
 
 from course_modes.models import CourseMode
+from django.conf import settings
+from opaque_keys import InvalidKeyError
+from opaque_keys.edx.keys import CourseKey
+from pytz import utc
+from xmodule.modulestore.django import modulestore
+from xmodule.modulestore.exceptions import ItemNotFoundError
 from xmodule.partitions.partitions import ENROLLMENT_TRACK_PARTITION_ID
 from xmodule.partitions.partitions_service import PartitionService
+
+from lms.djangoapps.commerce.utils import EcommerceService
+from openedx.core.djangoapps.content.block_structure.exceptions import BlockStructureNotFound
+
+log = logging.getLogger(__name__)
 
 
 def verified_upgrade_deadline_link(user, course=None, course_id=None):
@@ -78,3 +86,43 @@ def can_show_verified_upgrade(user, enrollment, course=None):
 
     # Show the summary if user enrollment is in which allow user to upsell
     return enrollment.is_active and enrollment.mode in CourseMode.UPSELL_TO_VERIFIED_MODES
+
+
+def get_video_library_blocks(request, requested_fields=['type', 'display_name']):
+    """
+    Get the list of all video blocks from the video library course.
+
+    Args:
+        request: django request
+        requested_fields (list, optional): Indicates which additional fields to return for each block.
+            Supported fields are listed in transformers.SUPPORTED_FIELDS. Defaults to ['type', 'display_name'].
+
+    Returns:
+        list: List of dicts with video blocks data in following format (default requested_fields):
+        [
+            {'id': 'block-v1:00+00+00+type@video+block@5e01125c2b3944448fd0712aacd086f0',
+            'lms_web_url': 'http://localhost:18000/courses/course-v1:00+00+00/jump_to/block-v1:00+00+00+type@video+block@5e01125c2b3944448fd0712aacd086f0',
+            'type': 'video',
+            'display_name': '',
+            'student_view_url': 'http://localhost:18000/xblock/block-v1:00+00+00+type@video+block@5e01125c2b3944448fd0712aacd086f0',
+            'block_id': '5e01125c2b3944448fd0712aacd086f0'}
+        ]
+    """
+    # Import here to avoid cilic import
+    from lms.djangoapps.course_api.blocks.api import get_blocks
+    video_library_id = getattr(settings, 'VIDEO_LIBRARY_COURSE', '')
+    try:
+        library_usage_key = modulestore().make_course_usage_key(CourseKey.from_string(video_library_id))
+        return get_blocks(
+            request,
+            library_usage_key,
+            requested_fields=requested_fields,
+            block_types_filter=['video'],
+            return_type='list'
+        )
+    except (InvalidKeyError, BlockStructureNotFound, ItemNotFoundError):
+        log.warning(
+            "Failed to get course blocks for library id [{}]. "
+            "Please, check that VIDEO_LIBRARY_COURSE setting was set correctly.".format(video_library_id)
+        )
+        return []

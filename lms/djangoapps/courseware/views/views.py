@@ -84,6 +84,7 @@ from lms.djangoapps.courseware.permissions import (
 )
 from lms.djangoapps.courseware.url_helpers import get_redirect_url
 from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
+from lms.djangoapps.courseware.utils import get_video_library_blocks
 from lms.djangoapps.experiments.utils import get_experiment_user_metadata_context
 from lms.djangoapps.grades.api import CourseGradeFactory
 from lms.djangoapps.instructor.enrollment import uses_shib
@@ -960,6 +961,7 @@ def course_about(request, course_id):
 
         # Embed the course reviews tool
         reviews_fragment_view = CourseReviewsModuleFragmentView().render_to_fragment(request, course=course)
+        video_library = get_video_library_blocks(request)
 
         context = {
             'course': course,
@@ -988,6 +990,7 @@ def course_about(request, course_id):
             'reviews_fragment_view': reviews_fragment_view,
             'sidebar_html_enabled': sidebar_html_enabled,
             'allow_anonymous': allow_anonymous,
+            'video_library': video_library,
         }
 
         return render_to_response('courseware/course_about.html', context)
