@@ -2258,3 +2258,6 @@ DISABLE_DEPRECATED_SIGNIN_URL = False
 # .. toggle_tickets: ARCH-1253
 # .. toggle_status: supported
 DISABLE_DEPRECATED_SIGNUP_URL = False
+
+# RG_SETTINGS
+VIDEO_LIBRARY_COURSE = ''
