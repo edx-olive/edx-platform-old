@@ -1524,20 +1524,20 @@ msgstr "לא ניתן לתת מחדש ציון עבור תשובות להגשו�
 #: common/lib/capa/capa/capa_problem.py
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Incorrect"
-msgstr "לא נכון"
+msgstr "לא נכונה"
 
 #: common/lib/capa/capa/capa_problem.py
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Correct"
-msgstr "נכון"
+msgstr "נכונה"
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "correct"
-msgstr "נכון"
+msgstr "נכונה"
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "incorrect"
-msgstr "לא נכון"
+msgstr "לא נכונה"
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "partially correct"
