@@ -45,7 +45,6 @@ urlpatterns = [
     # Login Refresh of JWT Cookies
     url(r'^login_refresh$', login.login_refresh, name="login_refresh"),
 
-    url(r'^logout$', logout.LogoutView.as_view(), name='logout'),
 
     # Moved from user_api/legacy_urls.py
     url(r'^user_api/v1/account/password_reset/$', password_reset.PasswordResetView.as_view(),
@@ -75,4 +74,9 @@ urlpatterns += [
 if settings.FEATURES.get('AUTOMATIC_AUTH_FOR_TESTING'):
     urlpatterns += [
         url(r'^auto_auth$', auto_auth.auto_auth),
+    ]
+
+if not settings.FEATURES.get('ENABLE_AB_INITIO_EXTENSIONS'):
+    urlpatterns += [
+        url(r'^logout$', logout.LogoutView.as_view(), name='logout'),
     ]
