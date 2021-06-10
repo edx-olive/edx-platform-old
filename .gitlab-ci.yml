@@ -31,8 +31,8 @@ deploy_openedx:
   script:
     - echo "Creating openedx ami"
     - cd build
-    - export $ANSIBLE_SSH_KEY
-    - export $ANSIBLE_VAULT_KEY
+    - export ANSIBLE_SSH_KEY=$ANSIBLE_SSH_KEY
+    - export ANSIBLE_VAULT_KEY=$ANSIBLE_VAULT_KEY
     - ../packer build -machine-readable -force packer-build.json
   only:
       - master
