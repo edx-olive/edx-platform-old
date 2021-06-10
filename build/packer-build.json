@@ -20,6 +20,14 @@
         "associate_public_ip_address": true,
         "subnet_id": "{{user `subnet_id`}}",
         "ami_name": "{{user `ami_name`}}",
+        "launch_block_device_mappings": [
+          {
+            "device_name": "/dev/sda1",
+            "volume_size": 40,
+            "volume_type": "gp2",
+            "delete_on_termination": true
+          }
+        ],
         "source_ami_filter": {
             "filters": {
                 "virtualization-type": "hvm",
