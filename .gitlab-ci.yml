@@ -33,7 +33,7 @@ deploy_openedx:
     - cd build
     - export ANSIBLE_SSH_KEY=$ANSIBLE_SSH_KEY
     - export ANSIBLE_VAULT_KEY=$ANSIBLE_VAULT_KEY
-    - ../packer build -machine-readable -force packer-build.json
+    - ../packer build -machine-readable -var "ANSIBLE_SSH_KEY=$ANSIBLE_SSH_KEY" -var "ANSIBLE_VAULT_KEY=$ANSIBLE_VAULT_KEY" packer-build.json
   only:
       - master
   except:
