@@ -1,5 +1,5 @@
 ---
-SANDBOX_ENABLE_ECOMMERCE: true
+#SANDBOX_ENABLE_ECOMMERCE: true
 
 ECOMMERCE_WORKER_VERSION: open-release/koa.master
 

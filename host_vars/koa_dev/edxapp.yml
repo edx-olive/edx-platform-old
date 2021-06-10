@@ -25,13 +25,13 @@ DEVPI_WEB_VERSION: '3.5.2'
 DEVPI_CLIENT_VERSION: '5.1.1'
 EDX_NOTES_API_VERSION: 'open-release/koa.master'
 CERTS_VERSION: 'open-release/koa.master'
-COMMON_RETIREMENT_SERVICE_SETUP: true
+COMMON_RETIREMENT_SERVICE_SETUP: false
 
 EDXAPP_FEATURES_OVERRIDE:
   AUTOMATIC_VERIFY_STUDENT_IDENTITY_FOR_TESTING: true
   RG_DELETE_RETIRED: "{{ COMMON_ENABLE_ACCOUNT_DELETION }}"
   ENABLE_XBLOCK_VIEW_ENDPOINT: true
-  ENABLE_ENTERPRISE_INTEGRATION: true
+  ENABLE_ENTERPRISE_INTEGRATION: false
   # LTI Provider feature
   ENABLE_LTI_PROVIDER: true
   # RG Analytics
@@ -56,7 +56,7 @@ EDXAPP_FEATURES_OVERRIDE:
   # RG Analytics
   # RG gamification
   RG_GAMIFICATION:
-    ENABLED: True
+    ENABLED: False
     RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-dev.raccoongang.com/"
     KEY: "{{ RG_GAMIFICATION_KEY }}"
     SECRET: "{{ RG_GAMIFICATION_SECRET }}"
@@ -67,7 +67,7 @@ EDXAPP_FEATURES_OVERRIDE:
 
 EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=True) }}"
 
-EDXAPP_ADDL_INSTALLED_APPS: ['rg_instructor_analytics', 'rg_instructor_analytics_log_collector']
+EDXAPP_ADDL_INSTALLED_APPS: []
 analytics_log_watcher_sleep_time: 1200
 analytics_processors_aliases: "enrollment video_views discussion student_step course_activity"
 analytics_processors_sleep_time: 1200
