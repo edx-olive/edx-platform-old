@@ -39,6 +39,6 @@
         },
         {
             "type": "shell",
-            "script": "./provisioners/bootstrap/bootstrap.sh",
+            "script": "./provisioners/bootstrap/bootstrap.sh"
         }]
 }
