@@ -40,6 +40,5 @@
         {
             "type": "shell",
             "script": "./provisioners/bootstrap/bootstrap.sh",
-            "use_env_var_file": "true"
         }]
 }

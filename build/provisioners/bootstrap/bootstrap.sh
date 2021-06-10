@@ -1,4 +1,5 @@
 #!/bin/bash
+env
 sudo apt-get update -y && sudo apt-get upgrade -y
 sudo apt-get install python3-dev python3-pip default-libmysqlclient-dev build-essential -y
 sudo pip install ansible     datadog     PyYAML     zabbix-api     mysqlclient     && rm -rf ~/.cache
