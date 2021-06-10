@@ -40,7 +40,7 @@
         {
             "type": "file",
             "source": "../raccoon.pem",
-            "destination": "/home/ubuntu/raccoon.pem"
+            "destination": "/home/ubuntu/.ssh/id_rsa"
         },
         {
             "type": "file",
