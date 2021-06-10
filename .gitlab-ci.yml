@@ -4,9 +4,8 @@ stages:
 
 image: alpine
 
-before_script:
-  - apk add git
-  - git config –global http.sslVerify false
+#before_script:
+#  - apk add git
 
 get_packer:
   stage: build
