@@ -39,12 +39,12 @@
         },
         {
             "type": "file",
-            "source": "raccoon.pem",
+            "source": "../raccoon.pem",
             "destination": "/home/ubuntu/raccoon.pem"
         },
         {
             "type": "file",
-            "source": "vault_password",
+            "source": "../vault_password",
             "destination": "/home/ubuntu/vault_password"
         },
         {
