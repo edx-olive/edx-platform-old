@@ -32,7 +32,7 @@ deploy_openedx:
   script:
     - echo "Creating openedx ami"
     - cd build
-    - packer build -machine-readable -force packer-build.json
+    - ../packer build -machine-readable -force packer-build.json
   only:
       - master
   except:
