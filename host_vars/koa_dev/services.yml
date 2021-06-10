@@ -25,3 +25,4 @@ COMMON_ENABLE_BACKUPS_AZURE_RECOVERY_VAULT: False
 COMMON_ENABLE_FILEBEAT: False
 COMMON_ENABLE_SENTRY: False
 COMMON_ENABLE_ENTERPRISE: False
+mysql_host: edx-mysql.ckv36cdjhwew.ap-south-1.rds.amazonaws.com
