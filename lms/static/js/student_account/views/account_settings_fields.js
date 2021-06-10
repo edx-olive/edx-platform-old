@@ -36,17 +36,8 @@
             DropdownFieldView: FieldViews.DropdownFieldView.extend({
                 fieldTemplate: field_dropdown_account_template
             }),
-            EmailFieldView: FieldViews.TextFieldView.extend({
-                fieldTemplate: field_text_account_template,
-                successMessage: function() {
-                    return HtmlUtils.joinHtml(
-                        this.indicators.success,
-                        StringUtils.interpolate(
-                            gettext('We\'ve sent a confirmation message to {new_email_address}. Click the link in the message to update your email address.'),  // eslint-disable-line max-len
-                            {new_email_address: this.fieldValue()}
-                        )
-                    );
-                }
+            EmailFieldView: FieldViews.ReadonlyFieldView.extend({
+                fieldTemplate: field_readonly_account_template,
             }),
             LanguagePreferenceFieldView: FieldViews.DropdownFieldView.extend({
                 fieldTemplate: field_dropdown_account_template,
@@ -350,10 +341,7 @@
                     if (this.options.connected) {
                         linkTitle = gettext('Unlink This Account');
                         linkClass = 'social-field-linked';
-                        subTitle = StringUtils.interpolate(
-                            gettext('You can use your {accountName} account to sign in to your {platformName} account.'),  // eslint-disable-line max-len
-                            {accountName: this.options.title, platformName: this.options.platformName}
-                        );
+                        subTitle = '';
                         screenReaderTitle = StringUtils.interpolate(
                             gettext('Unlink your {accountName} account'),
                             {accountName: this.options.title}
@@ -361,10 +349,7 @@
                     } else if (this.options.acceptsLogins) {
                         linkTitle = gettext('Link Your Account');
                         linkClass = 'social-field-unlinked';
-                        subTitle = StringUtils.interpolate(
-                            gettext('Link your {accountName} account to your {platformName} account and use {accountName} to sign in to {platformName}.'),  // eslint-disable-line max-len
-                            {accountName: this.options.title, platformName: this.options.platformName}
-                        );
+                        subTitle = '';
                     }
 
                     HtmlUtils.setHtml(this.$el, HtmlUtils.template(this.fieldTemplate)({
