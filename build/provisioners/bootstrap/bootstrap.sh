@@ -1,4 +1,6 @@
 #!/bin/bash
+export ANSIBLE_VAULT_KEY=`cat /home/ubuntu/vault_password `
+export ANSIBLE_SSH_KEY=`cat /home/ubuntu/raccoon.pem`
 env
 sudo apt-get update -y && sudo apt-get upgrade -y
 sudo apt-get install python3-dev python3-pip default-libmysqlclient-dev build-essential -y
