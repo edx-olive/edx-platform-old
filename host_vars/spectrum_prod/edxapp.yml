@@ -2,10 +2,10 @@
 
 edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
 EDX_PLATFORM_VERSION: "koa-rg"
-EDXAPP_SITE_NAME: "lms-koa-dev.raccoongang.com"
-EDXAPP_CMS_SITE_NAME: "cms-koa-dev.raccoongang.com"
-EDXAPP_PREVIEW_LMS_BASE: "preview-koa-dev.raccoongang.com"
-COMMON_HOSTNAME: "koa-dev"
+EDXAPP_SITE_NAME: "lms-spectrum.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-spectrum.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-spectrum.raccoongang.com"
+COMMON_HOSTNAME: "spectrum"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
@@ -28,7 +28,6 @@ CERTS_VERSION: 'open-release/koa.master'
 COMMON_RETIREMENT_SERVICE_SETUP: false
 
 EDXAPP_FEATURES_OVERRIDE:
-  AUTOMATIC_VERIFY_STUDENT_IDENTITY_FOR_TESTING: true
   RG_DELETE_RETIRED: "{{ COMMON_ENABLE_ACCOUNT_DELETION }}"
   ENABLE_XBLOCK_VIEW_ENDPOINT: true
   ENABLE_ENTERPRISE_INTEGRATION: false
@@ -57,7 +56,7 @@ EDXAPP_FEATURES_OVERRIDE:
   # RG gamification
   RG_GAMIFICATION:
     ENABLED: False
-    RG_GAMIFICATION_ENDPOINT: "https://gamma-koa-dev.raccoongang.com/"
+    RG_GAMIFICATION_ENDPOINT: "https://gamma-spectrum.raccoongang.com/"
     KEY: "{{ RG_GAMIFICATION_KEY }}"
     SECRET: "{{ RG_GAMIFICATION_SECRET }}"
     IGNORED_EVENT_TYPES:
@@ -86,9 +85,11 @@ EDXAPP_PRIVATE_REQUIREMENTS:
 SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
       values:
-        COURSE_CATALOG_API_URL: 'https://discovery-koa-dev.raccoongang.com/api/v1'
+        COURSE_CATALOG_API_URL: 'https://discovery-spectrum.raccoongang.com/api/v1'
         email_from_address: 'no-reply@raccoongang.com'
         payment_support_email: 'info@raccoongang.com'
 
 EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE if COMMON_ENABLE_DISCOVERY else [] }}"
 
+EDXAPP_REDIS_HOSTNAME: 'edxapp-redis.zdlmo0.0001.aps1.cache.amazonaws.com
+EDXAPP_MEMCACHE: [ 'edxapp-memcached.zdlmo0.cfg.aps1.cache.amazonaws.com:11211' ]'

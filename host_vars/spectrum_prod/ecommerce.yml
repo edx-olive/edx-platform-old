@@ -17,7 +17,7 @@ ECOMMERCE_DATABASE_HOST: localhost
 ECOMMERCE_DATABASE_NAME: ecommerce
 ECOMMERCE_DATABASE_USER: ecomm001
 ECOMMERCE_DJANGO_SETTINGS_MODULE: ecommerce.settings.production
-ECOMMERCE_BASE: "ecommerce-koa-dev.raccoongang.com"
+ECOMMERCE_BASE: "ecommerce-spectrum.raccoongang.com"
 ECOMMERCE_ECOMMERCE_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ ECOMMERCE_BASE }}"
 EDXAPP_ECOMMERCE_API_URL: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}/api/v2"
 EDXAPP_ECOMMERCE_PUBLIC_URL_ROOT: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}"
@@ -40,10 +40,10 @@ ECOMMERCE_NGINX_PORT: 18130
 
 #LiqPay sub 1
 ecommerce_subsite_service_name: ecommerce-subsite-sso
-ECOMMERCE_SUBSITE1_LMS_ROOT_URL: "https://site-koa-dev.raccoongang.com"
+ECOMMERCE_SUBSITE1_LMS_ROOT_URL: "https://site-spectrum.raccoongang.com"
 ECOMMERCE_SUBSITE1_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ ECOMMERCE_SUBSITE1_BASE }}"
 
-ECOMMERCE_SUBSITE1_BASE: "ecommerce-site-koa-dev.raccoongang.com"
+ECOMMERCE_SUBSITE1_BASE: "ecommerce-site-spectrum.raccoongang.com"
 ECOMMERCE_SUBSITE1_LIQPAY_CANCEL_CHECKOUT_PATH: "/checkout/cancel-checkout/"
 ECOMMERCE_SUBSITE1_LIQPAY_ERROR_PATH: "/checkout/error/"
 ECOMMERCE_SUBSITE1_LIQPAY_HOST: "https://www.liqpay.ua/api/"
@@ -156,50 +156,6 @@ ecommerce_post_migrate_commands:
       --payment-support-email {{ EDXAPP_PAYMENT_SUPPORT_EMAIL }}
       --discovery_api_url https://{{ EDXAPP_DISCOVERY_API_URL }}
     when: True
-
-NGINX_ADDITIONAL_SERVICES_CONFIG:
-  - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
-    nginx_port: 443
-    name: ECOMMERCE
-    server_name: "{{ ECOMMERCE_SUBSITE1_BASE }}"
-    nginx_ssl_certificate_key_path: "{{ lms_ssl_certificate_key_path }}"
-    nginx_ssl_certificate_path: "{{ lms_ssl_certificate_path }}"
-  - nging_proxy_pass_port: "{{ ECOMMERCE_NGINX_PORT }}"
-    nginx_port: 443
-    name: ECOMMERCE
-    server_name: "{{ ECOMMERCE_BASE }}"
-    nginx_ssl_certificate_key_path: "{{ lms_ssl_certificate_key_path }}"
-    nginx_ssl_certificate_path: "{{ lms_ssl_certificate_path }}"
-  - name: credentials
-    server_name: "{{ CREDENTIALS_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
-    nginx_port: 443
-    nging_proxy_pass_port: "{{ CREDENTIALS_NGINX_PORT | default('18150') }}"
-    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
-    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
-  - name: discovery
-    server_name: "{{ DISCOVERY_DOMAIN | default('credentials.discovery.project_name.domain.tld') }}"
-    nginx_port: 443
-    nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
-    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
-    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
-  - name: gamma
-    server_name: "gamma-koa-dev.raccoongang.com"
-    nginx_port: 443
-    nging_proxy_pass_port: 9000
-    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
-    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
-  - name: notes-api
-    server_name: "notes-api-koa-dev.raccoongang.com"
-    nginx_port: 443
-    nging_proxy_pass_port: 8120
-    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
-    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
-  - name: enterprise
-    server_name: "enterprise-koa-dev.raccoongang.com"
-    nginx_port: 443
-    nging_proxy_pass_port: 18160
-    nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
-    nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
 
 ECOMMERCE_ENABLE_COMPREHENSIVE_THEMING: True
 ECOMMERCE_DEFAULT_SITE_THEME: "theme"

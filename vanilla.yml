@@ -1,6 +1,0 @@
-- name: Deploy a full stack Edx
-  hosts: koa_vanilla
-  become: true
-
-  roles:
-    - role: "{{ run_role | default('rg-edx-single') }}"

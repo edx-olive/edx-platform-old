@@ -37,7 +37,7 @@ export ANSIBLE_INVENTORY="/home/ubuntu/configuration/inventory/hosts.yml,/home/u
 
 cd deployment
 
-ansible-playbook dev.yml
+ansible-playbook production.yml
 
 rm -rf /home/ubuntu/deployment
 rm -rf /home/ubuntu/configuration

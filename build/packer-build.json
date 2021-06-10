@@ -2,7 +2,7 @@
     "variables": {
         "aws_access_key": "AKIAVRWO4S3VXDXK3J6L",
         "aws_secret_key": "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",
-        "ami_name": "openedx-koa-ami",
+        "ami_name": "openedx-spectrum-ami",
         "aws_region": "ap-south-1",
         "ssh_username": "ubuntu",
         "vpc_id": "",

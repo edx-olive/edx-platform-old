@@ -1,5 +1,5 @@
 ---
-DISCOVERY_DOMAIN: "discovery-koa-dev.raccoongang.com"
+DISCOVERY_DOMAIN: "discovery-spectrum.raccoongang.com"
 EDXAPP_DISCOVERY_API_URL: "{{ DISCOVERY_DOMAIN }}/api/v1"
 EDXAPP_ORGANIZATIONS_API_URL: "{{ EDXAPP_LMS_ROOT_URL }}/api/organizations/v0/"
 EDXAPP_COURSES_API_URL: "{{ EDXAPP_LMS_ROOT_URL }}/api/courses/v1/"
