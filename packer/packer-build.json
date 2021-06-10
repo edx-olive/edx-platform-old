@@ -1,0 +1,44 @@
+{
+    "variables": {
+        "aws_access_key": "AKIAVRWO4S3VXDXK3J6L",
+        "aws_secret_key": "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",
+        "ami_name": "openedx-koa-ami",
+        "aws_region": "ap-south-1",
+        "ssh_username": "ubuntu",
+        "vpc_id": "",
+        "subnet_id": ""
+    },
+    "builders": [{
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `aws_region`}}",
+        "instance_type": "t2.medium",
+        "force_deregister": "true",
+        "ssh_username": "{{user `ssh_username`}}",
+        "communicator": "ssh",
+        "associate_public_ip_address": true,
+        "subnet_id": "{{user `subnet_id`}}",
+        "ami_name": "{{user `ami_name`}}",
+        "source_ami_filter": {
+            "filters": {
+                "virtualization-type": "hvm",
+                "name": "Ubuntu Server 20.04 LTS",
+                "root-device-type": "ebs"
+            },
+            "owners": ["381612234475"],
+            "most_recent": true
+        },
+        "run_tags": {
+            "Name": "packer-build-image"
+        }
+    }],
+    "provisioners": [{
+            "type": "shell",
+            "inline": "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+        },
+        {
+            "type": "shell",
+            "script": "./provisioners/bootstrap/bootstrap.sh"
+        }]
+}
