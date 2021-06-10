@@ -9,6 +9,10 @@ COMMON_HOSTNAME: "spectrum"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
+
+SWAPFILE_SIZE: ''
+MONGO_BIND_IP: '0.0.0.0'
+
 ## extra
 ECOMMERCE_VERSION: 'koa-rg'
 DISCOVERY_VERSION: 'open-release/koa.master'
@@ -48,10 +52,6 @@ EDXAPP_FEATURES_OVERRIDE:
     day_of_month: '*'
     day_of_week: '*'
     month_of_year: '*'
-  # Microsite theme
-  PHYSIOU_SITE_THEME: "site-courses.physiou.com"
-  PHYSIOU_SITE_THEME_BRANCH: "site-courses.physiou.com"
-
   # RG Analytics
   # RG gamification
   RG_GAMIFICATION:
@@ -93,3 +93,47 @@ EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE if COMMON_ENABLE_DISCO
 
 EDXAPP_REDIS_HOSTNAME: 'edxapp-redis.zdlmo0.0001.aps1.cache.amazonaws.com'
 EDXAPP_MEMCACHE: [ 'edxapp-memcached.zdlmo0.cfg.aps1.cache.amazonaws.com:11211' ]
+
+EDXAPP_GRADE_STORAGE_TYPE_LOCAL: false
+EDXAPP_GRADE_STORAGE_TYPE: "s3"
+EDXAPP_GRADE_BUCKET: "{{ EDXAPP_AWS_STORAGE_BUCKET_NAME }}"
+EDXAPP_GRADE_STORAGE_CLASS: "{{ EDXAPP_DEFAULT_FILE_STORAGE }}"
+EDXAPP_GRADE_STORAGE_KWARGS:
+  location: "/grades"
+EDXAPP_GRADE_ROOT_PATH: "grades"
+EDXAPP_DEFAULT_FILE_STORAGE: "storages.backends.s3boto3.S3Boto3Storage"
+EDXAPP_IMPORT_EXPORT_BUCKET: "{{ EDXAPP_AWS_STORAGE_BUCKET_NAME }}"
+EDXAPP_PROFILE_IMAGE_BACKEND:
+  class: storages.backends.s3boto3.S3Boto3Storage
+  options:
+    location: profile-images
+    bucket: "{{ EDXAPP_AWS_STORAGE_BUCKET_NAME }}"
+    custom_domain: "{{ EDXAPP_AWS_S3_CUSTOM_DOMAIN }}"
+    headers:
+      Cache-Control: max-age-{{ EDXAPP_PROFILE_IMAGE_MAX_AGE }}
+EDXAPP_DEFAULT_FILE_STORAGE: "storages.backends.s3boto3.S3Boto3Storage"
+EDXAPP_IMPORT_EXPORT_BUCKET: "{{ EDXAPP_AWS_STORAGE_BUCKET_NAME }}"
+EDXAPP_PROFILE_IMAGE_BACKEND:
+  class: storages.backends.s3boto3.S3Boto3Storage
+  options:
+    location: profile-images
+    bucket: "{{ EDXAPP_AWS_STORAGE_BUCKET_NAME }}"
+    custom_domain: "{{ EDXAPP_AWS_S3_CUSTOM_DOMAIN }}"
+    headers:
+      Cache-Control: max-age-{{ EDXAPP_PROFILE_IMAGE_MAX_AGE }}
+EDXAPP_AWS_STORAGE_BUCKET_NAME: "spectrum-edxapp-storage"
+EDXAPP_AWS_S3_CUSTOM_DOMAIN: "s3.ap-south-1.amazonaws.com/{{ EDXAPP_AWS_STORAGE_BUCKET_NAME }}"
+EDXAPP_ENV_EXTRA:
+  AWS_S3_REGION_NAME: 'ap-south-1'
+  AWS_DEFAULT_ACL: 'public-read'
+EDXAPP_VIDEO_IMAGE_SETTINGS:
+  VIDEO_IMAGE_MAX_BYTES : 2097152
+  VIDEO_IMAGE_MIN_BYTES : 2048
+  STORAGE_CLASS: "{{ EDXAPP_DEFAULT_FILE_STORAGE }}"
+  STORAGE_KWARGS: {}
+  DIRECTORY_PREFIX: 'video-images/'
+EDXAPP_VIDEO_TRANSCRIPTS_SETTINGS:
+  VIDEO_TRANSCRIPTS_MAX_BYTES : 3145728
+  STORAGE_CLASS: "{{ EDXAPP_DEFAULT_FILE_STORAGE }}"
+  STORAGE_KWARGS: {}
+  DIRECTORY_PREFIX: 'video-transcripts/'

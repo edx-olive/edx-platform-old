@@ -1,0 +1,37 @@
+---
+
+- name: Setup mongo
+  hosts: spectrum_mongo
+  become: True
+  gather_facts: True
+  roles:
+    - role: python
+
+    - role: common_vars
+      when: False
+
+    - role: edxapp
+      when: False
+
+    - role: swapfile
+      when: SWAPFILE_SIZE is defined and SWAPFILE_SIZE != ''
+
+    - role: mongo_3_6
+
+- name: Setup elasticsearch
+  hosts: spectrum_elasticsearch
+  become: True
+  gather_facts: True
+  roles:
+    - role: python
+
+    - role: common_vars
+      when: False
+
+    - role: edxapp
+      when: False
+
+    - role: swapfile
+      when: SWAPFILE_SIZE is defined and SWAPFILE_SIZE != ''
+
+    - role: elasticsearch
