@@ -168,7 +168,6 @@
                 linkClicked: function(event) {
                     event.preventDefault();
                     this.toggleDisableButton(true);
-                    this.resetPassword(event);
                 },
                 resetPassword: function() {
                     var data = {};

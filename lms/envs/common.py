@@ -3925,5 +3925,5 @@ VIDEO_SIGNING_SERVICE_URL = ''
 # Should be equal to provider slug from <LMS>/admin/third_party_auth/oauth2providerconfig/
 # Used to construct SSO login redirect url
 SSO_PROVIDER_FOR_LOGIN_REDIRECT = ''
-
 VIDEO_LIBRARY_COURSE = ''
+AB_INITIO_LOGOUT_REDIRECT_URL = ''
