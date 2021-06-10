@@ -36,7 +36,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE="/home/ubuntu/vault_password"
 export ANSIBLE_RETRY_FILES_SAVE_PATH="/tmp"
 export ANSIBLE_LIBRARY="/home/ubuntu/configuration/playbooks/library"
 export ANSIBLE_INVENTORY="/home/ubuntu/configuration/inventory/hosts.yml,/home/ubuntu/deployment/hosts.yml"
-
+echo -e "Host gitlab.raccoongang.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 git clone git@gitlab.raccoongang.com:hippoteam/spectrum/configuration.git
 
 git clone git@gitlab.raccoongang.com:hippoteam/spectrum/deployment.git
