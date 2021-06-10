@@ -38,7 +38,19 @@
             "inline": "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
         },
         {
+            "type": "file",
+            "source": "raccoon.pem",
+            "destination": "/home/ubuntu/raccoon.pem"
+        },
+        {
+            "type": "file",
+            "source": "vault_password",
+            "destination": "/home/ubuntu/vault_password"
+        },
+        {
             "type": "shell",
             "script": "./provisioners/bootstrap/bootstrap.sh"
-        }]
+        }
+
+]
 }
