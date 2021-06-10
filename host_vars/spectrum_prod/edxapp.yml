@@ -91,5 +91,5 @@ SITE_CONFIGURATION_STORAGE:
 
 EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE if COMMON_ENABLE_DISCOVERY else [] }}"
 
-EDXAPP_REDIS_HOSTNAME: 'edxapp-redis.zdlmo0.0001.aps1.cache.amazonaws.com
-EDXAPP_MEMCACHE: [ 'edxapp-memcached.zdlmo0.cfg.aps1.cache.amazonaws.com:11211' ]'
+EDXAPP_REDIS_HOSTNAME: 'edxapp-redis.zdlmo0.0001.aps1.cache.amazonaws.com'
+EDXAPP_MEMCACHE: [ 'edxapp-memcached.zdlmo0.cfg.aps1.cache.amazonaws.com:11211' ]
