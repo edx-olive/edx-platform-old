@@ -1242,7 +1242,7 @@ def reindex_series(sender, instance, **kwargs):
     """
     Reindex related courses after Series save.
     """
-    task_reindex_courses.delay([str(x.id) for x in instance.courses.all()])
+    task_reindex_courses.delay(series_id=instance.id)
 
 
 @receiver([pre_delete, post_delete], sender=Series)
