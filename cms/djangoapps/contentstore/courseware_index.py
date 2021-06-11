@@ -610,11 +610,11 @@ class CourseAboutSearchIndexer(object):
 
         curricula_types = [collection_type for collection_type, _ in settings.CURRICULA_TYPES]
         for curriculum_type in curricula_types:
-            course_info[curriculum_type] = [
+            course_info[curriculum_type] = list(set([
                 c.title for c in Curriculum.objects.filter(
                     Q(collection_type=curriculum_type) & (Q(courses__id=course.id) | Q(series__courses__id=course.id))
                 )
-            ]
+            ]))
 
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
