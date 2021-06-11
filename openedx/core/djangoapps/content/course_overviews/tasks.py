@@ -67,15 +67,23 @@ def async_course_overview_update(*args, **kwargs):
 
 
 @task
-def task_reindex_courses(course_ids=[]):
+def task_reindex_courses(course_ids=[], series_id=None):
     """
     Do reindex for given course_id's list.
 
     Args:
         course_ids (list, optional): list of course id's (str). Defaults to [].
+        series_id: series id for indexing by series
     """
     from cms.djangoapps.contentstore.courseware_index import CoursewareSearchIndexer
     courses = set(course_ids) if course_ids else set()
+
+    if series_id:
+        from models import Series
+        series = Series.objects.filter(id=series_id).first()
+        if series:
+            series_courses_ids = series.courses.values_list('id', flat=True)
+            courses.update(str(x) for x in series_courses_ids)
 
     for course_id in courses:
         course_key = CourseKey.from_string(course_id)
