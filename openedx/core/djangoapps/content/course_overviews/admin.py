@@ -4,10 +4,13 @@ is used in user dashboard queries and other places where you need info like
 name, and start dates, but don't actually need to crawl into course content.
 """
 
-
+from django import forms
+from django.forms.widgets import SelectMultiple as SelectMultipleOriginal
 from config_models.admin import ConfigurationModelAdmin
 from django.contrib import admin
+from django.core.exceptions import ValidationError
 
+from lms.djangoapps.courseware.utils import get_video_library_blocks_no_request
 from .models import (
     CourseOverview,
     CourseOverviewImageConfig,
@@ -15,6 +18,7 @@ from .models import (
     SimulateCoursePublishConfig,
     NewAndInterestingTag,
     Series,
+    Curriculum,
 )
 
 
@@ -99,8 +103,21 @@ class NewAndInterestingTagAdmin(admin.ModelAdmin):
     list_display = ('course', 'formated_date',)
 
 
-class SeriesAdmin(admin.ModelAdmin):
+class BaseCourseCollectionAdmin(admin.ModelAdmin):
+    """
+    Base class for the CourseCollection descendants.
+    """
+    readonly_fields = [
+        'created_by',
+        'creation_date',
+        'last_modified',
+    ]
 
+
+class SeriesAdmin(BaseCourseCollectionAdmin):
+    """
+    Series model admin.
+    """
     list_display = [
         'series_id',
         'title',
@@ -109,13 +126,90 @@ class SeriesAdmin(admin.ModelAdmin):
         'created_by'
     ]
 
-    readonly_fields = [
+    def save_model(self, request, obj, form, change):
+        """
+        Set created_by if it was not set.
+        """
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+        obj.save()
+
+
+class SelectMultiple(SelectMultipleOriginal):
+    """
+    Custom SelectMultiple widget.
+
+    Overrides `optgroups` to fix visibility for previosly selected values.
+    """
+    def optgroups(self, name, value, attrs):
+        val = value[0] if len(value) else value
+        return super().optgroups(name, val, attrs=attrs)
+
+
+class CurriculumAdminForm(forms.ModelForm):
+    """
+    ModelForm for Currucula that provides custom `standalone_videos` field.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        video_library_choises = [
+            (v['id'], v['name'] + ': ' + v['id']) for v in get_video_library_blocks_no_request()
+        ]
+        self.fields['standalone_videos'] = forms.MultipleChoiceField(
+            choices=video_library_choises, required=False, widget=SelectMultiple
+        )
+
+    def clean_curriculum_id(self):
+        """
+        Validate curriculum_id is one word.
+        """
+        curriculum_id = self.cleaned_data.get('curriculum_id')
+        if ' ' in curriculum_id:
+            raise forms.ValidationError("Spaces are not allowed.")
+        return curriculum_id
+
+    def clean(self):
+        """
+        Validate at least one element is selected.
+        """
+        if not (
+            self.cleaned_data.get('series') or
+            self.cleaned_data.get('courses') or
+            self.cleaned_data.get('standalone_videos')
+        ):
+            raise ValidationError("Curriculum should include at least one series, course or standalone video.")
+        return super().clean()
+
+    class Meta:
+        model = Curriculum
+        fields = '__all__'
+
+
+class CurriculumAdmin(BaseCourseCollectionAdmin):
+    """
+    Curriculum model admin.
+    """
+
+    form = CurriculumAdminForm
+
+    fields = (
+        'title',
+        'collection_type',
+        'description',
+        'image',
+        'courses',
+        'series',
+        'standalone_videos',
+        'curriculum_id',
         'created_by',
         'creation_date',
-        'last_modified',
-    ]
+        'last_modified'
+    )
 
     def save_model(self, request, obj, form, change):
+        """
+        Set created_by if it was not set.
+        """
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
         obj.save()
@@ -127,3 +221,4 @@ admin.site.register(CourseOverviewImageSet, CourseOverviewImageSetAdmin)
 admin.site.register(SimulateCoursePublishConfig, SimulateCoursePublishConfigAdmin)
 admin.site.register(NewAndInterestingTag, NewAndInterestingTagAdmin)
 admin.site.register(Series, SeriesAdmin)
+admin.site.register(Curriculum, CurriculumAdmin)
