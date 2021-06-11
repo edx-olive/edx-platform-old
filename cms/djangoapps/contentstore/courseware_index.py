@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 from datetime import timedelta, date
 
 from django.conf import settings
+from django.db.models import Q
 from django.urls import resolve
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
@@ -16,7 +17,7 @@ from six import add_metaclass, string_types, text_type
 
 from cms.djangoapps.contentstore.course_group_config import GroupConfiguration
 from course_modes.models import CourseMode
-from openedx.core.djangoapps.content.course_overviews.models import NewAndInterestingTag, Series
+from openedx.core.djangoapps.content.course_overviews.models import NewAndInterestingTag, Series, Curriculum
 from openedx.core.lib.courses import course_image_url
 from xmodule.annotator_mixin import html_to_text
 from xmodule.library_tools import normalize_key_for_search
@@ -606,6 +607,14 @@ class CourseAboutSearchIndexer(object):
         course_info['new_and_interesting_tag'] = is_new_and_interesting
 
         course_info['series'] = [s.title for s in Series.objects.filter(courses__id=course.id)]
+
+        curricula_types = [collection_type for collection_type, _ in settings.CURRICULA_TYPES]
+        for curriculum_type in curricula_types:
+            course_info[curriculum_type] = [
+                c.title for c in Curriculum.objects.filter(
+                    Q(collection_type=curriculum_type) & (Q(courses__id=course.id) | Q(series__courses__id=course.id))
+                )
+            ]
 
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
