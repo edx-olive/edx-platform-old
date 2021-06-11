@@ -1294,3 +1294,44 @@ def change_reindex_series(sender, instance, pk_set, action, **kwargs):
         courses_set.update(str(c.id) for c in instance.courses.all())
         courses_set.update(getattr(instance, 'pre_clear_course_keys', set()))
         task_reindex_courses.delay(course_ids=list(courses_set))
+
+
+@receiver(post_save, sender=Curriculum)
+def reindex_curriculum(sender, instance, **kwargs):
+    """
+    Reindex related courses after Curriculum save.
+    """
+    task_reindex_courses.delay(curriculum_id=instance.id)
+
+
+@receiver([pre_delete, post_delete], sender=Curriculum)
+def delete_reindex_curriculum(sender, instance, **kwargs):
+    """
+    Save related courses on pre_delete and reindex courses after Curriculum deletion.
+    """
+    curriculum_courses = instance.courses.all()
+    curriculum_series = instance.series.all()
+    if curriculum_courses or curriculum_series:
+        courses_set = set(str(c.id) for c in curriculum_courses)
+        courses_set.update(str(c[0]) for c in curriculum_series.values_list('courses'))
+        instance.courses_to_reindex = list(courses_set)
+    elif instance.courses_to_reindex:
+        task_reindex_courses.delay(instance.courses_to_reindex)
+
+
+@receiver(m2m_changed, sender=Curriculum.courses.through)
+@receiver(m2m_changed, sender=Curriculum.series.through)
+def change_reindex_curriculum(sender, instance, pk_set, action, **kwargs):
+    """
+    Reindex related to Curriculum courses on `courses` or `series` field change.
+    """
+    courses_set = set()
+    if action == 'pre_remove':
+        instance.pre_clear_course_keys = set(str(x.id) for x in instance.courses.all())
+        instance.pre_clear_course_keys.update(str(c[0]) for c in instance.series.all().values_list('courses'))
+
+    if action in ['post_add', 'post_remove']:
+        courses_set.update(str(c.id) for c in instance.courses.all())
+        courses_set.update(str(c[0]) for c in instance.series.all().values_list('courses'))
+        courses_set.update(getattr(instance, 'pre_clear_course_keys', set()))
+        task_reindex_courses.delay(list(courses_set))
