@@ -1,14 +1,14 @@
 ---
 
 COMMON_EMAIL_BACKEND: 'django.core.mail.backends.smtp.EmailBackend'
-COMMON_EMAIL_HOST: 'mail.raccoon.bar'
+COMMON_EMAIL_HOST: 'smtp.office365.com'
 COMMON_EMAIL_HOST_USER: "{{ COMMON_EMAIL_HOST_USER_VAULT }}"
 COMMON_EMAIL_HOST_PASSWORD: "{{ COMMON_EMAIL_HOST_PASSWORD_VAULT }}"
 # WARNING when changing port please replace all *_PORT variables below
 # TODO: find the way how to pass integer value into json results of ansible template module
 COMMON_EMAIL_PORT: 587
 COMMON_EMAIL_USE_TLS: true
-COMMON_DEFAULT_FROM_EMAIL: 'project.smarthost@raccoon.bar'
+COMMON_DEFAULT_FROM_EMAIL: 'aws.academy@specnt.com'
 
 EDXAPP_EMAIL_PORT: 587
 INSIGHTS_EMAIL_PORT: 587
