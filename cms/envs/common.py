@@ -2264,3 +2264,6 @@ VIDEO_SIGNING_SERVICE_URL = ''
 SSO_PROVIDER_FOR_LOGIN_REDIRECT = ''
 VIDEO_LIBRARY_COURSE = ''
 AB_INITIO_LOGOUT_REDIRECT_URL = ''
+
+# Define Curricula model types
+CURRICULA_TYPES = (('role', 'Role'), ('topic', 'Topic'),)

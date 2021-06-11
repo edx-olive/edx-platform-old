@@ -4,6 +4,7 @@
 import datetime
 import logging
 
+import six
 from course_modes.models import CourseMode
 from django.conf import settings
 from opaque_keys import InvalidKeyError
@@ -15,6 +16,7 @@ from xmodule.partitions.partitions import ENROLLMENT_TRACK_PARTITION_ID
 from xmodule.partitions.partitions_service import PartitionService
 
 from lms.djangoapps.commerce.utils import EcommerceService
+from openedx.core.djangoapps.content.block_structure.api import get_course_in_cache
 from openedx.core.djangoapps.content.block_structure.exceptions import BlockStructureNotFound
 
 log = logging.getLogger(__name__)
@@ -126,3 +128,45 @@ def get_video_library_blocks(request, requested_fields=['type', 'display_name'])
             "Please, check that VIDEO_LIBRARY_COURSE setting was set correctly.".format(video_library_id)
         )
         return []
+
+
+def get_video_library_blocks_no_request():
+    """
+    Get the list of all video blocks from the video library course.
+
+    Unlike the 1st version, doesn't use request.
+
+    Returns:
+        list with dicts in format:
+        [
+            {'name': 'Library vid unit2 #1', 'id': 'block-v1:00+00+00+type@video+block@1974e9f1ff584bf9a7f1d3a272570a8d'},
+            {'name': 'Test video from the library', 'id': 'block-v1:00+00+00+type@video+block@5e01125c2b3944448fd0712aacd086f0'},
+            {'name': 'Library video #2', 'id': 'block-v1:00+00+00+type@video+block@deb8aa5796f3445391ff0d7326b2ab7d'}
+        ]
+    """
+    video_library_id = getattr(settings, 'VIDEO_LIBRARY_COURSE', '')
+    try:
+        library_key = CourseKey.from_string(video_library_id)
+        block_structure = get_course_in_cache(library_key)
+    except (InvalidKeyError, BlockStructureNotFound, ItemNotFoundError):
+        log.warning(
+            "Failed to get course blocks for library id [{}]. "
+            "Please, check that VIDEO_LIBRARY_COURSE setting was set correctly.".format(video_library_id)
+        )
+        return []
+
+    library = []
+    block_keys_to_remove = []
+    for block_key in block_structure:
+        block_type = block_structure.get_xblock_field(block_key, 'category')
+        if block_type != 'video':
+            block_keys_to_remove.append(block_key)
+        else:
+            library.append(
+                {'id': six.text_type(block_key), 'name': block_structure.get_xblock_field(block_key, 'display_name')}
+            )
+
+    for block_key in block_keys_to_remove:
+        block_structure.remove_block(block_key, keep_descendants=True)
+
+    return library

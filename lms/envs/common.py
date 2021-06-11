@@ -3925,5 +3925,8 @@ VIDEO_SIGNING_SERVICE_URL = ''
 # Should be equal to provider slug from <LMS>/admin/third_party_auth/oauth2providerconfig/
 # Used to construct SSO login redirect url
 SSO_PROVIDER_FOR_LOGIN_REDIRECT = ''
-VIDEO_LIBRARY_COURSE = ''
 AB_INITIO_LOGOUT_REDIRECT_URL = ''
+# Used to define a course as a Video Library. Should contain course key (e.g. 'course-v1:edX+DemoX+Demo_Course')
+VIDEO_LIBRARY_COURSE = ''
+# Define Curricula model types
+CURRICULA_TYPES = (('role', 'Role'), ('topic', 'Topic'),)

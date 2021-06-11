@@ -1218,6 +1218,7 @@ class CourseCollection(models.Model):
     created_by = models.ForeignKey(User, on_delete=None, editable=False, blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    # TODO: exclude video library course
     courses = models.ManyToManyField(CourseOverview)
 
     class Meta:
@@ -1235,6 +1236,28 @@ class Series(CourseCollection):
     class Meta(CourseCollection.Meta):
         app_label = 'course_overviews'
         verbose_name_plural = 'Series'
+
+
+class Curriculum(CourseCollection):
+    """
+    Model for course aggregation structures (like Role or Topic).
+
+    Available types for a curriculum defined in the settings.CURRICULA_TYPES.
+    """
+    type_choices = getattr(settings, 'CURRICULA_TYPES', (('role', 'Role'), ('topic', 'Topic'),))
+
+    collection_type = models.CharField(verbose_name=_('Type'), max_length=25, choices=type_choices)
+    series = models.ManyToManyField(Series, blank=True)
+    courses = models.ManyToManyField(CourseOverview, blank=True)  # Override abstract class field to make it optional
+    standalone_videos = models.CharField(max_length=250, blank=True)
+    curriculum_id = models.CharField(max_length=45, unique=True, verbose_name='Curriculum ID')
+
+    class Meta(CourseCollection.Meta):
+        app_label = 'course_overviews'
+        verbose_name_plural = 'Curricula'
+
+    def __str__(self):
+        return '{} {}: {}'.format(self.collection_type, self.curriculum_id, self.title)
 
 
 @receiver(post_save, sender=Series)
