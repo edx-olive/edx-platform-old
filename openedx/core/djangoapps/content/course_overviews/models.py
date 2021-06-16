@@ -1249,7 +1249,7 @@ class Curriculum(CourseCollection):
     collection_type = models.CharField(verbose_name=_('Type'), max_length=25, choices=type_choices)
     series = models.ManyToManyField(Series, blank=True)
     courses = models.ManyToManyField(CourseOverview, blank=True)  # Override abstract class field to make it optional
-    standalone_videos = models.CharField(max_length=250, blank=True)
+    standalone_videos = models.TextField(blank=True)
     curriculum_id = models.CharField(max_length=45, unique=True, verbose_name='Curriculum ID')
 
     class Meta(CourseCollection.Meta):
