@@ -1276,7 +1276,7 @@ def delete_reindex_series(sender, instance, **kwargs):
     series_courses = instance.courses.all()
     if series_courses:
         instance.courses_list = list(map(lambda x: str(x.id), series_courses))
-    elif instance.courses_list:
+    elif hasattr(instance, 'courses_list'):
         task_reindex_courses.delay(course_ids=list(instance.courses_list))
 
 
@@ -1315,7 +1315,7 @@ def delete_reindex_curriculum(sender, instance, **kwargs):
         courses_set = set(str(c.id) for c in curriculum_courses)
         courses_set.update(str(c[0]) for c in curriculum_series.values_list('courses'))
         instance.courses_to_reindex = list(courses_set)
-    elif instance.courses_to_reindex:
+    elif hasattr(instance, 'courses_to_reindex'):
         task_reindex_courses.delay(instance.courses_to_reindex)
 
 
