@@ -80,14 +80,14 @@ def task_reindex_courses(course_ids=[], series_id=None, curriculum_id=None):
     courses = set(course_ids) if course_ids else set()
 
     if series_id:
-        from models import Series
+        from openedx.core.djangoapps.content.course_overviews.models import Series
         series = Series.objects.filter(id=series_id).first()
         if series:
             series_courses_ids = series.courses.values_list('id', flat=True)
             courses.update(str(x) for x in series_courses_ids)
 
     if curriculum_id:
-        from models import Curriculum
+        from openedx.core.djangoapps.content.course_overviews.models import Curriculum
         curriculum = Curriculum.objects.filter(id=series_id).first()
         if curriculum:
             curriculum_courses = set(str(x.id) for x in curriculum.courses.all())
