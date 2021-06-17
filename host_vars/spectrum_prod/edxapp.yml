@@ -72,6 +72,11 @@ analytics_log_watcher_sleep_time: 1200
 analytics_processors_aliases: "enrollment video_views discussion student_step course_activity"
 analytics_processors_sleep_time: 1200
 
+
+EDXAPP_EXTRA_REQUIREMENTS:
+  - name: 'git+https://github.com/raccoongang/edx_xblock_scorm.git@v1.1.0#egg=xblock-scorm==1.1.0'
+    extra_args: '-e'
+
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
 EDXAPP_PRIVATE_REQUIREMENTS:
   - name: 'git+git@gitlab.raccoongang.com:rg-developers/instructor-analytics@v3.0.0-rc.8#egg=rg_instructor_analytics'
