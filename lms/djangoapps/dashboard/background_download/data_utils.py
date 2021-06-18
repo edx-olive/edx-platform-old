@@ -53,22 +53,29 @@ def get_block_info(submission):
         dict: dict with parent names and studio link to unit containing poll/survey
     """
     qs = StudentModule.objects.filter(
-      course_id=submission.course,
-      student=submission.student,
+        course_id=submission.course,
+        student=submission.student,
+        module_type__in=ALLOWED_POLLS_NAMES
     )
     # In most cases closest will be the `greter` one with differense between records ~ 1 sec.
     closest = _get_closest_to_dt(qs, submission.submission_date)
     if not closest:
         return defaultdict(lambda: 'n/a')
-    usage_loc = closest.module_state_key
-    item = modulestore().get_item(usage_loc)
-    unit = item.get_parent()
-    unit_url = '{studio_base}/container/{block_key}'.format(
-        studio_base='https://{}'.format(settings.CMS_BASE),
-        block_key=str(unit.location)
-    )
-    subsection = unit.get_parent()
-    section = subsection.get_parent()
+    try:
+        usage_loc = closest.module_state_key
+        item = modulestore().get_item(usage_loc)
+        unit = item.get_parent()
+        unit_url = '{studio_base}/container/{block_key}'.format(
+            studio_base='https://{}'.format(settings.CMS_BASE),
+            block_key=str(unit.location)
+        )
+        subsection = unit.get_parent()
+        section = subsection.get_parent()
+    except ItemNotFoundError as err:
+        log.warning(
+            'Error processing poll/survey report: %s' % err
+        )
+        return defaultdict(lambda: 'n/a')
     return {
         'section_name': section.display_name,
         'subsection_name': subsection.display_name,
