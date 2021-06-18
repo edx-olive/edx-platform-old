@@ -42,6 +42,8 @@ from lms.djangoapps.instructor.message_types import (
 from openedx.core.djangoapps.lang_pref import LANGUAGE_KEY
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.user_api.models import UserPreference
+from openedx.core.djangoapps.theming import helpers as theming_helpers
+from openedx.core.djangoapps.ace_common.template_context import get_base_template_context
 from openedx.core.djangolib.markup import Text
 from common.djangoapps.student.models import CourseEnrollment, CourseEnrollmentAllowed, anonymous_id_for_user, is_email_retired
 from common.djangoapps.track.event_transaction_utils import (
@@ -475,6 +477,15 @@ def send_mail_to_student(student, param_dict, language=None):
         'SITE_NAME',
         param_dict['site_name']
     )
+
+    # Get required context
+    site = theming_helpers.get_current_site()
+    message_context = get_base_template_context(site)
+    param_dict['logo_url'] = message_context["logo_url"]
+    param_dict['homepage_url'] = message_context["homepage_url"]
+    param_dict['dashboard_url'] = message_context["dashboard_url"]
+    param_dict['platform_name'] = message_context["platform_name"]
+    param_dict['contact_email'] = message_context["contact_email"]
 
     # see if there is an activation email template definition available as configuration,
     # if so, then render that
