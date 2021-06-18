@@ -104,18 +104,35 @@
     });
 
     $(document).ready(function($) {
-        $('a[rel*=leanModal]').each(function() {
+      var curriculumAboutPage = document.getElementById('curriculum-about-page');
+      function attachHandler () {
+        $('a[rel*=leanModal]').each(function () {
             var $link = $(this),
-                closeButton = $link.data('modalCloseButtonSelector') || '.close-modal',
-                embed;
+              closeButton = $link.data('modalCloseButtonSelector') || '.close-modal',
+              embed;
 
             $link.leanModal({top: 120, overlay: 1, closeButton: closeButton, position: 'absolute'});
             embed = $($link.attr('href')).find('iframe');
             if (embed.length > 0 && embed.attr('src')) {
-                var sep = (embed.attr('src').indexOf('?') > 0) ? '&' : '?';
-                embed.data('src', embed.attr('src') + sep + 'autoplay=1&rel=0');
-                embed.attr('src', '');
+              var sep = (embed.attr('src').indexOf('?') > 0) ? '&' : '?';
+              embed.data('src', embed.attr('src') + sep + 'autoplay=1&rel=0');
+              embed.attr('src', '');
             }
         });
+      }
+
+      // if we are on the curriculum page we need to wait
+      // till react loads modal components before attaching the handler
+      if (curriculumAboutPage) {
+        var checkForReact = setInterval(function () {
+          var reactLoaded = document.getElementById('curriculum-data-loaded');
+          if (reactLoaded) {
+            attachHandler();
+            clearInterval(checkForReact);
+          }
+        }, 500);
+      } else {
+        attachHandler();
+      }
     });
 }(jQuery));
