@@ -156,17 +156,11 @@ def get_video_library_blocks_no_request():
         return []
 
     library = []
-    block_keys_to_remove = []
     for block_key in block_structure:
         block_type = block_structure.get_xblock_field(block_key, 'category')
-        if block_type != 'video':
-            block_keys_to_remove.append(block_key)
-        else:
+        if block_type == 'video':
             library.append(
                 {'id': six.text_type(block_key), 'name': block_structure.get_xblock_field(block_key, 'display_name')}
             )
-
-    for block_key in block_keys_to_remove:
-        block_structure.remove_block(block_key, keep_descendants=True)
 
     return library
