@@ -1,6 +1,5 @@
 """Data preparation for file storage."""
 
-from collections import defaultdict
 import logging
 
 from django.conf import settings
@@ -60,7 +59,7 @@ def get_block_info(submission):
     # In most cases closest will be the `greter` one with differense between records ~ 1 sec.
     closest = _get_closest_to_dt(qs, submission.submission_date)
     if not closest:
-        return defaultdict(lambda: 'n/a')
+        return {}
     try:
         usage_loc = closest.module_state_key
         item = modulestore().get_item(usage_loc)
@@ -75,7 +74,7 @@ def get_block_info(submission):
         log.warning(
             'Error processing poll/survey report: %s' % err
         )
-        return defaultdict(lambda: 'n/a')
+        return {}
     return {
         'section_name': section.display_name,
         'subsection_name': subsection.display_name,
@@ -114,10 +113,10 @@ def prepare_submission_datum(submission, **kwargs):
         return [
             poll_type,
             submission.course,
-            block_info['section_name'],
-            block_info['subsection_name'],
-            block_info['unit_name'],
-            block_info['page_link'],
+            block_info.get('section_name', 'n/a'),
+            block_info.get('subsection_name', 'n/a'),
+            block_info.get('unit_name', 'n/a'),
+            block_info.get('page_link', 'n/a'),
             submission.student.email,
             submission.student.id,
             submission.employee_id or "-",
