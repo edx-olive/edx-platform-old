@@ -16,6 +16,7 @@ from poll_survey.configs import (
 
 
 log = logging.getLogger('edx.celery.task')
+DEFAULT_NA_VALUE = 'n/a'
 
 
 def _get_closest_to_dt(qs, dt):
@@ -113,10 +114,10 @@ def prepare_submission_datum(submission, **kwargs):
         return [
             poll_type,
             submission.course,
-            block_info.get('section_name', 'n/a'),
-            block_info.get('subsection_name', 'n/a'),
-            block_info.get('unit_name', 'n/a'),
-            block_info.get('page_link', 'n/a'),
+            block_info.get('section_name', DEFAULT_NA_VALUE),
+            block_info.get('subsection_name', DEFAULT_NA_VALUE),
+            block_info.get('unit_name', DEFAULT_NA_VALUE),
+            block_info.get('page_link', DEFAULT_NA_VALUE),
             submission.student.email,
             submission.student.id,
             submission.employee_id or "-",
@@ -127,7 +128,21 @@ def prepare_submission_datum(submission, **kwargs):
             submission_date,
         ]
     except (AttributeError, ItemNotFoundError):
-        return [poll_type, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"]
+        return [
+            poll_type,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE
+        ]
 
 
 def validate_poll_type(poll_type):
