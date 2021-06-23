@@ -1,6 +1,5 @@
 """Data preparation for file storage."""
 
-from collections import defaultdict
 import logging
 
 from django.conf import settings
@@ -17,6 +16,7 @@ from poll_survey.configs import (
 
 
 log = logging.getLogger('edx.celery.task')
+DEFAULT_NA_VALUE = 'n/a'
 
 
 def _get_closest_to_dt(qs, dt):
@@ -53,22 +53,29 @@ def get_block_info(submission):
         dict: dict with parent names and studio link to unit containing poll/survey
     """
     qs = StudentModule.objects.filter(
-      course_id=submission.course,
-      student=submission.student,
+        course_id=submission.course,
+        student=submission.student,
+        module_type__in=ALLOWED_POLLS_NAMES
     )
     # In most cases closest will be the `greter` one with differense between records ~ 1 sec.
     closest = _get_closest_to_dt(qs, submission.submission_date)
     if not closest:
-        return defaultdict(lambda: 'n/a')
-    usage_loc = closest.module_state_key
-    item = modulestore().get_item(usage_loc)
-    unit = item.get_parent()
-    unit_url = '{studio_base}/container/{block_key}'.format(
-        studio_base='https://{}'.format(settings.CMS_BASE),
-        block_key=str(unit.location)
-    )
-    subsection = unit.get_parent()
-    section = subsection.get_parent()
+        return {}
+    try:
+        usage_loc = closest.module_state_key
+        item = modulestore().get_item(usage_loc)
+        unit = item.get_parent()
+        unit_url = '{studio_base}/container/{block_key}'.format(
+            studio_base='https://{}'.format(settings.CMS_BASE),
+            block_key=str(unit.location)
+        )
+        subsection = unit.get_parent()
+        section = subsection.get_parent()
+    except ItemNotFoundError as err:
+        log.warning(
+            'Error processing poll/survey report: %s' % err
+        )
+        return {}
     return {
         'section_name': section.display_name,
         'subsection_name': subsection.display_name,
@@ -107,10 +114,10 @@ def prepare_submission_datum(submission, **kwargs):
         return [
             poll_type,
             submission.course,
-            block_info['section_name'],
-            block_info['subsection_name'],
-            block_info['unit_name'],
-            block_info['page_link'],
+            block_info.get('section_name', DEFAULT_NA_VALUE),
+            block_info.get('subsection_name', DEFAULT_NA_VALUE),
+            block_info.get('unit_name', DEFAULT_NA_VALUE),
+            block_info.get('page_link', DEFAULT_NA_VALUE),
             submission.student.email,
             submission.student.id,
             submission.employee_id or "-",
@@ -121,7 +128,21 @@ def prepare_submission_datum(submission, **kwargs):
             submission_date,
         ]
     except (AttributeError, ItemNotFoundError):
-        return [poll_type, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"]
+        return [
+            poll_type,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE,
+            DEFAULT_NA_VALUE
+        ]
 
 
 def validate_poll_type(poll_type):
