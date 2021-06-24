@@ -1,7 +1,7 @@
 ---
- edxapp_theme_version: 'koa-rg'
+ edxapp_theme_version: 'master'
  EDXAPP_THEME_VERSION: '{{ edxapp_theme_version }}'
- edxapp_theme_source_repo: 'git@gitlab.raccoongang.com:edx/edx-theme.git'
+ edxapp_theme_source_repo: 'git@gitlab.raccoongang.com:/hippoteam/spectrum/edx-theme.git'
  edxapp_theme_name: '{{ edxapp_theme_version }}'
  EDXAPP_COMPREHENSIVE_THEME_DIRS:  [ '/edx/app/edxapp/themes' ]
  EDXAPP_DEFAULT_SITE_THEME: "{{ edxapp_theme_name }}"
