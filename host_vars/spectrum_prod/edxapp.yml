@@ -100,6 +100,23 @@ EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE if COMMON_ENABLE_DISCO
 EDXAPP_REDIS_HOSTNAME: 'edxapp-redis.zdlmo0.0001.aps1.cache.amazonaws.com'
 EDXAPP_MEMCACHE: [ 'edxapp-memcached.zdlmo0.cfg.aps1.cache.amazonaws.com:11211' ]
 
+EDXAPP_MKTG_URL_LINK_MAP:
+    ABOUT: about
+    BLOG: blog
+    CONTACT: contact
+    COOKIE: cookie
+    COURSES: courses
+    DONATE: donate
+    FAQ: help
+    HONOR: honor
+    HOW_IT_WORKS: how-to-use
+    PRESS: press
+    PRIVACY: privacy
+    ROOT: root
+    TOS: tos
+    WHAT_IS_VERIFIED_CERT: verified-certificate
+
+
 EDXAPP_GRADE_STORAGE_TYPE_LOCAL: false
 EDXAPP_GRADE_STORAGE_TYPE: "s3"
 EDXAPP_GRADE_BUCKET: "{{ EDXAPP_AWS_STORAGE_BUCKET_NAME }}"
