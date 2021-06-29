@@ -26,7 +26,7 @@ from util.json_request import JsonResponse
 
 log = logging.getLogger(__name__)
 
-CATALOG_HOMEPAGE_URL = "https://courses/appliedx"
+CATALOG_HOMEPAGE_URL = "https://courses/appliedx/"
 
 
 @ensure_csrf_cookie
