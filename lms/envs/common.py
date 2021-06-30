@@ -3147,6 +3147,7 @@ ALL_LANGUAGES = [
     [u"zu", u"Zulu"]
 ]
 
+ALL_LANGUAGES_DICT = {lang[0]: lang[1] for lang in ALL_LANGUAGES}
 
 ### Apps only installed in some instances
 # The order of INSTALLED_APPS matters, so this tuple is the app name and the item in INSTALLED_APPS

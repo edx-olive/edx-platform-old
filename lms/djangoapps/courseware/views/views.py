@@ -69,7 +69,8 @@ from lms.djangoapps.courseware.courses import (
     get_permission_for_course_about,
     get_studio_url,
     sort_by_announcement,
-    sort_by_start_date
+    sort_by_start_date,
+    check_course_access
 )
 from lms.djangoapps.courseware.date_summary import verified_upgrade_deadline_link
 from lms.djangoapps.courseware.exceptions import CourseAccessRedirect, Redirect
@@ -84,7 +85,7 @@ from lms.djangoapps.courseware.permissions import (
 )
 from lms.djangoapps.courseware.url_helpers import get_redirect_url
 from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
-from lms.djangoapps.courseware.utils import get_video_library_blocks
+from lms.djangoapps.courseware.utils import get_video_library_blocks, check_user_prefered_language_available_for_enroll
 from lms.djangoapps.experiments.utils import get_experiment_user_metadata_context
 from lms.djangoapps.grades.api import CourseGradeFactory
 from lms.djangoapps.instructor.enrollment import uses_shib
@@ -93,6 +94,7 @@ from lms.djangoapps.verify_student.services import IDVerificationService
 from openedx.core.djangoapps.catalog.utils import get_programs, get_programs_with_type
 from openedx.core.djangoapps.certificates import api as auto_certs_api
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from openedx.core.djangoapps.content.course_overviews.utils import get_course_language_options
 from openedx.core.djangoapps.credit.api import (
     get_credit_requirement_status,
     is_credit_course,
@@ -915,7 +917,6 @@ def course_about(request, course_id):
         ecomm_service = EcommerceService()
         ecommerce_checkout = ecomm_service.is_enabled(request.user)
         ecommerce_checkout_link = ''
-        ecommerce_bulk_checkout_link = ''
         single_paid_mode = None
         if ecommerce_checkout:
             if len(modes) == 1 and list(modes.values())[0].min_price:
@@ -926,8 +927,6 @@ def course_about(request, course_id):
 
             if single_paid_mode and single_paid_mode.sku:
                 ecommerce_checkout_link = ecomm_service.get_checkout_page_url(single_paid_mode.sku)
-            if single_paid_mode and single_paid_mode.bulk_sku:
-                ecommerce_bulk_checkout_link = ecomm_service.get_checkout_page_url(single_paid_mode.bulk_sku)
 
         registration_price, course_price = get_course_prices(course)
 
@@ -935,12 +934,6 @@ def course_about(request, course_id):
         can_enroll = bool(request.user.has_perm(ENROLL_IN_COURSE, course))
         invitation_only = course.invitation_only
         is_course_full = CourseEnrollment.objects.is_course_full(course)
-
-        # Register button should be disabled if one of the following is true:
-        # - Student is already registered for course
-        # - Course is already full
-        # - Student cannot enroll in course
-        active_reg_button = not (registered or is_course_full or not can_enroll)
 
         is_shib_course = uses_shib(course)
 
@@ -953,6 +946,92 @@ def course_about(request, course_id):
         sidebar_html_enabled = course_experience_waffle().is_enabled(ENABLE_COURSE_ABOUT_SIDEBAR_HTML)
 
         allow_anonymous = check_public_access(course, [COURSE_VISIBILITY_PUBLIC, COURSE_VISIBILITY_PUBLIC_OUTLINE])
+
+        lang_options = get_course_language_options(overview)
+        enroll_options = []
+
+        default_option_lang = check_user_prefered_language_available_for_enroll(request, lang_options)
+
+        default_enroll_option = {}
+        for option_lang, option_id in lang_options.items():
+            if option_id == course_id:
+                option = {
+                    'option_lang': option_lang,
+                    'option_id': option_id,
+                    'single_paid_mode': single_paid_mode,
+                    'ecommerce_checkout_link': ecommerce_checkout_link,
+                    'ecommerce_checkout': ecommerce_checkout,
+                    'allow_anonymous': bool(allow_anonymous),
+                    'is_shib_course': is_shib_course,
+                    'can_enroll': can_enroll,
+                    'invitation_only': invitation_only,
+                    'is_course_full': is_course_full,
+                    'course_target': course_target,
+                    'show_courseware_link': show_courseware_link,
+                    'registered': registered,
+                }
+            else:
+                o_course_key = CourseKey.from_string(option_id)
+                try:
+                    o_course = get_course(o_course_key)
+                except ValueError:
+                    log.warning(
+                        'Failed to get course option with id %s. Skipping...' % str(o_course_key)
+                    )
+                    continue
+                if not check_course_access(o_course, request.user, permission):
+                    continue
+                if o_course.catalog_visibility == 'none':
+                    continue
+                # exclude ccx course from options (user can be enrolled by coach only)
+                if not can_self_enroll_in_course(o_course_key):
+                    continue
+
+                o_modes = CourseMode.modes_for_course_dict(course_key)
+                o_ecommerce_checkout_link = ''
+                o_single_paid_mode = None
+
+                if ecommerce_checkout:
+                    if len(o_modes) == 1 and list(o_modes.values())[0].min_price:
+                        o_single_paid_mode = list(o_modes.values())[0]
+                    else:
+                        o_single_paid_mode = o_modes.get(CourseMode.PROFESSIONAL)
+                    if o_single_paid_mode and o_single_paid_mode.sku:
+                        o_ecommerce_checkout_link = ecomm_service.get_checkout_page_url(o_single_paid_mode.sku)
+
+                o_registered = registered_for_course(o_course, request.user)
+                o_allow_anonymous = check_public_access(
+                    o_course, [COURSE_VISIBILITY_PUBLIC, COURSE_VISIBILITY_PUBLIC_OUTLINE]
+                )
+                if request.user.has_perm(VIEW_COURSE_HOME, o_course):
+                    o_course_target = reverse(course_home_url_name(o_course.id), args=[text_type(o_course.id)])
+                else:
+                    o_course_target = reverse('about_course', args=[text_type(o_course.id)])
+                o_show_courseware_link = bool(
+                    (request.user.has_perm(VIEW_COURSEWARE, o_course)) or settings.FEATURES.get('ENABLE_LMS_MIGRATION')
+                )
+                option = {
+                    'option_lang': option_lang,
+                    'option_id': option_id,
+                    'single_paid_mode': o_single_paid_mode,
+                    'ecommerce_checkout_link': o_ecommerce_checkout_link,
+                    'ecommerce_checkout': ecommerce_checkout,
+                    'allow_anonymous': bool(o_allow_anonymous),
+                    'is_shib_course': uses_shib(o_course),
+                    'can_enroll': bool(request.user.has_perm(ENROLL_IN_COURSE, o_course)),
+                    'invitation_only': o_course.invitation_only,
+                    'is_course_full': CourseEnrollment.objects.is_course_full(o_course),
+                    'course_target': o_course_target,
+                    'show_courseware_link': o_show_courseware_link,
+                    'registered': o_registered,
+                }
+            if option_lang == default_option_lang:
+                default_enroll_option = option
+            else:
+                enroll_options.append(option)
+            # for case when option with prefered language is not available for user
+        if not default_enroll_option and len(enroll_options) == 1:
+            default_enroll_option = enroll_options.pop()
 
         # This local import is due to the circularity of lms and openedx references.
         # This may be resolved by using stevedore to allow web fragments to be used
@@ -968,29 +1047,15 @@ def course_about(request, course_id):
             'course_details': course_details,
             'staff_access': staff_access,
             'studio_url': studio_url,
-            'registered': registered,
-            'course_target': course_target,
             'is_cosmetic_price_enabled': settings.FEATURES.get('ENABLE_COSMETIC_DISPLAY_PRICE'),
             'course_price': course_price,
-            'ecommerce_checkout': ecommerce_checkout,
-            'ecommerce_checkout_link': ecommerce_checkout_link,
-            'ecommerce_bulk_checkout_link': ecommerce_bulk_checkout_link,
-            'single_paid_mode': single_paid_mode,
-            'show_courseware_link': show_courseware_link,
-            'is_course_full': is_course_full,
-            'can_enroll': can_enroll,
-            'invitation_only': invitation_only,
-            'active_reg_button': active_reg_button,
-            'is_shib_course': is_shib_course,
-            # We do not want to display the internal courseware header, which is used when the course is found in the
-            # context. This value is therefor explicitly set to render the appropriate header.
-            'disable_courseware_header': True,
             'pre_requisite_courses': pre_requisite_courses,
             'course_image_urls': overview.image_urls,
             'reviews_fragment_view': reviews_fragment_view,
             'sidebar_html_enabled': sidebar_html_enabled,
-            'allow_anonymous': allow_anonymous,
             'video_library': video_library,
+            'default_enroll_option': default_enroll_option,
+            'enroll_options': enroll_options,
         }
 
         return render_to_response('courseware/course_about.html', context)
