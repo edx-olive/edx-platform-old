@@ -330,14 +330,6 @@ urlpatterns += [
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
 
-    # About the course
-    url(
-        r'^courses/{}/about$'.format(
-            settings.COURSE_ID_PATTERN,
-        ),
-        courseware_views.course_about,
-        name='about_course',
-    ),
     url(
         r'^courses/yt_video_metadata$',
         courseware_views.yt_video_metadata,
@@ -698,6 +690,17 @@ urlpatterns += [
         include('openedx.features.learner_profile.urls'),
     ),
 ]
+
+if not settings.FEATURES.get('ENABLE_AB_INITIO_EXTENSIONS'):
+    urlpatterns += [
+        url(
+            r'^courses/{}/about$'.format(
+                settings.COURSE_ID_PATTERN,
+            ),
+            courseware_views.course_about,
+            name='about_course',
+        ),
+    ]
 
 if settings.FEATURES.get('ENABLE_TEAMS'):
     # Teams endpoints

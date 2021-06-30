@@ -18,6 +18,8 @@ from xmodule.partitions.partitions_service import PartitionService
 from lms.djangoapps.commerce.utils import EcommerceService
 from openedx.core.djangoapps.content.block_structure.api import get_course_in_cache
 from openedx.core.djangoapps.content.block_structure.exceptions import BlockStructureNotFound
+from openedx.core.djangoapps.lang_pref import LANGUAGE_KEY
+from openedx.core.djangoapps.user_api.preferences.api import get_user_preference
 
 log = logging.getLogger(__name__)
 
@@ -164,3 +166,32 @@ def get_video_library_blocks_no_request():
             )
 
     return library
+
+def check_user_prefered_language_available_for_enroll(request, options, default='English'):
+    """
+    Check if any of user language preferences suits any available enroll option.
+
+    The LanguageProficiency has a priority over UserPreference.
+
+    Args:
+        request (Request): Django request;
+        options (dict): enrollment options e.g. {language(str): course_id(str), ...};
+        default (str): the default to return if there are no suitable language.
+
+    Returns:
+        str: language full name (localized) or default value
+    """
+    lang_pref = None
+    lang_available = False
+
+    lang_pref_code = request.user.profile.language_proficiencies.first()
+    if lang_pref_code:
+        lang_pref = settings.LANGUAGE_DICT.get(lang_pref_code.code)
+        lang_available = bool(options.get(lang_pref))
+
+    if not lang_pref_code or not lang_available:
+        lang_pref_code = get_user_preference(request.user, LANGUAGE_KEY)
+        lang_pref = settings.LANGUAGE_DICT.get(lang_pref_code)
+        lang_available = bool(options.get(lang_pref))
+
+    return lang_pref if lang_pref and lang_available else default
