@@ -24,7 +24,7 @@ def get_course_lang_from_number(course_number):
         str: language name (localized).
     """
     split_num = course_number.split('-')
-    course_lang = len(split_num) > 1 and settings.ALL_LANGUAGES_DICT.get(split_num[-1])
+    course_lang = len(split_num) > 1 and settings.ALL_LANGUAGES_DICT.get(str(split_num[-1]).lower())
     return course_lang if course_lang else 'English'
 
 def clean_course_number_from_lang_suffix(course_number):
@@ -40,7 +40,7 @@ def clean_course_number_from_lang_suffix(course_number):
         str: cleaned course number
     """
     split_num = course_number.split('-')
-    has_lang_suffix = len(split_num) > 1 and settings.ALL_LANGUAGES_DICT.get(split_num[-1])
+    has_lang_suffix = len(split_num) > 1 and settings.ALL_LANGUAGES_DICT.get(str(split_num[-1]).lower())
     return '-'.join(split_num[:-1]) if has_lang_suffix else '-'.join(split_num)
 
 def get_course_language_options(course):
