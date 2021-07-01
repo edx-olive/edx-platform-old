@@ -21,7 +21,7 @@ DEFAULT_NA_VALUE = 'n/a'
 
 def _get_closest_to_dt(qs, dt):
     """
-    Filter given queryset by the givet DateTime.
+    Filter given queryset by the given DateTime based on 'modified' field.
 
     Returns value closest to given datetime.
 
@@ -32,15 +32,15 @@ def _get_closest_to_dt(qs, dt):
     Returns:
         [type]: [description]
     """
-    greater = qs.filter(created__gte=dt).order_by("created").first()
-    less = qs.filter(created__lte=dt).order_by("-created").first()
+    greater = qs.filter(modified__gte=dt).order_by("modified").first()
+    less = qs.filter(modified__lte=dt).order_by("-modified").first()
     if greater and less:
-        return greater if abs(greater.created - dt) < abs(less.created - dt) else less
+        return greater if abs(greater.modified - dt) < abs(less.modified - dt) else less
     else:
         return greater or less
 
 
-def get_block_info(submission):
+def get_block_info(submission, poll_type):
     """
     Get poll/survey parents and studio unit link.
 
@@ -55,9 +55,9 @@ def get_block_info(submission):
     qs = StudentModule.objects.filter(
         course_id=submission.course,
         student=submission.student,
-        module_type__in=ALLOWED_POLLS_NAMES
+        module_type=poll_type,
     )
-    # In most cases closest will be the `greter` one with differense between records ~ 1 sec.
+    # In most cases closest will be the `greater` one with difference between records ~ 1 sec.
     closest = _get_closest_to_dt(qs, submission.submission_date)
     if not closest:
         return {}
@@ -109,7 +109,7 @@ def prepare_submission_datum(submission, **kwargs):
         except:  # Cannot think of any particular error
             submission_date = "-"
 
-        block_info = get_block_info(submission)
+        block_info = get_block_info(submission, poll_type)
 
         return [
             poll_type,
