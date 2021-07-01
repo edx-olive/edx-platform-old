@@ -59,6 +59,9 @@ from .views import (
     get_cosmetic_verified_display_price
 )
 
+from lms.djangoapps.courseware.views.utils import custom_login_required
+
+
 log = logging.getLogger("edx.courseware.views.index")
 
 TEMPLATE_IMPORTS = {'urllib': urllib}
@@ -69,7 +72,7 @@ class CoursewareIndex(View):
     """
     View class for the Courseware page.
     """
-    @method_decorator(login_required)
+    @method_decorator(custom_login_required)
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(cache_control(no_cache=True, no_store=True, must_revalidate=True))
     @method_decorator(ensure_valid_course_key)
