@@ -16,7 +16,7 @@
 ${static.renderReact(
     component="CustomCourseSearch",
     id="frontend-component-custom-search",
-    props={'csrfToken': csrf_token}
+    props={'csrfToken': csrf_token, 'locale': locale}
 )}
 % else:
 % if course_discovery_enabled:
