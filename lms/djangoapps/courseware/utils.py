@@ -167,6 +167,7 @@ def get_video_library_blocks_no_request():
 
     return library
 
+
 def check_user_prefered_language_available_for_enroll(request, options, default='English'):
     """
     Check if any of user language preferences suits any available enroll option.
@@ -195,3 +196,13 @@ def check_user_prefered_language_available_for_enroll(request, options, default=
         lang_available = bool(options.get(lang_pref))
 
     return lang_pref if lang_pref and lang_available else default
+
+
+def get_user_locale(user):
+    """Get user site language preference and return it in the proper format for the frontend react app to consume"""
+    locale = get_user_preference(user, LANGUAGE_KEY)
+    if locale:
+        # React search app expects language as a two letter code, but dark lang config uses different format.
+        # For example Spanish is encoded as 'es-es' but frontend app expects Spanish to be encoded as 'es'
+        locale = locale.split('-')[0]
+    return locale or 'en'

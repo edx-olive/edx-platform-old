@@ -26501,3 +26501,37 @@ msgid ""
 msgstr ""
 "Une nouvelle révision a été créée : Fusion entre la révision #%(r1)d et la "
 "révision #%(r2)d"
+
+#: abinitio_edx_extensions/templates/sso/sso_error.html
+msgid "SSO error"
+msgstr ""
+
+#: abinitio_edx_extensions/templates/sso/sso_error.html
+msgid ""
+"An unexpected error has occured. "
+"Please try again later or contact your Account Manager or Customer Support Representative."
+msgstr ""
+
+#: abinitio_edx_extensions/course_about.py
+msgid "Series"
+msgstr ""
+
+#: abinitio_edx_extensions/course_about.py
+msgid "Role(s)"
+msgstr ""
+
+#: abinitio_edx_extensions/course_about.py
+msgid "Topic(s)"
+msgstr ""
+
+#: lms/templates/courseware/course_about.html
+msgid "Enroll in:"
+msgstr ""
+
+#: lms/templates/courseware/course_about.html
+msgid "Available Language(s):"
+msgstr ""
+
+#: lms/templates/courseware/course_about.html
+msgid "Watch the video:"
+msgstr ""

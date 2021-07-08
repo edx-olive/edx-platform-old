@@ -85,7 +85,11 @@ from lms.djangoapps.courseware.permissions import (
 )
 from lms.djangoapps.courseware.url_helpers import get_redirect_url
 from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
-from lms.djangoapps.courseware.utils import get_video_library_blocks, check_user_prefered_language_available_for_enroll
+from lms.djangoapps.courseware.utils import (
+    check_user_prefered_language_available_for_enroll,
+    get_video_library_blocks,
+    get_user_locale
+)
 from lms.djangoapps.experiments.utils import get_experiment_user_metadata_context
 from lms.djangoapps.grades.api import CourseGradeFactory
 from lms.djangoapps.instructor.enrollment import uses_shib
@@ -260,12 +264,16 @@ def courses(request):
         else:
             courses_list = sort_by_announcement(courses_list)
 
+    locale = 'en'
+    if request.user.is_authenticated:
+        locale = get_user_locale(request.user)
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
     return render_to_response(
         "courseware/courses.html",
         {
+            'locale': locale,
             'courses': courses_list,
             'course_discovery_meanings': course_discovery_meanings,
             'programs_list': programs_list,
