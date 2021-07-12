@@ -74,7 +74,7 @@ analytics_processors_sleep_time: 1200
 
 
 EDXAPP_EXTRA_REQUIREMENTS:
-  - name: 'git+https://github.com/raccoongang/edx_xblock_scorm.git@v1.1.0#egg=xblock-scorm==1.1.0'
+  - name: 'git+https://github.com/raccoongang/edx_xblock_scorm.git@arsentur/S20-55/feature/add-s3-storage-support#egg=xblock-scorm==1.1.0'
     extra_args: '-e'
 
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
