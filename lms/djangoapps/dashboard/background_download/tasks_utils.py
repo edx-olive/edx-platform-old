@@ -62,12 +62,12 @@ def export_polls_submissions(poll_type, courses_ids, chunk_size,
     log.debug("{} subs size: {!s}".format(poll_type, subs_size))
 
     header = (
-        'poll_type',
-        'course', 'section_name', 'subsection_name', 'unit_name', 'unit_link',
-        'employee_email_id', 'student_id', 'employee_id',
-        'question_id', 'question_text',
-        'answer_id', 'answer_text',
-        'submission_date',
+        'Poll type', 'Display name',
+        'Course', 'Section name', 'Subsection name', 'Unit name', 'Unit link',
+        'Employee email id', 'Student id', 'Employee id',
+        'Question id', 'Question text',
+        'Answer id', 'Answer text',
+        'Submission date',
     )
     kwargs = {"poll_type": poll_type}
     if subs_size:
