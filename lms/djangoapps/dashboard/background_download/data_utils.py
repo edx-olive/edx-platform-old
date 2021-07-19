@@ -17,6 +17,7 @@ from poll_survey.configs import (
 
 log = logging.getLogger('edx.celery.task')
 DEFAULT_NA_VALUE = 'n/a'
+ITEMS_TO_DISPLAY_NAME = ['course_quality_survey', 'post_course_survey', 'pre_course_survey', 'survey']
 
 
 def _get_closest_to_dt(qs, dt):
@@ -65,9 +66,10 @@ def get_block_info(submission, poll_type):
         usage_loc = closest.module_state_key
         item = modulestore().get_item(usage_loc)
         unit = item.get_parent()
-        unit_url = '{studio_base}/container/{block_key}'.format(
-            studio_base='https://{}'.format(settings.CMS_BASE),
-            block_key=str(unit.location)
+        unit_url = '{lms_root_url}/courses/{course_key}/jump_to/{location}'.format(
+            lms_root_url=settings.LMS_ROOT_URL,
+            course_key=str(item.location.course_key),
+            location=str(item.location)
         )
         subsection = unit.get_parent()
         section = subsection.get_parent()
@@ -77,6 +79,7 @@ def get_block_info(submission, poll_type):
         )
         return {}
     return {
+        'display_name': item.block_name if poll_type in ITEMS_TO_DISPLAY_NAME else DEFAULT_NA_VALUE,
         'section_name': section.display_name,
         'subsection_name': subsection.display_name,
         'unit_name': unit.display_name,
@@ -113,6 +116,7 @@ def prepare_submission_datum(submission, **kwargs):
 
         return [
             poll_type,
+            block_info.get('display_name', DEFAULT_NA_VALUE),
             submission.course,
             block_info.get('section_name', DEFAULT_NA_VALUE),
             block_info.get('subsection_name', DEFAULT_NA_VALUE),
