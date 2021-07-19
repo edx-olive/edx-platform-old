@@ -51,6 +51,7 @@ def learner_profile(request, username):
 
     try:
         context = learner_profile_context(request, username, request.user.is_staff)
+        context['show_records_button'] = settings.FEATURES.get('SHOW_RECORDS_BUTTON', True)
         return render_to_response(
             'learner_profile/learner_profile.html',
             context
