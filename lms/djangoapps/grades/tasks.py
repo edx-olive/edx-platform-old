@@ -261,12 +261,13 @@ def _has_db_updated_with_new_score(self, scored_block_usage_key, **kwargs):
         found_modified_time = score.modified if score is not None else None
 
     elif kwargs['score_db_table'] == ScoreDatabaseTableEnum.submissions:
+        item_type = 'sga' if scored_block_usage_key.block_type == 'edx_sga' else scored_block_usage_key.block_type
         score = sub_api.get_score(
             {
                 "student_id": kwargs['anonymous_user_id'],
                 "course_id": six.text_type(scored_block_usage_key.course_key),
                 "item_id": six.text_type(scored_block_usage_key),
-                "item_type": scored_block_usage_key.block_type,
+                "item_type": item_type,
             }
         )
         found_modified_time = score['created_at'] if score is not None else None
