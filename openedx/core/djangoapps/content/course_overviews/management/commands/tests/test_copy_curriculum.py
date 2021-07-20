@@ -91,7 +91,6 @@ class TestCopyCurriculum(ModuleStoreTestCase):
         self.assertEqual(len(new.series.all()), len(old.series.all()))
         self.assertEqual(new.standalone_videos, old.standalone_videos)
 
-
     def test_copy_with_update(self):
         """
         Test positive flow for coping with fields update.
@@ -102,7 +101,7 @@ class TestCopyCurriculum(ModuleStoreTestCase):
             new_id='curriculum002',
             title='New title',
             description='New description',
-            courses=[self.courses[0]],
+            courses=[self.courses[0].id],
             series=[self.series[0].series_id],
             videos=json.loads(new_videos)
         )
@@ -120,3 +119,66 @@ class TestCopyCurriculum(ModuleStoreTestCase):
         self.assertNotEqual(len(new.courses.all()), len(old.courses.all()))
         self.assertNotEqual(len(new.series.all()), len(old.series.all()))
         self.assertNotEqual(new.standalone_videos, old.standalone_videos)
+
+    def test_video_not_in_library(self):
+        """
+        Test add video from outside the library.
+        """
+        external_video_id = 'block-v1:fake+course+id+type@video+block@fakeaa5796f3445391ff0d7326b2ab7d'
+        errstring = 'does not exist in the video library. Skipping...'
+        with self.assertLogs(logger=LOGGER_NAME, level='WARNING') as cm:
+            self._call_comand(
+                new_id='curriculum003',
+                videos=[external_video_id]
+            )
+            self.assertIn(errstring, cm.output[0])
+            result_count = len(json.loads(
+                Curriculum.objects.get(curriculum_id='curriculum003').standalone_videos
+            ))
+            self.assertEqual(result_count, 0)
+
+    def test_invalid_course_id(self):
+        """
+        Test add course with invalid id.
+        """
+        course_id = 'fake_id'
+        errstring = 'Course id [%s] seems to be invalid, skipping...' % course_id
+        with self.assertLogs(logger=LOGGER_NAME, level='WARNING') as cm:
+            self._call_comand(
+                new_id='curriculum004',
+                courses=[course_id]
+            )
+            self.assertIn(errstring, cm.output[0])
+            result_count = Curriculum.objects.get(curriculum_id='curriculum004').courses.count()
+            self.assertEqual(result_count, 0)
+
+    def test_invalid_series_id(self):
+        """
+        Test add series with invalid id.
+        """
+        series_id = 'fake_id'
+        errstring = 'Series with id [%s] seems to be invalid, skipping...' % series_id
+        with self.assertLogs(logger=LOGGER_NAME, level='WARNING') as cm:
+            self._call_comand(
+                new_id='curriculum005',
+                series=[series_id]
+            )
+            self.assertIn(errstring, cm.output[0])
+            result_count = Curriculum.objects.get(curriculum_id='curriculum005').series.count()
+            self.assertEqual(result_count, 0)
+
+    def test_all_data_invalid(self):
+        """
+        Test add all invalid data (courses, series, videos).
+        """
+        invalid_id = 'fake_id'
+        errstring = 'Could not copy the curriculum, all of the values you provided for series, ' \
+                    'courses and standalone videos are invalid. '
+        with self.assertRaisesRegex(CommandError, errstring):
+            self._call_comand(
+                new_id='curriculum007',
+                series=[invalid_id],
+                courses=[invalid_id],
+                videos=[invalid_id]
+            )
+            self.assertIsNone(Curriculum.objects.filter(curriculum_id='curriculum007').first())
