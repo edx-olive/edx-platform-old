@@ -3931,3 +3931,4 @@ AB_INITIO_LOGOUT_REDIRECT_URL = ''
 VIDEO_LIBRARY_COURSE = ''
 # Define Curricula model types
 CURRICULA_TYPES = (('role', 'Role'), ('topic', 'Topic'),)
+THIRD_PARTY_XBLOCKS_TO_TRACK_COMPLETION = []

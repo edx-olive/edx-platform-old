@@ -7,6 +7,7 @@ from datetime import timedelta
 
 from completion.models import BlockCompletion
 from django.db.models import Q
+from django.conf import settings
 from django.utils import timezone
 from opaque_keys.edx.keys import CourseKey
 from six.moves import range
@@ -17,6 +18,7 @@ from lms.djangoapps.course_blocks.api import get_course_blocks
 from lms.djangoapps.course_blocks.utils import get_student_module_as_dict
 from lms.djangoapps.courseware.access import has_access
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.lib.cache_utils import request_cached
 from openedx.features.course_experience import RELATIVE_DATES_FLAG
 from student.models import CourseEnrollment
@@ -199,6 +201,15 @@ def get_course_outline_block_tree(request, course_id, user=None, allow_start_dat
         'lti',
         'lti_consumer',
     ]
+    additional_block_types = configuration_helpers.get_value(
+        'THIRD_PARTY_XBLOCKS_TO_TRACK_COMPLETION',
+        settings.THIRD_PARTY_XBLOCKS_TO_TRACK_COMPLETION
+    )
+    # Can't just concatenate block_types_filter with the value from the settings,
+    # because if there is no additional types defined - helpers get_value method
+    # will convert default value (empty list) to dict.
+    if additional_block_types:
+        block_types_filter += additional_block_types
     all_blocks = get_blocks(
         request,
         course_usage_key,
