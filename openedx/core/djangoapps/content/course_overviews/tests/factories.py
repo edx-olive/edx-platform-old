@@ -62,6 +62,7 @@ class SeriesFactory(DjangoModelFactory):
 
     series_id = factory.Sequence('series_{}'.format)
     title = factory.Sequence('series_title_{}'.format)
+    description = "Series description"
 
 
 class CurriculumFactory(DjangoModelFactory):
