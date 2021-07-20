@@ -1,15 +1,15 @@
-
-
-from datetime import timedelta
+import factory
 import json
 
+from datetime import timedelta
+
 from django.utils import timezone
-import factory
+
 from factory.fuzzy import FuzzyChoice
 from factory.django import DjangoModelFactory
 from opaque_keys.edx.locator import CourseLocator
 
-from ..models import CourseOverview, Curriculum, Series
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview, Curriculum, Series
 
 
 def add_m2m_data(m2m_relation, data):
@@ -55,11 +55,14 @@ class CourseOverviewFactory(DjangoModelFactory):
     def end(self):
         return timezone.now() + timedelta(30)
 
+
 class SeriesFactory(DjangoModelFactory):
     class Meta:
         model = Series
 
     series_id = factory.Sequence('series_{}'.format)
+    title = factory.Sequence('series_title_{}'.format)
+
 
 class CurriculumFactory(DjangoModelFactory):
     class Meta:
@@ -67,6 +70,8 @@ class CurriculumFactory(DjangoModelFactory):
 
     curriculum_id = factory.Sequence('curriculum_{}'.format)
     collection_type = FuzzyChoice((c[0] for c in Curriculum.type_choices))
+    description = "Test description"
+    title = factory.Sequence('curriculum_title_{}'.format)
 
     @factory.post_generation
     def series(self, create, extracted, **kwargs):
