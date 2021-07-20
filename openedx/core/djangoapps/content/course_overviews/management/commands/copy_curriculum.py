@@ -9,7 +9,9 @@ import logging
 from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError
 
-from openedx.core.djangoapps.content.course_overviews.models import Curriculum, Series
+from opaque_keys import InvalidKeyError
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview, Curriculum, Series
+from lms.djangoapps.courseware.utils import get_video_library_blocks_no_request
 
 log = logging.getLogger(__name__)
 
@@ -81,11 +83,52 @@ class Command(BaseCommand):
 
         title_to_add = title or source_curriculum.title
         description_to_add = description or source_curriculum.description
-        courses_to_add = courses or source_curriculum.courses.all()
-        series_to_add = Series.objects.filter(
-            series_id__in=series_ids
-        ) if series_ids else source_curriculum.series.all()
-        videos_to_add = json.dumps(videos) if videos else source_curriculum.standalone_videos
+
+        if videos:
+            library = get_video_library_blocks_no_request()
+            videos_to_add = []
+            if not library:
+                log.warning('Can\'t add videos. Video library is empty, try to add videos to library first.')
+            else:
+                library_videos = [vid['id'] for vid in library]
+                for video in videos:
+                    if video not in library_videos:
+                        log.warning('Video [%s] does not exist in the video library. Skipping...' % video)
+                    else:
+                        videos_to_add.append(video)
+                if videos_to_add:
+                    videos_to_add = json.dumps(videos_to_add)
+        else:
+            videos_to_add = source_curriculum.standalone_videos
+
+        if courses:
+            courses_to_add = []
+            for course_id in courses:
+                try:
+                    CourseOverview.objects.get(id=course_id)
+                    courses_to_add.append(course_id)
+                except (InvalidKeyError, CourseOverview.DoesNotExist):
+                    log.warning('Course id [%s] seems to be invalid, skipping...' % course_id)
+        else:
+            courses_to_add = source_curriculum.courses.all()
+
+        if series_ids:
+            series_to_add = []
+            for series_id in series_ids:
+                try:
+                    series = Series.objects.get(series_id=series_id)
+                    series_to_add.append(series.id)
+                except Series.DoesNotExist:
+                    log.warning('Series with id [%s] seems to be invalid, skipping...' % series_id)
+                    continue
+        else:
+            series_to_add = source_curriculum.series.all()
+
+        if not any((videos_to_add, series_to_add, courses_to_add)):
+            raise CommandError('Could not copy the curriculum, all of the values you provided '
+                               'for series, courses and standalone videos are invalid. '
+                               'This is not allowed, curriculum must include at least one '
+                               'series, course or standalone video.')
 
         try:
             new_curriculum = Curriculum.objects.create(
@@ -99,7 +142,9 @@ class Command(BaseCommand):
         except IntegrityError:
             raise CommandError('Curriculum with id [%s] already exist.' % new_id)
 
-        new_curriculum.courses.set(courses_to_add)
-        new_curriculum.series.set(series_to_add)
+        if courses_to_add:
+            new_curriculum.courses.set(courses_to_add)
+        if series_to_add:
+            new_curriculum.series.set(series_to_add)
 
         self.stdout.write(self.style.SUCCESS('Successfully copied %s curriculum data to %s.' % (curriculum_id, new_id)))
