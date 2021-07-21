@@ -22,7 +22,12 @@ class VideoFields(object):
         default="Video",
         scope=Scope.settings
     )
-
+    description = String(
+        help=_("The description for this component."),
+        display_name=_("Component Desctiption"),
+        default="",
+        scope=Scope.settings
+    )
     saved_video_position = RelativeTime(
         help=_("Current position in the video."),
         scope=Scope.user_state,

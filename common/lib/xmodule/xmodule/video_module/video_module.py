@@ -467,6 +467,7 @@ class VideoBlock(
             'cdn_exp_group': cdn_exp_group,
             'id': self.location.html_id(),
             'display_name': self.display_name_with_default,
+            'description': self.description,
             'handout': self.handout,
             'download_video_link': download_video_link,
             'track': track_url,
