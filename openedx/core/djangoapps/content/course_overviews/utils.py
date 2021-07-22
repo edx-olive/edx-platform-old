@@ -59,8 +59,14 @@ def get_course_language_options(course):
     number = clean_course_number_from_lang_suffix(course.display_number_with_default)
     result = {}
     lang_options_courses = CourseOverview.objects.filter(
+        org=course.org,
         display_number_with_default__contains=number
     )
+    lang_options_courses = [
+        c for c in lang_options_courses if c.id.run == course.id.run \
+            and (c.display_number_with_default.startswith(number + '-') \
+            or c.display_number_with_default == number)
+    ]
     for course_option in lang_options_courses:
         option_lang = get_course_lang_from_number(course_option.display_number_with_default)
         if result.get(option_lang):
