@@ -1,7 +1,7 @@
 ---
 
-edx_platform_repo: "git@gitlab.raccoongang.com:edx/edx-platform.git"
-EDX_PLATFORM_VERSION: "koa-rg"
+edx_platform_repo: "git@gitlab.raccoongang.com:hippoteam/spectrum/edx-platform.git"
+EDX_PLATFORM_VERSION: "master"
 EDXAPP_SITE_NAME: "lms-spectrum.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-spectrum.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-spectrum.raccoongang.com"
