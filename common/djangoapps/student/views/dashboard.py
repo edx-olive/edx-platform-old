@@ -599,6 +599,9 @@ def student_dashboard(request):
     # Get the org whitelist or the org blacklist for the current site
     site_org_whitelist, site_org_blacklist = get_org_black_and_whitelist_for_site()
     course_enrollments = list(get_course_enrollments(user, site_org_whitelist, site_org_blacklist, course_limit))
+    if settings.FEATURES.get('ENABLE_AB_INITIO_EXTENSIONS', False):
+        if not course_enrollments:
+            return redirect(reverse('courses'))
 
     # Get the entitlements for the user and a mapping to all available sessions for that entitlement
     # If an entitlement has no available sessions, pass through a mock course overview object
