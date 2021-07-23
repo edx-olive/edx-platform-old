@@ -24,7 +24,7 @@ class VideoFields(object):
     )
     description = String(
         help=_("The description for this component."),
-        display_name=_("Component Desctiption"),
+        display_name=_("Component Description"),
         default="",
         scope=Scope.settings
     )
