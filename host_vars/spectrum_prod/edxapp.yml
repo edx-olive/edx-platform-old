@@ -87,6 +87,8 @@ EDXAPP_PRIVATE_REQUIREMENTS:
     extra_args: '--extra-index-url https://pypi.raccoongang.com'
   - name: 'edx-gamma-dashboard==1.0.0.juniper.1'
     extra_args: '--extra-index-url https://pypi.raccoongang.com'
+  - name: 'git+git@gitlab.raccoongang.com:hippoteam/spectrum/edx_xblock_scorm.git@master#egg=edx_xblock_scorm'
+    extra_args: '-e'
 
 SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
