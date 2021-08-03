@@ -23921,7 +23921,7 @@ msgstr ""
 #: abinitio_edx_extensions/templates/sso/sso_error.html
 msgid ""
 "An unexpected error has occured. "
-"Please try again later or contact your Account Manager or Customer Support Representative."
+"Please try again later or contact your Account Administrator or Customer Support Representative."
 msgstr ""
 
 #: abinitio_edx_extensions/course_about.py
@@ -23941,9 +23941,23 @@ msgid "Enroll in:"
 msgstr ""
 
 #: lms/templates/courseware/course_about.html
-msgid "Available Language(s):"
+msgid "Available Language(s)"
 msgstr ""
 
 #: lms/templates/courseware/course_about.html
 msgid "Watch the video:"
+msgstr ""
+
+#: footer
+msgid "Terms of Use"
+msgstr ""
+
+#: footer
+msgid "Intellectual Property"
+msgstr ""
+
+#: footer
+msgid ""
+"Ab Initio. All rights reserved except where noted. EdX, Open edX and "
+"their respective logos are trademarks or registered trademarks of edX Inc."
 msgstr ""
