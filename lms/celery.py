@@ -9,6 +9,11 @@ Taken from: https://celery.readthedocs.org/en/latest/django/first-steps-with-dja
 import os
 
 from openedx.core.lib.celery.routers import AlternateEnvironmentRouter
+# Patch the xml libs before anything else.
+from safe_lxml import defuse_xml_libs
+
+defuse_xml_libs()
+
 
 # Set the default Django settings module for the 'celery' program
 # and then instantiate the Celery singleton.
