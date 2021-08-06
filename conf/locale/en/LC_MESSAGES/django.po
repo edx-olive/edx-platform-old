@@ -5454,12 +5454,22 @@ msgstr ""
 #: lms/djangoapps/courseware/date_summary.py
 msgid "After this date, course content will be archived."
 msgstr ""
+"After this date, the course content will be archived because a new term "
+"will be released. You do not need to enroll in the new term; it simply "
+"contains minor changes to clarify questions and to address new features. "
+"You will be able to view the videos, answer questions, participate in the "
+"discussions, and so on, in this course term for as long as you'd like to."
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid ""
 "This course is archived, which means you can review course content but it is"
 " no longer active."
 msgstr ""
+"This course is archived because a new term has been released. You do not "
+"need to enroll in the new term; it simply contains minor changes to clarify "
+"questions and to address new features. You will be able to view the videos, "
+"answer questions, participate in the discussions, and so on, in this course "
+"term for as long as you'd like to."
 
 #: lms/djangoapps/courseware/date_summary.py
 #, python-brace-format

@@ -6284,6 +6284,24 @@ msgstr ""
 "du cours mais celui-ci n'est plus actif."
 
 #: lms/djangoapps/courseware/date_summary.py
+msgid ""
+"After this date, the course content will be archived because a new term "
+"will be released. You do not need to enroll in the new term; it simply "
+"contains minor changes to clarify questions and to address new features. "
+"You will be able to view the videos, answer questions, participate in the "
+"discussions, and so on, in this course term for as long as you'd like to."
+msgstr ""
+
+#: lms/djangoapps/courseware/date_summary.py
+msgid ""
+"This course is archived because a new term has been released. You do not "
+"need to enroll in the new term; it simply contains minor changes to clarify "
+"questions and to address new features. You will be able to view the videos, "
+"answer questions, participate in the discussions, and so on, in this course "
+"term for as long as you'd like to."
+msgstr ""
+
+#: lms/djangoapps/courseware/date_summary.py
 #, python-brace-format
 msgid "This course is ending in {time_remaining_string} on {course_end_date}."
 msgstr ""
