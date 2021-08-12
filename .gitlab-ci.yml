@@ -1,0 +1,6 @@
+---
+deploy-dev:
+    stage: deploy
+    trigger: Duck-Team/projects/ubicquia/deployment
+    only:
+      - master
