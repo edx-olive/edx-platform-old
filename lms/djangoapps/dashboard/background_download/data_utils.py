@@ -33,12 +33,7 @@ def _get_closest_to_dt(qs, dt):
     Returns:
         [type]: [description]
     """
-    greater = qs.filter(modified__gte=dt).order_by("modified").first()
-    less = qs.filter(modified__lte=dt).order_by("-modified").first()
-    if greater and less:
-        return greater if abs(greater.modified - dt) < abs(less.modified - dt) else less
-    else:
-        return greater or less
+    return qs.filter(modified__gte=dt).order_by("modified").first()
 
 
 def get_block_info(submission, poll_type):
