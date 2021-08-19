@@ -13,7 +13,7 @@ const footerLinks = {
         name: 'About appliedX',
         links: [
             {
-                name: 'ON DEMAND',
+                name: 'LEARNING EXPERIENCES',
                 url: 'http://team.amat.com/sites/appliedx/SitePages/appliedx-ON-DEMAND.aspx',
                 args: defaultArgs,
                 context: {}
@@ -21,12 +21,6 @@ const footerLinks = {
             {
                 name: 'PATHWAY',
                 url: 'https://team.amat.com/sites/CorpEngrPathway/',
-                args: defaultArgs,
-                context: {}
-            },
-            {
-                name: 'CLASSROOM',
-                url: 'http://team.amat.com/sites/CorpEngrappliedxClassroom',
                 args: defaultArgs,
                 context: {}
             },
@@ -54,8 +48,14 @@ const footerLinks = {
                 context: {}
             },
             {
-                name: 'Request a Course',
+                name: 'Create a course with appliedx',
                 url: 'http://amat.service-now.com/help?id=sc_cat_item2&sys_id=c4d7dc2adbf29f003901f64eaf96199c',
+                args: defaultArgs,
+                context: {}
+            },
+            {
+                name: 'Request to add a course to catalog',
+                url: 'https://forms.office.com/Pages/ResponsePage.aspx?id=QyaccKmxFUStD1Ic-muj9fxLc-Gj9-tNgXR13-UPQpRUN0pVNFRZN1ZJMlY3WjJWVDJFVFc5SURYRC4u',
                 args: defaultArgs,
                 context: {}
             },
@@ -68,8 +68,14 @@ const footerLinks = {
         ]
     },
     section3: {
-        name: 'Help',
+        name: 'Learner Support',
         links: [
+            {
+                name: 'FAQs',
+                url: 'https://amat.service-now.com/help?id=help_kb_category&kb_category=bc6bcd14db8c9bc0df64dd90cf96193d',
+                args: defaultArgs,
+                context: {}
+            },
             {
                 name: 'Open a ticket',
                 url: 'http://amat.service-now.com/help?id=help_kb_article&sys_id=08d4292ddb442f44df64dd90cf9619b7',
