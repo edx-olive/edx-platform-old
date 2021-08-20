@@ -11569,7 +11569,7 @@ msgid ""
 "now{sronly_span_open} to retain access past "
 "{expiration_date}{span_close}{a_close}"
 msgstr ""
-"{line_break}Effectuez la mise à niveau avant le {uprade_deadline} pour bénéficier d'un accès illimité au cours aussi longtemps que ce dernier sera disponible sur le site. {a_open}Effectuez la mise à niveau maintenant{sronly_span_open} pour conserver l'accès après le {expiration_date}{span_close}{a_close}."
+"{line_break}Effectuez la mise à niveau avant le {upgrade_deadline} pour bénéficier d'un accès illimité au cours aussi longtemps que ce dernier sera disponible sur le site. {a_open}Effectuez la mise à niveau maintenant{sronly_span_open} pour conserver l'accès après le {expiration_date}{span_close}{a_close}."
 
 #: openedx/features/course_experience/plugins.py
 #: cms/templates/widgets/header.html
