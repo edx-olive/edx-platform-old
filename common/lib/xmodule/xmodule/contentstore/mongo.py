@@ -283,6 +283,23 @@ class MongoContentStore(ContentStore):
             query.update(filter_params)
         pipeline_stages.append({'$match': query})
 
+        pipeline_count_assets = pipeline_stages.copy()
+
+        # Set values if result of query is empty
+        count = 0
+        pipeline_count_assets.append({'$group': {'_id': None, 'count': {'$sum': 1}}});
+
+        cursor = self.fs_files.aggregate(pipeline_count_assets)
+        try:
+            result = cursor.next()
+        except StopIteration:
+            return [], 0
+
+        cursor.close()
+        count = result.get('count', 0)
+        if count == 0:
+            return [], 0
+
         if sort:
             sort = dict(sort)
             if 'displayname' in sort:
@@ -307,37 +324,23 @@ class MongoContentStore(ContentStore):
                 sort = {'insensitive_displayname': sort['displayname']}
             pipeline_stages.append({'$sort': sort})
 
-        # This is another hack to get the total query result count, but only the Nth page of actual documents
-        # See: https://stackoverflow.com/a/39784851/6620612
-        pipeline_stages.append({'$group': {'_id': None, 'count': {'$sum': 1}, 'results': {'$push': '$$ROOT'}}})
         if maxresults > 0:
-            pipeline_stages.append({
-                '$project': {
-                    'count': 1,
-                    'results': {
-                        '$slice': ['$results', start, maxresults]
-                    }
-                }
-            })
+            pipeline_stages.extend([{'$skip': start}, {'$limit': maxresults}])
 
         cursor = self.fs_files.aggregate(pipeline_stages)
-        # Set values if result of query is empty
-        count = 0
         assets = []
-        try:
-            result = cursor.next()
-            if result:
-                count = result['count']
-                assets = list(result['results'])
-        except StopIteration:
-            # Skip if no assets were returned
-            pass
+        while cursor.alive:
+            try:
+                asset = cursor.next()
+            except StopIteration:
+                return assets, count
 
-        # We're constructing the asset key immediately after retrieval from the database so that
-        # callers are insulated from knowing how our identifiers are stored.
-        for asset in assets:
+            # We're constructing the asset key immediately after retrieval from the database so that
+            # callers are insulated from knowing how our identifiers are stored.
             asset_id = asset.get('content_son', asset['_id'])
             asset['asset_key'] = course_key.make_asset_key(asset_id['category'], asset_id['name'])
+            assets.append(asset)
+
         return assets, count
 
     def set_attr(self, asset_key, attr, value=True):
