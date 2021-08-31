@@ -154,6 +154,13 @@
                                 )
                             })
                         },
+                        {
+                            view: new AccountSettingsFieldViews.ReadonlyFieldView({
+                                model: userAccountModel,
+                                title: gettext('Role'),
+                                valueAttribute: 'role'
+                            })
+                        },
                         fullnameFieldView,
                         emailFieldView,
                         {

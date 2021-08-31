@@ -65,6 +65,7 @@ def apply_settings(django_settings):
         'common.djangoapps.third_party_auth.pipeline.set_id_verification_status',
         'common.djangoapps.third_party_auth.pipeline.set_logged_in_cookies',
         'common.djangoapps.third_party_auth.pipeline.login_analytics',
+        'ubicquia_edx_extensions.auth_pipeline.save_additional_sso_data',
     ]
 
     # Add enterprise pipeline elements if the enterprise app is installed

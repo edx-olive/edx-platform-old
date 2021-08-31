@@ -13,6 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from rest_framework import serializers
 from six import text_type
+from edx_django_utils.plugins import pluggable_override
 
 from common.djangoapps.student.models import UserPasswordToggleHistory
 from lms.djangoapps.badges.utils import badges_enabled
@@ -105,6 +106,7 @@ class UserReadOnlySerializer(serializers.Serializer):
 
         super(UserReadOnlySerializer, self).__init__(*args, **kwargs)
 
+    @pluggable_override('OVERRIDE_REPRESENTATION_WITH_SSO')
     def to_representation(self, user):
         """
         Overwrite to_native to handle custom logic since we are serializing three models as one here
