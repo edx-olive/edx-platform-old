@@ -154,13 +154,6 @@
                                 )
                             })
                         },
-                        {
-                            view: new AccountSettingsFieldViews.ReadonlyFieldView({
-                                model: userAccountModel,
-                                title: gettext('Role'),
-                                valueAttribute: 'role'
-                            })
-                        },
                         fullnameFieldView,
                         emailFieldView,
                         {
@@ -213,6 +206,13 @@
                 {
                     title: gettext('Additional Information'),
                     fields: [
+                        {
+                            view: new AccountSettingsFieldViews.ReadonlyFieldView({
+                                model: userAccountModel,
+                                title: gettext('Role'),
+                                valueAttribute: 'role'
+                            })
+                        },
                         {
                             view: new AccountSettingsFieldViews.DropdownFieldView({
                                 model: userAccountModel,
