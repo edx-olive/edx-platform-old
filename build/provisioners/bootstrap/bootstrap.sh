@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 export ANSIBLE_VAULT_KEY=`cat /home/ubuntu/vault_password `
 export ANSIBLE_SSH_KEY=`cat /home/ubuntu/.ssh/id_rsa`
 chmod 600 ~/.ssh/id_rsa
