@@ -11,6 +11,7 @@ from django.dispatch import receiver
 from opaque_keys.edx.keys import LearningContextKey
 from submissions.models import score_reset, score_set
 from xblock.scorable import ScorableXBlockMixin, Score
+from edx_django_utils.plugins import pluggable_override
 
 from lms.djangoapps.courseware.model_data import get_score, set_score
 from openedx.core.djangoapps.course_groups.signals.signals import COHORT_MEMBERSHIP_UPDATED
@@ -136,6 +137,7 @@ def disconnect_submissions_signal_receiver(signal):
 
 
 @receiver(SCORE_PUBLISHED)
+@pluggable_override('OVERRIDE_SCORE_PUBLISHED_HANDLER')
 def score_published_handler(sender, block, user, raw_earned, raw_possible, only_if_higher, **kwargs):  # pylint: disable=unused-argument
     """
     Handles whenever a block's score is published.
