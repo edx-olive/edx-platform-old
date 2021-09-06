@@ -1,0 +1,5 @@
+deploy-dev:
+    stage: deploy
+    trigger: Duck-Team/campus/deployment
+    only:
+      - master
