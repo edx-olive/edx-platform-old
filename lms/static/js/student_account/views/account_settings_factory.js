@@ -72,9 +72,13 @@
                 model: userAccountModel,
                 title: gettext('Email Address (Sign In)'),
                 valueAttribute: 'email',
-                helpMessage: StringUtils.interpolate(
-                    gettext('You receive messages from {platform_name} and course teams at this address.'),  // eslint-disable-line max-len
-                    {platform_name: platformName}
+                helpMessage: HtmlUtils.interpolateHtml(
+                    gettext('You receive messages from {platform_name} and course teams at this address. If your employer has changed, please email {htmlStart}OnlineTraining@abinitio.com{htmlEnd} to update your email address. (Only employer email addresses are accepted; personal email addresses are not allowed.)'),  // eslint-disable-line max-len
+                    {
+                        platform_name: platformName,
+                        htmlStart: HtmlUtils.HTML('<a href="mailto:onlinetraining@abinitio.com" rel="noopener" target="_blank">'),
+                        htmlEnd: HtmlUtils.HTML('</a>')
+                    }
                 ),
                 persistChanges: true
             };
