@@ -11549,3 +11549,19 @@ msgstr ""
 #: cms/templates/js/video/transcripts/messages/transcripts-use-existing.underscore
 msgid "Use Current Transcript"
 msgstr "Usar la transcripción actual"
+
+#: lms/static/js/student_account/components/StudentAccountDeletion.jsx
+msgid ""
+"Please note: deletion of your account and personal data is permanent "
+"and cannot be undone. Ab Initio will not be able to recover your account "
+"or the data that is deleted. You will no longer be able to use the same "
+"email for Ab Initio Online Training."
+msgstr ""
+
+#: lms/static/js/student_account/components/StudentAccountDeletion.jsx
+msgid "To delete your account, please email {link}."
+msgstr ""
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid "Go to {link} to change your password."
+msgstr ""

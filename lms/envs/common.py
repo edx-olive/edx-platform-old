@@ -3932,3 +3932,5 @@ VIDEO_LIBRARY_COURSE = ''
 # Define Curricula model types
 CURRICULA_TYPES = (('role', 'Role'), ('topic', 'Topic'),)
 THIRD_PARTY_XBLOCKS_TO_TRACK_COMPLETION = []
+AB_INITIO_ACCOUNT_DELETION_EMAIL = 'OnlineTraining@abinitio.com'
+AB_INITIO_PASSWORD_RESET_URL = 'https://auth-ext-stage.abinitio.com/auth/realms/CustomerExternal/account/password'

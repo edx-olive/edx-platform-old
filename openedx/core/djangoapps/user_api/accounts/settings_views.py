@@ -105,6 +105,10 @@ def account_settings_context(request):
             beta_language['code'] = pref_language
             beta_language['name'] = settings.LANGUAGE_DICT.get(pref_language)
 
+    if settings.FEATURES.get('ENABLE_AB_INITIO_EXTENSIONS', False):
+        password_reset_url = settings.AB_INITIO_PASSWORD_RESET_URL
+    else:
+        password_reset_url = reverse('password_reset')
     context = {
         'auth': {},
         'duplicate_provider': None,
@@ -119,7 +123,7 @@ def account_settings_context(request):
             }, 'level_of_education': {
                 'options': [(choice[0], _(choice[1])) for choice in UserProfile.LEVEL_OF_EDUCATION_CHOICES],
             }, 'password': {
-                'url': reverse('password_reset'),
+                'url': password_reset_url,
             }, 'year_of_birth': {
                 'options': year_of_birth_options,
             }, 'preferred_language': {
