@@ -31,7 +31,8 @@
             displayAccountDeletion,
             isSecondaryEmailFeatureEnabled,
             betaLanguage,
-            showSocialLinks
+            showSocialLinks,
+            extensionsEnabled
         ) {
             var $accountSettingsElement, userAccountModel, userPreferencesModel, aboutSectionsData,
                 accountsSectionData, ordersSectionData, accountSettingsView, showAccountSettingsPage,
@@ -39,7 +40,7 @@
                 emailFieldView, secondaryEmailFieldView, socialFields, accountDeletionFields, platformData,
                 aboutSectionMessageType, aboutSectionMessage, fullnameFieldView, countryFieldView,
                 fullNameFieldData, emailFieldData, secondaryEmailFieldData, countryFieldData, additionalFields,
-                fieldItem, emailFieldViewIndex, focusId,
+                fieldItem, emailFieldViewIndex, focusId, passwordResetHelpMessage,
                 tabIndex = 0;
 
             $accountSettingsElement = $('.wrapper-account-settings');
@@ -139,6 +140,23 @@
                 };
             }
 
+            if (extensionsEnabled) {
+                passwordResetHelpMessage = HtmlUtils.interpolateHtml(
+                  gettext('Go to {link} to change your password.'),
+                  {
+                      link: HtmlUtils.HTML(
+                          StringUtils.interpolate(
+                              '<a href="{reset_url}">{reset_url}</a>', {
+                                  reset_url: fieldsData.password.url
+                              }
+                          )
+                      )
+                  }
+                );
+            } else {
+                passwordResetHelpMessage = gettext('Check your email account for instructions to reset your password.');
+            }
+
             aboutSectionsData = [
                 {
                     title: gettext('Basic Account Information'),
@@ -171,7 +189,7 @@
                                 passwordResetSupportUrl: passwordResetSupportUrl,
                                 linkTitle: gettext('Reset Your Password'),
                                 linkHref: fieldsData.password.url,
-                                helpMessage: gettext('Check your email account for instructions to reset your password.')  // eslint-disable-line max-len
+                                helpMessage: passwordResetHelpMessage
                             })
                         },
                         {

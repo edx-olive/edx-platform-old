@@ -155,6 +155,7 @@
                     this.options = _.extend({}, options);
                     this._super(options);
                     _.bindAll(this, 'resetPassword');
+                    this.toggleDisableButton(true);
                 },
                 linkClicked: function(event) {
                     event.preventDefault();

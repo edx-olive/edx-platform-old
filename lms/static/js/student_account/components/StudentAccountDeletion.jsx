@@ -88,6 +88,8 @@ export class StudentAccountDeletion extends React.Component {
       },
     );
 
+    const abInitioNoteDeletion = gettext('Please note: deletion of your account and personal data is permanent and cannot be undone. Ab Initio will not be able to recover your account or the data that is deleted. You will no longer be able to use the same email for Ab Initio Online Training.');
+
     const bodyDeletion = StringUtils.interpolate(
       gettext('Once your account is deleted, you cannot use it to take courses on the {platformName} app, {siteName}, or any other site hosted by {platformName}.'),
       {
@@ -95,6 +97,14 @@ export class StudentAccountDeletion extends React.Component {
         siteName: this.props.siteName,
       },
     );
+
+    const abInitioBodyDeletion = StringUtils.interpolate(
+      gettext('To delete your account, please email {link}.'),
+      {
+        link: `<a href="mailto:${this.props.accountDeletionEmail}">${this.props.accountDeletionEmail}</a>`,
+      },
+    );
+
 
     const bodyDeletion2 = StringUtils.interpolate(
       gettext('This includes access to {siteName} from your employer’s or university’s system{additionalSiteSpecificDeletionText}.'),
@@ -106,32 +116,47 @@ export class StudentAccountDeletion extends React.Component {
 
     return (
       <div className="account-deletion-details">
-        <p className="account-settings-header-subtitle">{ gettext('We’re sorry to see you go!') }</p>
-        <p className="account-settings-header-subtitle">{noteDeletion}</p>
-        <p className="account-settings-header-subtitle">
-              <span>{bodyDeletion} </span>
-              <span>{bodyDeletion2}</span>
-        </p>
-        <p
-          className="account-settings-header-subtitle"
-          dangerouslySetInnerHTML={{ __html: loseAccessText }}
-        />
-        <p
-          className="account-settings-header-subtitle-warning"
-          dangerouslySetInnerHTML={{ __html: acctDeletionWarningText }}
-        />
-        <p
-          className="account-settings-header-subtitle"
-          dangerouslySetInnerHTML={{ __html: changeAcctInfoText }}
-        />
-        <Button
-          id="delete-account-btn"
-          className={['btn-outline-primary']}
-          disabled={showError}
-          label={gettext('Delete My Account')}
-          inputRef={(input) => { this.modalTrigger = input; }}
-          onClick={this.loadDeletionModal}
-        />
+        {this.props.extensionsEnabled
+            ? (
+              <div>
+                <p className="account-settings-header-subtitle" />
+                <p className="account-settings-header-subtitle">{abInitioNoteDeletion}</p>
+                <p
+                  className="account-settings-header-subtitle"
+                  dangerouslySetInnerHTML={{ __html: abInitioBodyDeletion }}
+                />
+              </div>
+            ) : (
+              <div>
+                <p className="account-settings-header-subtitle">{ gettext('We’re sorry to see you go!') }</p>
+                <p className="account-settings-header-subtitle">{noteDeletion}</p>
+                <p className="account-settings-header-subtitle">
+                  <span>{bodyDeletion} </span>
+                  <span>{bodyDeletion2}</span>
+                </p>
+                <p
+                  className="account-settings-header-subtitle"
+                  dangerouslySetInnerHTML={{ __html: loseAccessText }}
+                />
+                <p
+                  className="account-settings-header-subtitle-warning"
+                  dangerouslySetInnerHTML={{ __html: acctDeletionWarningText }}
+                />
+                <p
+                  className="account-settings-header-subtitle"
+                  dangerouslySetInnerHTML={{ __html: changeAcctInfoText }}
+                />
+                <Button
+                  id="delete-account-btn"
+                  className={['btn-outline-primary']}
+                  disabled={showError}
+                  label={gettext('Delete My Account')}
+                  inputRef={(input) => { this.modalTrigger = input; }}
+                  onClick={this.loadDeletionModal}
+                />
+              </div>
+            )
+        }
         {showError &&
           <StatusAlert
             dialog={(
@@ -173,6 +198,8 @@ StudentAccountDeletion.propTypes = {
   mktgRootLink: PropTypes.string,
   platformName: PropTypes.string,
   siteName: PropTypes.string,
+  accountDeletionEmail: PropTypes.string,
+  extensionsEnabled: PropTypes.bool,
 };
 
 StudentAccountDeletion.defaultProps = {
@@ -180,4 +207,6 @@ StudentAccountDeletion.defaultProps = {
   mktgRootLink: '',
   platformName: '',
   siteName: '',
+  accountDeletionEmail: '',
+  extensionsEnabled: false,
 };
