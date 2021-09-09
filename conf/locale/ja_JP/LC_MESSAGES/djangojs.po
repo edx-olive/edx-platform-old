@@ -10788,6 +10788,15 @@ msgstr ""
 msgid "Use Current Transcript"
 msgstr "現在の字幕を使用する"
 
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid ""
+"You receive messages from Ab Initio and course teams at this address. "
+"If your employer has changed, please email OnlineTraining@abinitio.com "
+"to update your email address. (Only employer email addresses are accepted; "
+personal email addresses are not allowed.)"
+msgstr ""
+"Ab Initioおよびコースチームからのメッセージはこのアドレスに届けられます。雇用主が変わった場合は、その旨をOnlineTraining@abinitio.comまでメールでお知らせください。あなたのEメールアドレスを更新する必要があります。（雇用主のEメールアドレスのみが許可されます。）"
+
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid ""
 "Please note: deletion of your account and personal data is permanent "
@@ -10795,11 +10804,12 @@ msgid ""
 "or the data that is deleted. You will no longer be able to use the same "
 "email for Ab Initio Online Training."
 msgstr ""
+"要注意: アカウントと個人情報の削除は恒久的であり、取り消すことはできません。削除されたアカウントとそれらのデータを復旧することはできません。Ab Initioオンライントレーニングで今後同じEメールを使用できなくなります。"
 
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid "To delete your account, please email {link}."
-msgstr ""
+msgstr "アカウントを削除したい場合は、{link}までメールでお知らせください。"
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Go to {link} to change your password."
-msgstr ""
+msgstr "{Link}をクリックしてパスワードを変更してください。"
