@@ -434,7 +434,7 @@
         line-height: 30px;
         padding-top: 8px;
         padding-bottom: ($baseline);
-        white-space: nowrap;
+        white-space: nowrap !important;
       }
 
       .u-field-orderHistory {

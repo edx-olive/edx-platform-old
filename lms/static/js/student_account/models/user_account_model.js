@@ -26,7 +26,8 @@
                 accomplishments_shared: false,
                 default_public_account_fields: [],
                 extended_profile: [],
-                secondary_email: ''
+                secondary_email: '',
+                role: ''
             },
 
             parse: function(response) {
