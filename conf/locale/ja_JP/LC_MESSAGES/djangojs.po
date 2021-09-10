@@ -10790,12 +10790,12 @@ msgstr "現在の字幕を使用する"
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
-"You receive messages from Ab Initio and course teams at this address. "
-"If your employer has changed, please email OnlineTraining@abinitio.com "
+"You receive messages from {platform_name} and course teams at this address. "
+"If your employer has changed, please email {htmlStart}OnlineTraining@abinitio.com{htmlEnd} "
 "to update your email address. (Only employer email addresses are accepted; "
-personal email addresses are not allowed.)"
+"personal email addresses are not allowed.)"
 msgstr ""
-"Ab Initioおよびコースチームからのメッセージはこのアドレスに届けられます。雇用主が変わった場合は、その旨をOnlineTraining@abinitio.comまでメールでお知らせください。あなたのEメールアドレスを更新する必要があります。（雇用主のEメールアドレスのみが許可されます。）"
+"{platform_name}およびコースチームからのメッセージはこのアドレスに届けられます。雇用主が変わった場合は、その旨を{htmlStart}OnlineTraining@abinitio.com{htmlEnd}までメールでお知らせください。あなたのEメールアドレスを更新する必要があります。（雇用主のEメールアドレスのみが許可されます。）"
 
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid ""
@@ -10812,4 +10812,4 @@ msgstr "アカウントを削除したい場合は、{link}までメールでお
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Go to {link} to change your password."
-msgstr "{Link}をクリックしてパスワードを変更してください。"
+msgstr "{link}をクリックしてパスワードを変更してください。"
