@@ -114,49 +114,49 @@ export class StudentAccountDeletion extends React.Component {
       },
     );
 
-    return (
-      <div className="account-deletion-details">
-        {this.props.extensionsEnabled
-            ? (
-              <div>
+    if (this.props.extensionsEnabled) {
+        return (
+            <div>
                 <p className="account-settings-header-subtitle" />
                 <p className="account-settings-header-subtitle">{abInitioNoteDeletion}</p>
                 <p
                   className="account-settings-header-subtitle"
                   dangerouslySetInnerHTML={{ __html: abInitioBodyDeletion }}
                 />
-              </div>
-            ) : (
-              <div>
-                <p className="account-settings-header-subtitle">{ gettext('We’re sorry to see you go!') }</p>
-                <p className="account-settings-header-subtitle">{noteDeletion}</p>
-                <p className="account-settings-header-subtitle">
-                  <span>{bodyDeletion} </span>
-                  <span>{bodyDeletion2}</span>
-                </p>
-                <p
-                  className="account-settings-header-subtitle"
-                  dangerouslySetInnerHTML={{ __html: loseAccessText }}
-                />
-                <p
-                  className="account-settings-header-subtitle-warning"
-                  dangerouslySetInnerHTML={{ __html: acctDeletionWarningText }}
-                />
-                <p
-                  className="account-settings-header-subtitle"
-                  dangerouslySetInnerHTML={{ __html: changeAcctInfoText }}
-                />
-                <Button
-                  id="delete-account-btn"
-                  className={['btn-outline-primary']}
-                  disabled={showError}
-                  label={gettext('Delete My Account')}
-                  inputRef={(input) => { this.modalTrigger = input; }}
-                  onClick={this.loadDeletionModal}
-                />
-              </div>
-            )
-        }
+            </div>
+        );
+    }
+
+    return (
+      <div className="account-deletion-details">
+        <div>
+          <p className="account-settings-header-subtitle">{ gettext('We’re sorry to see you go!') }</p>
+          <p className="account-settings-header-subtitle">{noteDeletion}</p>
+          <p className="account-settings-header-subtitle">
+            <span>{bodyDeletion} </span>
+            <span>{bodyDeletion2}</span>
+          </p>
+          <p
+            className="account-settings-header-subtitle"
+            dangerouslySetInnerHTML={{ __html: loseAccessText }}
+          />
+          <p
+            className="account-settings-header-subtitle-warning"
+            dangerouslySetInnerHTML={{ __html: acctDeletionWarningText }}
+          />
+          <p
+            className="account-settings-header-subtitle"
+            dangerouslySetInnerHTML={{ __html: changeAcctInfoText }}
+          />
+          <Button
+            id="delete-account-btn"
+            className={['btn-outline-primary']}
+            disabled={showError}
+            label={gettext('Delete My Account')}
+            inputRef={(input) => { this.modalTrigger = input; }}
+            onClick={this.loadDeletionModal}
+          />
+        </div>
         {showError &&
           <StatusAlert
             dialog={(
