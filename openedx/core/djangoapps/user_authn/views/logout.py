@@ -11,6 +11,7 @@ from django.views.generic import TemplateView
 from oauth2_provider.models import Application
 from six.moves.urllib.parse import parse_qs, urlsplit, urlunsplit  # pylint: disable=import-error
 
+from edx_django_utils.plugins import pluggable_override
 from openedx.core.djangoapps.user_authn.cookies import delete_logged_in_cookies
 from openedx.core.djangoapps.user_authn.utils import is_safe_login_or_logout_redirect
 from common.djangoapps.third_party_auth import pipeline as tpa_pipeline
@@ -67,6 +68,7 @@ class LogoutView(TemplateView):
         )
         return target_url if use_target_url else self.default_target
 
+    @pluggable_override('OVERRIDE_LOGOUT_DISPATCH')
     def dispatch(self, request, *args, **kwargs):
         # We do not log here, because we have a handler registered to perform logging on successful logouts.
         request.is_from_logout = True
