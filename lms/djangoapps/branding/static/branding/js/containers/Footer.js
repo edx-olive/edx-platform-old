@@ -72,7 +72,7 @@ const footerLinks = {
         links: [
             {
                 name: 'FAQs',
-                url: 'https://amat.service-now.com/help?id=help_kb_category&kb_category=bc6bcd14db8c9bc0df64dd90cf96193d',
+                url: 'https://amat.service-now.com/help?id=kb_help&kb_sys_id=78b63494db44d30419e9fba31d96192e',
                 args: defaultArgs,
                 context: {}
             },

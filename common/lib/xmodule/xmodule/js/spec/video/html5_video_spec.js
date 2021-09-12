@@ -3,7 +3,7 @@
         var STATUS = window.STATUS;
         var state,
             oldOTBD,
-            playbackRates = [0.75, 1.0, 1.25, 1.5],
+            playbackRates = [0.75, 1.0, 1.25, 1.5, 2.0],
             describeInfo;
 
         beforeEach(function() {
@@ -286,8 +286,14 @@
                 });
 
                 describe('setPlaybackRate', function() {
-                    it('set a correct value', function() {
-                        playbackRate = 1.5;
+                    it('set a slow value', function() {
+                        playbackRate = 0.75;
+                        state.videoPlayer.player.setPlaybackRate(playbackRate);
+                        expect(state.videoPlayer.player.video.playbackRate).toBe(playbackRate);
+                    });
+
+                    it('set a fast value', function() {
+                        playbackRate = 2.0;
                         state.videoPlayer.player.setPlaybackRate(playbackRate);
                         expect(state.videoPlayer.player.video.playbackRate).toBe(playbackRate);
                     });

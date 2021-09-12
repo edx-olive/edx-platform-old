@@ -1071,6 +1071,12 @@ if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
         'environment': ENV_TOKENS.get('RG_SENTRY_ENVIRONMENT', ''),
         'release': raven.fetch_git_sha(REPO_ROOT)
     }
+
+SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
+    ENV_TOKENS.get('LMS_BASE'),
+    FEATURES['PREVIEW_LMS_BASE'],
+    CMS_BASE
+]
 #RACCOONGANG
 
 ############## Settings for CourseGraph ############################
