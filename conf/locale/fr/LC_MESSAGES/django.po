@@ -25172,3 +25172,7 @@ msgid ""
 "respective logos are trademarks or registered trademarks of edX Inc."
 msgstr ""
 "Ab Initio. Tous droits réservés sauf mention contraire. EdX, Open edX et leurs logos respectifs sont des marques déposées ou marques d'edX Inc."
+
+#: lms/djangoapps/discussion/templates/discussion/edx_ace/responsenotification/email/subject.txt
+msgid "Ab Initio Online Training: Daily Discussion Digest"
+msgstr ""

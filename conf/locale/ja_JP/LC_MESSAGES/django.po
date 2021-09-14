@@ -24959,3 +24959,7 @@ msgid ""
 "respective logos are trademarks or registered trademarks of edX Inc."
 msgstr ""
 "Ab Initio.特記されている場合を除き、すべての著作権は保護されています。EdX、Open edXおよびそれぞれのロゴはedX Inc.の商標または商標登録です。"
+
+#: lms/djangoapps/discussion/templates/discussion/edx_ace/responsenotification/email/subject.txt
+msgid "Ab Initio Online Training: Daily Discussion Digest"
+msgstr ""
