@@ -75,7 +75,7 @@ analytics_processors_sleep_time: 1200
 
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: True
 EDXAPP_PRIVATE_REQUIREMENTS:
-  - name: 'git+git@gitlab.raccoongang.com:hippoteam/spectrum/edx_xblock_scorm.git@master#egg=edx_xblock_scorm'
+  - name: 'git+git@gitlab.raccoongang.com:hippoteam/spectrum/edx_xblock_scorm.git@v1.2.0#egg=edx_xblock_scorm'
     extra_args: '-e'
 
 SITE_CONFIGURATION_STORAGE:
@@ -142,6 +142,7 @@ EDXAPP_S3_USE_SIGV4: true
 EDXAPP_ENV_EXTRA:
   AWS_S3_REGION_NAME: 'us-east-1'
   AWS_DEFAULT_ACL: 'public-read'
+  X_FRAME_OPTIONS: 'SAMEORIGIN'
 EDXAPP_VIDEO_IMAGE_SETTINGS:
   VIDEO_IMAGE_MAX_BYTES : 2097152
   VIDEO_IMAGE_MIN_BYTES : 2048
