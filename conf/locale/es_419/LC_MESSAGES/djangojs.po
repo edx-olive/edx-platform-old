@@ -7674,7 +7674,7 @@ msgstr "Cambiar las opciones de notificación"
 
 #: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
 msgid ""
-"Check this box to receive an email digest once a day notifying you about "
+"Check this box to receive emails notifying you about "
 "new, unread activity from posts you are following."
 msgstr ""
 "Marque esta casilla para recibir un resumen diario por correo electrónico "

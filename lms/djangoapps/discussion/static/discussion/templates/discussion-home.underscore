@@ -55,7 +55,7 @@
                   <span class="icon fa fa-envelope" aria-hidden="true"></span>
                 </span>
               </label>
-              <span class="row-description"><%- gettext("Check this box to receive an email digest once a day notifying you about new, unread activity from posts you are following.") %></span>
+              <span class="row-description"><%- gettext("Check this box to receive emails notifying you about new, unread activity from posts you are following.") %></span>
             </td>
           </tr>
       <% } %>
