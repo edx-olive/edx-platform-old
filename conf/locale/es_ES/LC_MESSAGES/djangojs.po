@@ -10990,3 +10990,29 @@ msgstr ""
 #: cms/templates/js/video/transcripts/messages/transcripts-use-existing.underscore
 msgid "Use Current Transcript"
 msgstr "Usar transcripción actual"
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid ""
+"You receive messages from {platform_name} and course teams at this address. "
+"If your employer has changed, please email {htmlStart}OnlineTraining@abinitio.com{htmlEnd} "
+"to update your email address. (Only employer email addresses are accepted; "
+"personal email addresses are not allowed.)"
+msgstr ""
+"Usted recibe mensajes de {platform_name} y equipos del curso en esta dirección. Si ha cambiado de empresa, envíe un email a {htmlStart}OnlineTraining@abinitio.com{htmlEnd} para actualizar su dirección de correo electrónico. (Solo se aceptan direcciones de correo electrónico con dominios de empresa; "
+
+#: lms/static/js/student_account/components/StudentAccountDeletion.jsx
+msgid ""
+"Please note: deletion of your account and personal data is permanent "
+"and cannot be undone. Ab Initio will not be able to recover your account "
+"or the data that is deleted. You will no longer be able to use the same "
+"email for Ab Initio Online Training."
+msgstr ""
+"Tenga en cuenta: La eliminación de su cuenta y datos personales es permanente y no se puede deshacer. Ab Initio no podrá recuperar su cuenta o los datos que se eliminan. Dejará de poder utilizar la misma dirección de correo electrónico para la plataforma Capacitación en línea de Ab Initio."
+
+#: lms/static/js/student_account/components/StudentAccountDeletion.jsx
+msgid "To delete your account, please email {link}."
+msgstr "Para eliminar su cuenta, envíe un email a {link}."
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid "Go to {link} to change your password."
+msgstr "Vaya a {link} para cambiar su contraseña."

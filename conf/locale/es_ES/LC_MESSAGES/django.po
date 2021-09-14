@@ -8075,8 +8075,7 @@ msgid ""
 "You can unenroll in the course and receive a full refund for 2 days after "
 "the course start date.\n"
 msgstr ""
-"Puede anular la inscripción en el curso y recibir un reembolso completo "
-"por 2 días después de la fecha de inicio del curso.\n"
+"Puede anular la inscripción en el curso y recibir un reembolso completo por 2 días después de la fecha de inicio del curso.\n"
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
