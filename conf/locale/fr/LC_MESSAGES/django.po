@@ -25152,7 +25152,7 @@ msgstr "S'inscrire à :"
 
 #: lms/templates/courseware/course_about.html
 msgid "Available Language(s)"
-msgstr "Langue(s) disponible(s) :"
+msgstr "Langue(s) disponible(s)"
 
 #: lms/templates/courseware/course_about.html
 msgid "Watch the video:"
