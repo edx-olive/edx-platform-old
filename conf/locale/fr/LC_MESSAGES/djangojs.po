@@ -2924,7 +2924,7 @@ msgstr "Recherche d'équipe"
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 msgid "Showing results for \"{searchString}\""
-msgstr "Affichage des résultats pour \"{MicroStrategy}\""
+msgstr "Affichage des résultats pour \"{searchString}\""
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 msgid "Create a New Team"
@@ -3853,7 +3853,7 @@ msgstr "Marquer le code d'inscription comme non utilisé"
 #: lms/djangoapps/support/static/support/templates/manage_user.underscore
 #: lms/templates/financial-assistance/financial_assessment_form.underscore
 msgid "Username"
-msgstr "nom d'utilisateur"
+msgstr "Nom d'utilisateur"
 
 #: lms/static/js/instructor_dashboard/membership.js
 #: lms/djangoapps/support/static/support/templates/manage_user.underscore
@@ -4627,7 +4627,7 @@ msgstr "Avant de poursuivre, veuillez {htmlStart}activer votre compte{htmlEnd}."
 msgid ""
 "{htmlStart}Want to change your email, name, or password instead?{htmlEnd}"
 msgstr ""
-"{htmlStart} voulez-vous modifier votre email, nom, ou mot de passe?{htmlEnd}"
+"{htmlStart} Souhaitez-vous modifier votre e-mail, nom ou mot de passe ?{htmlEnd}"
 
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid ""
@@ -7322,7 +7322,7 @@ msgstr ""
 
 #: lms/djangoapps/support/static/support/templates/certificates.underscore
 msgid "username or email"
-msgstr "nom d'utilisateur ou e-mail"
+msgstr "Nom d'utilisateur ou e-mail"
 
 #: lms/djangoapps/support/static/support/templates/certificates.underscore
 msgid "course id"
@@ -10988,6 +10988,15 @@ msgstr ""
 msgid "Use Current Transcript"
 msgstr "Utiliser la transcription courante"
 
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid ""
+"You receive messages from {platform_name} and course teams at this address. "
+"If your employer has changed, please email {htmlStart}OnlineTraining@abinitio.com{htmlEnd} "
+"to update your email address. (Only employer email addresses are accepted; "
+"personal email addresses are not allowed.)"
+msgstr ""
+"Les messages d'{platfrom_name} et des équipes pédagogiques vous sont envoyés à cette adresse. Si vous changez d'employeur, envoyez un e-mail à l'adresse {htmlStart}OnlineTraining@abinitio.com{htmlEnd} pour mettre à jour votre adresse e-mail. (Seules les adresses e-mail d'employeur sont acceptées ; "
+
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid ""
 "Please note: deletion of your account and personal data is permanent "
@@ -10995,11 +11004,12 @@ msgid ""
 "or the data that is deleted. You will no longer be able to use the same "
 "email for Ab Initio Online Training."
 msgstr ""
+"Remarque : La suppression de votre compte et de vos données personnelles est irréversible. Ab Initio ne pourra pas récupérer votre compte ni les données supprimées. Vous ne pourrez plus utiliser la même adresse e-mail pour les formations en ligne Ab Initio."
 
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid "To delete your account, please email {link}."
-msgstr ""
+msgstr "Pour supprimer votre compte, envoyez un e-mail à l'adresse {link}."
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Go to {link} to change your password."
-msgstr ""
+msgstr "Accédez à {link} pour changer votre mot de passe."
