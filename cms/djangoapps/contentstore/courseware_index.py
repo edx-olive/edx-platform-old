@@ -606,15 +606,13 @@ class CourseAboutSearchIndexer(object):
             course_info['new_and_interesting_expiration'] = new_and_interesting_tag.expiration_date
         course_info['new_and_interesting_tag'] = is_new_and_interesting
 
-        course_info['series'] = [s.title for s in Series.objects.filter(courses__id=course.id)]
+        course_info['series'] = list(Series.objects.filter(courses__id=course.id).values_list('title', 'series_id'))
 
         curricula_types = [collection_type for collection_type, _ in settings.CURRICULA_TYPES]
         for curriculum_type in curricula_types:
-            course_info[curriculum_type] = list(set([
-                c.title for c in Curriculum.objects.filter(
+            course_info[curriculum_type] = list(Curriculum.objects.filter(
                     Q(collection_type=curriculum_type) & (Q(courses__id=course.id) | Q(series__courses__id=course.id))
-                )
-            ]))
+                ).values_list('title', 'curriculum_id').distinct())
 
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
