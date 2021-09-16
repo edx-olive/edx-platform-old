@@ -56,7 +56,7 @@ class Command(BaseCommand):
 
         user = User.objects.get(email=email)
         try:
-            add_enrollment(user.username, course, mode=mode)
+            add_enrollment(user.username, course, mode=mode, check_access=False)
         except CourseEnrollmentExistsError:
             # If the user is already enrolled in the course, do nothing.
             pass
