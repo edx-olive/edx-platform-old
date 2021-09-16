@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 # (may be used for video-transcripts) if required
                 if video_transcript_format == 'sjson':
                     transcript_obj = Transcript()
-                    transcript_contents = transcript_obj.convert(transcript_contents, 'srt', 'sjson')
+                    transcript_contents = transcript_obj.convert(transcript_contents.encode(), 'srt', 'sjson')
 
                 with open(video_transcript_filename, 'w') as video_transcript_file:
                     video_transcript_file.write(transcript_contents)
