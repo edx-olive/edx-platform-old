@@ -11013,3 +11013,21 @@ msgstr "Pour supprimer votre compte, envoyez un e-mail à l'adresse {link}."
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Go to {link} to change your password."
 msgstr "Accédez à {link} pour changer votre mot de passe."
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid ""
+"The display language used throughout this site for menus, buttons, "
+"and other parts of the user interface. This site is currently available "
+"in a limited number of languages. Changing the value of this field will "
+"cause the page to refresh. To set your preferred language for course "
+"videos, exercise instructions, and transcripts, choose a Preferred Language below."
+msgstr ""
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid ""
+"Your preferred language for course text, exercise instructions, "
+"and closed captions. In some courses, the videos are also localized. "
+"Not all courses are available in all languages. When a course is "
+"available in your preferred language, it is selected by default "
+"and is also displayed first in search results."
+msgstr ""
