@@ -6,6 +6,10 @@ Taken from: http://celery.readthedocs.org/en/latest/django/first-steps-with-djan
 """
 from __future__ import absolute_import
 
+# Patch the xml libs before anything else.
+from safe_lxml import defuse_xml_libs
+defuse_xml_libs()
+
 import os
 
 from celery import Celery
