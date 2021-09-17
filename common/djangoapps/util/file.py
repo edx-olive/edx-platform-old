@@ -13,6 +13,8 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from pytz import UTC
 
+from opaque_keys.edx.keys import CourseKey
+
 
 class FileValidationException(Exception):
     """
@@ -99,6 +101,8 @@ def course_filename_prefix_generator(course_id, separator='_'):
         str: A unicode string which can safely be inserted into a
             filename.
     """
+    if not isinstance(course_id, CourseKey):
+        return ''
     return get_valid_filename(six.text_type(separator).join([course_id.org, course_id.course, course_id.run]))
 
 
