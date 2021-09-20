@@ -199,10 +199,7 @@
                                 valueAttribute: 'pref-lang',
                                 required: true,
                                 refreshPageOnSave: true,
-                                helpMessage: StringUtils.interpolate(
-                                    gettext('The language used throughout this site. This site is currently available in a limited number of languages. Changing the value of this field will cause the page to refresh.'),  // eslint-disable-line max-len
-                                    {platform_name: platformName}
-                                ),
+                                helpMessage: gettext('The display language used throughout this site for menus, buttons, and other parts of the user interface. This site is currently available in a limited number of languages. Changing the value of this field will cause the page to refresh. To set your preferred language for course videos, exercise instructions, and transcripts, choose a Preferred Language below.'), // eslint-disable-line max-len
                                 options: fieldsData.language.options,
                                 persistChanges: true,
                                 focusNextID: '#u-field-select-country'
@@ -262,6 +259,7 @@
                                 title: gettext('Preferred Language'),
                                 valueAttribute: 'language_proficiencies',
                                 options: fieldsData.preferred_language.options,
+                                helpMessage: gettext('Your preferred language for course text, exercise instructions, and closed captions. In some courses, the videos are also localized. Not all courses are available in all languages. When a course is available in your preferred language, it is selected by default and is also displayed first in search results.'), // eslint-disable-line max-len
                                 persistChanges: true
                             })
                         }
