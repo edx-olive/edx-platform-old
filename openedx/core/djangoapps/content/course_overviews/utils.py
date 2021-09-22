@@ -27,7 +27,7 @@ def get_course_lang_from_number(course_number):
         str: language name (localized).
     """
     split_num = course_number.split('-')
-    course_lang = len(split_num) > 1 and settings.ALL_LANGUAGES_DICT.get(str(split_num[-1]).lower())
+    course_lang = len(split_num) > 1 and settings.LANGUAGE_DICT_EXTENDED.get(str(split_num[-1]).lower())
     return course_lang if course_lang else 'English'
 
 
