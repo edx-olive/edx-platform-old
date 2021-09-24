@@ -1318,6 +1318,13 @@ LANGUAGES = [
 
 LANGUAGE_DICT = dict(LANGUAGES)
 
+# extend default language dict to include 'es' and 'ja' language codes
+LANGUAGE_DICT_EXTENDED = LANGUAGE_DICT.copy()
+LANGUAGE_DICT_EXTENDED.update({
+    'es': 'Español',
+    'ja': '日本語',
+})
+
 # Languages supported for custom course certificate templates
 CERTIFICATE_TEMPLATE_LANGUAGES = {
     'en': 'English',
