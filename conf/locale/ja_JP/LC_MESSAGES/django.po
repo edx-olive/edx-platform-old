@@ -13012,10 +13012,6 @@ msgstr "概要の表示"
 msgid "Starts"
 msgstr "開始"
 
-#: lms/templates/course.html
-msgid "Starts: {date}"
-msgstr "開始日: {date}"
-
 #: lms/templates/courses_list.html
 msgid "View all Courses"
 msgstr "すべてのコースを見る"
@@ -24962,4 +24958,19 @@ msgstr ""
 
 #: lms/djangoapps/discussion/templates/discussion/edx_ace/responsenotification/email/subject.txt
 msgid "Ab Initio Online Training: Daily Discussion Digest"
-msgstr ""
+msgstr "Ab Initioオンライントレーニング: ディスカッション日報"
+
+msgid "Search my courses..."
+msgstr "コースの検索..."
+
+msgid "Started: {date}"
+msgstr "開始日: {date}"
+
+msgid "Starts: {date}"
+msgstr "開始日: {date}"
+
+msgid "Ended: {date}"
+msgstr "終了日: {date}"
+
+msgid "There are no handouts for this course"
+msgstr "このコースの配布資料はありません。"

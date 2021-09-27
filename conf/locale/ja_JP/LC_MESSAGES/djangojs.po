@@ -7118,7 +7118,7 @@ msgstr "通知設定を表示"
 
 #: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
 msgid ""
-"Check this box to receive emails notifying you about "
+"Check this box to receive an email digest once a day notifying you about "
 "new, unread activity from posts you are following."
 msgstr ""
 "このボックスをチェックすると毎日ダイジェストメールが届きます。あなたがフォローしている投稿の新着情報や未読の動きを知ることができます。"
@@ -10814,6 +10814,13 @@ msgstr "アカウントを削除したい場合は、{link}までメールでお
 msgid "Go to {link} to change your password."
 msgstr "{link}をクリックしてパスワードを変更してください。"
 
+#: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
+msgid ""
+"Check this box to receive emails notifying you about "
+"new, unread activity from posts you are following."
+msgstr ""
+"このボックスをチェックすると、あなたがフォローしている投稿の新着情報や未読内容についての通知メールが送られます。"
+
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
 "The display language used throughout this site for menus, buttons, "
@@ -10822,6 +10829,7 @@ msgid ""
 "cause the page to refresh. To set your preferred language for course "
 "videos, exercise instructions, and transcripts, choose a Preferred Language below."
 msgstr ""
+"このサイトのメニュー、ボタンなど、ユーザーインターフェイス全般で使用される表示言語。このサイトで使用できる表示言語の数は、現在、限られています。このフィールドの値を変更すると、ページの表示が更新されます。コース動画、演習問題、および字幕の希望言語を設定するには、下の［希望言語］を選択してください。"
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
@@ -10831,3 +10839,4 @@ msgid ""
 "available in your preferred language, it is selected by default "
 "and is also displayed first in search results."
 msgstr ""
+"コース本文、演習問題、および動画の字幕の希望言語。一部のコースでは、動画も希望言語で用意されています。ただし、すべてのコースをご希望の言語で受講できるとは限りません。コースがご希望の言語で用意されている場合は、それがデフォルトで選択され、コース検索結果の最上位に表示されます。"

@@ -13254,10 +13254,6 @@ msgstr "MÁS INFORMACIÓN"
 msgid "Starts"
 msgstr "Inicio"
 
-#: lms/templates/course.html
-msgid "Starts: {date}"
-msgstr "Empieza: {date}"
-
 #: lms/templates/courses_list.html
 msgid "View all Courses"
 msgstr "Ver todos los cursos"
@@ -25212,3 +25208,22 @@ msgid ""
 "respective logos are trademarks or registered trademarks of edX Inc."
 msgstr ""
 "Ab Initio. Todos los derechos están reservados, salvo que se indique lo contrario. EdX, Open edX y los logotipos de edX y Open EdX son marcas registradas de edX Inc."
+
+#: lms/djangoapps/discussion/templates/discussion/edx_ace/responsenotification/email/subject.txt
+msgid "Ab Initio Online Training: Daily Discussion Digest"
+msgstr "Capacitación en línea de Ab Initio: resumen diario de los foros"
+
+msgid "Search my courses..."
+msgstr "Buscar en mis cursos..."
+
+msgid "Started: {date}"
+msgstr "Comenzado: {date}"
+
+msgid "Starts: {date}"
+msgstr "Empieza: {date}"
+
+msgid "Ended: {date}"
+msgstr "Finalizado: {date}"
+
+msgid "There are no handouts for this course"
+msgstr "No hay apuntes para este curso"
