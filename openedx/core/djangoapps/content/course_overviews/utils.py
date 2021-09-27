@@ -65,15 +65,18 @@ def get_course_language_options(course):
     result = {}
     lang_options_courses = CourseOverview.objects.filter(
         org=course.org,
-        display_number_with_default__contains=number
+        display_number_with_default__contains=number,
+    ).exclude(
+        id=course.id
     )
-    now = datetime.now(UTC)
+    if is_enrollment_open(course):
+        course_lang = get_course_lang_from_number(course.display_number_with_default)
+        result[course_lang] = str(course.id)
+
     for course_option in lang_options_courses:
-        enrollment_start = course_option.enrollment_start or datetime.min.replace(tzinfo=UTC)
-        enrollment_end = course_option.enrollment_end or datetime.max.replace(tzinfo=UTC)
-        can_enroll = enrollment_start <= now <= enrollment_end
+        enrollment_open = is_enrollment_open(course)
         course_number = course_option.display_number_with_default
-        if can_enroll and (course_number.startswith(number + '-') or course_number == number):
+        if enrollment_open and (course_number.startswith(number + '-') or course_number == number):
             option_lang = get_course_lang_from_number(course_number)
             if result.get(option_lang):
                 log.warning(
@@ -85,3 +88,18 @@ def get_course_language_options(course):
 
     return result
 
+
+def is_enrollment_open(course):
+    """
+    Check whether enrollment is open for the course
+
+    Args:
+        course (CourseOverview): CourseOverview object.
+
+    Returns:
+        bool: indicates if enrollment is open
+    """
+    now = datetime.now(UTC)
+    enrollment_start = course.enrollment_start or datetime.min.replace(tzinfo=UTC)
+    enrollment_end = course.enrollment_end or datetime.max.replace(tzinfo=UTC)
+    return enrollment_start <= now <= enrollment_end
