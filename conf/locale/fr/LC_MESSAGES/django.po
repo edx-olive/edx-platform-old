@@ -3132,7 +3132,7 @@ msgid ""
 "on the Course Home page. Your course handouts appear in the right panel of "
 "the page."
 msgstr ""
-"Saisissez le titre que vous voulez que les étudiants voient au dessus de vos documents de cours sur la page d'accueil du cours. Vos documents de cours apparaissent dans le panneau de droite de la page."
+"Saisissez le titre que vous voulez que les étudiants voient au dessus de vos supports de cours sur la page d'accueil du cours. Vos supports de cours apparaissent dans le panneau de droite."
 
 #: common/lib/xmodule/xmodule/course_module.py
 #: lms/templates/courseware/info.html
@@ -4691,7 +4691,7 @@ msgid ""
 " the URL for the transcript here. Students see a link to download that "
 "transcript below the video."
 msgstr ""
-"Par défaut, les étudiants peuvent télécharger une transcription .srt ou .txt lorsque vous définissez \"autoriser le télécharger de transcriptions\" à vrai. Si vous voulez fournir une transcription téléchargeable dans un format différent, nous vous recommandons de télécharger un document en utilisant le champ \"charger un document\". Si cela n'est pas possible, vous pouvez publier un fichier de transcription sur la page Fichiers et téléchargements ou sur Internet, puis ajouter l'URL pour la transcription ici. Les étudiants voient un lien sous la vidéo pour télécharger cette transcription."
+"Par défaut, les étudiants peuvent télécharger une transcription .srt ou .txt lorsque vous définissez \"Autoriser le téléchargement de transcriptions\" sur vrai. Si vous voulez fournir une transcription téléchargeable dans un format différent, nous vous recommandons de télécharger un document en utilisant le champ \"Télécharger un support de cours\". Si cela n'est pas possible, vous pouvez publier un fichier de transcription sur la page \"Fichiers et téléchargements\" ou sur Internet, puis ajouter l'URL pour la transcription ici. Les étudiants voient un lien sous la vidéo pour télécharger cette transcription."
 
 #: common/lib/xmodule/xmodule/video_module/video_xfields.py
 msgid "Downloadable Transcript URL"
@@ -4704,7 +4704,7 @@ msgid ""
 "file. If you want to provide the transcript for download in a different "
 "format, upload a file by using the Upload Handout field."
 msgstr ""
-"Permettre aux étudiants de télécharger la transcription synchronisée. Un lien pour télécharger le fichier apparaît sous la vidéo. Par défaut, la transcription est un fichier .srt ou .txt. Si vous souhaitez rendre la transcription téléchargeable dans un format différent, téléchargez un fichier en utilisant le champ \"Télécharger le support de cours\"."
+"Permettre aux étudiants de télécharger la transcription. Un lien pour télécharger le fichier apparaît sous la vidéo. Par défaut, la transcription est un fichier .srt ou .txt. Si vous souhaitez rendre la transcription téléchargeable dans un format différent, téléchargez un fichier en utilisant le champ \"Télécharger un support de cours\"."
 
 #: common/lib/xmodule/xmodule/video_module/video_xfields.py
 msgid "Download Transcript Allowed"
@@ -4787,11 +4787,11 @@ msgid ""
 "Upload a handout to accompany this video. Students can download the handout "
 "by clicking Download Handout under the video."
 msgstr ""
-"Télécharger un document pour accompagner cette vidéo Les étudiants peuvent télécharger le document en cliquant sur \"Télécharger le document\" sous la vidéo."
+"Télécharger un document pour accompagner cette vidéo. Les étudiants peuvent télécharger le document en cliquant sur \"Télécharger le support de cours\" sous la vidéo."
 
 #: common/lib/xmodule/xmodule/video_module/video_xfields.py
 msgid "Upload Handout"
-msgstr "Télécharger le support de cours"
+msgstr "Télécharger un support de cours"
 
 #: common/lib/xmodule/xmodule/video_module/video_xfields.py
 msgid ""
@@ -12813,10 +12813,6 @@ msgstr "EN SAVOIR PLUS"
 msgid "Starts"
 msgstr "Début"
 
-#: lms/templates/course.html
-msgid "Starts: {date}"
-msgstr "Début : {date}"
-
 #: lms/templates/courses_list.html
 msgid "View all Courses"
 msgstr "Afficher tous les cours"
@@ -14175,7 +14171,7 @@ msgstr "Supports de cours"
 
 #: lms/templates/video.html
 msgid "Download Handout"
-msgstr "Télécharger les supports de cours"
+msgstr "Télécharger le support de cours"
 
 #: lms/templates/word_cloud.html
 msgid "{num} of {total}"
@@ -25175,4 +25171,19 @@ msgstr ""
 
 #: lms/djangoapps/discussion/templates/discussion/edx_ace/responsenotification/email/subject.txt
 msgid "Ab Initio Online Training: Daily Discussion Digest"
-msgstr ""
+msgstr "Formations en ligne Ab Initio : Résumé des discussions du jour"
+
+msgid "Search my courses..."
+msgstr "Rechercher dans mes cours..."
+
+msgid "Started: {date}"
+msgstr "Démarré le : {date}"
+
+msgid "Starts: {date}"
+msgstr "Commence le : {date}"
+
+msgid "Ended: {date}"
+msgstr "Se termine le : {date}"
+
+msgid "There are no handouts for this course"
+msgstr "Aucun support de cours disponible pour cette formation."

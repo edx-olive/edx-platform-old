@@ -7178,11 +7178,11 @@ msgstr "(Équipe pédagogique)"
 #: common/static/common/templates/discussion/templates.underscore
 #: lms/djangoapps/discussion/static/discussion/templates/user-profile.underscore
 msgid "All Posts"
-msgstr "Toutes les publications"
+msgstr "Tous les messages"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Return to all posts"
-msgstr "Retour à toutes les publications"
+msgstr "Retour à tous les messages"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "View discussion"
@@ -7237,7 +7237,7 @@ msgstr "Ne plus suivre"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Vote for this post,"
-msgstr "Voter pour ce message, "
+msgstr "Voter pour ce message,"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Report abuse"
@@ -7315,7 +7315,7 @@ msgstr "Changer les paramètres des notifications"
 
 #: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
 msgid ""
-"Check this box to receive emails notifying you about "
+"Check this box to receive an email digest once a day notifying you about "
 "new, unread activity from posts you are following."
 msgstr ""
 "Cochez cette case pour recevoir une fois par jour un e-mail récapitulatif des nouveautés dans les fils de discussion que vous suivez."
@@ -11014,6 +11014,13 @@ msgstr "Pour supprimer votre compte, envoyez un e-mail à l'adresse {link}."
 msgid "Go to {link} to change your password."
 msgstr "Accédez à {link} pour changer votre mot de passe."
 
+#: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
+msgid ""
+"Check this box to receive emails notifying you about "
+"new, unread activity from posts you are following."
+msgstr ""
+"Cochez cette case pour recevoir des e-mails de notification concernant les nouveaux messages ou les publications non lues que vous suivez."
+
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
 "The display language used throughout this site for menus, buttons, "
@@ -11022,6 +11029,7 @@ msgid ""
 "cause the page to refresh. To set your preferred language for course "
 "videos, exercise instructions, and transcripts, choose a Preferred Language below."
 msgstr ""
+"Langue d'affichage utilisée sur ce site pour les menus, les boutons et les différentes parties de l'interface. Ce site est disponible pour certaines langues. Le changement de valeur de ce champ rafraîchira la page. Pour définir la langue à utiliser pour les vidéos, les instructions des exercices et les transcriptions, sélectionnez une langue ci-dessous."
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
@@ -11031,3 +11039,4 @@ msgid ""
 "available in your preferred language, it is selected by default "
 "and is also displayed first in search results."
 msgstr ""
+"Préférence de langue pour le texte des cours, les instructions des exercices et les sous-titres. Tous les cours ne sont pas disponibles dans toutes les langues. Lorsqu'un cours est disponible dans la langue que vous avez choisie, il est sélectionné par défaut et affiché en premier dans les résultats de la recherche."

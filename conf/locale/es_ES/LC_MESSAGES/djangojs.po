@@ -11017,6 +11017,13 @@ msgstr "Para eliminar su cuenta, envíe un email a {link}."
 msgid "Go to {link} to change your password."
 msgstr "Vaya a {link} para cambiar su contraseña."
 
+#: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
+msgid ""
+"Check this box to receive emails notifying you about "
+"new, unread activity from posts you are following."
+msgstr ""
+"Marque esta casilla si quiere recibir correos electrónicos con las novedades y la actividad no leída de las publicaciones que esté siguiendo."
+
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
 "The display language used throughout this site for menus, buttons, "
@@ -11025,6 +11032,7 @@ msgid ""
 "cause the page to refresh. To set your preferred language for course "
 "videos, exercise instructions, and transcripts, choose a Preferred Language below."
 msgstr ""
+"El idioma que se utiliza en todo este sitio para los menús, los botones y otros componentes de la interfaz del usuario. En este momento este sitio está disponible en un número limitado de idiomas. Si se cambia el valor de este campo, la página se actualizará. Para establecer su idioma preferido para los videos de los cursos, las instrucciones de los ejercicios y las transcripciones, elija un Idioma preferido a continuación."
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
@@ -11034,3 +11042,4 @@ msgid ""
 "available in your preferred language, it is selected by default "
 "and is also displayed first in search results."
 msgstr ""
+"Su idioma preferido para el texto del curso, las instrucciones de los ejercicios y los subtítulos. En algunos cursos, existe una versión localizada de los videos. No todos los cursos están disponibles en todos los idiomas. Cuando un curso está disponible en su idioma preferido, se selecciona por defecto y también se muestra en primer lugar en los resultados de la búsqueda."
