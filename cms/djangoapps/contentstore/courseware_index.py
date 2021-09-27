@@ -605,14 +605,17 @@ class CourseAboutSearchIndexer(object):
             is_new_and_interesting = True
             course_info['new_and_interesting_expiration'] = new_and_interesting_tag.expiration_date
         course_info['new_and_interesting_tag'] = is_new_and_interesting
-
-        course_info['series'] = list(Series.objects.filter(courses__id=course.id).values_list('title', 'series_id'))
+        series_data = Series.objects.filter(courses__id=course.id).values_list('title', 'series_id')
+        course_info['series'] = [series[0] for series in series_data]
+        course_info['series_data'] = list(series_data)
 
         curricula_types = [collection_type for collection_type, _ in settings.CURRICULA_TYPES]
         for curriculum_type in curricula_types:
-            course_info[curriculum_type] = list(Curriculum.objects.filter(
-                    Q(collection_type=curriculum_type) & (Q(courses__id=course.id) | Q(series__courses__id=course.id))
-                ).values_list('title', 'curriculum_id').distinct())
+            curriculum_data = Curriculum.objects.filter(
+                Q(collection_type=curriculum_type) & (Q(courses__id=course.id) | Q(series__courses__id=course.id))
+            ).values_list('title', 'curriculum_id').distinct()
+            course_info[curriculum_type] = [curriculum[0] for curriculum in curriculum_data]
+            course_info['%s_data' % curriculum_type] = list(curriculum_data)
 
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
