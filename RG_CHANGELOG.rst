@@ -1,6 +1,10 @@
 [Lilac Release] - 2021-06-17
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[Fix] 2021-09-28
+~~~~~~~~~~~~~~~~
+* Incorrect logo path in email templates
+
 [Fix] 2021-09-10
 ~~~~~~~~~~~~~~~~
 * course discovery search error on devstack related to incorrect elasticsearch host in settings
