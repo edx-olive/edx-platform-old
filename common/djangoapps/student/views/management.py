@@ -28,6 +28,7 @@ from django.views.decorators.http import require_GET, require_http_methods, requ
 from edx_ace import ace
 from edx_ace.recipient import Recipient
 from edx_django_utils import monitoring as monitoring_utils
+from edx_django_utils.plugins import pluggable_override
 from eventtracking import tracker
 from ipware.ip import get_ip
 # Note that this lives in LMS, so this dependency should be refactored.
@@ -109,6 +110,7 @@ def csrf_token(context):
 # branding/views.py:index(), which is cached for anonymous users.
 # This means that it should always return the same thing for anon
 # users. (in particular, no switching based on query params allowed)
+@pluggable_override('OVERRIDE_INDEX_VIEW')
 def index(request, extra_context=None, user=AnonymousUser()):
     """
     Render the edX main page.
