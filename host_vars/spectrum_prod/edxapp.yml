@@ -76,7 +76,7 @@ analytics_processors_sleep_time: 1200
 
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: True
 EDXAPP_PRIVATE_REQUIREMENTS:
-  - name: 'git+git@gitlab.raccoongang.com:hippoteam/spectrum/edx_xblock_scorm.git@v1.2.0#egg=edx_xblock_scorm'
+  - name: 'git+git@gitlab.raccoongang.com:hippoteam/spectrum/edx_xblock_scorm.git@v1.2.1#egg=edx_xblock_scorm'
     extra_args: '-e'
 
 SITE_CONFIGURATION_STORAGE:
