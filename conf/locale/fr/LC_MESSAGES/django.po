@@ -12883,6 +12883,10 @@ msgstr "Enregistrer les paramètres"
 msgid "Unenroll"
 msgstr "Se désinscrire"
 
+msgctxt "instructor"
+msgid "Unenroll"
+msgstr "Désinscrire"
+
 #: lms/templates/edit_unit_link.html
 msgid "View Unit in Studio"
 msgstr "Afficher l'unité dans Studio"

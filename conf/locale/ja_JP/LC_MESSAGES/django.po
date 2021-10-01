@@ -478,7 +478,7 @@ msgstr "メールアドレス '{email}’ のアカウントは既に存在し�
 
 #: common/djangoapps/student/management/commands/manage_group.py
 msgid "Removed group: \"{}\""
-msgstr "削除済グループ: \"{}\""
+msgstr "削除済みグループ: \"{}\""
 
 #: common/djangoapps/student/management/commands/manage_group.py
 msgid "Did not find a group with name \"{}\" - skipping."
@@ -1639,7 +1639,7 @@ msgstr "未回答"
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "submitted"
-msgstr "提出済"
+msgstr "提出済み"
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "processing"
@@ -1679,7 +1679,7 @@ msgstr "ChoiceGroup: 予期せぬタグ {tag_name}"
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "Answer received."
-msgstr "解答受取済。"
+msgstr "解答受取済み。"
 
 #. Translators: '<choice>' and '<compoundhint>' are tag names and should not
 #. be translated.
@@ -2359,7 +2359,7 @@ msgstr "一部正解"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Answer submitted."
-msgstr "解答提出済。"
+msgstr "解答提出済み。"
 
 #. Translators: 'closed' means the problem's due date has passed. You may no
 #. longer attempt to solve the problem.
@@ -2443,7 +2443,7 @@ msgid ""
 "We're sorry, there was an error with processing your request. Please try "
 "reloading your page and trying again."
 msgstr ""
-"申し訳ありません。リクエストを処理する際にエラーが発生しました。ページを再読込して再度実行してくだい。"
+"リクエストを処理する際にエラーが発生しました。ページを再読込して再度実行してくだい。"
 
 #: common/lib/xmodule/xmodule/capa_module.py
 msgid ""
@@ -3708,7 +3708,7 @@ msgid ""
 "Enter the number of points possible for this component.  The default value "
 "is 1.0.  This setting is only used when Scored is set to True."
 msgstr ""
-"このコンポーネントで可能なポイント数を入力してください。デフォルト値は1.0です。この設定は採点済が「true」の時のみ使用されます。"
+"このコンポーネントで可能なポイント数を入力してください。デフォルト値は1.0です。この設定は採点済みが「true」の時のみ使用されます。"
 
 #: common/lib/xmodule/xmodule/lti_module.py
 msgid ""
@@ -4221,7 +4221,7 @@ msgid ""
 "The experiment uses a deleted group configuration. Select a valid group "
 "configuration or delete this experiment."
 msgstr ""
-"この実験は削除済のグループ設定を使用しています。有効なグループ設定を選択するか、この実験を削除してください。"
+"この実験は削除済みのグループ設定を使用しています。有効なグループ設定を選択するか、この実験を削除してください。"
 
 #: common/lib/xmodule/xmodule/split_test_module.py
 msgid ""
@@ -5110,7 +5110,7 @@ msgstr ""
 
 #: lms/djangoapps/certificates/models.py wiki/admin.py wiki/models/article.py
 msgid "created"
-msgstr "作成済"
+msgstr "作成済み"
 
 #. Translators: This is a past-tense verb that is used for task action
 #. messages.
@@ -5123,7 +5123,7 @@ msgstr "再生成"
 #: lms/djangoapps/certificates/models.py
 #: lms/djangoapps/instructor_task/tasks.py
 msgid "generated"
-msgstr "生成済"
+msgstr "生成済み"
 
 #. Translators: This string represents task was executed for all learners.
 #: lms/djangoapps/certificates/models.py
@@ -5561,7 +5561,7 @@ msgstr "領収書"
 
 #: lms/djangoapps/commerce/views.py
 msgid "Payment Failed"
-msgstr "支払失敗"
+msgstr "支払い失敗"
 
 #: lms/djangoapps/commerce/views.py
 msgid "There was a problem with this transaction. You have not been charged."
@@ -5572,14 +5572,14 @@ msgid ""
 "Make sure your information is correct, or try again with a different card or"
 " another form of payment."
 msgstr ""
-"入力した情報に間違いがないかご確認いただくか、別のカードまたは支払方法でやり直してください。"
+"入力した情報に間違いがないかご確認いただくか、別のカードまたは支払い方法でやり直してください。"
 
 #: lms/djangoapps/commerce/views.py
 msgid ""
 "A system error occurred while processing your payment. You have not been "
 "charged."
 msgstr ""
-"支払手続きの処理中にシステムエラーが発生しました。まだ請求されません。"
+"支払い手続きの処理中にシステムエラーが発生しました。まだ請求されません。"
 
 #: lms/djangoapps/commerce/views.py
 msgid "Please wait a few minutes and then try again."
@@ -5984,7 +5984,7 @@ msgid ""
 "You are enrolled in the honor track for this course. The honor track does "
 "not include a certificate."
 msgstr ""
-"自己申告コースでこのコースに受講登録済です。自己申告コースには修了証が含まれていません。"
+"自己申告コースでこのコースに受講登録済みです。自己申告コースには修了証が含まれていません。"
 
 #: lms/djangoapps/courseware/views/views.py
 msgid "We're working on it..."
@@ -6098,7 +6098,7 @@ msgid ""
 "To apply for financial assistance, enroll in the audit track for a course that offers Verified Certificates, and then complete this application. Note that you must complete a separate application for each course you take.\n"
 " We plan to use this information to evaluate your application for financial assistance and to further develop our financial assistance program."
 msgstr ""
-"現在認証済み修了証の取得を希望していながら料金の支払が困難な受講者に対して、{platform_name}は経済援助を提供しています。適格受講者は、最大90{percent_sign}の援助を受けることができます。\n"
+"現在認証済み修了証の取得を希望していながら料金の支払いが困難な受講者に対して、{platform_name}は経済援助を提供しています。適格受講者は、最大90{percent_sign}の援助を受けることができます。\n"
 "経済援助を受けるためには、認証済み修了証が提供されるコースの聴講コースに登録して、申請をしてください。受講コースごとに申請しなければならない点に注意してください。\n"
 "申請の情報は経済援助の申請書評価のためと更なる経済援助プログラムの開発のために利用させていただく予定です。"
 
@@ -6261,7 +6261,7 @@ msgstr "gitのレポジトリロケーションは'.git'で終わり、適正な
 
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "Added Course"
-msgstr "追加済コース"
+msgstr "追加済みコース"
 
 #: lms/djangoapps/dashboard/sysadmin.py cms/templates/course-create-rerun.html
 #: cms/templates/index.html lms/templates/shoppingcart/receipt.html
@@ -6293,7 +6293,7 @@ msgstr "全コースについての情報"
 
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "Deleted"
-msgstr "削除済"
+msgstr "削除済み"
 
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "course_id"
@@ -6301,7 +6301,7 @@ msgstr "コースID"
 
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "# enrolled"
-msgstr "# 受講登録済"
+msgstr "# 受講登録済み"
 
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "# staff"
@@ -6343,7 +6343,7 @@ msgstr "コメントレベルが深過ぎます"
 msgid ""
 "Error uploading file. Please contact the site administrator. Thank you."
 msgstr ""
-"ファイルアップロードに失敗しました。システム管理者にご連絡ください。申し訳ございません。"
+"ファイルアップロードに失敗しました。システム管理者にご連絡ください。"
 
 #: lms/djangoapps/discussion/django_comment_client/base/views.py
 msgid "Good"
@@ -7376,14 +7376,14 @@ msgstr "エラーが発生しました。タスクは作成されませんでし
 #. messages as {action}.
 #: lms/djangoapps/instructor_task/tasks.py
 msgid "rescored"
-msgstr "再採点済"
+msgstr "再採点済み"
 
 #. Translators: This is a past-tense verb that is inserted into task progress
 #. messages as {action}.
 #: lms/djangoapps/instructor_task/tasks.py
 #: lms/djangoapps/instructor_task/tasks_helper/module_state.py
 msgid "overridden"
-msgstr "オーバーライド済"
+msgstr "オーバーライド済み"
 
 #. Translators: This is a past-tense verb that is inserted into task progress
 #. messages as {action}.
@@ -7401,19 +7401,19 @@ msgstr "リセット"
 #: wiki/plugins/attachments/templates/wiki/plugins/attachments/search.html
 #: wiki/templates/wiki/includes/revision_info.html
 msgid "deleted"
-msgstr "削除済"
+msgstr "削除済み"
 
 #. Translators: This is a past-tense verb that is inserted into task progress
 #. messages as {action}.
 #: lms/djangoapps/instructor_task/tasks.py
 msgid "emailed"
-msgstr "メール済"
+msgstr "メール済み"
 
 #. Translators: This is a past-tense verb that is inserted into task progress
 #. messages as {action}.
 #: lms/djangoapps/instructor_task/tasks.py
 msgid "graded"
-msgstr "採点済"
+msgstr "採点済み"
 
 #. Translators: This is a past-tense phrase that is inserted into task
 #. progress messages as {action}.
@@ -7431,7 +7431,7 @@ msgstr "受講登録レポート生成中"
 #. messages as {action}.
 #: lms/djangoapps/instructor_task/tasks.py
 msgid "certificates generated"
-msgstr "修了証生成済"
+msgstr "修了証生成済み"
 
 #. Translators: This is a past-tense verb that is inserted into task progress
 #. messages as {action}.
@@ -7439,7 +7439,7 @@ msgstr "修了証生成済"
 #. {attempted} so far"
 #: lms/djangoapps/instructor_task/tasks.py
 msgid "cohorted"
-msgstr "コホート済"
+msgstr "コホート済み"
 
 #. Translators: This label appears above a field on the registration form
 #. which allows the user to input the First Name
@@ -7491,7 +7491,7 @@ msgstr "受講登録ソース"
 
 #: lms/djangoapps/instructor_task/tasks_helper/enrollments.py
 msgid "Manual (Un)Enrollment Reason"
-msgstr "手動による受講登録 (取消) 理由"
+msgstr "手動による受講登録 (取消し) 理由"
 
 #: lms/djangoapps/instructor_task/tasks_helper/enrollments.py
 msgid "Enrollment Role"
@@ -7503,7 +7503,7 @@ msgstr "定価"
 
 #: lms/djangoapps/instructor_task/tasks_helper/enrollments.py
 msgid "Payment Amount"
-msgstr "支払額"
+msgstr "支払い額"
 
 #: lms/djangoapps/instructor_task/tasks_helper/enrollments.py
 msgid "Coupon Codes Used"
@@ -7515,7 +7515,7 @@ msgstr "使用登録コード"
 
 #: lms/djangoapps/instructor_task/tasks_helper/enrollments.py
 msgid "Payment Status"
-msgstr "支払ステータス"
+msgstr "支払いステータス"
 
 #: lms/djangoapps/instructor_task/tasks_helper/enrollments.py
 msgid "Transaction Reference Number"
@@ -7694,22 +7694,22 @@ msgid ""
 "This component's access settings refer to deleted or invalid group "
 "configurations."
 msgstr ""
-"このコンポーネントのアクセス設定は削除済あるいは無効なグループ設定を参照しています。"
+"このコンポーネントのアクセス設定は削除済みあるいは無効なグループ設定を参照しています。"
 
 #: lms/djangoapps/lms_xblock/mixin.py
 msgid ""
 "This unit's access settings refer to deleted or invalid group "
 "configurations."
 msgstr ""
-"このユニットのアクセス設定は削除済あるいは無効なグループ設定を参照しています。"
+"このユニットのアクセス設定は削除済みあるいは無効なグループ設定を参照しています。"
 
 #: lms/djangoapps/lms_xblock/mixin.py
 msgid "This component's access settings refer to deleted or invalid groups."
-msgstr "このコンポーネントのアクセス設定は削除済あるいは無効なグループを参照しています。"
+msgstr "このコンポーネントのアクセス設定は削除済みあるいは無効なグループを参照しています。"
 
 #: lms/djangoapps/lms_xblock/mixin.py
 msgid "This unit's access settings refer to deleted or invalid groups."
-msgstr "このユニットのアクセス設定は削除済あるいは無効なグループを参照しています。"
+msgstr "このユニットのアクセス設定は削除済みあるいは無効なグループを参照しています。"
 
 #: lms/djangoapps/lms_xblock/mixin.py
 msgid ""
@@ -7784,7 +7784,7 @@ msgstr "userまたはexternal_user_keyのいずれかはNULL以外である必�
 
 #: lms/djangoapps/shoppingcart/models.py
 msgid "Order Payment Confirmation"
-msgstr "注文支払確認"
+msgstr "注文支払い確認"
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
@@ -7811,7 +7811,7 @@ msgid ""
 "The amount of the transaction.  Use positive amounts for payments and "
 "negative amounts for refunds."
 msgstr ""
-"取引金額。支払には正の値、払い戻しには負の値。"
+"取引金額。支払いには正の値、払い戻しには負の値。"
 
 #: lms/djangoapps/shoppingcart/models.py
 msgid "Lower-case ISO currency codes"
@@ -7828,7 +7828,7 @@ msgid ""
 " payment or refund was received. 'cancelled' means that payment or refund "
 "was expected, but was cancelled before money was transferred. "
 msgstr ""
-"支払または払い戻しのステータス。'started'は支払が予定されているが、送金処理が完了していないことを意味します。'completed'は支払または払い戻し完了、'cancelled'は支払または払い戻しが予定されていたが、送金前にキャンセルされたことを意味します。"
+"支払いまたは払い戻しのステータス。'started'は支払いが予定されているが、送金処理が完了していないことを意味します。'completed'は支払いまたは払い戻し完了、'cancelled'は支払いまたは払い戻しが予定されていたが、送金前にキャンセルされたことを意味します。"
 
 #: lms/djangoapps/shoppingcart/models.py
 msgid "The number of items sold."
@@ -7875,7 +7875,7 @@ msgid ""
 "({dashboard_url}) up to 14 days after your payment or 14 days after your "
 "course starts (up to six months after your payment).\n"
 msgstr ""
-"払い戻しを受けるには、支払い後14日以内、またはコース開始後14日以内（支払い後6か月以内）にedXダッシュボード（{dashboard_url}）でコースの受講取消をします。\n"
+"払い戻しを受けるには、支払い後14日以内、またはコース開始後14日以内（支払い後6か月以内）にedXダッシュボード（{dashboard_url}）でコースの受講を取消してください。\n"
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
@@ -7890,7 +7890,7 @@ msgid ""
 "You can unenroll in the course and receive a full refund for 2 days after "
 "the course start date.\n"
 msgstr ""
-"コース開始日から2日間は受講取消をして全額の払い戻しを受け取ることができます。\n"
+"コース開始日から2日間は受講を取消して全額の払い戻しを受け取ることができます。\n"
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
@@ -7898,7 +7898,7 @@ msgid ""
 "{refund_reminder_msg}For help unenrolling, Please see How do I unenroll from"
 " a course? ({how_to_unenroll_link}) in our edX HelpCenter."
 msgstr ""
-"{refund_reminder_msg}受講取消のヘルプについては、edX HelpCenterの「How do I unenroll from a course?（コースの受講取消をするには?）」（{how_to_unenroll_link}）を参照してください。"
+"{refund_reminder_msg}受講取消しのヘルプについては、edX HelpCenterの「How do I unenroll from a course?（コースの受講を取消すには?）」（{how_to_unenroll_link}）を参照してください。"
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
@@ -7935,7 +7935,7 @@ msgstr "理由不明"
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
 msgid "The payment processor did not return a required parameter: {parameter}"
-msgstr "支払システムは必要なパラメータを返しませんでした: {parameter}"
+msgstr "支払いシステムは必要なパラメータを返しませんでした: {parameter}"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -7943,13 +7943,13 @@ msgid ""
 "The payment processor returned a badly-typed value {value} for parameter "
 "{parameter}."
 msgstr ""
-"支払システムはパラメータ {parameter} に対して間違った値 {value} を返しました。"
+"支払いシステムはパラメータ {parameter} に対して間違った値 {value} を返しました。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid ""
 "The payment processor accepted an order whose number is not in our system."
 msgstr ""
-"支払システムがこのシステムにない番号の注文を受領しました。"
+"支払いシステムがこのシステムにない番号の注文を受領しました。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -7968,7 +7968,7 @@ msgid ""
 "charged. Please try a different form of payment.  Contact us with payment-"
 "related questions at {email}."
 msgstr ""
-"申し訳ありません。支払システムがあなたの支払を受け付けられませんでした。応答: {decision}、理由: {reason}。課金はされていません。別の支払方法をお試しください。支払に関するご質問は {email} へご連絡ください。"
+"支払いシステムがあなたの支払いを受け付けられませんでした。応答: {decision}、理由: {reason}。課金はされていません。別の支払い方法をお試しください。支払いに関するご質問は {email} へご連絡ください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -7979,7 +7979,7 @@ msgid ""
 "message is: {msg} Your credit card may possibly have been charged.  Contact "
 "us with payment-specific questions at {email}."
 msgstr ""
-"申し訳ありません。 支払システムが矛盾するデータの支払情報を応答してきました。大変申し訳ございませんが、支払手続の結果を確認することができません。エラーメッセージ: {msg} あなたのクレジットカードに課金された可能性があります。支払に関するご質問は {email} へご連絡ください。 "
+"支払いシステムが矛盾するデータの支払い情報を応答してきました。大変申し訳ございませんが、支払い手続の結果を確認することができません。エラーメッセージ: {msg} あなたのクレジットカードに課金された可能性があります。支払いに関するご質問は {email} へご連絡ください。 "
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -7989,7 +7989,7 @@ msgid ""
 " probably been charged. Contact us with payment-specific questions at "
 "{email}."
 msgstr ""
-"申し訳ありません。エラーのため、注文総額と異なる金額が課金されました。エラーメッセージ: {msg}。おそらくあなたのクレジットカードに課金されています。支払に関するご質問は {email} へご連絡ください。"
+"エラーのため、注文総額と異なる金額が課金されました。エラーメッセージ: {msg}。おそらくあなたのクレジットカードに課金されています。支払いに関するご質問は {email} へご連絡ください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -8001,7 +8001,7 @@ msgid ""
 "action on your order. Your credit card may possibly have been charged. "
 "Contact us with payment-specific questions at {email}."
 msgstr ""
-"申し訳ありません。支払システムからあなたの課金に関する判読できないメッセージが届き、 こちらでは内容を判断することができません。 エラーメッセージ: {msg}。大変申し訳ございませんが、支払手続の結果を確認することができません。 あなたのクレジットカードに課金された可能性があります。支払に関するご質問は {email} へご連絡ください。"
+"支払いシステムからあなたの課金に関する判読できないメッセージが届き、 こちらでは内容を判断することができません。 エラーメッセージ: {msg}。大変申し訳ございませんが、支払い手続の結果を確認することができません。 あなたのクレジットカードに課金された可能性があります。支払いに関するご質問は {email} へご連絡ください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -8011,7 +8011,7 @@ msgid ""
 "future purchase. If you feel that this is in error, please contact us with "
 "payment-specific questions at {email}."
 msgstr ""
-"申し訳ありません。支払システムからこの取引がキャンセルされたというメッセージが届きました。ショッピングカート内のアイテムは購入待ちの状態で保存されます。エラーだと思われる場合、支払に関するご質問は {email} へご連絡ください。"
+"支払いシステムからこの取引がキャンセルされたというメッセージが届きました。ショッピングカート内のアイテムは購入待ちの状態で保存されます。エラーだと思われる場合、支払いに関するご質問は {email} へご連絡ください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -8020,7 +8020,7 @@ msgid ""
 "have been saved. If you have any questions about this transaction, please "
 "contact us at {email}."
 msgstr ""
-"申し訳ありません。この支払は拒否されました。ショッピングカート内のアイテムは保存されています。この取引に関するご質問がある場合は、{email} へお問い合わせください。"
+"この支払いは拒否されました。ショッピングカート内のアイテムは保存されています。この取引に関するご質問がある場合は、{email} へお問い合わせください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -8028,7 +8028,7 @@ msgid ""
 "Sorry! Your payment could not be processed because an unexpected exception "
 "occurred. Please contact us at {email} for assistance."
 msgstr ""
-"申し訳ありません。予期せぬ例外が発生したため、支払手続は進められませんでした。ヘルプが必要な場合は、{email} へご連絡ください。"
+"予期せぬ例外が発生したため、支払い手続は進められませんでした。ヘルプが必要な場合は、{email} へご連絡ください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "Successful transaction."
@@ -8100,7 +8100,7 @@ msgid ""
 msgstr ""
 "\n"
 "発行銀行からリクエストについて質問があります。プログラム上で認証コードを受け取ることはできませんが、システムへ電話し、口頭で受け取ることができるかもしれません。\n"
-"解決方法: 別の支払方法をお試しください。"
+"解決方法: 別の支払い方法をお試しください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid ""
@@ -8113,7 +8113,7 @@ msgstr ""
 "\n"
 "            有効期限を過ぎたカードです。カード会社が管理する有効期限と入力された有効期限が\n"
 "            一致しない場合にもこのメッセージが表示されます。\n"
-"            解決方法: 別の支払方法をお試しください。\n"
+"            解決方法: 別の支払い方法をお試しください。\n"
 "            "
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
@@ -8124,8 +8124,8 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"            カードの支払が拒否されました。発行銀行からの情報はありません。\n"
-"            解決方法: 別の支払方法をお試しください。\n"
+"            カードの支払いが拒否されました。発行銀行からの情報はありません。\n"
+"            解決方法: 別の支払い方法をお試しください。\n"
 "            "
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
@@ -8133,7 +8133,7 @@ msgid ""
 "Insufficient funds in the account. Possible action: retry with another form "
 "of payment."
 msgstr ""
-"口座の残高が不足しています。解決方法: 他の支払方法をお試しください。"
+"口座の残高が不足しています。解決方法: 他の支払い方法をお試しください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "Stolen or lost card."
@@ -8154,7 +8154,7 @@ msgid ""
 msgstr ""
 "\n"
 "            無効なカードまたはカード提示が必要なカードです。\n"
-"            解決方法: 別の支払方法をお試しください。\n"
+"            解決方法: 別の支払い方法をお試しください。\n"
 "            "
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
@@ -8166,14 +8166,14 @@ msgid ""
 "The card has reached the credit limit. Possible action: retry with another "
 "form of payment."
 msgstr ""
-"このカードは利用上限枠に達しました。解決方法: 別の支払方法をお試しください。"
+"このカードは利用上限枠に達しました。解決方法: 別の支払い方法をお試しください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid ""
 "Invalid card verification number (CVN). Possible action: retry with another "
 "form of payment."
 msgstr ""
-"無効なカード番号 (CVN) です。解決方法: 他の支払方法をお試しください。"
+"無効なカード番号 (CVN) です。解決方法: 他の支払い方法をお試しください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "The customer matched an entry on the processors negative file."
@@ -8194,13 +8194,13 @@ msgstr ""
 "\n"
 "認証リクエストは発行銀行には認証されましたが、CyberSource社により拒否されました。\n"
 "原因はCVNチェックをパスできなかったことです。\n"
-"解決方法: 別の支払方法をお試しください。"
+"解決方法: 別の支払い方法をお試しください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid ""
 "Invalid account number. Possible action: retry with another form of payment."
 msgstr ""
-"無効な口座番号です。解決方法: 別の支払方法をお試しください。"
+"無効な口座番号です。解決方法: 別の支払い方法をお試しください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid ""
@@ -8210,8 +8210,8 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"            この種類のカードは支払システムで受け付けることができません。\n"
-"            解決方法: 別の支払方法をお試しください。\n"
+"            この種類のカードは支払いシステムで受け付けることができません。\n"
+"            解決方法: 別の支払い方法をお試しください。\n"
 "            "
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
@@ -8219,7 +8219,7 @@ msgid ""
 "General decline by the processor.  Possible action: retry with another form "
 "of payment."
 msgstr ""
-"システムにより拒否されました。解決方法: 別の支払方法をお試しください。"
+"システムにより拒否されました。解決方法: 別の支払い方法をお試しください。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 #, python-brace-format
@@ -8235,7 +8235,7 @@ msgstr "リクエストされたカード売上額はもともとの承認額を
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "Processor Failure.  Possible action: retry the payment"
-msgstr "システムエラー。解決方法: 支払を再実行してください"
+msgstr "システムエラー。解決方法: 支払いを再実行してください"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "The authorization has already been reversed."
@@ -8260,7 +8260,7 @@ msgid ""
 msgstr ""
 "\n"
 "            送信されたカードの種類が無効か、カード番号と一致しません。\n"
-"            解決方法: 同じカードまたは別の支払方法でお試しください。\n"
+"            解決方法: 同じカードまたは別の支払い方法でお試しください。\n"
 "            "
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
@@ -8300,7 +8300,7 @@ msgstr "以前無効化されたカード売上の与信をリクエストしま
 msgid ""
 "The request was received, but there was a timeout at the payment processor."
 msgstr ""
-"リクエストは受領されましたが、支払システムでタイムアウトが発生しました。"
+"リクエストは受領されましたが、支払いシステムでタイムアウトが発生しました。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "Stand-alone credits are not allowed."
@@ -8308,11 +8308,11 @@ msgstr "単独の与信は許可されていません。"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "The cardholder is enrolled for payer authentication"
-msgstr "カード保持者が支払認証に登録されています"
+msgstr "カード保持者が支払い認証に登録されています"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid "Payer authentication could not be authenticated"
-msgstr "支払認証は認められませんでした"
+msgstr "支払い認証は認められませんでした"
 
 #: lms/djangoapps/shoppingcart/processors/CyberSource2.py
 msgid ""
@@ -8324,7 +8324,7 @@ msgid ""
 msgstr ""
 "\n"
 "            認証リクエストは発行銀行により認証されましたが、Smart Authorization の古い設定が理由でCyberSource社により拒否されました。\n"
-"            解決方法: 別の支払方法をお試しください。\n"
+"            解決方法: 別の支払い方法をお試しください。\n"
 "            "
 
 #: lms/djangoapps/shoppingcart/reports.py
@@ -8444,7 +8444,7 @@ msgstr "取引数"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Total Payments Collected"
-msgstr "回収済支払額"
+msgstr "回収済み支払い額"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Number of Successful Refunds"
@@ -8470,11 +8470,11 @@ msgstr "コース{course_id}は既にカートに入っています。"
 #: lms/djangoapps/shoppingcart/views.py
 #, python-brace-format
 msgid "You are already registered in course {course_id}."
-msgstr "既にコース{course_id}に登録済です。"
+msgstr "既にコース{course_id}に登録済みです。"
 
 #: lms/djangoapps/shoppingcart/views.py
 msgid "Course added to cart."
-msgstr "カート追加済コース。"
+msgstr "カート追加済みコース。"
 
 #: lms/djangoapps/shoppingcart/views.py
 #, python-brace-format
@@ -8777,7 +8777,7 @@ msgstr "はじめに"
 
 #: lms/djangoapps/verify_student/views.py
 msgid "Make payment"
-msgstr "支払いをする"
+msgstr "支払う"
 
 #: lms/djangoapps/verify_student/views.py
 msgid "Payment confirmation"
@@ -9768,7 +9768,7 @@ msgstr "復元"
 
 #: lms/templates/wiki/plugins/attachments/index.html
 msgid "anonymous (IP logged)"
-msgstr "匿名 (IP記録済)"
+msgstr "匿名 (IP記録済み)"
 
 #: lms/templates/wiki/plugins/attachments/index.html
 msgid "File history"
@@ -9796,7 +9796,7 @@ msgstr "この修正版は削除されました。"
 
 #: lms/templates/wiki/preview_inline.html
 msgid "Restoring to this revision will mark the article as deleted."
-msgstr "この修正版を復元すると、記事に削除済とマークされます。"
+msgstr "この修正版を復元すると、記事に削除済みとマークされます。"
 
 #: lms/urls.py
 msgid "LMS Administration"
@@ -9935,7 +9935,7 @@ msgstr "否認"
 
 #: openedx/core/djangoapps/api_admin/models.py
 msgid "Approved"
-msgstr "承認済"
+msgstr "承認済み"
 
 #: openedx/core/djangoapps/api_admin/models.py
 msgid "Status of this API access request"
@@ -12448,7 +12448,7 @@ msgstr "失敗"
 #. by user
 #: cms/djangoapps/contentstore/views/videos.py
 msgid "Cancelled"
-msgstr "キャンセル済"
+msgstr "キャンセル済み"
 
 #. Translators: This is the status for a video which has failed
 #. due to being flagged as a duplicate by an external or internal CMS
@@ -12574,7 +12574,7 @@ msgid ""
 "point to the draft branch, effectively force publishing the course. This "
 "view dry runs the force publish command"
 msgstr ""
-"ドラフトおよび公開済ブランチは時に同期から外れることができます。コース強制公開コマンドは公開中のブランチをドラフトブランチ時点にリセットし、効果的に強制公開します。このビューは強制公開コマンドをドライランします"
+"ドラフトおよび公開済みブランチは時に同期から外れることができます。コース強制公開コマンドは公開中のブランチをドラフトブランチ時点にリセットし、効果的に強制公開します。このビューは強制公開コマンドをドライランします"
 
 #: cms/djangoapps/maintenance/views.py
 msgid "Edit Announcements"
@@ -12994,7 +12994,7 @@ msgstr "注釈を非表示"
 
 #: lms/templates/bookmark_button.html lms/templates/seq_module.html
 msgid "Bookmarked"
-msgstr "ブックマーク済"
+msgstr "ブックマーク済み"
 
 #: lms/templates/bookmark_button.html
 msgid "Bookmark this page"
@@ -13088,7 +13088,7 @@ msgstr "設定を保存"
 #: themes/edx.org/lms/templates/dashboard.html
 #: themes/edx.org/lms/templates/dashboard/_dashboard_entitlement_unenrollment_modal.html
 msgid "Unenroll"
-msgstr "コース登録取消"
+msgstr "コース登録　取消し"
 
 #: lms/templates/edit_unit_link.html
 msgid "View Unit in Studio"
@@ -13255,7 +13255,7 @@ msgid ""
 "Was this key already used? Check whether the e-mail change has already "
 "happened."
 msgstr ""
-"このキーは既に使用済でしたか？既にメール変更されたかどうか確認してください。"
+"このキーは既に使用済みでしたか？既にメール変更されたかどうか確認してください。"
 
 #: lms/templates/invalid_email_key.html
 msgid "Did your e-mail client break the URL into two lines?"
@@ -13376,7 +13376,7 @@ msgid ""
 " fix it as soon as possible. Please email us at {tech_support_email} to "
 "report any problems or downtime."
 msgstr ""
-"申し訳ありません。このモジュールは一時的に利用できません。できるだけ早く復旧できるよう作業中です。問題や中断時間の報告は{tech_support_email}へメールしてください。"
+"このモジュールは一時的に利用できません。できるだけ早く復旧できるよう作業中です。問題や中断時間の報告は{tech_support_email}へメールしてください。"
 
 #: lms/templates/module-error.html
 msgid "Raw data:"
@@ -13421,7 +13421,7 @@ msgstr "新しい体験でこのユニットを表示"
 #: lms/templates/problem.html
 msgid "You have used {num_used} of {num_total} attempt"
 msgid_plural "You have used {num_used} of {num_total} attempts"
-msgstr[0] "全{num_total}回の内{num_used} 回解答済です"
+msgstr[0] "解答は{num_total}回まで（うち{num_used} 回使用済み）"
 
 #: lms/templates/problem.html
 msgid ""
@@ -14157,7 +14157,7 @@ msgid ""
 "credentials anywhere other than on the {platform_name} website at "
 "{platform_url}."
 msgstr ""
-"お客様は、APIを介してアクセスされるコンテンツ（「APIコンテンツ」）をお客様独自のWebサイト、モバイルサイト、メール配信リスト、またはソーシャルメディア資産（「あなたのアプリケーション」）へ配信する目的、またはアクセスのリクエストに記述され、{platform_name}が個別に承認した別の商用目的のみにAPIを使用することに合意します。{platform_name_capitalized}は、規約の遵守についてお客様によるAPIの使用を監視し、{platform_name}によって設定された要件を回避した場合、または制限を超えた場合は、アクセスを拒否すること、または統合をシャットダウンすることがあります。アプリケーション、またはAPIまたはAPIコンテンツのその他の承認済の使用において、{platform_name}のWebサイト（{platform_url}）以外のいかなる場所でも、エンドユーザーにその{platform_name}ユーザー名、パスワード、またはその他の{platform_name}ユーザー資格情報の入力を促してはなりません。"
+"お客様は、APIを介してアクセスされるコンテンツ（「APIコンテンツ」）をお客様独自のWebサイト、モバイルサイト、メール配信リスト、またはソーシャルメディア資産（「あなたのアプリケーション」）へ配信する目的、またはアクセスのリクエストに記述され、{platform_name}が個別に承認した別の商用目的のみにAPIを使用することに合意します。{platform_name_capitalized}は、規約の遵守についてお客様によるAPIの使用を監視し、{platform_name}によって設定された要件を回避した場合、または制限を超えた場合は、アクセスを拒否すること、または統合をシャットダウンすることがあります。アプリケーション、またはAPIまたはAPIコンテンツのその他の承認済みの使用において、{platform_name}のWebサイト（{platform_url}）以外のいかなる場所でも、エンドユーザーにその{platform_name}ユーザー名、パスワード、またはその他の{platform_name}ユーザー資格情報の入力を促してはなりません。"
 
 #: lms/templates/api_admin/terms_of_service.html
 msgid "Prohibited Uses and Activities"
@@ -14317,7 +14317,7 @@ msgid ""
 "content, in whole or in part, in any form and in any media formats and "
 "through any media channels (now known or hereafter developed)."
 msgstr ""
-"APIsまたはAPIコンテンツの使用に関連して{platform_name}に何らかのコンテンツを提出するにあたり、世界的、非独占的、移動可能、譲渡可能、再許可可能、支払済、ロイヤリティフリー、永続的で取消不可能な権利およびそのコンテンツ全体または一部を主催、移動、表示、実行、再生、修正、配布、再配布、許諾更新、あるいはあらゆる(既知あるいは今後開発する)形式、メディア形式、メディアチャンネルで利用するライセンスを{platform_name}に対してここで授与してください。"
+"APIsまたはAPIコンテンツの使用に関連して{platform_name}に何らかのコンテンツを提出するにあたり、世界的、非独占的、移動可能、譲渡可能、再許可可能、支払い済み、ロイヤリティフリー、永続的で取消し不可能な権利およびそのコンテンツ全体または一部を主催、移動、表示、実行、再生、修正、配布、再配布、許諾更新、あるいはあらゆる(既知あるいは今後開発する)形式、メディア形式、メディアチャンネルで利用するライセンスを{platform_name}に対してここで授与してください。"
 
 #: lms/templates/api_admin/terms_of_service.html
 msgid "Privacy"
@@ -15146,7 +15146,7 @@ msgstr "edX の修了証について"
 
 #: lms/templates/commerce/checkout_cancel.html
 msgid "Checkout Cancelled"
-msgstr "支払取消"
+msgstr "支払い取消し"
 
 #: lms/templates/commerce/checkout_cancel.html
 msgid ""
@@ -15157,7 +15157,7 @@ msgstr ""
 
 #: lms/templates/commerce/checkout_error.html
 msgid "Checkout Error"
-msgstr "支払エラー"
+msgstr "支払いエラー"
 
 #: lms/templates/commerce/checkout_error.html
 msgid ""
@@ -15165,7 +15165,7 @@ msgid ""
 "charged.{b_end} Please try to submit your payment again. If this problem "
 "persists, contact {email}."
 msgstr ""
-"支払時にエラーが発生しました。{b_start}課金請求はされません。{b_end}もう一度支払手続きをしてください。問題が解決しない場合は、{email}にお問い合わせください。"
+"支払い時にエラーが発生しました。{b_start}課金請求はされません。{b_end}もう一度支払い手続きをしてください。問題が解決しない場合は、{email}にお問い合わせください。"
 
 #: lms/templates/commerce/checkout_receipt.html
 msgid "Loading Order Data..."
@@ -15197,7 +15197,7 @@ msgstr "{course_name}を受講登録する | トラックを選んでくださ�
 #: lms/templates/course_modes/choose.html
 #: themes/edx.org/lms/templates/course_modes/choose.html
 msgid "Sorry, there was an error when trying to enroll you"
-msgstr "申し訳ありませんが、受講登録中にエラーが発生しました"
+msgstr "受講登録中にエラーが発生しました"
 
 #: lms/templates/course_modes/choose.html
 #: themes/edx.org/lms/templates/course_modes/choose.html
@@ -15596,7 +15596,7 @@ msgid ""
 "We're sorry, this module is temporarily unavailable. Our staff is working to"
 " fix it as soon as possible."
 msgstr ""
-"申し訳ありません。このモジュールは一時的に利用できません。できるだけ早く復旧できるよう作業中です。"
+"このモジュールは一時的に利用できません。できるだけ早く復旧できるよう作業中です。"
 
 #: lms/templates/courseware/gradebook.html
 msgid "Gradebook"
@@ -15850,7 +15850,7 @@ msgstr "表示名"
 
 #: lms/templates/courseware/progress.html
 msgid "Verification Submitted"
-msgstr "認証提出済"
+msgstr "認証提出済み"
 
 #: lms/templates/courseware/progress.html
 msgid "Verification Failed"
@@ -16120,7 +16120,7 @@ msgstr "{course_number} {course_name} カバー画像"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Enrolled as: "
-msgstr "右の通り受講登録済: "
+msgstr "右の通り受講登録済み: "
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Coming Soon"
@@ -16164,7 +16164,7 @@ msgstr "{entitlement_expiration_date} までは授業を変更することがで
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "View Archived Course"
-msgstr "アーカイブ済コースを見る"
+msgstr "アーカイブ済みコースを見る"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "I'm taking {course_name} online with {facebook_brand}. Check it out!"
@@ -16211,7 +16211,7 @@ msgid ""
 "received. You can contact the account holder to request payment, or you can "
 "unenroll from this course"
 msgstr ""
-"代金支払いがまだ受領されていないので現在このコースを利用することができません。支払いの受付を会計管理者に求めるか、このコースの受講取消をしてください。"
+"代金支払いがまだ受領されていないので現在このコースを利用することができません。支払いの受付を会計管理者に求めるか、このコースの受講を取消してください。"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid ""
@@ -16220,7 +16220,7 @@ msgid ""
 "holder{contact_link_end} to request payment, or you can "
 "{unenroll_link_start}unenroll{unenroll_link_end} from this course"
 msgstr ""
-"お支払いがなかったため、このコースへはアクセスができません。お支払いについての{contact_link_start}問い合わせ{contact_link_end}をするか、このコースを{unenroll_link_start}受講取消{unenroll_link_end}しましょう"
+"お支払いがなかったため、このコースへはアクセスができません。お支払いについての{contact_link_start}問い合わせ{contact_link_end}をするか、このコースの{unenroll_link_start}受講を取消し{unenroll_link_end}てください"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Verification not yet complete."
@@ -16245,7 +16245,7 @@ msgstr "いますぐ認証しよう"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "You have submitted your verification information."
-msgstr "認証情報を提出済です。"
+msgstr "認証情報を提出済みです。"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid ""
@@ -16395,7 +16395,7 @@ msgstr "同意内容を見る"
 
 #: lms/templates/dashboard/_dashboard_status_verification.html
 msgid "Current Verification Status: Approved"
-msgstr "現在の認証ステータス: 承認済"
+msgstr "現在の認証ステータス: 承認済み"
 
 #: lms/templates/dashboard/_dashboard_status_verification.html
 msgid ""
@@ -16737,7 +16737,7 @@ msgstr "ありがとうございます。ご購入いただいたのは"
 
 #: lms/templates/emails/business_order_confirmation_email.txt
 msgid "Your payment was successful."
-msgstr "お支払手続が完了しました。"
+msgstr "お支払い手続が完了しました。"
 
 #: lms/templates/emails/business_order_confirmation_email.txt
 #: lms/templates/emails/order_confirmation_email.txt
@@ -16898,7 +16898,7 @@ msgid ""
 "Sorry! The photos you submitted for ID verification were not accepted, for "
 "the following reason(s):"
 msgstr ""
-"申し訳ありません。ID認証のために提出された写真は、以下の理由のため、承認されませんでした。"
+"ID認証のために提出された写真は、以下の理由のため、承認されませんでした。"
 
 #: lms/templates/emails/failed_verification_email.txt
 msgid "The photo(s) of you:"
@@ -16936,7 +16936,7 @@ msgid ""
 "Your payment was successful. You will see the charge below on your next "
 "credit or debit card statement under the company name {merchant_name}."
 msgstr ""
-"お支払手続きが完了しました。{merchant_name}にて次回のクレジットまたはデビットカード計算書に以下の金額が記載されます。"
+"お支払い手続きが完了しました。{merchant_name}にて次回のクレジットまたはデビットカード計算書に以下の金額が記載されます。"
 
 #: lms/templates/emails/order_confirmation_email.txt
 msgid "Your order number is: {order_number}"
@@ -17104,7 +17104,7 @@ msgstr ""
 
 #: lms/templates/emails/registration_codes_sale_invoice_attachment.txt
 msgid "For payment questions, contact {contact_email}"
-msgstr "支払についてのご質問は {contact_email} へお問い合わせください"
+msgstr "お支払いについてのご質問は {contact_email} へお問い合わせください"
 
 #: lms/templates/emails/reject_name_change.txt
 msgid ""
@@ -17112,7 +17112,7 @@ msgid ""
 "name from {old_name} to {new_name}. If you need further assistance, please "
 "e-mail the course staff at {email}."
 msgstr ""
-"申し訳ありませんが、{old_name} から {new_name} への名前の変更が承認されませんでした。ヘルプが必要な場合は、{email}にメールしてください。"
+"{old_name} から {new_name} への名前の変更が承認されませんでした。ヘルプが必要な場合は、{email}にメールしてください。"
 
 #: lms/templates/emails/reverification_processed.txt
 msgid ""
@@ -17470,7 +17470,7 @@ msgstr "再生成する受講生のタイプを選択してください"
 msgid ""
 "Regenerate for learners who have already received certificates. ({count})"
 msgstr ""
-"既に修了証を受取済の受講生のために再生成。({count})"
+"既に修了証を受取済みの受講生のために再生成。({count})"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Regenerate for learners who have not received certificates. ({count})"
@@ -17703,11 +17703,11 @@ msgstr "下のボタンをクリックすると、このコースで発行され
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "View Certificates Issued"
-msgstr "発行済修了証を見る"
+msgstr "発行済み修了証を見る"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Download CSV of Certificates Issued"
-msgstr "発行済修了証リスト（.csv）のダウンロード"
+msgstr "発行済み修了証リスト（.csv）のダウンロード"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid ""
@@ -18073,7 +18073,7 @@ msgstr "受講登録数"
 
 #: lms/templates/instructor/instructor_dashboard_2/executive_summary.html
 msgid "Gross Revenue Collected"
-msgstr "徴収済の収入"
+msgstr "徴収済みの収入"
 
 #: lms/templates/instructor/instructor_dashboard_2/executive_summary.html
 msgid "Gross Revenue Pending"
@@ -18300,7 +18300,7 @@ msgstr "ユニット価格"
 
 #: lms/templates/instructor/instructor_dashboard_2/generate_registarion_codes_modal.html
 msgid "The price per enrollment purchased"
-msgstr "購入済の受講登録ごとの価格"
+msgstr "購入済みの受講登録ごとの価格"
 
 #: lms/templates/instructor/instructor_dashboard_2/generate_registarion_codes_modal.html
 msgid "Number of Enrollment Codes"
@@ -18536,7 +18536,7 @@ msgid ""
 "moderation roles to manage course team membership. Only enrolled users can "
 "be added as Discussion Admins."
 msgstr ""
-"ディスカッション管理者は投稿の編集・削除、誤用フラグの解除、スレッドの終了・再開、レスポンスへのいいね! ができ、すべてのグループからの投稿を見ることができます。彼らの投稿には「スタッフ」と表示されます。また、コースチームメンバーを管理するため、ディスカッションモデレーターを追加および解除できます。受講登録済のユーザーのみディスカッション管理者として追加することができます。"
+"ディスカッション管理者は投稿の編集・削除、誤用フラグの解除、スレッドの終了・再開、レスポンスへのいいね! ができ、すべてのグループからの投稿を見ることができます。彼らの投稿には「スタッフ」と表示されます。また、コースチームメンバーを管理するため、ディスカッションモデレーターを追加および解除できます。受講登録済みのユーザーのみディスカッション管理者として追加することができます。"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Discussion Admin"
@@ -18566,7 +18566,7 @@ msgid ""
 " by adding or removing discussion moderation roles. Only enrolled users can "
 "be added as Discussion Moderators."
 msgstr ""
-"ディスカッションモデレーターは投稿の編集・削除、誤用フラグの解除、スレッドの終了および再開、返答へのいいね! ができ、すべてのグループからの投稿を見ることができます。彼らの投稿には「スタッフ」と表示されます。彼らはディスカッションモデレーターの追加および解除などのコースチームメンバーの管理はできません。受講登録済のユーザーのみディスカッションモデレーターとして追加することができます。"
+"ディスカッションモデレーターは投稿の編集・削除、誤用フラグの解除、スレッドの終了および再開、返答へのいいね! ができ、すべてのグループからの投稿を見ることができます。彼らの投稿には「スタッフ」と表示されます。彼らはディスカッションモデレーターの追加および解除などのコースチームメンバーの管理はできません。受講登録済みのユーザーのみディスカッションモデレーターとして追加することができます。"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Moderator"
@@ -18585,7 +18585,7 @@ msgid ""
 "their group. Their posts are marked as 'Community TA'. Only enrolled "
 "learners can be added as Group Community TAs."
 msgstr ""
-"グループコミュニティーTAはコースチームがディスカッションをモデレートするのを助けるコミュニティーメンバーのことです。グループコミュニティーTAは指定されたグループの受講者の投稿のみ見ることができます。投稿の編集・削除、フラグの解除、スレッドの終了および再開、返答へのいいね! ができますが、グループ内の受講者の投稿に限られます。彼らの投稿には「コミュニティーTA」と表示されます。受講登録済の受講者のみグループコミュニティーTAとして追加することができます。"
+"グループコミュニティーTAはコースチームがディスカッションをモデレートするのを助けるコミュニティーメンバーのことです。グループコミュニティーTAは指定されたグループの受講者の投稿のみ見ることができます。投稿の編集・削除、フラグの解除、スレッドの終了および再開、返答へのいいね! ができますが、グループ内の受講者の投稿に限られます。彼らの投稿には「コミュニティーTA」と表示されます。受講登録済みの受講者のみグループコミュニティーTAとして追加することができます。"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Group Community TA"
@@ -18599,7 +18599,7 @@ msgid ""
 "open threads, and endorse responses. Their posts are marked as 'Community "
 "TA'. Only enrolled learners can be added as Community TAs."
 msgstr ""
-"コミュニティーTAはディスカッションの編纂をするコース運営チームを補助するコミュニティーのメンバーです。このメンバーはコホートやコース選択に属している受講者の投稿を見ることができ、投稿を編集したり削除したり、フラグをクリアしたり、スレッドを終了させたり再開させることができます。このメンバーの投稿には「コミュニティーTA」とマークされます。受講登録済受講者だけがコミュニティーTAとして参加することができます。"
+"コミュニティーTAはディスカッションの編纂をするコース運営チームを補助するコミュニティーのメンバーです。このメンバーはコホートやコース選択に属している受講者の投稿を見ることができ、投稿を編集したり削除したり、フラグをクリアしたり、スレッドを終了させたり再開させることができます。このメンバーの投稿には「コミュニティーTA」とマークされます。受講登録済み受講者だけがコミュニティーTAとして参加することができます。"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Community TA"
@@ -18702,11 +18702,11 @@ msgstr "以前に送信したメールの内容を見るには、このボタン
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Show Sent Email History"
-msgstr "送信済メール履歴を見る"
+msgstr "送信済みメール履歴を見る"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "To read a sent email message, click its subject."
-msgstr "送信済メールのメッセージを読むには、件名をクリックしてください。"
+msgstr "送信済みメールのメッセージを読むには、件名をクリックしてください。"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid ""
@@ -19020,7 +19020,7 @@ msgstr ""
 "\n"
 "{p_tag}現在相互採点するものはありません。相互採点をするには: \n"
 "{ul_tag}\n"
-"{li_tag}相互採点問題の解答を提出済でなければいけません。{end_li_tag}\n"
+"{li_tag}相互採点問題の解答を提出済みでなければいけません。{end_li_tag}\n"
 "{li_tag}コースチームは採点基準をより深く理解してもらうために使用するエッセイを採点しなければいけません。{end_li_tag}\n"
 "{li_tag}採点待ちの提出物がなければいけません。{end_li_tag}\n"
 "{end_ul_tag}\n"
@@ -19048,7 +19048,7 @@ msgstr "締切"
 
 #: lms/templates/peer_grading/peer_grading.html
 msgid "Graded"
-msgstr "採点済"
+msgstr "採点済み"
 
 #: lms/templates/peer_grading/peer_grading.html
 #: lms/templates/shoppingcart/receipt.html
@@ -19227,7 +19227,7 @@ msgid ""
 "You can proceed to payment at any point in time. Any additional information "
 "you provide will be included in your receipt."
 msgstr ""
-"支払手続はいつでも進められます。入力いただく追加情報は領収書に記載されるものです。"
+"支払い手続はいつでも進められます。入力いただく追加情報は領収書に記載されるものです。"
 
 #: lms/templates/shoppingcart/billing_details.html
 msgid "Purchasing Organizational Details"
@@ -19254,11 +19254,11 @@ msgid ""
 "If no additional billing details are populated the payment confirmation will"
 " be sent to the user making the purchase."
 msgstr ""
-"追加の課金詳細が入力されない場合、支払確認は購入したユーザーに送信されます。"
+"追加の課金詳細が入力されない場合、支払い確認は購入したユーザーに送信されます。"
 
 #: lms/templates/shoppingcart/billing_details.html
 msgid "Payment processing occurs on a separate secure site."
-msgstr "支払手続は外部のセキュリティ保護されたサイトにて実施されます。"
+msgstr "支払い手続は外部のセキュリティ保護されたサイトにて実施されます。"
 
 #: lms/templates/shoppingcart/billing_details.html
 #: lms/templates/shoppingcart/shopping_cart.html
@@ -19268,7 +19268,7 @@ msgstr "ショッピングカートは空です。"
 #: lms/templates/shoppingcart/cybersource_form.html
 #: lms/templates/shoppingcart/shopping_cart_flow.html
 msgid "Payment"
-msgstr "支払"
+msgstr "支払い"
 
 #: lms/templates/shoppingcart/download_report.html
 msgid "Download CSV Reports"
@@ -19314,7 +19314,7 @@ msgstr "終了文字: "
 
 #: lms/templates/shoppingcart/error.html
 msgid "Payment Error"
-msgstr "支払エラー"
+msgstr "支払いエラー"
 
 #: lms/templates/shoppingcart/error.html
 msgid "There was an error processing your order!"
@@ -19363,7 +19363,7 @@ msgstr "受講登録リンク"
 
 #: lms/templates/shoppingcart/receipt.html
 msgid "Used"
-msgstr "利用済"
+msgstr "利用済み"
 
 #: lms/templates/shoppingcart/receipt.html
 msgid "Invalid"
@@ -19501,7 +19501,7 @@ msgid ""
 "You're already enrolled for this course. Visit your "
 "{link_start}dashboard{link_end} to see the course."
 msgstr ""
-"このコースは既に受講登録済です。{link_start}ダッシュボード{link_end}へアクセスし、コースをご確認ください。"
+"このコースは既に受講登録済みです。{link_start}ダッシュボード{link_end}へアクセスし、コースをご確認ください。"
 
 #: lms/templates/shoppingcart/registration_code_receipt.html
 msgid "The course you are enrolling for is full."
@@ -19767,7 +19767,7 @@ msgstr "受講登録: "
 
 #: lms/templates/support/refund.html
 msgid "enrolled"
-msgstr "受講登録済"
+msgstr "受講登録済み"
 
 #: lms/templates/support/refund.html
 msgid "unenrolled"
@@ -20099,7 +20099,7 @@ msgstr "どのように機能するか"
 
 #: openedx/features/course_experience/templates/course_experience/course-sock-fragment.html
 msgid "Pay the Verified Certificate upgrade fee"
-msgstr "本人認証済み修了証へアップグレードする支払"
+msgstr "本人認証済み修了証へのアップグレード支払い"
 
 #: openedx/features/course_experience/templates/course_experience/course-sock-fragment.html
 msgid "Verify your identity with a webcam and government-issued ID"
@@ -20168,11 +20168,11 @@ msgstr "検索結果"
 #. their edX account.
 #: openedx/features/learner_profile/static/learner_profile/templates/third_party_auth.html
 msgid "Connected Accounts"
-msgstr "接続済アカウント"
+msgstr "接続済みアカウント"
 
 #: openedx/features/learner_profile/static/learner_profile/templates/third_party_auth.html
 msgid "Linked"
-msgstr "リンク済"
+msgstr "リンク済み"
 
 #: openedx/features/learner_profile/static/learner_profile/templates/third_party_auth.html
 msgid "Not Linked"
@@ -20387,7 +20387,7 @@ msgid ""
 "We're sorry, but this version of your browser is not supported. Try again "
 "using a different browser or a newer version of your browser."
 msgstr ""
-"申し訳ありませんが、このバージョンのブラウザはサポートされていません。別のブラウザまたは新しいバージョンのブラウザを使って再試行してください。"
+"このバージョンのブラウザはサポートされていません。別のブラウザまたは新しいバージョンのブラウザを使って再試行してください。"
 
 #: themes/stanford-style/lms/templates/register-form.html
 #: themes/stanford-style/lms/templates/register-shib.html
@@ -20512,7 +20512,7 @@ msgstr "登録に関するヘルプ"
 
 #: themes/stanford-style/lms/templates/register-sidebar.html
 msgid "Already registered?"
-msgstr "登録済ですか？"
+msgstr "登録済みですか？"
 
 #: themes/stanford-style/lms/templates/register-sidebar.html
 msgid "Log in"
@@ -20593,7 +20593,7 @@ msgid ""
 "name from {old_name} to {new_name}. If you need further assistance, please "
 "e-mail the tech support at {email}"
 msgstr ""
-"申し訳ありませんが、{old_name} から {new_name} への名前の変更が承認されませんでした。詳しいヘルプが必要な場合は、テクニカルサポート{email}へメールしてください。"
+"{old_name} から {new_name} への名前の変更が承認されませんでした。詳しいヘルプが必要な場合は、テクニカルサポート{email}へメールしてください。"
 
 #: themes/stanford-style/lms/templates/static_templates/tos.html
 msgid "Put your Terms of Service here!"
@@ -21291,7 +21291,7 @@ msgid ""
 " still having problems accessing things, please feel free to "
 "{link_start}contact {studio_name} support{link_end} for further help."
 msgstr ""
-"申し訳ございません。お探しの{studio_name}のページが見つかりませんでした。{studio_name}のダッシュボードに戻って再試行してください。アクセスの問題が解決しない場合は、お気軽に{link_start}{studio_name}サポート{link_end} へご連絡ください。"
+"お探しの{studio_name}のページが見つかりませんでした。{studio_name}のダッシュボードに戻って再試行してください。アクセスの問題が解決しない場合は、お気軽に{link_start}{studio_name}サポート{link_end} へご連絡ください。"
 
 #: cms/templates/error.html
 msgid "The Server Encountered an Error"
@@ -21305,7 +21305,7 @@ msgid ""
 "please feel free to {link_start}contact {studio_name} support{link_end} for "
 "further help."
 msgstr ""
-"申し訳ございません。リクエスト処理中にサーバーエラーが発生しました。{studio_name}のダッシュボードに戻り、再実行してください。アクセスの問題が解決しない場合は、お気軽に{link_start}{studio_name}サポート{link_end} へご連絡ください。"
+"リクエスト処理中にサーバーエラーが発生しました。{studio_name}のダッシュボードに戻り、再実行してください。アクセスの問題が解決しない場合は、お気軽に{link_start}{studio_name}サポート{link_end} へご連絡ください。"
 
 #: cms/templates/error.html
 msgid "Back to dashboard"
@@ -21426,7 +21426,7 @@ msgstr "エクスポートしたコースをダウンロード"
 
 #: cms/templates/export.html
 msgid "Data {em_start}exported with{em_end} your course:"
-msgstr "{em_start}エクスポート済の{em_end}データ: "
+msgstr "{em_start}エクスポート済みの{em_end}データ: "
 
 #: cms/templates/export.html
 msgid ""
@@ -22329,7 +22329,7 @@ msgstr ""
 
 #: cms/templates/index.html
 msgid "Archived Courses"
-msgstr "アーカイブ済のコース"
+msgstr "アーカイブ済みのコース"
 
 #: cms/templates/index.html
 msgid "Libraries"
@@ -23538,7 +23538,7 @@ msgid ""
 "Your course creation rights to {studio_name} have been revoked. If you "
 "believe this was in error, please contact {email}"
 msgstr ""
-"あなたの{studio_name}のコース制作権限は取消になりました。エラーだと思われる場合は、{email}へお問い合わせください"
+"あなたの{studio_name}のコース制作権限は取消しになりました。エラーだと思われる場合は、{email}へお問い合わせください"
 
 #: cms/templates/emails/course_creator_subject.txt
 msgid "Your course creator status for {studio_name}"
@@ -23748,7 +23748,7 @@ msgstr "Open edX Portal"
 
 #: cms/templates/widgets/user_dropdown.html
 msgid "Currently signed in as:"
-msgstr "サインイン済: "
+msgstr "サインイン済み: "
 
 #: cms/templates/widgets/user_dropdown.html
 msgid "Maintenance"
@@ -23835,7 +23835,7 @@ msgstr "スラッグの先頭にアンダースコアを使用できません。
 #: wiki/forms.py
 #, python-format
 msgid "A deleted article with slug \"%s\" already exists."
-msgstr "スラッグ\"%s\"を用いた削除済の記事が存在します。"
+msgstr "スラッグ\"%s\"を用いた削除済みの記事が存在します。"
 
 #: wiki/forms.py
 #, python-format
@@ -23944,7 +23944,7 @@ msgstr ""
 
 #: wiki/models/article.py
 msgid "modified"
-msgstr "修正済"
+msgstr "修正済み"
 
 #: wiki/models/article.py
 msgid "Article properties last modified"
@@ -24580,7 +24580,7 @@ msgstr "%(user)s が %(article)s (%(type)s) に参加している"
 #: wiki/plugins/notifications/models.py
 #, python-format
 msgid "Article deleted: %s"
-msgstr "削除済記事：%s"
+msgstr "削除済み記事：%s"
 
 #: wiki/plugins/notifications/models.py
 #, python-format
@@ -24935,7 +24935,7 @@ msgstr "受講登録:"
 
 #: lms/templates/courseware/course_about.html
 msgid "Available Language(s)"
-msgstr "使用可能な言語"
+msgstr "言語"
 
 #: lms/templates/courseware/course_about.html
 msgid "Watch the video:"
