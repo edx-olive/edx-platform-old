@@ -5,15 +5,16 @@ import sys
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
-from edxval.api import create_video_transcript, get_video_transcript
+from edxval.api import create_video_transcript, get_video_transcript, create_or_update_video_transcript
 from edxval.transcript_utils import Transcript
 
 
 class Command(BaseCommand):
     help = '''
-    Copies all transcripts from a course directory to /edx/var/edxapp/media/video-transcripts directory.
-    Overwrites all active transcripts in video-transcripts for the specified language for this course.
-    Run this command after you have imported the course directory into edx.
+    Copies all transcripts from a course XML export directory ($course_num/static)
+    to media/video-transcripts directory located in storage area set in *_STORAGE_* configvars.
+    Overwrites all active transcripts in video-transcripts for the specified language for this
+    course. Run this command after you have imported the course directory into edx.
     '''
 
     def add_arguments(self, parser):
@@ -55,11 +56,16 @@ class Command(BaseCommand):
                 # (may be used for video-transcripts) if required
                 if video_transcript_format == 'sjson':
                     transcript_obj = Transcript()
-                    transcript_contents = transcript_obj.convert(transcript_contents.encode(), 'srt', 'sjson')
+                    transcript_contents = transcript_obj.convert(transcript_contents.encode('utf-8'), 'srt', 'sjson')
 
-                with open(video_transcript_filename, 'w') as video_transcript_file:
-                    video_transcript_file.write(transcript_contents)
-                video_transcript_file.close()
+                utf8_encoded_file_content = transcript_contents.encode('utf-8')
+                transcript_url = create_or_update_video_transcript(
+                    video_id,
+                    language,
+                    transcript_dict,
+                    ContentFile(utf8_encoded_file_content)
+                )
+                print("Updated transcript {0} with contents of {1}".format(transcript_url, static_transcript_file))
             else:
                 print(
                     'WARNING: Unable to retrieve transcript URL from '
