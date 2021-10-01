@@ -4840,13 +4840,13 @@ msgstr ""
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Email Address (Sign In)"
-msgstr "Dirección de correo electrónico (Iniciar sesión)"
+msgstr "Dirección de correo electrónico (Inicio de sesión)"
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
 "You receive messages from {platform_name} and course teams at this address."
 msgstr ""
-"Recibe mensajes de {platform_name} y equipos del curso en esta dirección."
+"Recibe mensajes de {platform_name} y equipos pedagógicos en esta dirección."
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Recovery Email Address"
@@ -4869,7 +4869,7 @@ msgid ""
 "The name that is used for ID verification and that appears on your "
 "certificates."
 msgstr ""
-"El nombre que se utiliza para la verificación del identificador ID y que aparece en sus certificados."
+"El nombre que se utiliza para la verificación del identificador y que aparece en sus certificados."
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Country or Region of Residence"
@@ -5521,14 +5521,14 @@ msgstr "Su importación ha fallado."
 
 #: cms/static/js/factories/manage_users.js
 msgid "Already a course team member"
-msgstr "Ya es miembro del equipo del curso"
+msgstr "Ya es miembro del equipo pedagógico"
 
 #: cms/static/js/factories/manage_users.js
 msgid ""
 "Are you sure you want to delete {email} from the course team for "
 "“{container}”?"
 msgstr ""
-"¿Está seguro de que quiere quitar a {email} del equipo del curso “{container}”?"
+"¿Está seguro de que quiere quitar a {email} del equipo pedagógico “{container}”?"
 
 #: cms/static/js/factories/manage_users.js
 #: cms/static/js/factories/manage_users_lib.js
@@ -7286,7 +7286,7 @@ msgstr "Use el menú Todos los temas para encontrar temas concretos."
 #: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
 #: lms/djangoapps/discussion/static/discussion/templates/search.underscore
 msgid "Search all posts"
-msgstr "Buscar en todas las publicaciones"
+msgstr "Busque en todas las publicaciones"
 
 #: lms/djangoapps/discussion/static/discussion/templates/discussion-home.underscore
 msgid "Filter and sort topics"
@@ -10183,7 +10183,7 @@ msgid ""
 "This feature is currently in testing. Course teams can enter highlights, but"
 " learners will not receive email messages."
 msgstr ""
-"Esta característica está actualmente a prueba. Los equipos del curso pueden añadir puntos destacados pero los alumnos no recibirán mensajes de correo electrónico."
+"Esta característica está actualmente a prueba. Los equipos pedagógicos pueden añadir puntos destacados pero los alumnos no recibirán mensajes de correo electrónico."
 
 #: cms/templates/js/highlights-editor.underscore
 msgid ""
@@ -10998,7 +10998,7 @@ msgid ""
 "to update your email address. (Only employer email addresses are accepted; "
 "personal email addresses are not allowed.)"
 msgstr ""
-"Usted recibe mensajes de {platform_name} y equipos del curso en esta dirección. Si ha cambiado de empresa, envíe un email a {htmlStart}OnlineTraining@abinitio.com{htmlEnd} para actualizar su dirección de correo electrónico. (Solo se aceptan direcciones de correo electrónico con dominios de empresa; "
+"Usted recibe mensajes de {platform_name} y de los equipos pedagógicos en esta dirección. Si ha cambiado de empresa, envíe un email a {htmlStart}OnlineTraining@abinitio.com{htmlEnd} para actualizar su dirección de correo electrónico. (Solo se aceptan direcciones de correo electrónico con dominios de empresa; no se permiten direcciones de correo electrónico personales)."
 
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid ""

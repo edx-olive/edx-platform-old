@@ -292,7 +292,7 @@ msgstr "足りないグループを作成中"
 
 #: common/lib/xmodule/xmodule/assets/word_cloud/src/js/word_cloud_main.js
 msgid "{start_strong}{total}{end_strong} words submitted in total."
-msgstr "合計{start_strong}{total}{end_strong}語提出済。"
+msgstr "合計{start_strong}{total}{end_strong}語提出済み。"
 
 #: common/lib/xmodule/xmodule/assets/word_cloud/src/js/word_cloud_main.js
 msgid "text_word_{uniqueId} title_word_{uniqueId}"
@@ -394,7 +394,7 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/js/src/capa/display.js
 msgid "You submitted {filename}; only {allowedFiles} are allowed."
-msgstr "{filename}は提出済です。{allowedFiles} のみ可能です。"
+msgstr "{filename}は提出済みです。{allowedFiles} のみ可能です。"
 
 #: common/lib/xmodule/xmodule/js/src/capa/display.js
 msgid "Your file {filename} is too large (max size: {maxSize}MB)."
@@ -436,7 +436,7 @@ msgstr "段落"
 
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
 msgid "Preformatted"
-msgstr "事前フォーマット済"
+msgstr "事前フォーマット済み"
 
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
@@ -1700,7 +1700,7 @@ msgstr ""
 #: common/lib/xmodule/xmodule/js/src/sequence/display.js
 #: openedx/features/course_bookmarks/static/course_bookmarks/js/views/bookmark_button.js
 msgid "Bookmarked"
-msgstr "ブックマーク済"
+msgstr "ブックマーク済み"
 
 #: common/lib/xmodule/xmodule/js/src/video/00_i18n.js
 #: common/lib/xmodule/xmodule/js/src/video/09_play_pause_control.js
@@ -2370,7 +2370,7 @@ msgstr "アカウント設定"
 
 #: lms/djangoapps/support/static/support/jsx/logged_in_user.jsx
 msgid "Billing/Payment Options"
-msgstr "請求/支払のオプション"
+msgstr "請求/支払いのオプション"
 
 #: lms/djangoapps/support/static/support/jsx/logged_in_user.jsx
 msgid "Certificates"
@@ -2606,7 +2606,7 @@ msgstr "このチームには誰も参加していません。"
 #. * relative timestamp (see: https://github.com/rmm5t/jquery-timeago)
 #: lms/djangoapps/teams/static/teams/js/views/edit_team_members.js
 msgid "Joined %(date)s"
-msgstr "%(date)s に参加済"
+msgstr "%(date)s に参加済み"
 
 #. Translators: 'date' is a placeholder for a fuzzy,
 #. * relative timestamp (see: https://github.com/rmm5t/jquery-timeago)
@@ -3211,25 +3211,25 @@ msgid ""
 "Are you sure you want to unenroll from the purchased course {courseName} "
 "({courseNumber})?"
 msgstr ""
-"支払済のコース{courseName}（{courseNumber}）の受講取消をしてもよろしいですか?"
+"支払い済みのコース{courseName}（{courseNumber}）の受講を取消してもよろしいですか?"
 
 #: lms/static/js/dashboard/legacy.js
 msgid "Are you sure you want to unenroll from {courseName} ({courseNumber})?"
-msgstr "{courseName}（{courseNumber}）の受講取消をしてもよろしいですか?"
+msgstr "{courseName}（{courseNumber}）の受講を取消してもよろしいですか?"
 
 #: lms/static/js/dashboard/legacy.js
 msgid ""
 "Are you sure you want to unenroll from the verified {certNameLong}  track of"
 " {courseName}  ({courseNumber})?"
 msgstr ""
-"{courseName}（{courseNumber}）の認証済み{certNameLong}コースの受講取消をしてもよろしいですか?"
+"{courseName}（{courseNumber}）の認証済み{certNameLong}コースの受講を取消してもよろしいですか?"
 
 #: lms/static/js/dashboard/legacy.js
 msgid ""
 "Are you sure you want to unenroll from the verified {certNameLong} track of "
 "{courseName} ({courseNumber})?"
 msgstr ""
-"{courseName}（{courseNumber}）の認証済み{certNameLong}コースの受講取消をしてもよろしいですか?"
+"{courseName}（{courseNumber}）の認証済み{certNameLong}コースの受講を取消してもよろしいですか?"
 
 #: lms/static/js/dashboard/legacy.js
 msgid ""
@@ -4161,7 +4161,7 @@ msgstr "リクエストする人"
 #. appears after this
 #: lms/static/js/instructor_dashboard/util.js
 msgid "Submitted"
-msgstr "提出済"
+msgstr "提出済み"
 
 #. Translators: The length of a task (eg, sending email) in seconds appears
 #. this
@@ -4342,11 +4342,11 @@ msgstr "取得済み修了証"
 
 #: lms/static/js/learner_dashboard/views/program_details_view.js
 msgid "Enrolled"
-msgstr "受講登録済"
+msgstr "受講登録済み"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Successfully reset the attempts for user {user}"
-msgstr "ユーザー {user} の解答を問題なくリセット済"
+msgstr "ユーザー {user} の解答を問題なくリセット済み"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Failed to reset attempts for user."
@@ -4354,7 +4354,7 @@ msgstr "ユーザーの回答のリセットに失敗。"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Successfully deleted student state for user {user}"
-msgstr "ユーザー  {user} の受講者状況を問題なく削除済"
+msgstr "ユーザー  {user} の受講者状況を問題なく削除済み"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Failed to delete student state for user."
@@ -4362,7 +4362,7 @@ msgstr "ユーザーの受講者状況の削除に失敗。"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Successfully rescored problem for user {user}"
-msgstr "ユーザー {user} は問題なく再採点済"
+msgstr "ユーザー {user} は問題なく再採点済み"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Failed to rescore problem for user."
@@ -4370,7 +4370,7 @@ msgstr "ユーザーの再採点に失敗。"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Successfully rescored problem to improve score for user {user}"
-msgstr "ユーザー {user} は問題なく再採点済"
+msgstr "ユーザー {user} は問題なく再採点済み"
 
 #: lms/static/js/staff_debug_actions.js
 msgid "Failed to rescore problem to improve score for user."
@@ -4929,21 +4929,21 @@ msgstr "認証済み修了証"
 
 #: lms/static/js/verify_student/views/make_payment_step_view.js
 msgid "Checkout"
-msgstr "支払手続き"
+msgstr "支払い手続き"
 
 #: lms/static/js/verify_student/views/make_payment_step_view.js
 msgid "Checkout with PayPal"
-msgstr "PayPalによる支払手続き"
+msgstr "PayPalによる支払い手続き"
 
 #. Translators: 'processor' is the name of a third-party payment processing
 #. vendor (example: "PayPal")
 #: lms/static/js/verify_student/views/make_payment_step_view.js
 msgid "Checkout with {processor}"
-msgstr "{processor} による支払手続き"
+msgstr "{processor} による支払い手続き"
 
 #: lms/static/js/verify_student/views/make_payment_step_view.js
 msgid "All payment options are currently unavailable."
-msgstr "全ての支払オプションが現在有効ではありません。"
+msgstr "全ての支払いオプションが現在有効ではありません。"
 
 #: lms/static/js/verify_student/views/make_payment_step_view.js
 msgid "Try the transaction again in a few minutes."
@@ -4961,7 +4961,7 @@ msgstr "注文を送信できませんでした"
 
 #: lms/static/js/verify_student/views/payment_confirmation_step_view.js
 msgid "Could not retrieve payment information"
-msgstr "支払情報を復元できませんでした"
+msgstr "支払い情報を復元できませんでした"
 
 #: lms/static/js/verify_student/views/reverify_view.js
 msgid "Take a photo of your ID"
@@ -5156,7 +5156,7 @@ msgstr "全プロフィール"
 
 #: openedx/features/learner_profile/static/learner_profile/js/learner_profile_factory.js
 msgid "Joined"
-msgstr "参加済"
+msgstr "参加済み"
 
 #: openedx/features/learner_profile/static/learner_profile/js/learner_profile_factory.js
 msgid "Joined Date"
@@ -6487,7 +6487,7 @@ msgid ""
 "Sorry, there was an error parsing the subtitles that you uploaded. Please "
 "check the format and try again."
 msgstr ""
-"申し訳ありませんが、アップロードされた字幕を処理する際にエラーが発生しました。フォーマットを確認して再試行してください。"
+"アップロードされた字幕を処理する際にエラーが発生しました。フォーマットを確認して再試行してください。"
 
 #: cms/static/js/views/video/translations_editor.js
 #: cms/static/js/views/video_transcripts.js
@@ -6792,7 +6792,7 @@ msgstr "ピン留め"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Reported"
-msgstr "報告済"
+msgstr "報告済み"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Closed"
@@ -6843,12 +6843,12 @@ msgstr "コメントを入力"
 #: common/static/common/templates/discussion/templates.underscore
 #, python-format
 msgid "marked as answer %(time_ago)s by %(user)s"
-msgstr "%(time_ago)s前に%(user)sによって正解とマーク済"
+msgstr "%(time_ago)s前に%(user)sによって正解とマーク済み"
 
 #: common/static/common/templates/discussion/templates.underscore
 #, python-format
 msgid "marked as answer %(time_ago)s"
-msgstr "%(time_ago)s前に正解とマーク済"
+msgstr "%(time_ago)s前に正解とマーク済み"
 
 #: common/static/common/templates/discussion/templates.underscore
 #, python-format
@@ -6887,7 +6887,7 @@ msgstr "ディスカッション"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "answered question"
-msgstr "回答済の質問"
+msgstr "回答済みの質問"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "unanswered question"
@@ -7020,7 +7020,7 @@ msgstr "いいね！"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Unendorse"
-msgstr "いいね！取消"
+msgstr "いいね！取消し"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Mark as Answer"
@@ -7052,7 +7052,7 @@ msgstr "報告"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Unreport"
-msgstr "報告取消"
+msgstr "報告取消し"
 
 #: common/static/common/templates/discussion/templates.underscore
 msgid "Pin"
@@ -7792,11 +7792,11 @@ msgstr "ユーザーのメール"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "Exception Granted"
-msgstr "承諾済の例外"
+msgstr "承諾済みの例外"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "Certificate Generated"
-msgstr "生成済の修了証"
+msgstr "生成済みの修了証"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "Remove from List"
@@ -7804,7 +7804,7 @@ msgstr "リストから削除"
 
 #: lms/templates/instructor/instructor_dashboard_2/cohort-discussions-subcategory.underscore
 msgid "Divided"
-msgstr "分割済"
+msgstr "分割済み"
 
 #: lms/templates/instructor/instructor_dashboard_2/cohort-editor.underscore
 msgid "Manage Learners"
@@ -8011,7 +8011,7 @@ msgstr "コンテンツ重視のディスカッショントピックがありま
 
 #: lms/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
 msgid "Used"
-msgstr "利用済"
+msgstr "利用済み"
 
 #: lms/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
 msgid "Valid"
@@ -8024,7 +8024,7 @@ msgstr "修了証の状況:"
 
 #: lms/templates/learner_dashboard/certificate_status.underscore
 msgid "Certificate Purchased"
-msgstr "購入済修了証"
+msgstr "購入済み修了証"
 
 #: lms/templates/learner_dashboard/course_card.underscore
 msgid "Change or Leave Session"
@@ -8052,7 +8052,7 @@ msgstr "{courseName}"
 
 #: lms/templates/learner_dashboard/course_enroll.underscore
 msgid "View Archived Course"
-msgstr "アーカイブ済コースを見る"
+msgstr "アーカイブ済みコースを見る"
 
 #: lms/templates/learner_dashboard/course_enroll.underscore
 msgid "View Course"
@@ -8223,7 +8223,7 @@ msgstr "残りのコース"
 
 #: lms/templates/learner_dashboard/program_details_view.underscore
 msgid "COMPLETED COURSES"
-msgstr "修了済のコース"
+msgstr "修了済みのコース"
 
 #: lms/templates/learner_dashboard/program_details_view.underscore
 msgid "As you complete courses, you will see them listed here."
@@ -8778,7 +8778,7 @@ msgstr "受講登録のアップグレード中: {courseName}"
 msgid ""
 "You can now enter your payment information and complete your enrollment."
 msgstr ""
-"支払情報を入力して、受講登録を完了してください。"
+"支払い情報を入力して、受講登録を完了してください。"
 
 #: lms/templates/verify_student/make_payment_step.underscore
 msgid ""
@@ -8811,7 +8811,7 @@ msgid ""
 "You can pay now even if you don't have the following items available, but "
 "you will need to have these to qualify to earn a Verified Certificate."
 msgstr ""
-"以下のアイテムがなくても支払はできますが、認証済み修了証を取得するにはこれらのアイテムが必要になります。"
+"以下のアイテムがなくても支払いはできますが、認証済み修了証を取得するにはこれらのアイテムが必要になります。"
 
 #: lms/templates/verify_student/make_payment_step.underscore
 msgid "Government-Issued Photo ID"
@@ -8828,7 +8828,7 @@ msgid ""
 "All professional education courses are fee-based, and require payment to "
 "complete the enrollment process."
 msgstr ""
-"専門家教育コースはすべて有料で、受講登録手続の完了には支払が必要です。"
+"専門家教育コースはすべて有料で、受講登録手続の完了には支払いが必要です。"
 
 #: lms/templates/verify_student/make_payment_step.underscore
 msgid "You have already verified your ID!"
@@ -8899,7 +8899,7 @@ msgstr ""
 
 #: lms/templates/verify_student/payment_confirmation_step.underscore
 msgid "Thank you! We have received your payment for {courseName}."
-msgstr "ありがとうございました! {courseName}コースの支払を受領しました。"
+msgstr "ありがとうございました! {courseName}コースの支払いを受領しました。"
 
 #: lms/templates/verify_student/payment_confirmation_step.underscore
 msgid "Next Step: Confirm your identity"
@@ -9030,7 +9030,7 @@ msgstr "写真を撮る"
 
 #: openedx/features/course_bookmarks/static/course_bookmarks/templates/bookmarks-list.underscore
 msgid "Bookmarked on"
-msgstr "ブックマーク済"
+msgstr "ブックマーク済み"
 
 #: openedx/features/course_bookmarks/static/course_bookmarks/templates/bookmarks-list.underscore
 msgid "You have not bookmarked any courseware pages yet"
@@ -9052,7 +9052,7 @@ msgstr[0] "次の{num_items}件の結果を読み込む"
 #: openedx/features/course_search/static/course_search/templates/course_search_results.underscore
 #: openedx/features/course_search/static/course_search/templates/dashboard_search_results.underscore
 msgid "Sorry, no results were found."
-msgstr "申し訳ありませんが、検索結果がありません。"
+msgstr "検索結果がありません。"
 
 #: openedx/features/learner_profile/static/learner_profile/templates/badge.underscore
 #, python-format
@@ -9066,7 +9066,7 @@ msgstr "シェア"
 #: openedx/features/learner_profile/static/learner_profile/templates/badge.underscore
 #, python-format
 msgid "Earned %(created)s."
-msgstr "%(created)sを獲得済。"
+msgstr "%(created)sを獲得済み。"
 
 #: openedx/features/learner_profile/static/learner_profile/templates/badge_placeholder.underscore
 msgid "What's Your Next Accomplishment?"
@@ -9218,7 +9218,7 @@ msgstr "廃止予定"
 
 #: cms/templates/js/asset-library.underscore
 msgid "List of uploaded files and assets in this course"
-msgstr "このコースのアップロード済ファイルおよびアセットの一覧"
+msgstr "このコースのアップロード済みファイルおよびアセットの一覧"
 
 #: cms/templates/js/asset-library.underscore
 msgid "- Sortable"
@@ -9630,7 +9630,7 @@ msgstr "公開日: "
 #: cms/templates/js/course-outline.underscore
 #: cms/templates/js/publish-xblock.underscore
 msgid "Scheduled:"
-msgstr "予定済: "
+msgstr "予定済み: "
 
 #: cms/templates/js/course-outline.underscore
 #: cms/templates/js/highlights-editor.underscore
@@ -9639,7 +9639,7 @@ msgstr "セクションハイライト"
 
 #: cms/templates/js/course-outline.underscore
 msgid "Graded as:"
-msgstr "採点済: "
+msgstr "採点済み: "
 
 #: cms/templates/js/course-outline.underscore
 msgid "Due:"
@@ -10141,7 +10141,7 @@ msgstr "%(publish_username)s により%(last_published_date)sに最新公開"
 #: cms/templates/js/publish-history.underscore
 #: cms/templates/js/publish-xblock.underscore
 msgid "Previously published"
-msgstr "以前に公開済"
+msgstr "以前に公開済み"
 
 #: cms/templates/js/publish-xblock.underscore
 msgid "Draft (Never published)"
@@ -10391,7 +10391,7 @@ msgid ""
 "the unit. Only units that are explicitly hidden from learners will remain "
 "hidden after you clear this option for the %(xblockType)s."
 msgstr ""
-"%(xblockType)s を受講者に公開する場合、公開日以降ユニットを公開した時点でコンテンツを見ることができるようになります。%(xblockType)sのオプションを取消にすると、明示的に非表示にしているユニットのみ非表示になります。"
+"%(xblockType)s を受講者に公開する場合、公開日以降ユニットを公開した時点でコンテンツを見ることができるようになります。%(xblockType)sのオプションを取消すと、明示的に非表示にしているユニットのみ非表示になります。"
 
 #: cms/templates/js/team-member.underscore
 msgid "Current Role:"
@@ -10557,7 +10557,7 @@ msgstr "１つ以上のグループを選択: "
 
 #: cms/templates/js/unit-access-editor.underscore
 msgid "Deleted Group"
-msgstr "削除済のグループ"
+msgstr "削除済みのグループ"
 
 #: cms/templates/js/unit-access-editor.underscore
 msgid ""

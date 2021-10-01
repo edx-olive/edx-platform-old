@@ -3668,7 +3668,7 @@ msgid ""
 "If you select this option, only course team members with the Staff or Admin "
 "role see this page."
 msgstr ""
-"Si selecciona esta opción, sólo los miembros del equipo docente con el rol de personal o de administrador verán esta página."
+"Si selecciona esta opción, sólo los miembros del equipo pedagógico con el rol de personal o de administrador verán esta página."
 
 #: common/lib/xmodule/xmodule/html_module.py
 msgid "HTML for the additional pages"
@@ -6186,7 +6186,7 @@ msgstr "Su certificado ha sido invalidado"
 
 #: lms/djangoapps/courseware/views/views.py
 msgid "Please contact your course team if you have any questions."
-msgstr "Por favor, póngase en contacto con su equipo de curso si tiene alguna pregunta."
+msgstr "Por favor, póngase en contacto con su equipo pedagógico si tiene alguna pregunta."
 
 #: lms/djangoapps/courseware/views/views.py
 msgid "Congratulations, you qualified for a certificate!"
@@ -12112,7 +12112,7 @@ msgstr ""
 
 #: cms/djangoapps/api/v1/serializers/course_runs.py
 msgid "Course team user does not exist"
-msgstr "El usuario del equipo del curso no existe"
+msgstr "El usuario del equipo pedagógico no existe"
 
 #: cms/djangoapps/contentstore/course_group_config.py
 msgid ""
@@ -16859,7 +16859,7 @@ msgstr "Filtrar temas"
 
 #: lms/templates/discussion/_filter_dropdown.html
 msgid "All Discussions"
-msgstr "Todas las discusiones"
+msgstr "Todos los foros"
 
 #: lms/templates/discussion/_filter_dropdown.html
 msgid "Posts I'm Following"
@@ -17583,7 +17583,7 @@ msgstr "Instituciones"
 
 #: lms/templates/header/user_dropdown.html
 msgid "Resume your last course"
-msgstr "Reanudar su último curso"
+msgstr "Reanudar último curso"
 
 #: lms/templates/header/user_dropdown.html
 msgid "Profile"
@@ -18558,7 +18558,7 @@ msgstr "Número total de códigos a crear"
 
 #: lms/templates/instructor/instructor_dashboard_2/generate_registarion_codes_modal.html
 msgid "Course Team Internal Reference"
-msgstr "Referencia interna para el equipo del curso"
+msgstr "Referencia interna para el equipo pedagógico"
 
 #: lms/templates/instructor/instructor_dashboard_2/generate_registarion_codes_modal.html
 msgid "Internal reference information for the sale"
@@ -18702,14 +18702,14 @@ msgstr "Eliminar usuario de pruebas beta"
 #. users can be added to.
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Course Team Management"
-msgstr "Gestión del equipo del curso"
+msgstr "Gestión del equipo pedagógico"
 
 #. Translators: an "Administrator Group" is a group, such as Course Staff,
 #. that
 #. users can be added to.
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Select a course team role:"
-msgstr "Seleccione un rol del equipo del curso:"
+msgstr "Seleccione un rol del equipo pedagógico:"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Getting available lists..."
@@ -18730,7 +18730,7 @@ msgid ""
 "all course data. Staff also have access to your course in Studio and "
 "Insights. You can only give course team roles to enrolled users."
 msgstr ""
-"Los miembros del equipo del curso con el rol de equipo docente le ayudan a gestionar el curso. El equipo docente puede inscribir y anular la inscripción a alumnos, así como modificar sus calificaciones y acceder a todos los datos del curso. El equipo docente también tiene acceso al curso en Studio e Insights. Solamente puede asignar roles de equipo del curso a usuarios inscritos."
+"Los miembros del equipo pedagógico con el rol de equipo docente le ayudan a gestionar el curso. El equipo docente puede inscribir y anular la inscripción a alumnos, así como modificar sus calificaciones y acceder a todos los datos del curso. El equipo docente también tiene acceso al curso en Studio e Insights. Solamente puede asignar roles de equipo del curso a usuarios inscritos."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Staff"
@@ -18748,7 +18748,7 @@ msgid ""
 " to manage course team membership. You can only give course team roles to "
 "enrolled users."
 msgstr ""
-"Los miembros del equipo del curso con el rol de administrador le ayudan a gestionar el curso. Pueden realizar las mismas tareas que el equipo docente, y también pueden añadir y quitar los roles de equipo docente y administrador, los roles de moderación del foro, y el rol de prueba beta para gestionar la pertenencia al equipo del curso. Solamente puede asignar roles de equipo del curso a usuarios inscritos."
+"Los miembros del equipo pedagógico con el rol de administrador le ayudan a gestionar el curso. Pueden realizar las mismas tareas que el equipo docente, y también pueden añadir y quitar los roles de equipo docente y administrador, los roles de moderación del foro, y el rol de prueba beta para gestionar la pertenencia al equipo del curso. Solamente puede asignar roles de equipo del curso a usuarios inscritos."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Admin"
@@ -18764,7 +18764,7 @@ msgid ""
 "sure that the content works, but have no additional privileges. You can only"
 " give course team roles to enrolled users."
 msgstr ""
-"Los Beta Testers pueden ver el contenido de este curso antes que los demás alumnos. Ellos pueden asegurarse de que el contenido funciona, pero no tienen privilegios adicionales. Solo puede darles roles de equipo del curso a los usuarios inscritos."
+"Los Beta Testers pueden ver el contenido de este curso antes que los demás alumnos. Ellos pueden asegurarse de que el contenido funciona, pero no tienen privilegios adicionales. Solo puede darles roles de equipo pedagógico a los usuarios inscritos."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Beta Tester"
@@ -18782,7 +18782,7 @@ msgid ""
 "moderation roles to manage course team membership. Only enrolled users can "
 "be added as Discussion Admins."
 msgstr ""
-"Los Administradores pueden editar o borrar cualquier publicación, borrar marcas de uso indebido, cerrar y volver a abrir conversaciones, aprobar respuestas y ver publicaciones de todos los grupos. Sus publicaciones se marcan como 'Equipo docente'. También pueden añadir o eliminar moderadores para gestionar el equipo del curso. Sólo los usuarios inscritos pueden añadirse como Administradores de foros."
+"Los Administradores pueden editar o borrar cualquier publicación, borrar marcas de uso indebido, cerrar y volver a abrir conversaciones, aprobar respuestas y ver publicaciones de todos los grupos. Sus publicaciones se marcan como 'Equipo docente'. También pueden añadir o eliminar moderadores para gestionar el equipo pedagógico. Sólo los usuarios inscritos pueden añadirse como Administradores de foros."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Discussion Admin"
@@ -18812,7 +18812,7 @@ msgid ""
 " by adding or removing discussion moderation roles. Only enrolled users can "
 "be added as Discussion Moderators."
 msgstr ""
-"Los Moderadores pueden editar o borrar cualquier publicación, borrar marcas de uso indebido, cerrar y volver a abrir conversaciones, aprobar respuestas y ver publicaciones de todos los grupos. Sus publicaciones se marcan como 'Equipo docente'. No pueden gestionar el equipo del curso añadiendo o eliminando Moderadores. Sólo los usuarios inscritos pueden añadirse como Moderadores."
+"Los Moderadores pueden editar o borrar cualquier publicación, borrar marcas de uso indebido, cerrar y volver a abrir conversaciones, aprobar respuestas y ver publicaciones de todos los grupos. Sus publicaciones se marcan como 'Equipo docente'. No pueden gestionar el equipo pedagógico añadiendo o eliminando Moderadores. Sólo los usuarios inscritos pueden añadirse como Moderadores."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Moderator"
@@ -18831,7 +18831,7 @@ msgid ""
 "their group. Their posts are marked as 'Community TA'. Only enrolled "
 "learners can be added as Group Community TAs."
 msgstr ""
-"Los Profesores Asistentes son miembros de la comunidad quienes ayudan a los equipos del curso a moderar las discusiones. Los Profesores Asistentes únicamente ve las publicaciones hechas por los estudiantes en sus grupos asignados. Pueden editar o eliminar publicaciones, borrar reportes, cerrar o re-abrir discusiones, aprobar respuestas, pero únicamente para publicaciones hechas por estudiantes en su grupo. Sus publicaciones son marcadas como \"Profesores Asistentes\".  Únicamente estudiantes inscritos pueden ser agregados como Profesores Asistentes."
+"Los Profesores Asistentes son miembros de la comunidad quienes ayudan a los equipos pedagógicos a moderar las discusiones. Los Profesores Asistentes únicamente ve las publicaciones hechas por los estudiantes en sus grupos asignados. Pueden editar o eliminar publicaciones, borrar reportes, cerrar o re-abrir discusiones, aprobar respuestas, pero únicamente para publicaciones hechas por estudiantes en su grupo. Sus publicaciones son marcadas como \"Profesores Asistentes\".  Únicamente estudiantes inscritos pueden ser agregados como Profesores Asistentes."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Group Community TA"
@@ -18845,7 +18845,7 @@ msgid ""
 "open threads, and endorse responses. Their posts are marked as 'Community "
 "TA'. Only enrolled learners can be added as Community TAs."
 msgstr ""
-"Los Profesores Asistentes son miembros de la comunidad quienes ayudan a los equipos del curso a moderar discusiones. Ellos pueden ver las publicaciones hechas por los estudiantes en sus grupos asignados. Pueden editar o eliminar publicaciones, borrar reportes, cerrar o volver a abrir discusiones, y aprobar respuestas. Sus publicaciones son marcadas como \"Profesor Asistente\". Solo estudiantes inscritos pueden ser agregados como Profesores Asistentes."
+"Los Profesores Asistentes son miembros de la comunidad quienes ayudan a los equipos pedagógicos a moderar discusiones. Ellos pueden ver las publicaciones hechas por los estudiantes en sus grupos asignados. Pueden editar o eliminar publicaciones, borrar reportes, cerrar o volver a abrir discusiones, y aprobar respuestas. Sus publicaciones son marcadas como \"Profesor Asistente\". Solo estudiantes inscritos pueden ser agregados como Profesores Asistentes."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Community TA"
@@ -19267,7 +19267,7 @@ msgstr ""
 "{p_tag}Usted no tiene ninguna calificación de pares pendiente.  Para tener calificaciones de pares:\n"
 "{ul_tag}\n"
 "{li_tag}Usted debe haber enviado una respuesta a un problema de calificación de pares.{end_li_tag}\n"
-"{li_tag}El instructor debe haber calificado los ensayos que se usan para explicarle mejor a usted los criterios de calificación.{end_li_tag}\n"
+"{li_tag}El equipo pedagógico debe haber calificado los ensayos que se usan para explicarle mejor a usted los criterios de calificación.{end_li_tag}\n"
 "{li_tag}Debe haber envíos que estén pendientes de ser calificados.{end_li_tag}\n"
 "{end_ul_tag}\n"
 "{end_p_tag}\n"
@@ -20964,7 +20964,7 @@ msgid ""
 "Staff or Admin role selects {em_start}Activate{em_end}. Only course team "
 "members with these roles can edit or delete an activated certificate."
 msgstr ""
-"Para comenzar a emitir certificados, un miembro del curso con el rol de equipo del curso o de administrador debe seleccionar {em_start}Activar{em_end}.  Solo miembros del equipo del curso con estos roles podrán editar o borrar un certificado activado."
+"Para comenzar a emitir certificados, un miembro del equipo pedagógico con el rol de equipo del curso o de administrador debe seleccionar {em_start}Activar{em_end}.  Solo miembros del equipo del curso con estos roles podrán editar o borrar un certificado activado."
 
 #: cms/templates/certificates.html
 msgid ""
@@ -20994,7 +20994,7 @@ msgstr "Calificaciones"
 #: cms/templates/settings_advanced.html cms/templates/settings_graders.html
 #: cms/templates/widgets/header.html
 msgid "Course Team"
-msgstr "Equipo del curso"
+msgstr "Equipo pedagógico"
 
 #: cms/templates/certificates.html cms/templates/group_configurations.html
 #: cms/templates/settings.html cms/templates/settings_advanced.html
@@ -21292,7 +21292,7 @@ msgid ""
 "the course team; review course updates and other assets for dated material; "
 "and seed the discussions and wiki."
 msgstr ""
-"Ningún contenido está actualmente visible para el curso y no hay estudiantes inscritos. Asegúrese de revisar y reiniciar las fechas, incluyendo la fecha de inicio y fin del curso, definir el equipo del curso, revisar las actualizaciones del curso y otros recursos con fecha, así como de crear y comenzar las discusiones y la wiki."
+"Ningún contenido está actualmente visible para el curso y no hay estudiantes inscritos. Asegúrese de revisar y reiniciar las fechas, incluyendo la fecha de inicio y fin del curso, definir el equipo pedagógico, revisar las actualizaciones del curso y otros recursos con fecha, así como de crear y comenzar las discusiones y la wiki."
 
 #: cms/templates/course_outline.html
 msgid "This course uses features that are no longer supported."
@@ -21717,7 +21717,7 @@ msgstr "Datos del usuario"
 
 #: cms/templates/export.html
 msgid "Course Team Data"
-msgstr "Datos del equipo del curso"
+msgstr "Datos del equipo pedagógico"
 
 #: cms/templates/export.html
 msgid "Forum/discussion Data"
@@ -21809,7 +21809,7 @@ msgstr ""
 
 #: cms/templates/export.html cms/templates/import.html
 msgid "The course team"
-msgstr "Equipo del curso"
+msgstr "Equipo pedagógico"
 
 #. Translators: ".tar.gz" is a file extension, and should not be translated
 #: cms/templates/export.html
@@ -22809,7 +22809,7 @@ msgstr "Aprenda más acerca del contenido de las bibliotecas"
 
 #: cms/templates/manage_users.html
 msgid "Course Team Settings"
-msgstr "Configuración del equipo del curso"
+msgstr "Configuración del equipo pedagógico"
 
 #: cms/templates/manage_users.html cms/templates/manage_users_lib.html
 msgid "New Team Member"
@@ -22852,28 +22852,28 @@ msgstr "Añadir nuevo miembro del equipo"
 
 #: cms/templates/manage_users.html
 msgid "Course Team Roles"
-msgstr "Roles del equipo del curso"
+msgstr "Roles del equipo pedagógico"
 
 #: cms/templates/manage_users.html
 msgid ""
 "Course team members with the Staff role are course co-authors. They have "
 "full writing and editing privileges on all course content."
 msgstr ""
-"Los miembros del equipo del curso con el rol de docente son coautores del curso. Tienen completos privilegios de escritura y edición de todo el contenido del curso."
+"Los miembros del equipo pedagógico con el rol de docente son coautores del curso. Tienen completos privilegios de escritura y edición de todo el contenido del curso."
 
 #: cms/templates/manage_users.html
 msgid ""
 "Admins are course team members who can add and remove other course team "
 "members."
 msgstr ""
-"Los administradores son miembros del equipo del curso que pueden añadir o eliminar a otros miembros del equipo del curso."
+"Los administradores son miembros del equipo pedagógico que pueden añadir o eliminar a otros miembros del equipo del curso."
 
 #: cms/templates/manage_users.html
 msgid ""
 "All course team members can access content in Studio, the LMS, and Insights,"
 " but are not automatically enrolled in the course."
 msgstr ""
-"Todos los miembros del equipo pueden acceder al contenido de Studio, el LMS e Insights, pero no se inscriben automáticamente en el curso."
+"Todos los miembros del equipo pedagógico pueden acceder al contenido de Studio, el LMS e Insights, pero no se inscriben automáticamente en el curso."
 
 #: cms/templates/manage_users.html
 msgid "Transferring Ownership"
@@ -22886,7 +22886,7 @@ msgid ""
 " make another user the Admin, then ask that user to remove you from the "
 "Course Team list."
 msgstr ""
-"Cada curso debe tener un administrador. Si es el administrador y quiere transferir la propiedad del curso, haga clic en <strong>Añadir acceso de administrador</strong> para hacer administrador a otro usuario, luego pida a ese usuario que le elimine de la lista del Equipo del curso."
+"Cada curso debe tener un administrador. Si es el administrador y quiere transferir la propiedad del curso, haga clic en <strong>Añadir acceso de administrador</strong> para hacer administrador a otro usuario, luego pida a ese usuario que le elimine de la lista del Equipo pedagógico."
 
 #: cms/templates/manage_users_lib.html
 msgid "Library User Access"
@@ -22913,7 +22913,7 @@ msgid ""
 "Grant other members of your course team access to this library. New library "
 "users must have an active {studio_name} account."
 msgstr ""
-"Conceder acceso a esta biblioteca a otros miembros de su equipo del curso. Los nuevos usuarios de la biblioteca deben tener una cuenta de {studio_name} activa."
+"Conceder acceso a esta biblioteca a otros miembros de su equipo pedagógico. Los nuevos usuarios de la biblioteca deben tener una cuenta de {studio_name} activa."
 
 #: cms/templates/manage_users_lib.html
 msgid "Add a New User"
