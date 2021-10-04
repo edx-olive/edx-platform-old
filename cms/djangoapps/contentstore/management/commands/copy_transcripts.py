@@ -45,8 +45,11 @@ class Command(BaseCommand):
 
             with open(static_transcript_filepath, 'r') as static_transcript_file:
                 transcript_contents = static_transcript_file.read()
-            static_transcript_file.close()
+                static_transcript_file.close()
 
+            utf8_encoded_file_content = transcript_contents.encode('utf-8')
+
+            # Check if this is an existing transcript that needs to be updated
             transcript_dict = get_video_transcript(video_id, language)
             if transcript_dict is not None:
                 video_transcript_filename = '/edx/var/edxapp{0}'.format(transcript_dict['url'])
@@ -56,9 +59,8 @@ class Command(BaseCommand):
                 # (may be used for video-transcripts) if required
                 if video_transcript_format == 'sjson':
                     transcript_obj = Transcript()
-                    transcript_contents = transcript_obj.convert(transcript_contents.encode('utf-8'), 'srt', 'sjson')
+                    transcript_contents = transcript_obj.convert(transcript_contents, 'srt', 'sjson')
 
-                utf8_encoded_file_content = transcript_contents.encode('utf-8')
                 transcript_url = create_or_update_video_transcript(
                     video_id,
                     language,
@@ -67,9 +69,10 @@ class Command(BaseCommand):
                 )
                 print("Updated transcript {0} with contents of {1}".format(transcript_url, static_transcript_file))
             else:
+                # If it doesn't already exist, create it
                 print(
                     'WARNING: Unable to retrieve transcript URL from '
                     'contentstore for video_id {0} in language {1}'.format(video_id, language)
                 )
                 print('Creating a new transcript for this video.')
-                create_video_transcript(video_id, language, 'srt', ContentFile(transcript_contents))
+                create_video_transcript(video_id, language, 'srt', ContentFile(utf8_encoded_file_content))
