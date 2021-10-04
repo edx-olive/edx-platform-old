@@ -74,7 +74,7 @@ def get_course_language_options(course):
         result[course_lang] = str(course.id)
 
     for course_option in lang_options_courses:
-        enrollment_open = is_enrollment_open(course)
+        enrollment_open = is_enrollment_open(course_option)
         course_number = course_option.display_number_with_default
         if enrollment_open and (course_number.startswith(number + '-') or course_number == number):
             option_lang = get_course_lang_from_number(course_number)
