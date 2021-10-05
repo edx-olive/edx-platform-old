@@ -977,7 +977,7 @@ msgstr "No está inscrito en este curso"
 
 #: common/djangoapps/student/views/management.py
 msgid "Your certificate prevents you from unenrolling from this course"
-msgstr "Su certificado no le permite anular la inscripción en este curso."
+msgstr "Su certificado no le permite cancelar la inscripción en este curso."
 
 #: common/djangoapps/student/views/management.py
 msgid "Enrollment action is invalid"
@@ -1543,12 +1543,12 @@ msgid ""
 "Your password must contain {length_instruction}, including "
 "{complexity_instructions}."
 msgstr ""
-"Tu contraseña debe incluir {length_instruction}, incluyendo {complexity_instructions}."
+"Su contraseña debe incluir {length_instruction}, incluyendo {complexity_instructions}."
 
 #: common/djangoapps/util/password_policy_validators.py
 #, python-brace-format
 msgid "Your password must contain {length_instruction}."
-msgstr "Tu contraseña debe incluir {length_instruction}."
+msgstr "Su contraseña debe incluir {length_instruction}."
 
 #: common/djangoapps/util/password_policy_validators.py
 msgid "Invalid password."
@@ -1577,8 +1577,8 @@ msgstr[1] "Esta contraseña es demasiado larga. No debe contener más de %(max_l
 msgid "Your password must contain no more than %(max_length)d character."
 msgid_plural ""
 "Your password must contain no more than %(max_length)d characters."
-msgstr[0] "Tu contraseña no puede contener más de %(max_length)d carácter."
-msgstr[1] "Tu contraseña no puede contener más de %(max_length)d caracteres."
+msgstr[0] "Su contraseña no puede contener más de %(max_length)d carácter."
+msgstr[1] "Su contraseña no puede contener más de %(max_length)d caracteres."
 
 #: common/djangoapps/util/password_policy_validators.py
 #, python-format
@@ -1591,8 +1591,8 @@ msgstr[1] "Esta contraseña debe contener al menos %(min_alphabetic)d letras."
 #, python-format
 msgid "Your password must contain at least %(min_alphabetic)d letter."
 msgid_plural "Your password must contain at least %(min_alphabetic)d letters."
-msgstr[0] "Tu contraseña debe contener al menos %(min_alphabetic)d letra."
-msgstr[1] "Tu contraseña debe contener al menos%(min_alphabetic)d letras."
+msgstr[0] "Su contraseña debe contener al menos %(min_alphabetic)d letra."
+msgstr[1] "Su contraseña debe contener al menos%(min_alphabetic)d letras."
 
 #: common/djangoapps/util/password_policy_validators.py
 #, python-format
@@ -1612,8 +1612,8 @@ msgstr[1] "Esta contraseña debe contener al menos %(min_numeric)d números."
 #, python-format
 msgid "Your password must contain at least %(min_numeric)d number."
 msgid_plural "Your password must contain at least %(min_numeric)d numbers."
-msgstr[0] "Tu contraseña debe contener al menos %(min_numeric)d número."
-msgstr[1] "Tu contraseña debe contener al menos %(min_numeric)d números."
+msgstr[0] "Su contraseña debe contener al menos %(min_numeric)d número."
+msgstr[1] "Su contraseña debe contener al menos %(min_numeric)d números."
 
 #: common/djangoapps/util/password_policy_validators.py
 #, python-format
@@ -8060,7 +8060,7 @@ msgid ""
 "({dashboard_url}) up to 14 days after your payment or 14 days after your "
 "course starts (up to six months after your payment).\n"
 msgstr ""
-"Para recibir un reembolso, puede anular la inscripción del curso en su Panel de control de edX ({dashboard_url}) hasta 14 días después de haber realizado el pago o hasta 14 días después del inicio del curso (hasta seis meses después del pago).\n"
+"Para recibir un reembolso, puede cancelar la inscripción del curso en su Panel de control de edX ({dashboard_url}) hasta 14 días después de haber realizado el pago o hasta 14 días después del inicio del curso (hasta seis meses después del pago).\n"
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
@@ -8075,7 +8075,7 @@ msgid ""
 "You can unenroll in the course and receive a full refund for 2 days after "
 "the course start date.\n"
 msgstr ""
-"Puede anular la inscripción en el curso y recibir un reembolso completo por 2 días después de la fecha de inicio del curso.\n"
+"Puede cancelar la inscripción en el curso y recibir un reembolso completo por 2 días después de la fecha de inicio del curso.\n"
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
@@ -8083,7 +8083,7 @@ msgid ""
 "{refund_reminder_msg}For help unenrolling, Please see How do I unenroll from"
 " a course? ({how_to_unenroll_link}) in our edX HelpCenter."
 msgstr ""
-"{refund_reminder_msg}Si necesita ayuda para anular la inscripción, consulte How do I unenroll from a course? ({how_to_unenroll_link}) en nuestro edX HelpCenter."
+"{refund_reminder_msg}Si necesita ayuda para cancelar la inscripción, consulte How do I unenroll from a course? ({how_to_unenroll_link}) en nuestro edX HelpCenter."
 
 #: lms/djangoapps/shoppingcart/models.py
 #, python-brace-format
@@ -9260,7 +9260,7 @@ msgstr "Estimado/a alumno/a,"
 #: lms/templates/instructor/edx_ace/allowedenroll/email/body.txt
 #, python-format
 msgid "To access this course visit %(course_url)s and login."
-msgstr "Para acceder a este curso visite %(course_url)s e inicia sesión."
+msgstr "Para acceder a este curso visite %(course_url)s e inicie sesión."
 
 #: lms/templates/instructor/edx_ace/allowedenroll/email/body.txt
 #, python-format
@@ -9277,7 +9277,7 @@ msgid ""
 "the registration form making sure to use %(email_address)s in the Email "
 "field."
 msgstr ""
-"Para terminar tu registro, por favor visite %(registration_url)s y rellena el formulario de inscripción asegurándote de usar %(email_address)s en el apartado de correo electrónico."
+"Para terminar su registro, por favor visite %(registration_url)s y rellene el formulario de inscripción asegurándose de usar %(email_address)s en el apartado de correo electrónico."
 
 #: lms/templates/instructor/edx_ace/allowedenroll/email/body.txt
 #, python-format
@@ -9285,12 +9285,12 @@ msgid ""
 "Once you have registered and activated your account, visit "
 "%(course_about_url)s to join this course."
 msgstr ""
-"Una vez se haya registrado y haya activado su cuenta, visite %(course_about_url)s para unirte al curso."
+"Una vez se haya registrado y haya activado su cuenta, visite %(course_about_url)s para unirse al curso."
 
 #: lms/templates/instructor/edx_ace/allowedenroll/email/subject.txt
 #, python-format
 msgid "You have been invited to register for %(course_name)s"
-msgstr "Ha sido invitado a inscribirte a %(course_name)s"
+msgstr "Ha sido invitado a inscribirse a %(course_name)s"
 
 #: lms/templates/instructor/edx_ace/allowedunenroll/email/body.html
 #: lms/templates/instructor/edx_ace/allowedunenroll/email/subject.txt
@@ -9393,7 +9393,7 @@ msgid ""
 "This course will remain on your dashboard, but you will no longer be part of"
 " the beta testing group."
 msgstr ""
-"Este curso permanecerá en tu panel de usuario, pero ya no serás parte del grupo de beta testers."
+"Este curso permanecerá en su panel de usuario, pero ya no será parte del grupo de beta testers."
 
 #: lms/templates/instructor/edx_ace/removebetatester/email/body.txt
 #, python-format
@@ -9527,7 +9527,7 @@ msgstr ""
 #: lms/templates/verify_student/edx_ace/verificationexpiry/email/body.html
 #: lms/templates/verify_student/edx_ace/verificationexpiry/email/body.txt
 msgid "You can also do this from your dashboard."
-msgstr "También puedes hacer esto desde tu panel principal."
+msgstr "También puede hacer esto desde su panel principal."
 
 #: lms/templates/verify_student/edx_ace/verificationexpiry/email/body.html
 #: lms/templates/verify_student/edx_ace/verificationexpiry/email/body.txt
@@ -10109,7 +10109,7 @@ msgid ""
 "earning a verified certificate. Upgrade by "
 "%(user_schedule_upgrade_deadline_time)s."
 msgstr ""
-"No pierdas la oportunidad de resaltar tus nuevos conocimientos y habilidades mediante un Certificado Verificado. Cambia a la opción verificada antes del %(user_schedule_upgrade_deadline_time)s."
+"No pierda la oportunidad de resaltar sus nuevos conocimientos y habilidades mediante un Certificado Verificado. Cambie a la opción verificada antes del %(user_schedule_upgrade_deadline_time)s."
 
 #: openedx/core/djangoapps/ace_common/templates/ace_common/edx_ace/common/upsell_cta.html
 #: openedx/core/djangoapps/ace_common/templates/ace_common/edx_ace/common/upsell_cta.txt
@@ -10796,7 +10796,7 @@ msgid ""
 " spend time with the course each week. Your focused attention will pay off "
 "in the end!"
 msgstr ""
-"En los cursos \"a tu ritmo\" aprende según su propio horario. Le animamos a dedicar tiempo al curso cada semana. ¡Su esfuerzo semanal valdrá la pena al final!"
+"En los cursos \"a su ritmo\" aprende según su propio horario. Le animamos a dedicar tiempo al curso cada semana. ¡Su esfuerzo semanal valdrá la pena al final!"
 
 #: openedx/core/djangoapps/schedules/templates/schedules/edx_ace/courseupdate/email/body.html
 #: openedx/core/djangoapps/schedules/templates/schedules/edx_ace/instructorledcourseupdate/email/body.html
@@ -10975,7 +10975,7 @@ msgid ""
 "you to highlight your new knowledge and skills. An %(platform_name)s "
 "certificate is official and easily shareable."
 msgstr ""
-"¡Esperamos que estés disfrutando la experiencia de aprendizaje en {start_strong}%(platform_name)s{end_strong}! Un Certificado Verificado te permite resaltar tus nuevos conocimientos y habilidades. Un certificado de %(platform_name)s es oficial y además es fácil de compartir."
+"¡Esperamos que esté disfrutando la experiencia de aprendizaje en {start_strong}%(platform_name)s{end_strong}! Un Certificado Verificado le permite resaltar sus nuevos conocimientos y habilidades. Un certificado de %(platform_name)s es oficial y además es fácil de compartir."
 
 #: openedx/core/djangoapps/schedules/templates/schedules/edx_ace/upgradereminder/email/body.html
 #, python-brace-format
@@ -10985,7 +10985,7 @@ msgid ""
 " you to highlight your new knowledge and skills. An {platform_name} "
 "certificate is official and easily shareable."
 msgstr ""
-"Esperamos que estés disfrutando aprender con nosotros en {start_strong}{first_course_name}{end_strong}. Un Certificado Verificado permite resaltar tus nuevos conocimientos y habilidades. Un certificado de {platform_name} es oficial y fácil de compartir."
+"Esperamos que esté disfrutando aprendiendo con nosotros en {start_strong}{first_course_name}{end_strong}. Un Certificado Verificado permite resaltar sus nuevos conocimientos y habilidades. Un certificado de {platform_name} es oficial y fácil de compartir."
 
 #: openedx/core/djangoapps/schedules/templates/schedules/edx_ace/upgradereminder/email/body.html
 #, python-format, python-brace-format
@@ -11198,7 +11198,7 @@ msgid ""
 "\"{url_stub}\". To remove the link from your edX profile, leave this field "
 "blank."
 msgstr ""
-"Asegúrate de proveer un nombre de usuario válido o un url que contenga \"{url_stub}\". Para remover el enlace de tu perfil de edX, deja este campo en blanco."
+"Asegúrese de proveer un nombre de usuario válido o un url que contenga \"{url_stub}\". Para remover el enlace de su perfil de edX, deje este campo en blanco."
 
 #: openedx/core/djangoapps/user_api/accounts/views.py
 #: openedx/core/djangoapps/user_authn/views/login.py
@@ -15074,7 +15074,7 @@ msgstr "Panel de Control para tutores CCX"
 
 #: lms/templates/ccx/coach_dashboard.html
 msgid "Name your CCX"
-msgstr "Nombre para tu CCX"
+msgstr "Nombre para su CCX"
 
 #: lms/templates/ccx/coach_dashboard.html
 msgid "Create a new Custom Course for edX"
@@ -15338,7 +15338,7 @@ msgid ""
 "For tips and tricks on printing your certificate, view the {link_start}Web "
 "Certificates help documentation{link_end}."
 msgstr ""
-"Para obtener sugerencias y consejos sobre cómo imprimir tu certificado, consulte la {link_start}documentación de ayuda de certificados web{link_end}."
+"Para obtener sugerencias y consejos sobre cómo imprimir su certificado, consulte la {link_start}documentación de ayuda de certificados web{link_end}."
 
 #: lms/templates/certificates/invalid.html
 msgid "Cannot Find Certificate"
@@ -15365,7 +15365,7 @@ msgid ""
 "To resolve the problem, your partner manager should verify that the "
 "following information is correct."
 msgstr ""
-"Para resolver el problema, tu administrador deberá verificar que la siguiente información es correcta."
+"Para resolver el problema, su administrador deberá verificar que la siguiente información es correcta."
 
 #: lms/templates/certificates/server-error.html
 msgid "The institution's logo."
@@ -15438,7 +15438,7 @@ msgstr "Consiga un certificado verificado"
 #: lms/templates/course_modes/choose.html
 #: themes/edx.org/lms/templates/course_modes/choose.html
 msgid "Enroll In {course_name} | Choose Your Track"
-msgstr "Inscribirse en {course_name} | Elegir tu ruta"
+msgstr "Inscribirse en {course_name} | Elegir su itinerario"
 
 #: lms/templates/course_modes/choose.html
 #: themes/edx.org/lms/templates/course_modes/choose.html
@@ -15463,7 +15463,7 @@ msgid ""
 "qualify for academic credit, advance your career, or strengthen your school "
 "applications."
 msgstr ""
-"Hazte elegible para crédito académico y destaca tus nuevos conocimientos y habilidades con un certificado verificado. Utiliza esta valiosa acreditación aplica por crédito académico, para avanzar en tu carrera, o mejorar tus aplicaciones académicas."
+"Hágase elegible para crédito académico y destaque sus nuevos conocimientos y habilidades con un certificado verificado. Utilice esta valiosa acreditación para obtener crédito académico, para avanzar en su carrera, o mejorar sus aplicaciones académicas."
 
 #: lms/templates/course_modes/choose.html
 #: themes/edx.org/lms/templates/course_modes/choose.html
@@ -16187,7 +16187,7 @@ msgid ""
 "{providers} for successfully completing your {platform_name} course! "
 "{link_start}Purchase credit now.{link_end}"
 msgstr ""
-"¡Felicidades! ¡Ahora eres elegible para recibir crédito de curso de {providers} por finalizar exitosamente tu curso en {platform_name}! {link_start}Adquiere el crédito ahora.{link_end}"
+"¡Felicidades! ¡Ahora es elegible para recibir crédito de curso de {providers} por finalizar exitosamente su curso en {platform_name}! {link_start}Adquiera el crédito ahora.{link_end}"
 
 #: lms/templates/credit_notifications/credit_eligibility_email.html
 msgid ""
@@ -16195,7 +16195,7 @@ msgid ""
 "successfully completing your {platform_name} course! {link_start}Purchase "
 "credit now.{link_end}"
 msgstr ""
-"¡Felicidades! ¡Ahora eres elegible para recibir crédito de curso por finalizar exitosamente tu curso en {platform_name}! {link_start}Adquiere el crédito ahora.{link_end}"
+"¡Felicidades! ¡Ahora es elegible para recibir crédito de curso por finalizar exitosamente su curso en {platform_name}! {link_start}Adquiera el crédito ahora.{link_end}"
 
 #: lms/templates/credit_notifications/credit_eligibility_email.html
 msgid ""
@@ -16291,11 +16291,11 @@ msgid ""
 "Your certificate was not issued because you do not have a current verified "
 "identity with {platform_name}. "
 msgstr ""
-"Tu certificado no se genero porque no tienes de momento una identidad verificada en {platform_name}."
+"Su certificado no se generó porque no tiene de momento una identidad verificada en {platform_name}."
 
 #: lms/templates/dashboard/_dashboard_certificate_information.html
 msgid "Verify your identity now."
-msgstr "Verifica tu identidad ahora."
+msgstr "Verifique su identidad ahora."
 
 #: lms/templates/dashboard/_dashboard_certificate_information.html
 msgid "Your {cert_name_short} is Generating"
@@ -16466,7 +16466,7 @@ msgid ""
 "holder{contact_link_end} to request payment, or you can "
 "{unenroll_link_start}unenroll{unenroll_link_end} from this course"
 msgstr ""
-"Ya no puede acceder a este curso porque aún no se ha recibido el pago. Puede {contact_link_start}contactar con el titular de la cuenta{contact_link_end} para requerir el pago o puede {unenroll_link_start}anular la inscripción{unenroll_link_end} de este curso."
+"Ya no puede acceder a este curso porque aún no se ha recibido el pago. Puede {contact_link_start}contactar con el titular de la cuenta{contact_link_end} para requerir el pago o puede {unenroll_link_start}cancelar la inscripción{unenroll_link_end} de este curso."
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Verification not yet complete."
@@ -16492,18 +16492,18 @@ msgstr "Verifíquese ahora."
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "You have submitted your verification information."
-msgstr "Tú has enviado tu información de verificación."
+msgstr "Ha enviado su información de verificación."
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid ""
 "You will see a message on your dashboard when the verification process is "
 "complete (usually within 1-2 days)."
 msgstr ""
-"Recibirás un mensaje en su panel de control cuando el proceso de verificación esté completado (usualmente entre 1-2 días)."
+"Recibirá un mensaje en su panel de control cuando el proceso de verificación esté completado (usualmente entre 1-2 días)."
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Your current verification will expire soon!"
-msgstr "¡Tu verificación actual vencerá  pronto!"
+msgstr "¡Su verificación actual vencerá pronto!"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid ""
@@ -16511,19 +16511,19 @@ msgid ""
 "on your dashboard when the verification process is complete (usually within "
 "1-2 days)."
 msgstr ""
-"Tú has enviado tu información de verificación de identidad. Recibirás un mensaje en tu Panel principal cuando el proceso de verificación esté completado (usualmente entre 1-2 días)."
+"Ha enviado su información de verificación de identidad. Recibirá un mensaje en su Panel principal cuando el proceso de verificación esté completado (usualmente entre 1-2 días)."
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "You have successfully verified your ID with edX"
-msgstr "Tú te has verificado tu ID con edX"
+msgstr "Se ha verificado su ID con edX"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Your current verification is effective until {date}."
-msgstr "Tu estado de verificación está válido hasta {date}."
+msgstr "Su estado de verificación será válido hasta {date}."
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Your current verification will expire soon."
-msgstr "¡Tu verificación actual vencerá  pronto!"
+msgstr "¡Su verificación actual vencerá pronto!"
 
 #. Translators: start_link and end_link will be replaced with HTML tags;
 #. please do not translate these.
@@ -16532,7 +16532,7 @@ msgid ""
 "Your current verification will expire in {days} days. {start_link}Re-verify "
 "your identity now{end_link} using a webcam and a government-issued photo ID."
 msgstr ""
-"Tu verificación actual vencerá en {days} días. {start_link}Verifica tu identidad nuevamente ahora{end_link} con una cámara web y un documento de identificación oficial con foto."
+"Su verificación actual vencerá en {days} días. {start_link}Verifique su identidad nuevamente ahora{end_link} con una cámara web y un documento de identificación oficial con foto."
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid ""
@@ -16560,7 +16560,7 @@ msgstr ""
 
 #: lms/templates/dashboard/_dashboard_credit_info.html
 msgid "You are now eligible for credit from {provider}. Congratulations!"
-msgstr "Ahora, tu eres elegible para créditos de {provider}. ¡Felicitaciones!"
+msgstr "Ahora es elegible para créditos de {provider}. ¡Felicitaciones!"
 
 #: lms/templates/dashboard/_dashboard_credit_info.html
 msgid "Get Credit"
@@ -16613,13 +16613,13 @@ msgid ""
 "{provider_name} did not approve your request for course credit. For more "
 "information, contact {link_to_provider_site} directly."
 msgstr ""
-"{provider_name} no aprobó tu solicitud para el crédito del cursos. Para mayor información, contacta a {link_to_provider_site} directamente."
+"{provider_name} no aprobó su solicitud para el crédito del cursos. Para mayor información, contacte a {link_to_provider_site} directamente."
 
 #: lms/templates/dashboard/_dashboard_credit_info.html
 msgid ""
 "An error occurred with this transaction. For help, contact {support_email}."
 msgstr ""
-"Ocurrió un error con esta transacción. Para obtener asistencia, contacta a {support_email}."
+"Ocurrió un error con esta transacción. Para obtener asistencia, contacte a {support_email}."
 
 #: lms/templates/dashboard/_dashboard_entitlement_actions.html
 msgid "Course options for {courseName}"
@@ -16634,7 +16634,7 @@ msgid ""
 "To access this course, you must first consent to share your learning "
 "achievements with {enterprise_customer_name}."
 msgstr ""
-"Para acceder a este curso, Debe primero autorizar compartir sus logros académicos con {enterprise_customer_name}."
+"Para acceder a este curso, primero debe autorizar a compartir sus logros académicos con {enterprise_customer_name}."
 
 #: lms/templates/dashboard/_dashboard_show_consent.html
 msgid "View Consent"
@@ -16649,7 +16649,7 @@ msgid ""
 "Your edX verification has been approved. Your verification is effective for "
 "one year after submission."
 msgstr ""
-"Tu verificación de identidad ha sido aprobada. Tu verificación tiene validez por un año después del envío."
+"Su verificación de identidad ha sido aprobada. Su verificación tiene validez por un año después del envío."
 
 #: lms/templates/dashboard/_dashboard_status_verification.html
 msgid ""
@@ -16672,7 +16672,7 @@ msgid ""
 "Your edX ID verification is pending. Your verification information has been "
 "submitted and will be reviewed shortly."
 msgstr ""
-"Tu verificación de edX está pendiente. Tu información de verificación ha sido enviada y será revisada pronto."
+"Su verificación de edX está pendiente. Su información de verificación ha sido enviada y será revisada pronto."
 
 #: lms/templates/dashboard/_dashboard_status_verification.html
 msgid "Current Verification Status: Denied"
@@ -16700,7 +16700,7 @@ msgid ""
 "submit a new photo of yourself and your government-issued photo ID before "
 "the verification deadline for your course."
 msgstr ""
-"Tu estado de verificación con edX ha expirado. Para recibir un Certificado Verificado, será necesario enviar una nueva foto de ti mismo y otra de un documento de identidad oficial antes de la fecha límite en su curso."
+"Su estado de verificación con edX ha expirado. Para recibir un Certificado Verificado, será necesario enviar una nueva foto de si mismo y otra de un documento de identidad oficial antes de la fecha límite en su curso."
 
 #: lms/templates/dashboard/_dashboard_status_verification.html
 msgid ""
@@ -16762,12 +16762,12 @@ msgstr "¿Podemos enviarle un correo electrónico de seguimiento?"
 #: lms/templates/dashboard/_entitlement_reason_survey.html
 #: lms/templates/dashboard/_reason_survey.html
 msgid "Thank you for sharing your reasons for unenrolling."
-msgstr "Gracias por compartir las razones de tu cancelación de inscripción."
+msgstr "Gracias por compartir las razones de la cancelación de su inscripción."
 
 #: lms/templates/dashboard/_entitlement_reason_survey.html
 #: lms/templates/dashboard/_reason_survey.html
 msgid "You are unenrolled from"
-msgstr "Has anulado la inscripción de"
+msgstr "Ha cancelado la inscripción de"
 
 #: lms/templates/dashboard/_entitlement_reason_survey.html
 #: lms/templates/dashboard/_reason_survey.html
@@ -16777,13 +16777,13 @@ msgstr "Volver al panel principal"
 #: lms/templates/dashboard/_entitlement_reason_survey.html
 #: lms/templates/dashboard/_reason_survey.html
 msgid "Browse Courses"
-msgstr "Explora los cursos"
+msgstr "Explore los cursos"
 
 #: lms/templates/dashboard/_reason_survey.html
 msgid ""
 "We're sorry to see you go! Please share your main reason for unenrolling."
 msgstr ""
-"¡Lamentamos que te vayas! Por favor comparte la principal razón por la que cancelas la inscripción."
+"¡Lamentamos que se vaya! Por favor comparta la principal razón por la que cancela la inscripción."
 
 #: lms/templates/dashboard/_reason_survey.html
 msgid "I just wanted to browse the material"
@@ -17095,7 +17095,7 @@ msgid ""
 "To enroll in {course_names} we have provided a registration URL for you.  "
 "Please follow the instructions below to claim your access."
 msgstr ""
-"Para inscribirse en {course_names} hemos proporcionado una URL de registro. Por favor sigue las siguientes instrucciones para confirmar tu acceso."
+"Para inscribirse en {course_names} hemos proporcionado una URL de registro. Por favor siga las siguientes instrucciones para confirmar su acceso."
 
 #. Translators: please translate the text inside [[ ]]. This is meant as a
 #. template for course teams to use.
@@ -17157,7 +17157,7 @@ msgstr "La foto de ti:"
 
 #: lms/templates/emails/failed_verification_email.txt
 msgid "The photo of your ID:"
-msgstr "La foto de tu ID:"
+msgstr "La foto de su ID:"
 
 #: lms/templates/emails/failed_verification_email.txt
 msgid "Other Reasons:"
@@ -17201,7 +17201,7 @@ msgstr "¡Felicidades! Su proceso de verificación de ID fue exitoso."
 msgid ""
 "Your verification is effective for one year. It will expire on {expiry_date}"
 msgstr ""
-"Tu verificación es efectiva por un año. Expirará el {expiry_date}"
+"Su verificación es efectiva por un año. Expirará el {expiry_date}"
 
 #: lms/templates/emails/photo_submission_confirmation.txt
 msgid "Hi {full_name},"
@@ -17514,7 +17514,7 @@ msgid ""
 "from leading institutions regardless of your financial situation, earn a "
 "Verified Certificate, and share your success with others."
 msgstr ""
-"EdX está comprometido con poner a tu disposición cursos de alta calidad de instituciones líderes, e independiente de su situación financiera, poder obtener un Certificado Verificado y compartir tu éxito con otros."
+"EdX está comprometido con poner a su disposición cursos de alta calidad de instituciones líderes, e independiente de su situación financiera, poder obtener un Certificado Verificado y compartir su éxito con otros."
 
 #: lms/templates/financial-assistance/financial-assistance.html
 msgid "Sincerely, Anant"
@@ -17753,7 +17753,7 @@ msgid ""
 "you add learners to the exception list, click Generate Exception "
 "Certificates below."
 msgstr ""
-"Establecer excepciones para generar certificados de alumnos que no pasen la nota de corte para recibir un certificado pero que han sido marcados con una excepción por el equipo del curso. Después de añadir alumnos a la lista de excepción, pulsa en Generar certificados de excepción debajo."
+"Establecer excepciones para generar certificados de alumnos que no pasen la nota de corte para recibir un certificado pero que han sido marcados con una excepción por el equipo pedagógico. Después de añadir alumnos a la lista de excepción, pulsa en Generar certificados de excepción debajo."
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Invalidate Certificates"
@@ -18721,7 +18721,7 @@ msgid ""
 "Admin must give you the Admin role to add Staff or Beta Testers, or the "
 "Discussion Admin role to add discussion moderators and TAs."
 msgstr ""
-"El equipo docente no puede modificar estas listas. Para administrar la lista de miembros del equipo del curso, un administrador del curso debe darle la función de administrador para agregar comprobadores de equipo docente o beta, o la función de administrador de discusión para agregar moderadores de discusión y asistencia técnica."
+"El equipo docente no puede modificar estas listas. Para administrar la lista de miembros del equipo pedagógico, un administrador del curso debe darle la función de administrador para agregar comprobadores de equipo docente o beta, o la función de administrador de discusión para agregar moderadores de discusión y asistencia técnica."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -18730,7 +18730,7 @@ msgid ""
 "all course data. Staff also have access to your course in Studio and "
 "Insights. You can only give course team roles to enrolled users."
 msgstr ""
-"Los miembros del equipo pedagógico con el rol de equipo docente le ayudan a gestionar el curso. El equipo docente puede inscribir y anular la inscripción a alumnos, así como modificar sus calificaciones y acceder a todos los datos del curso. El equipo docente también tiene acceso al curso en Studio e Insights. Solamente puede asignar roles de equipo del curso a usuarios inscritos."
+"Los miembros del equipo pedagógico con el rol de equipo docente le ayudan a gestionar el curso. El equipo docente puede inscribir y cancelar la inscripción a alumnos, así como modificar sus calificaciones y acceder a todos los datos del curso. El equipo docente también tiene acceso al curso en Studio e Insights. Solamente puede asignar roles de equipo pedagógico a usuarios inscritos."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Staff"
@@ -18748,7 +18748,7 @@ msgid ""
 " to manage course team membership. You can only give course team roles to "
 "enrolled users."
 msgstr ""
-"Los miembros del equipo pedagógico con el rol de administrador le ayudan a gestionar el curso. Pueden realizar las mismas tareas que el equipo docente, y también pueden añadir y quitar los roles de equipo docente y administrador, los roles de moderación del foro, y el rol de prueba beta para gestionar la pertenencia al equipo del curso. Solamente puede asignar roles de equipo del curso a usuarios inscritos."
+"Los miembros del equipo pedagógico con el rol de administrador le ayudan a gestionar el curso. Pueden realizar las mismas tareas que el equipo docente, y también pueden añadir y quitar los roles de equipo docente y administrador, los roles de moderación del foro, y el rol de prueba beta para gestionar la pertenencia al equipo pedagógico. Solamente puede asignar roles de equipo pedagógico a usuarios inscritos."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Admin"
@@ -18831,7 +18831,7 @@ msgid ""
 "their group. Their posts are marked as 'Community TA'. Only enrolled "
 "learners can be added as Group Community TAs."
 msgstr ""
-"Los Profesores Asistentes son miembros de la comunidad quienes ayudan a los equipos pedagógicos a moderar las discusiones. Los Profesores Asistentes únicamente ve las publicaciones hechas por los estudiantes en sus grupos asignados. Pueden editar o eliminar publicaciones, borrar reportes, cerrar o re-abrir discusiones, aprobar respuestas, pero únicamente para publicaciones hechas por estudiantes en su grupo. Sus publicaciones son marcadas como \"Profesores Asistentes\".  Únicamente estudiantes inscritos pueden ser agregados como Profesores Asistentes."
+"Los Profesores Asistentes son miembros de la comunidad quienes ayudan a los equipos pedagógicos a moderar las discusiones. Los Profesores Asistentes únicamente ve las publicaciones hechas por los estudiantes en sus grupos asignados. Pueden editar o eliminar publicaciones, borrar reportes, cerrar o re-abrir discusiones, aprobar respuestas, pero únicamente para publicaciones hechas por estudiantes en su grupo. Sus publicaciones son marcadas como \"Profesores Asistentes\". Únicamente estudiantes inscritos pueden ser agregados como Profesores Asistentes."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Group Community TA"
@@ -20020,7 +20020,7 @@ msgstr "inscrito"
 
 #: lms/templates/support/refund.html
 msgid "unenrolled"
-msgstr "inscripción anulada"
+msgstr "inscripción cancelada"
 
 #: lms/templates/support/refund.html
 msgid "Cost:"
@@ -20169,7 +20169,7 @@ msgid ""
 "{strong_start}webcam is plugged in, turned on, and allowed to function in "
 "your web browser (commonly adjustable in your browser settings).{strong_end}"
 msgstr ""
-"Por favor asegúrate que tu navegador este actualizado con {strong_start}{a_start}la versión más reciente posible{a_end}{strong_end}. También verifica que tu {strong_start}cámara web esté conectada, encendida, y autorizada para funcionar en tu navegador (Normalmente, esto se ajusta en las opciones de tu navegador).{strong_end}"
+"Por favor asegúrese que su navegador esté actualizado con {strong_start}{a_start}la versión más reciente posible{a_end}{strong_end}. También verifique que su {strong_start}cámara web esté conectada, encendida, y autorizada para funcionar en su navegador (Normalmente, esto se ajusta en las opciones de su navegador).{strong_end}"
 
 #: lms/templates/verify_student/reverify.html
 msgid "Re-Verification"
@@ -20964,7 +20964,7 @@ msgid ""
 "Staff or Admin role selects {em_start}Activate{em_end}. Only course team "
 "members with these roles can edit or delete an activated certificate."
 msgstr ""
-"Para comenzar a emitir certificados, un miembro del equipo pedagógico con el rol de equipo del curso o de administrador debe seleccionar {em_start}Activar{em_end}.  Solo miembros del equipo del curso con estos roles podrán editar o borrar un certificado activado."
+"Para comenzar a emitir certificados, un miembro del equipo pedagógico con el rol de equipo docente o de administrador debe seleccionar {em_start}Activar{em_end}. Solo miembros del equipo pedagógico con estos roles podrán editar o borrar un certificado activado."
 
 #: cms/templates/certificates.html
 msgid ""
@@ -21667,7 +21667,7 @@ msgstr "La librería exportada ahora puede ser descargada"
 
 #: cms/templates/export.html
 msgid "Your exported course can now be downloaded"
-msgstr "Tu curso exportado ahora puede descargado"
+msgstr "Ahora se puede descargar su curso exportado"
 
 #: cms/templates/export.html
 msgid "Download Exported Library"
@@ -23293,14 +23293,14 @@ msgstr ""
 #. for a course banner image
 #: cms/templates/settings.html
 msgid "Your banner image URL"
-msgstr "El URL de tu imagen banner"
+msgstr "El URL de su imagen banner"
 
 #: cms/templates/settings.html
 msgid ""
 "Please provide a valid path and name to your banner image (Note: only JPEG "
 "or PNG format supported)"
 msgstr ""
-"Por favor proporciona una ruta válida y un nombre para tu imagen banner (Nota: solo los formatos JPEG y PNG son soportados)"
+"Por favor proporciona una ruta válida y un nombre para su imagen banner (Nota: solo los formatos JPEG y PNG son compatibles)"
 
 #: cms/templates/settings.html
 msgid "Upload Course Banner Image"
@@ -23316,7 +23316,7 @@ msgid ""
 "one (JPEG or PNG format, and minimum suggested dimensions are 375px wide by "
 "200px tall)"
 msgstr ""
-"Actualmente tu curso no cuenta con una miniatura de la imagen de video. Por favor sube una miniatura (formato JPEG o PNG, y las dimensiones mínimas sugeridas son de 375px de ancho por 200px de altura)"
+"Actualmente su curso no cuenta con una miniatura de la imagen de video. Por favor suba una miniatura (formato JPEG o PNG, y las dimensiones mínimas sugeridas son de 375px de ancho por 200px de altura)"
 
 #. Translators: This is the placeholder text for a field that requests the URL
 #. for a course video thumbnail image
@@ -23329,7 +23329,7 @@ msgid ""
 "Please provide a valid path and name to your video thumbnail image (Note: "
 "only JPEG or PNG format supported)"
 msgstr ""
-"Por favor proporciona una ruta válida y un nombre para la miniatura de imagen de tu video (Nota: solo los formatos JPEG y PNG son soportados)"
+"Por favor proporcione una ruta válida y un nombre para la miniatura de imagen de su video (Nota: solo los formatos JPEG y PNG son soportados)"
 
 #: cms/templates/settings.html
 msgid "Upload Video Thumbnail Image"

@@ -2714,7 +2714,7 @@ msgstr "チームのページ数"
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 msgid "Topics"
-msgstr "トピックス"
+msgstr "トピック"
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 msgid "My Teams"
@@ -4705,7 +4705,7 @@ msgid ""
 "The name that identifies you on {platform_name}. You cannot change your "
 "username."
 msgstr ""
-"{platform_name}でのアカウント認証に使われる名前です。ユーザ名は自分で変更することはできません。"
+"{platform_name}でのアカウント認証に使われる名前です。ユーザー名は自分で変更することはできません。"
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 #: lms/templates/student_account/account.underscore

@@ -464,11 +464,11 @@ msgstr "Masquer les annotations"
 
 #: common/lib/xmodule/xmodule/js/src/annotatable/display.js
 msgid "Expand Instructions"
-msgstr "Déplier les instructions"
+msgstr "Développer les instructions"
 
 #: common/lib/xmodule/xmodule/js/src/annotatable/display.js
 msgid "Collapse Instructions"
-msgstr "Replier les instructions"
+msgstr "Réduire les instructions"
 
 #: common/lib/xmodule/xmodule/js/src/annotatable/display.js
 msgid "Commentary"
@@ -596,7 +596,7 @@ msgstr "Préformaté"
 #. browser when a user needs to edit HTML
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
 msgid "Heading 3"
-msgstr "Entête 3"
+msgstr "Titre 3"
 
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
@@ -1107,13 +1107,13 @@ msgstr "En-têtes"
 #. browser when a user needs to edit HTML
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
 msgid "Heading 1"
-msgstr "Entête 1"
+msgstr "Titre 1"
 
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
 msgid "Heading 2"
-msgstr "Entête 2"
+msgstr "Titre 2"
 
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
@@ -2466,7 +2466,7 @@ msgstr[1] "%d ans"
 
 #: lms/djangoapps/instructor/static/instructor/ProblemBrowser/components/Main/Main.jsx
 msgid "Select a section or problem"
-msgstr "Sélectionnez une section ou un problème."
+msgstr "Sélectionner une section ou un problème"
 
 #: lms/djangoapps/support/static/support/js/views/certificates.js
 msgid "An unexpected error occurred.  Please try again."
@@ -2542,7 +2542,7 @@ msgstr "Cette caractéristique n'est pas propre à un cours."
 #: lms/djangoapps/support/static/support/jsx/logged_in_user.jsx
 #: lms/djangoapps/teams/static/teams/js/views/topic_card.js
 msgid "Topic"
-msgstr "Sujet"
+msgstr "Sujet "
 
 #: lms/templates/student_account/account_settings.underscore
 msgid "Account Settings"
@@ -2895,7 +2895,7 @@ msgstr "Pagination des équipes"
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 msgid "Topics"
-msgstr "Sujets"
+msgstr "Sujets "
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 msgid "My Teams"
@@ -3438,7 +3438,7 @@ msgstr[1] "Voir %s cours"
 #: lms/static/js/discovery/views/search_form.js
 #, javascript-format
 msgid "We couldn't find any results for \"%s\"."
-msgstr "Nous ne trouvons pas de résultat pour \"%s\"."
+msgstr "Aucun résultat pour \"%s\"."
 
 #: lms/static/js/discovery/views/search_form.js
 #: openedx/features/course_search/static/course_search/templates/search_error.underscore
@@ -4385,7 +4385,7 @@ msgstr ""
 
 #: lms/static/js/instructor_dashboard/util.js
 msgid "Subject"
-msgstr "Sujet"
+msgstr "Sujet "
 
 #: lms/static/js/instructor_dashboard/util.js
 msgid "Sent By"
@@ -4502,7 +4502,7 @@ msgstr "Êtes-vous bien sûr de vouloir passer à une session différente ?"
 
 #: lms/static/js/learner_dashboard/views/course_entitlement_view.js
 msgid "Any course progress or grades from your current session will be lost."
-msgstr "Tout "
+msgstr "L'avancement et les notes de votre session actuelle seront perdus."
 
 #: lms/static/js/learner_dashboard/views/course_entitlement_view.js
 msgid "Are you sure that you want to leave this session?"
@@ -5390,7 +5390,7 @@ msgid ""
 "You must specify your birth year before you can share your full profile. To "
 "specify your birth year, go to the {account_settings_page_link}"
 msgstr ""
-"Vous devez renseigner votre année de naissance avant de pouvoir partager votre profil complet. Pour renseigner votre année de naissance, allez à la {account_settings_page_link}."
+"Vous devez renseigner votre année de naissance avant de pouvoir partager votre profil complet. Pour renseigner votre année de naissance, allez à la {account_settings_page_link}"
 
 #: openedx/features/learner_profile/static/learner_profile/js/views/learner_profile_fields.js
 msgid ""
@@ -5449,7 +5449,7 @@ msgstr "Le nom du certificat est requis."
 
 #: cms/static/js/certificates/models/certificate.js
 msgid "Signatory field(s) has invalid data."
-msgstr "Données non valide pour les champ(s) de signataire."
+msgstr "Données non valides pour les champs de signataire."
 
 #: cms/static/js/certificates/views/certificate_details.js
 msgid "Edit this certificate?"
@@ -9795,7 +9795,7 @@ msgstr "Examen minuté"
 #: cms/templates/js/xblock-outline.underscore
 #, python-format
 msgid "Collapse/Expand this %(xblock_type)s"
-msgstr "Replier/Déplier cette %(xblock_type)s"
+msgstr "Développer/Réduire cette %(xblock_type)s"
 
 #: cms/templates/js/course-outline.underscore
 msgid "Display Name"
@@ -10995,7 +10995,7 @@ msgid ""
 "to update your email address. (Only employer email addresses are accepted; "
 "personal email addresses are not allowed.)"
 msgstr ""
-"Les messages d'{platform_name} et des équipes pédagogiques vous sont envoyés à cette adresse. Si vous changez d'employeur, envoyez un e-mail à l'adresse {htmlStart}OnlineTraining@abinitio.com{htmlEnd} pour mettre à jour votre adresse e-mail. (Seules les adresses e-mail d'employeur sont acceptées ; "
+"Les messages d'{platfrom_name} et des équipes pédagogiques vous sont envoyés à cette adresse. Si vous changez d'employeur, envoyez un e-mail à l'adresse {htmlStart}OnlineTraining@abinitio.com{htmlEnd} pour mettre à jour votre adresse e-mail. (Seules les adresses e-mail professionnelles sont acceptées ; les adresses personnelles ne sont pas autorisées.)"
 
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid ""
