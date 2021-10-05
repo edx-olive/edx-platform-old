@@ -3976,7 +3976,7 @@ msgstr "El campo de rol no puede quedar sin ser seleccionado."
 
 #: lms/static/js/instructor_dashboard/membership.js
 msgid "Error enrolling/unenrolling users."
-msgstr "Error de inscripción/anulación de inscripción de los usuarios."
+msgstr "Error de inscripción/cancelación de inscripción de los usuarios."
 
 #: lms/static/js/instructor_dashboard/membership.js
 msgid "The following email addresses and/or usernames are invalid:"
@@ -4034,7 +4034,7 @@ msgstr "Los siguientes alumnos ya no están inscritos en el curso:"
 msgid ""
 "These users were not affiliated with the course so could not be unenrolled:"
 msgstr ""
-"Los siguientes alumnos no estaban asociados al curso, por lo que no pudieron anularse sus inscripciones:"
+"Los siguientes alumnos no estaban asociados al curso, por lo que no pudieron cancelarse sus inscripciones:"
 
 #: lms/static/js/instructor_dashboard/send_email.js
 msgid "Your message must have a subject."
@@ -4517,7 +4517,7 @@ msgid ""
 "Are you sure you want to unenroll from {courseName} ({courseNumber})? You "
 "will be refunded the amount you paid."
 msgstr ""
-"¿Está seguro de que desea anular la inscripción en {courseName} ({courseNumber})? Se le reembolsará la cantidad que pagó."
+"¿Está seguro de que desea cancelar la inscripción en {courseName} ({courseNumber})? Se le reembolsará la cantidad que pagó."
 
 #: lms/static/js/learner_dashboard/views/program_details_sidebar_view.js
 msgid "{type} Progress"

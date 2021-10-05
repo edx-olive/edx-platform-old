@@ -658,16 +658,16 @@ msgstr "Le nom complet ne peut pas contenir les caractères suivants : < >"
 
 #: common/djangoapps/student/forms.py
 msgid "A properly formatted e-mail is required"
-msgstr "Une adresse e-mail valide est requise"
+msgstr "Une adresse e-mail valide est requise."
 
 #: common/djangoapps/student/forms.py
 msgid "Your legal name must be a minimum of two characters long"
-msgstr "Votre nom officiel doit comporter au minimum deux caractères"
+msgstr "Votre nom officiel doit comporter au minimum deux caractères."
 
 #: common/djangoapps/student/forms.py
 #, python-format
 msgid "Email cannot be more than %(limit_value)s characters long"
-msgstr "L'e-mail ne peut pas contenir plus de %(limit_value)s caractères "
+msgstr "L'e-mail ne peut pas contenir plus de %(limit_value)s caractères."
 
 #: common/djangoapps/student/forms.py
 msgid "You must accept the terms of service."
@@ -675,7 +675,7 @@ msgstr "Vous devez accepter les conditions d'utilisation."
 
 #: common/djangoapps/student/forms.py
 msgid "A level of education is required"
-msgstr "Un niveau d'études est requis"
+msgstr "Un niveau d'études est requis."
 
 #: common/djangoapps/student/forms.py
 msgid "Your gender is required"
@@ -707,7 +707,7 @@ msgstr "Pour vous inscrire, vous devez accepter le code d'honneur."
 
 #: common/djangoapps/student/forms.py
 msgid "You are missing one or more required fields"
-msgstr "Il vous manque un ou plusieurs champs obligatoires"
+msgstr "Il vous manque un ou plusieurs champs obligatoires."
 
 #: common/djangoapps/student/forms.py
 msgid "Unauthorized email address."
@@ -3132,7 +3132,7 @@ msgid ""
 "on the Course Home page. Your course handouts appear in the right panel of "
 "the page."
 msgstr ""
-"Saisissez le titre que vous voulez que les étudiants voient au dessus de vos supports de cours sur la page d'accueil du cours. Vos supports de cours apparaissent dans le panneau de droite."
+"Saisissez le titre que vous voulez que les étudiants voient au-dessus de vos supports de cours sur la page d'accueil du cours. Vos supports de cours apparaissent dans le panneau de droite."
 
 #: common/lib/xmodule/xmodule/course_module.py
 #: lms/templates/courseware/info.html
@@ -5670,7 +5670,7 @@ msgstr "Utiliser la page de paiement hébergé par le service de commerce élect
 
 #: lms/djangoapps/commerce/models.py
 msgid "Path to course(s) checkout page hosted by the E-Commerce service."
-msgstr "Chemin vers la ou les page(s) de cours hébergé par le service de commerce électronique."
+msgstr "Chemin vers la ou les pages de cours hébergé par le service de commerce électronique."
 
 #: lms/djangoapps/commerce/models.py openedx/core/djangoapps/catalog/models.py
 #: openedx/core/djangoapps/credentials/models.py
@@ -5705,7 +5705,7 @@ msgid ""
 "A refund request has been initiated for {username} ({email}). To process "
 "this request, please visit the link(s) below."
 msgstr ""
-"Une demande de remboursement a été initiée pour {username} ({email}). Afin de traiter cette demande, veuillez visiter le ou les lien(s) ci-dessous."
+"Une demande de remboursement a été initiée pour {username} ({email}). Afin de traiter cette demande, veuillez visiter le ou les liens ci-dessous."
 
 #: lms/djangoapps/commerce/views.py lms/djangoapps/shoppingcart/pdf.py
 msgid "Receipt"
@@ -6537,7 +6537,7 @@ msgstr "Le titre ne peut pas être vide"
 
 #: lms/djangoapps/django_comment_client/base/views.py
 msgid "Body can't be empty"
-msgstr "Le corps ne peut pas être vide"
+msgstr "Le corps du message ne peut pas être vide."
 
 #: lms/djangoapps/django_comment_client/base/views.py
 msgid "Topic doesn't exist"
@@ -8637,7 +8637,7 @@ msgstr "Revenu brut"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Gross Revenue over the Minimum"
-msgstr "Revenu Brut au-dessus de Minimum"
+msgstr "Revenu brut au-dessus de Minimum"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Number of Verified Students Contributing More than the Minimum"
@@ -11051,7 +11051,7 @@ msgid ""
 "Secondary email address you registered with {platform_name} using account "
 "settings page"
 msgstr ""
-"Adresse e-mail secondaire que vous avez indiquée sur {platform_name} au moyen de la page Paramètres du compte."
+"Adresse e-mail secondaire que vous avez indiquée sur {platform_name} à la page des paramètres du compte."
 
 #: openedx/core/djangoapps/user_api/api.py lms/templates/login.html
 msgid "Remember me"
@@ -14886,7 +14886,7 @@ msgstr "Type"
 
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Examples"
-msgstr "Exemples"
+msgstr "Exemples "
 
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Numbers"
@@ -15912,8 +15912,8 @@ msgid "View Grading in studio"
 msgstr "Afficher les notes dans Studio"
 
 #: lms/templates/courseware/progress.html
-msgid "Course Progress for Student '{username}' ({email})"
-msgstr "Votre progression ({email})"
+msgid "Course Progress for '{username}' ({email})"
+msgstr "Votre progression '{username}' ({email})"
 
 #: lms/templates/courseware/progress.html
 msgid "View Certificate"
@@ -17820,7 +17820,7 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "NOTE"
-msgstr "REMARQUE"
+msgstr "REMARQUE "
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid ""
@@ -18963,7 +18963,7 @@ msgstr "Afficher le statut d'inscription"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "View a specific learner's grades and progress"
-msgstr "Afficher les notes et la progression d'un étudiant"
+msgstr "Afficher les notes et l'état d'avancement d'un étudiant"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Learner's {platform_name} email address or username"
@@ -18983,7 +18983,7 @@ msgstr "ID de l'exercice dans le cours"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Example"
-msgstr "Exemple"
+msgstr "Exemple "
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Problem location"
@@ -21249,7 +21249,7 @@ msgid ""
 "the {link_start}Advanced Settings page{link_end}, locate the \"Advanced "
 "Module List\" setting, and then delete the following modules from the list."
 msgstr ""
-"Afin d'éviter les erreurs, {platform_name} recommande fortement que vous supprimiez les fonctionnalités non prises en charge des paramètres avancés du cours. Pour ce faire, allez à la page des {link_start}Paramètres avancés{link_end}, trouver le paramètre \"Liste des modules avancés\", et ensuite effacer les modules suivants de la liste."
+"Afin d'éviter les erreurs, {platform_name} recommande fortement que vous supprimiez les fonctionnalités non prises en charge des paramètres avancés du cours. Pour ce faire, allez à la page des {link_start}Paramètres avancés{link_end}, trouvez le paramètre \"Liste des modules avancés\", puis effacez les modules suivants de la liste."
 
 #: cms/templates/course_outline.html
 msgid "Unsupported Advance Modules"
@@ -23389,7 +23389,7 @@ msgstr "Attentes envers les étudiants suivant ce cours"
 
 #: cms/templates/settings.html
 msgid "Hours of Effort per Week"
-msgstr "Heure(s) de travail par semaine"
+msgstr "Heures de travail par semaine"
 
 #: cms/templates/settings.html
 msgid "Time spent on all course work"
@@ -25136,23 +25136,23 @@ msgstr ""
 
 #: abinitio_edx_extensions/course_about.py
 msgid "Series"
-msgstr "Série"
+msgstr "Série "
 
 #: abinitio_edx_extensions/course_about.py
 msgid "Role(s)"
-msgstr "Rôle(s)"
+msgstr "Rôles "
 
 #: abinitio_edx_extensions/course_about.py
 msgid "Topic(s)"
-msgstr "Sujet(s) :"
+msgstr "Sujets "
 
 #: lms/templates/courseware/course_about.html
 msgid "Enroll in:"
-msgstr "S'inscrire à :"
+msgstr "Votre choix :"
 
 #: lms/templates/courseware/course_about.html
 msgid "Available Language(s)"
-msgstr "Langue(s) disponible(s)"
+msgstr "Langues disponibles "
 
 #: lms/templates/courseware/course_about.html
 msgid "Watch the video:"
@@ -25178,7 +25178,7 @@ msgid "Ab Initio Online Training: Daily Discussion Digest"
 msgstr "Formations en ligne Ab Initio : Résumé des discussions du jour"
 
 msgid "Search my courses..."
-msgstr "Rechercher dans mes cours..."
+msgstr "Recherche..."
 
 msgid "Started: {date}"
 msgstr "Démarré le : {date}"
@@ -25191,3 +25191,11 @@ msgstr "Se termine le : {date}"
 
 msgid "There are no handouts for this course"
 msgstr "Aucun support de cours disponible pour cette formation."
+
+#: lms/templates/courseware/course_about.html
+msgid "Enroll Now"
+msgstr "Je m'inscris"
+
+#: openedx/features/course_experience/templates/course_experience/course-dates-fragment.html
+msgid "Upcoming Dates"
+msgstr "Dates à retenir"
