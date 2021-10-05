@@ -10995,7 +10995,7 @@ msgid ""
 "to update your email address. (Only employer email addresses are accepted; "
 "personal email addresses are not allowed.)"
 msgstr ""
-"Les messages d'{platfrom_name} et des équipes pédagogiques vous sont envoyés à cette adresse. Si vous changez d'employeur, envoyez un e-mail à l'adresse {htmlStart}OnlineTraining@abinitio.com{htmlEnd} pour mettre à jour votre adresse e-mail. (Seules les adresses e-mail professionnelles sont acceptées ; les adresses personnelles ne sont pas autorisées.)"
+"Les messages d'{platform_name} et des équipes pédagogiques vous sont envoyés à cette adresse. Si vous changez d'employeur, envoyez un e-mail à l'adresse {htmlStart}OnlineTraining@abinitio.com{htmlEnd} pour mettre à jour votre adresse e-mail. (Seules les adresses e-mail professionnelles sont acceptées ; les adresses personnelles ne sont pas autorisées.)"
 
 #: lms/static/js/student_account/components/StudentAccountDeletion.jsx
 msgid ""
