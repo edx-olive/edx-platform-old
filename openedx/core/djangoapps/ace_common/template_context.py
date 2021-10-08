@@ -28,9 +28,10 @@ def get_base_template_context(site):
         theme_dir = getattr(site.themes.first(), 'theme_dir_name')
 
     return {
-        # Platform information
-        'homepage_url': marketing_link('ROOT'),
-        'dashboard_url': dashboard_url,
+        # do not use pluggable_override decorator here because this function is
+        # used in celery tasks and override will not work
+        'homepage_url': f"https://{settings.LMS_BASE}",
+        'dashboard_url': f"https://{settings.LMS_BASE}/dashboard",
         'template_revision': getattr(settings, 'EDX_PLATFORM_REVISION', None),
         'platform_name': get_config_value_from_site_or_settings(
             'PLATFORM_NAME',
