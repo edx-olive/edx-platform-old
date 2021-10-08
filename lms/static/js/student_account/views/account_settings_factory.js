@@ -69,7 +69,7 @@
 
             emailFieldData = {
                 model: userAccountModel,
-                title: gettext('Email Address (Sign In)'),
+                title: gettext('Business Email Address'),
                 valueAttribute: 'email',
                 helpMessage: StringUtils.interpolate(
                     gettext('You receive messages from {platform_name} and course teams at this address.'),  // eslint-disable-line max-len
@@ -207,13 +207,6 @@
                     title: gettext('Additional Information'),
                     fields: [
                         {
-                            view: new AccountSettingsFieldViews.ReadonlyFieldView({
-                                model: userAccountModel,
-                                title: gettext('Role'),
-                                valueAttribute: 'role'
-                            })
-                        },
-                        {
                             view: new AccountSettingsFieldViews.DropdownFieldView({
                                 model: userAccountModel,
                                 title: gettext('Education Completed'),
@@ -294,6 +287,7 @@
                     if (fieldItem.field_type === 'ListField') {
                         additionalFields.fields.push({
                             view: new AccountSettingsFieldViews.ExtendedFieldListFieldView({
+                                showBlankOption: fieldItem.field_name !== 'role',
                                 model: userAccountModel,
                                 title: fieldItem.field_label,
                                 fieldName: fieldItem.field_name,

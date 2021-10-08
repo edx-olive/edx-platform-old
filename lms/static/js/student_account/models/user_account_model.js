@@ -27,7 +27,6 @@
                 default_public_account_fields: [],
                 extended_profile: [],
                 secondary_email: '',
-                role: ''
             },
 
             parse: function(response) {

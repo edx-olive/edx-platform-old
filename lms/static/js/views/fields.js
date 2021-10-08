@@ -421,7 +421,10 @@
                     screenReaderTitle: this.options.screenReaderTitle || this.options.title,
                     titleVisible: this.options.titleVisible !== undefined ? this.options.titleVisible : true,
                     iconName: this.options.iconName,
-                    showBlankOption: (!this.options.required || !this.modelValueIsSet()),
+                    // we don't need to show blank option for 'role' field since it's mandatory
+                    // but default check logic for blank option does not work, this is just a simple
+                    // workaround instead of refactoring
+                    showBlankOption: this.options.showBlankOption === undefined ? (!this.options.required || !this.modelValueIsSet()) : this.options.showBlankOption,
                     groupOptions: this.createGroupOptions(),
                     message: this.helpMessage
                 }));

@@ -95,7 +95,7 @@ def get_login_session_form(request):
 
     # Translators: This label appears above a field on the login form
     # meant to hold the user's email address.
-    email_label = _("Email")
+    email_label = _("Business Email Address")
 
     # Translators: These instructions appear on the login form, immediately
     # below a field meant to hold the user's email address.

@@ -450,7 +450,7 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a field on the registration form
         # meant to hold the user's email address.
-        email_label = _(u"Email")
+        email_label = _(u"Business Email Address")
 
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's email address.
