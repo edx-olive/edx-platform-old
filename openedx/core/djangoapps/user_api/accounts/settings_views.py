@@ -14,6 +14,8 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_http_methods
 from django_countries import countries
 
+from edx_django_utils.plugins import pluggable_override
+
 from common.djangoapps import third_party_auth
 from common.djangoapps.edxmako.shortcuts import render_to_response
 from lms.djangoapps.commerce.models import CommerceConfiguration
@@ -214,6 +216,7 @@ def get_user_orders(user):
     return user_orders
 
 
+@pluggable_override('OVERRIDE_GET_EXTENDED_PROFILE_FIELDS')
 def _get_extended_profile_fields():
     """Retrieve the extended profile fields from site configuration to be shown on the
        Account Settings page

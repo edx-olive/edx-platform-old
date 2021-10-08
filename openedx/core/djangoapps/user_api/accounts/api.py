@@ -6,15 +6,17 @@ Programmatic integration point for User API Accounts sub-application
 
 
 import datetime
-
 import six
+
+from pytz import UTC
+from six import text_type  # pylint: disable=ungrouped-imports
+
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import ValidationError, validate_email
 from django.utils.translation import override as override_language
 from django.utils.translation import ugettext as _
-from pytz import UTC
-from six import text_type  # pylint: disable=ungrouped-imports
+from edx_django_utils.plugins import pluggable_override
 from common.djangoapps.student import views as student_views
 from common.djangoapps.student.models import (
     AccountRecovery,
@@ -279,6 +281,7 @@ def _notify_language_proficiencies_update_if_needed(data, user, user_profile, ol
         )
 
 
+@pluggable_override('OVERRIDE_UPDATE_EXTENDED_PROFILE')
 def _update_extended_profile_if_needed(data, user_profile):
     if 'extended_profile' in data:
         meta = user_profile.get_meta()
