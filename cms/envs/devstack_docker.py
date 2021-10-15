@@ -11,3 +11,5 @@ COMPREHENSIVE_THEME_DIRS = [
 DEFAULT_SITE_THEME = 'edx-theme'
 TEMPLATES[1]["DIRS"] = _make_mako_template_dirs
 derive_settings(__name__)
+
+FEATURES['ENABLE_COURSE_MARKETING_URL'] = True

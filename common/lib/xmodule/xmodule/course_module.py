@@ -378,6 +378,13 @@ class CourseFields(object):
         display_name=_("Course Display Name"),
         scope=Scope.settings,
     )
+    marketing_url = String(
+        display_name=_("Marketing URL"),
+        help=_('Enter URL where described information about your course. Please wrap an URL in "" parentheses, '
+               'for example "https://www.google.com/". If you want to remove previously set URL, enter a null '
+               'without parentheses.'),
+        scope=Scope.settings
+    )
     course_edit_method = String(
         display_name=_("Course Editor"),
         help=_('Enter the method by which this course is edited ("XML" or "Studio").'),
