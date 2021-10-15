@@ -872,6 +872,11 @@ def course_about(request, course_id):
     """
     course_key = CourseKey.from_string(course_id)
 
+    if settings.FEATURES.get('ENABLE_COURSE_MARKETING_URL', False):
+        if course_items := modulestore().get_items(course_key):
+            if marketing_url := course_items[0].marketing_url:
+                return redirect(marketing_url)
+
     # If a user is not able to enroll in a course then redirect
     # them away from the about page to the dashboard.
     if not can_self_enroll_in_course(course_key):

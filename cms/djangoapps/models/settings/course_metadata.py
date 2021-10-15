@@ -4,6 +4,7 @@ Django module for Course Metadata class -- manages advanced settings and related
 
 
 from datetime import datetime
+import re
 
 import pytz
 import six
@@ -73,6 +74,7 @@ class CourseMetadata(object):
         'highlights_enabled_for_messaging',
         'is_onboarding_exam',
     ]
+    MARKETING_URL_VALIDATON_REGEX = r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
     @classmethod
     def get_exclude_list_of_fields(cls, course_key):
@@ -260,6 +262,12 @@ class CourseMetadata(object):
             errors = errors + proctoring_errors
             did_validate = False
 
+        if settings.FEATURES.get('ENABLE_COURSE_MARKETING_URL', False):
+            marketing_url_errors = cls.validate_marketing_url(filtered_dict)
+            if marketing_url_errors:
+                errors = errors + marketing_url_errors
+                did_validate = False
+
         # If did validate, go ahead and update the metadata
         if did_validate:
             updated_data = cls.update_from_dict(key_values, descriptor, user, save=False)
@@ -278,6 +286,16 @@ class CourseMetadata(object):
             modulestore().update_item(descriptor, user.id)
 
         return cls.fetch(descriptor)
+
+    @classmethod
+    def validate_marketing_url(cls, settings_dict):
+        errors = []
+        marketing_url_model = settings_dict.get('marketing_url', {})
+        json_value = marketing_url_model.get('value')
+        if not json_value is None:
+            if not re.match(cls.MARKETING_URL_VALIDATON_REGEX, json_value):
+                errors.append({'key': json_value, 'message': 'Check the correctness of the entered URL', 'model': marketing_url_model})
+        return errors
 
     @classmethod
     def validate_team_settings(cls, settings_dict):
