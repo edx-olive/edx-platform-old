@@ -15,19 +15,22 @@ from django.utils.translation import ugettext as _
 <%
 selected_list = selected_facets.values()
 %>
+<h2 class="programs-main-title">
+    ${_('Viewing %d Programs') % len(programs)}
+</h2>
 <div id="filter-bar" class="filters hide-phone is-animated">
-    <div class="filters-inner">
+    <div class="filters-inner ${ 'is-collapsed' if selected_facets else 'is-hidden'}">
     % if selected_facets:
+        <ul class="active-filters facet-list">
         % for facet_type, facet_name in selected_facets.items():
-            <ul class="active-filters facet-list">
                 <li class="active-filter">
                     <button data-value="${facet_name}" class="facet-option discovery-button" data-facet="${facet_type}" onclick="removeFacetFilter(event)">
                         <span class="query">${facet_name}</span>
                         <span aria-hidden="true" class="fa fa-times"></span>
                     </button>
                 </li>
-            </ul>
         % endfor
+        </ul>
         <button id="clear-all-filters" class="clear-filters flt-right discovery-button" onclick="handleClearAll(event)">Clear All</button>
     </div>
     % endif
@@ -37,8 +40,8 @@ selected_list = selected_facets.values()
 <div class="program-list-wrapper grid-container">
     <div class="program-cards-container col"></div>
     % if is_marketing:
-        <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
-            <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
+        <aside aria-label="${_('Programs Filter')}" class="search-facets phone-menu">
+            <h2 class="header-search-facets">${_('Programs Filter')}</h2>
             % for facet in facets:
                 <section class="search-facets-lists">
                     <h3 class="header-facet">${facet}</h3>
@@ -46,13 +49,11 @@ selected_list = selected_facets.values()
                         % for term, count in facets[facet]['terms'].items():
                             <li>
                                 % if term in selected_list:
-                                    <button data-facet="${facet}" data-value="${term}" data-text="${term}" class="facet-option discovery-button " onclick="removeFacetFilter(event)">
+                                    <button data-facet="${facet}" data-value="${term}" data-text="${term}" class="facet-option discovery-button selected" onclick="removeFacetFilter(event)">
                                     <span class="name">${term}</span>
-                                    <span class="count">
-                                        <span class="count-number">x</span>
-                                    </span>
+                                    <span class="count">x</span>
                                 % else:
-                                    <button data-facet="${facet}" data-value="${term}" data-text="${term}" class="facet-option discovery-button " onclick="applyFacetFilter(event)">
+                                    <button data-facet="${facet}" data-value="${term}" data-text="${term}" class="facet-option discovery-button" onclick="applyFacetFilter(event)">
                                     <span class="name">${term}</span>
                                     <span class="count">
                                         <span class="count-number">${count}</span>
