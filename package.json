@@ -2,7 +2,7 @@
   "name": "edx",
   "version": "0.1.0",
   "dependencies": {
-    "@duck/ubicquia-frontend-search-component": "^1.0.5",
+    "@duck/ubicquia-frontend-search-component": "^1.0.7",
     "@edx/edx-bootstrap": "1.0.4",
     "@edx/edx-proctoring": "^1.5.0",
     "@edx/frontend-component-cookie-policy-banner": "1.0.0",
