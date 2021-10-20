@@ -2,12 +2,12 @@
 Fragments for rendering programs.
 """
 
-
+from collections import Counter
 import json
 
 from django.http import Http404
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.utils.translation import get_language_bidi, ugettext_lazy as _
 from web_fragments.fragment import Fragment
 
@@ -25,6 +25,23 @@ from openedx.core.djangoapps.programs.utils import (
     get_program_marketing_url
 )
 from openedx.core.djangoapps.user_api.preferences.api import get_user_preferences
+
+
+def _filter_check(program, filter_name, filter_val=None):
+    """
+    Helper for the program filtering.
+
+    Args:
+        program (dict): program to check.
+        filter_name (str): program dicts key to lookup.
+        filter_val (str | None, optional): value to check. Defaults to None.
+
+    Returns:
+        bool: True if program[filter_name] == filter_val else False
+    """
+    if filter_val:
+        return program.get(filter_name) == filter_val
+    return True
 
 
 class ProgramsFragmentView(EdxFragmentView):
@@ -46,13 +63,51 @@ class ProgramsFragmentView(EdxFragmentView):
         if not programs_config.enabled or not user.is_authenticated:
             raise Http404
 
+        match = resolve(request.path)
+        is_marketing = match and match.url_name == 'programs'
+
         meter = ProgramProgressMeter(request.site, user, mobile_only=mobile_only)
 
+        programs = is_marketing and meter.programs or meter.engaged_programs
+        mktg_url = lambda p: reverse('program_marketing_view', kwargs={'program_uuid': p['uuid']})
+        [p.update({'marketing_page_url': mktg_url(p)}) for p in programs]
+
         context = {
-            'marketing_url': get_program_marketing_url(programs_config, mobile_only),
-            'programs': meter.engaged_programs,
-            'progress': meter.progress()
+            'marketing_url': get_program_marketing_url(programs_config),
+            'programs': programs,
+            'progress': meter.progress(programs),
+            'is_marketing': is_marketing
         }
+
+        if is_marketing:
+            vendor_filter = request.GET.get('vendor')
+            role_filter = request.GET.get('role')
+            selected_facets = {}
+
+            if vendor_filter or role_filter:
+                programs = list(
+                    filter(
+                        lambda p: _filter_check(p, 'vendor', vendor_filter) and _filter_check(p, 'role', role_filter), programs
+                    )
+                )
+
+            vendors = Counter([p['vendor'] for p in programs if p['vendor']])
+            roles = Counter([p['role'] for p in programs if p['role']])
+
+            facets = {
+                'role': {'terms': dict(roles)},
+                'vendor': {'terms': dict(vendors)}
+            }
+
+            if vendor_filter:
+                selected_facets['vendor'] = vendor_filter
+            if role_filter:
+                selected_facets['role'] = role_filter
+
+            context['facets'] = facets
+            context['selected_facets'] = selected_facets
+            context['programs'] = programs
+
         html = render_to_string('learner_dashboard/programs_fragment.html', context)
         programs_fragment = Fragment(html)
         self.add_fragment_resource_urls(programs_fragment)

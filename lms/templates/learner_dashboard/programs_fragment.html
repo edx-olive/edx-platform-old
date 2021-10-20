@@ -7,19 +7,100 @@
 from openedx.core.djangolib.js_utils import (
     dump_js_escaped_json, js_escaped_string
 )
+from django.utils.translation import ugettext as _
 %>
+
+
+% if is_marketing:
+<%
+selected_list = selected_facets.values()
+%>
+<h2 class="programs-main-title">
+    ${_('Viewing %d Programs') % len(programs)}
+</h2>
+<div id="filter-bar" class="filters hide-phone is-animated">
+    <div class="filters-inner ${ 'is-collapsed' if selected_facets else 'is-hidden'}">
+    % if selected_facets:
+        <ul class="active-filters facet-list">
+        % for facet_type, facet_name in selected_facets.items():
+                <li class="active-filter">
+                    <button data-value="${facet_name}" class="facet-option discovery-button" data-facet="${facet_type}" onclick="removeFacetFilter(event)">
+                        <span class="query">${facet_name}</span>
+                        <span aria-hidden="true" class="fa fa-times"></span>
+                    </button>
+                </li>
+        % endfor
+        </ul>
+        <button id="clear-all-filters" class="clear-filters flt-right discovery-button" onclick="handleClearAll(event)">Clear All</button>
+    </div>
+    % endif
+</div>
+% endif
 
 <div class="program-list-wrapper grid-container">
     <div class="program-cards-container col"></div>
-    <div class="sidebar col col-last"></div>
+    % if is_marketing:
+        <aside aria-label="${_('Programs Filter')}" class="search-facets phone-menu">
+            <h2 class="header-search-facets">${_('Programs Filter')}</h2>
+            % for facet in facets:
+                <section class="search-facets-lists">
+                    <h3 class="header-facet">${facet}</h3>
+                    <ul data-facet="${facet}" class="facet-list">
+                        % for term, count in facets[facet]['terms'].items():
+                            <li>
+                                % if term in selected_list:
+                                    <button data-facet="${facet}" data-value="${term}" data-text="${term}" class="facet-option discovery-button selected" onclick="removeFacetFilter(event)">
+                                    <span class="name">${term}</span>
+                                    <span class="count">x</span>
+                                % else:
+                                    <button data-facet="${facet}" data-value="${term}" data-text="${term}" class="facet-option discovery-button" onclick="applyFacetFilter(event)">
+                                    <span class="name">${term}</span>
+                                    <span class="count">
+                                        <span class="count-number">${count}</span>
+                                    </span>
+                                % endif
+                                </button>
+                            </li>
+                        % endfor
+                    </ul>
+                </section>
+            % endfor
+        </aside>
+    % else:
+        <div class="sidebar col col-last"></div>
+    % endif
 </div>
 
 <%block name="js_extra">
+
+<script type='text/javascript'>
+    function applyFacetFilter(e) {
+        var data = e.currentTarget.dataset
+        var targetUrl = new URL(window.location.href);
+        targetUrl.searchParams.set(data.facet, data.value);
+        window.location.href = targetUrl;
+    }
+
+    function handleClearAll(e) {
+        var targetUrl = new URL(window.location.href);
+        targetUrl.search = '';
+        window.location.href = targetUrl;
+    }
+
+    function removeFacetFilter(e) {
+        var data = e.currentTarget.dataset
+        var targetUrl = new URL(window.location.href);
+        targetUrl.searchParams.delete(data.facet);
+        window.location.href = targetUrl;
+    }
+</script>
+
 <%static:webpack entry="ProgramListFactory">
 ProgramListFactory({
     marketingUrl: '${marketing_url | n, js_escaped_string}',
     programsData: ${programs | n, dump_js_escaped_json},
-    userProgress: ${progress | n, dump_js_escaped_json}
+    userProgress: ${progress | n, dump_js_escaped_json},
+    isMarketing: ${is_marketing | n, dump_js_escaped_json}
 });
 </%static:webpack>
 </%block>
