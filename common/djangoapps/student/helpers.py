@@ -403,7 +403,7 @@ def generate_activation_email_context(user, registration):
         'support_url': configuration_helpers.get_value(
             'ACTIVATION_EMAIL_SUPPORT_LINK', settings.ACTIVATION_EMAIL_SUPPORT_LINK
         ) or settings.SUPPORT_SITE_LINK,
-        'support_email': configuration_helpers.get_value('CONTACT_EMAIL', settings.CONTACT_EMAIL),
+        'support_email': getattr(settings, 'UBICQUIA_EMAIL_US_ADDRESS', 'example.com'),
     })
     return message_context
 
