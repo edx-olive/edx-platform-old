@@ -84,6 +84,10 @@ def learner_profile_context(request, profile_username, user_is_staff):
 
     preferences_data = get_user_preferences(profile_user, profile_username)
 
+    records_url = None
+    if settings.FEATURES.get('SHOW_RECORDS_BUTTON', True):
+        records_url = get_credentials_records_url()
+
     context = {
         'own_profile': own_profile,
         'platform_name': configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME),
@@ -115,7 +119,7 @@ def learner_profile_context(request, profile_username, user_is_staff):
         'show_dashboard_tabs': True,
         'disable_courseware_js': True,
         'nav_hidden': True,
-        'records_url': get_credentials_records_url(),
+        'records_url': records_url,
     }
 
     if own_profile or user_is_staff:
