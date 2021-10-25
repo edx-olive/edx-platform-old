@@ -4170,3 +4170,28 @@ FAVICON_URL = None
 DEFAULT_EMAIL_LOGO_URL = 'https://edx-cdn.org/v3/default/logo.png'
 
 COURSES_GRADES_REPORTS_DIR = MEDIA_ROOT + "/sysadmin_courses_grades"
+
+# RaccoonGang SSO configuration
+LOGIN_URL = "/openid/openid/KeyCloak"
+LOGOUT_URL = "/openid/logout"
+OIDC_ACCOUNT_URL = FEATURES.get('OIDC_ACCOUNT_URL', '')
+
+scheme = 'https' if HTTPS == 'on' else 'http'
+
+OIDC_PROVIDERS = {
+    'KeyCloak': {
+        'srv_discovery_url': FEATURES.get('OIDC_SRV_DISCOVERY_URL', ''),
+        'behaviour': {
+            'response_type': 'code',
+            'scope': ['openid', 'profile', 'email'],
+        },
+        'client_registration': {
+            'client_id': FEATURES.get('OIDC_CLIENT_ID'),
+            'client_secret': FEATURES.get('OIDC_CLIENT_SECRET'),
+            'redirect_uris': ['{}/openid/callback/login/'.format(LMS_ROOT_URL),
+                              '{}://{}/openid/callback/login/'.format(scheme, FEATURES.get('PREVIEW_LMS_BASE', ''))],
+            'redirect_uri': '%s://{}/openid/callback/login/' % scheme,
+            'post_logout_redirect_uris': ['{}/openid/callback/logout/'.format(LMS_ROOT_URL)],
+        },
+    }
+}
