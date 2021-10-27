@@ -14,7 +14,7 @@ const footerLinks = {
         links: [
             {
                 name: 'LEARNING EXPERIENCES',
-                url: 'http://team.amat.com/sites/appliedx/SitePages/appliedx-ON-DEMAND.aspx',
+                url: 'https://team.amat.com/sites/appliedx/SitePages/appliedx-learning.aspx',
                 args: defaultArgs,
                 context: {}
             },
