@@ -4170,3 +4170,10 @@ FAVICON_URL = None
 DEFAULT_EMAIL_LOGO_URL = 'https://edx-cdn.org/v3/default/logo.png'
 
 COURSES_GRADES_REPORTS_DIR = MEDIA_ROOT + "/sysadmin_courses_grades"
+
+# RaccoonGang SSO configuration
+LOGIN_URL = ''
+LOGOUT_URL = ''
+OIDC_ACCOUNT_URL = ''
+
+OIDC_PROVIDERS = {}
