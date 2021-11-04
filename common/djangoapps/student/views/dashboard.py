@@ -5,6 +5,7 @@ Dashboard view and supporting methods
 
 import datetime
 import logging
+import waffle
 from collections import defaultdict
 
 from django.conf import settings
@@ -29,6 +30,7 @@ from common.djangoapps.entitlements.models import CourseEntitlement
 from lms.djangoapps.commerce.utils import EcommerceService
 from lms.djangoapps.courseware.access import has_access
 from lms.djangoapps.experiments.utils import get_dashboard_course_info, get_experiment_user_metadata_context
+from lms.djangoapps.learner_dashboard.utils import disclaimer_incomplete_fields_notification
 from lms.djangoapps.verify_student.services import IDVerificationService
 from openedx.core.djangoapps.catalog.utils import (
     get_programs,
@@ -575,6 +577,15 @@ def student_dashboard(request):
             link_end=HTML("</a>"),
         )
 
+    incomplete_profile_message = ''
+    if (waffle.switch_is_active('enable_incomplete_profile_notification') and
+            disclaimer_incomplete_fields_notification(request)):
+        account_settings_link = reverse('account_settings')
+        incomplete_profile_message = render_to_string(
+            'learner_dashboard/_dashboard_incomplete_profile_notification.html',
+            {'account_settings_link': account_settings_link},
+        )
+
     enterprise_message = get_dashboard_consent_notification(request, user, course_enrollments)
 
     # Display a message guiding the user to their Enterprise's Learner Portal if enabled
@@ -791,6 +802,7 @@ def student_dashboard(request):
         'recovery_email_message': recovery_email_message,
         'recovery_email_activation_message': recovery_email_activation_message,
         'enterprise_learner_portal_enabled_message': enterprise_learner_portal_enabled_message,
+        'incomplete_profile_message': incomplete_profile_message,
         'show_load_all_courses_link': show_load_all_courses_link(user, course_limit, course_enrollments),
         # TODO START: clean up as part of REVEM-199 (START)
         'course_info': get_dashboard_course_info(user, course_enrollments),
