@@ -7,6 +7,7 @@ from importlib import import_module
 import re
 
 import six
+import waffle
 
 from django import forms
 from django.conf import settings
@@ -377,6 +378,19 @@ class RegistrationFormFactory(object):
         form_desc = FormDescription("post", self._get_registration_submit_url(request))
         self._apply_third_party_auth_overrides(request, form_desc)
 
+        if waffle.switch_is_active('allow_registration_form_field_override'):
+
+            additional_fields = configuration_helpers.get_value(
+                'REGISTRATION_FIELD_DEFAULTS',
+                {},
+            )
+
+            for field in additional_fields:
+                form_desc.override_field_properties(
+                    field,
+                    default=additional_fields[field]
+                )
+
         # Custom form fields can be added via the form set in settings.REGISTRATION_EXTENSION_FORM
         custom_form = get_registration_extension_form()
 
@@ -452,6 +466,10 @@ class RegistrationFormFactory(object):
         # meant to hold the user's email address.
         email_label = _(u"Email")
 
+        # Translators: This example email address is used as a placeholder in
+        # a field on the registration form meant to hold the user's email address.
+        email_placeholder = _(u"username@domain.com")
+
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's email address.
         email_instructions = _(u"This is what you will use to login.")
@@ -460,6 +478,7 @@ class RegistrationFormFactory(object):
             "email",
             field_type="email",
             label=email_label,
+            placeholder=email_placeholder,
             instructions=email_instructions,
             restrictions={
                 "min_length": accounts.EMAIL_MIN_LENGTH,
@@ -502,6 +521,10 @@ class RegistrationFormFactory(object):
         # meant to hold the user's full name.
         name_label = _(u"Full Name")
 
+        # Translators: This example name is used as a placeholder in
+        # a field on the registration form meant to hold the user's name.
+        name_placeholder = _(u"Jane Q. Learner")
+
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's full name.
         name_instructions = _(u"This name will be used on any certificates that you earn.")
@@ -509,6 +532,7 @@ class RegistrationFormFactory(object):
         form_desc.add_field(
             "name",
             label=name_label,
+            placeholder=name_placeholder,
             instructions=name_instructions,
             restrictions={
                 "max_length": accounts.NAME_MAX_LENGTH,
@@ -533,10 +557,16 @@ class RegistrationFormFactory(object):
             u"The name that will identify you in your courses. "
             u"It cannot be changed later."
         )
+
+        # Translators: This example username is used as a placeholder in
+        # a field on the registration form meant to hold the user's username.
+        username_placeholder = _(u"Jane_Q_Learner")
+
         form_desc.add_field(
             "username",
             label=username_label,
             instructions=username_instructions,
+            placeholder=username_placeholder,
             restrictions={
                 "min_length": accounts.USERNAME_MIN_LENGTH,
                 "max_length": accounts.USERNAME_MAX_LENGTH,
