@@ -937,8 +937,12 @@ class RegistrationFormFactory(object):
         else:
             # Translators: This is a legal document users must agree to
             # in order to register a new account.
-            terms_label = _(u"Terms of Service and Honor Code")
-            terms_link = marketing_link("HONOR")
+            if settings.FEATURES.get('ENABLE_UBICQUIA_EXTENSIONS', False):
+                terms_label = _(u"Terms and Conditions")
+                terms_link = settings.TOS_LINK
+            else:
+                terms_label = _(u"Terms of Service and Honor Code")
+                terms_link = marketing_link("HONOR")
 
         # Translators: "Terms of Service" is a legal document users must agree to
         # in order to register a new account.
@@ -964,7 +968,10 @@ class RegistrationFormFactory(object):
         if not separate_honor_and_tos:
             field_type = 'plaintext'
 
-            pp_link = marketing_link("PRIVACY")
+            if settings.FEATURES.get('ENABLE_UBICQUIA_EXTENSIONS', False):
+                pp_link = settings.PRIVACY_POLICY_LINK
+            else:
+                pp_link = marketing_link("PRIVACY")
             label = Text(_(
                 u"By creating an account, you agree to the \
                   {terms_of_service_link_start}{terms_of_service}{terms_of_service_link_end} \
