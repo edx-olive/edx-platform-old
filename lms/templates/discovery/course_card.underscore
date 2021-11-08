@@ -1,6 +1,6 @@
 <article class="course" role="region" aria-label="<%- content.display_name %>">
     <a href="/courses/<%- course %>/about">
-        <header class="course-image">
+        <header class="course-image <%= (org === 'Microsoft') ? 'course-image--microsoft' : (org === 'ClipTraining') ? 'course-image--cliptraining' : '' %>">
             <div class="cover-image">
                 <img src="<%- image_url %>" alt="<%- content.display_name %> <%- content.number %>" />
                 <div class="learn-more" aria-hidden="true"><%- gettext("LEARN MORE") %></div>
