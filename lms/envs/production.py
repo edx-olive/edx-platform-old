@@ -1005,5 +1005,6 @@ if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
 # SSO configuration
 OIDC_CLIENT_ID = ENV_TOKENS.get('OIDC_CLIENT_ID', OIDC_CLIENT_ID)
 SSO_DISCOVERY_URL = ENV_TOKENS.get('OIDC_SRV_DISCOVERY_URL', OIDC_SRV_DISCOVERY_URL)
+SSO_AUDIENCE = ENV_TOKENS.get('SSO_AUDIENCE', SSO_AUDIENCE)
 LOGIN_URL = "/auth/login/keycloak/?auth_entry=login"
 LOGOUT_URL = f"/auth/realms/{OIDC_CLIENT_ID}/protocol/openid-connect/logout?post_logout_redirect_uri={LMS_ROOT_URL}"
