@@ -150,6 +150,9 @@ def login_and_registration_form(request, initial_mode="login"):
     # Determine the URL to redirect to following login/registration/third_party_auth
     redirect_to = get_next_url_for_login_page(request)
 
+    if not request.user.is_authenticated and not third_party_auth.pipeline.get(request):
+        return redirect(f'/auth/login/keycloak/?auth_entry=login&next={redirect_to}')
+
     # If we're already logged in, redirect to the dashboard
     # Note: We check for the existence of login-related cookies in addition to is_authenticated
     #  since Django's SessionAuthentication middleware auto-updates session cookies but not
