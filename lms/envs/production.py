@@ -1003,26 +1003,7 @@ if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
 
 #RACCOONGANG
 # SSO configuration
-LOGIN_URL = "/openid/openid/KeyCloak"
-LOGOUT_URL = "/openid/logout"
-OIDC_ACCOUNT_URL = ENV_TOKENS.get('OIDC_ACCOUNT_URL', '')
-
-scheme = 'https' if HTTPS == 'on' else 'http'
-
-OIDC_PROVIDERS = {
-    'KeyCloak': {
-        'srv_discovery_url': ENV_TOKENS.get('OIDC_SRV_DISCOVERY_URL', ''),
-        'behaviour': {
-            'response_type': 'code',
-            'scope': ['openid', 'profile', 'email'],
-        },
-        'client_registration': {
-            'client_id': ENV_TOKENS.get('OIDC_CLIENT_ID', ''),
-            'client_secret': ENV_TOKENS.get('OIDC_CLIENT_SECRET', ''),
-            'redirect_uris': [f'{LMS_ROOT_URL}/openid/callback/login/',
-                              f'{scheme}://{FEATURES.get("PREVIEW_LMS_BASE", "")}/openid/callback/login/'],
-            'redirect_uri': '%s://{}/openid/callback/login/' % scheme,
-            'post_logout_redirect_uris': [f'{LMS_ROOT_URL}/openid/callback/logout/'],
-        },
-    }
-}
+OIDC_CLIENT_ID = ENV_TOKENS.get('OIDC_CLIENT_ID', OIDC_CLIENT_ID)
+SSO_DISCOVERY_URL = ENV_TOKENS.get('OIDC_SRV_DISCOVERY_URL', OIDC_SRV_DISCOVERY_URL)
+LOGIN_URL = "/auth/login/keycloak/?auth_entry=login"
+LOGOUT_URL = f"/auth/realms/{OIDC_CLIENT_ID}/protocol/openid-connect/logout?post_logout_redirect_uri={LMS_ROOT_URL}"

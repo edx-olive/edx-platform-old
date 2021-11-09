@@ -6,6 +6,7 @@ import re
 import six.moves.urllib.parse as parse  # pylint: disable=import-error
 from django.conf import settings
 from django.contrib.auth import logout
+from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.views.generic import TemplateView
 from oauth2_provider.models import Application
@@ -81,6 +82,11 @@ class LogoutView(TemplateView):
         # Clear the cookie used by the edx.org marketing site
         delete_logged_in_cookies(response)
 
+        sso_base_url = settings.OIDC_SRV_DISCOVERY_URL
+        if sso_base_url:
+            redirect_to = settings.LMS_ROOT_URL
+            sso_logout_url = f'{sso_base_url}/protocol/openid-connect/logout?post_logout_redirect_uri={redirect_to}'
+            return redirect(sso_logout_url)
         return response
 
     def _build_logout_url(self, url):

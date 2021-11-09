@@ -1009,7 +1009,3 @@ urlpatterns += [
 urlpatterns += [
     url(r'^api/course_experience/', include('openedx.features.course_experience.api.v1.urls')),
 ]
-
-urlpatterns += [
-    url(r'openid/', include('djangooidc.urls')),
-]
