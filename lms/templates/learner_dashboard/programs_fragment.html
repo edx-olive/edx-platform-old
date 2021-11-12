@@ -10,7 +10,6 @@ from openedx.core.djangolib.js_utils import (
 from django.utils.translation import ugettext as _
 %>
 
-
 % if is_marketing:
 <%
 selected_list = selected_facets.values()
@@ -43,11 +42,14 @@ selected_list = selected_facets.values()
         <aside aria-label="${_('Programs Filter')}" class="search-facets phone-menu">
             <h2 class="header-search-facets">${_('Programs Filter')}</h2>
             % for facet in facets:
+                <%
+                    facets_length = len(facets[facet]['terms'])
+                %>
                 <section class="search-facets-lists">
                     <h3 class="header-facet">${facet}</h3>
                     <ul data-facet="${facet}" class="facet-list">
                         % for term, count in facets[facet]['terms'].items():
-                            <li>
+                            <li class="${'is-hidden' if loop.index >= 9 else ''}">
                                 % if term in selected_list:
                                     <button data-facet="${facet}" data-value="${term}" data-text="${term}" class="facet-option discovery-button selected" onclick="removeFacetFilter(event)">
                                     <span class="name">${term}</span>
@@ -63,6 +65,16 @@ selected_list = selected_facets.values()
                             </li>
                         % endfor
                     </ul>
+                    % if facets_length > 9:
+                        <div class="toggle">
+                            <button class="show-more discovery-button">
+                                ${_('More')}
+                            </button>
+                            <button class="show-less hidden discovery-button">
+                                ${_('Less')}
+                            </button>
+                        </div>
+                    % endif
                 </section>
             % endfor
         </aside>
@@ -93,6 +105,18 @@ selected_list = selected_facets.values()
         targetUrl.searchParams.delete(data.facet);
         window.location.href = targetUrl;
     }
+
+    (function() {
+        $('section.search-facets-lists').each(function() {
+            const $this = $(this);
+            const $sectionsListBtn = $this.find('.toggle button');
+
+            $sectionsListBtn.on('click', function() {
+                $this.find('.facet-list').toggleClass('is-visible');
+                $(this).closest('.toggle').find('button').toggleClass('hidden');
+            });
+        });
+    }());
 </script>
 
 <%static:webpack entry="ProgramListFactory">
