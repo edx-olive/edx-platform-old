@@ -827,45 +827,31 @@ class LoginSessionViewTest(ApiTestCase):
 
         # Verify that the form description matches what we expect
         form_desc = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(form_desc["method"], "post")
-        self.assertEqual(form_desc["submit_url"], reverse("user_api_login_session"))
-        self.assertEqual(form_desc["fields"], [
-            {
-                "name": "email",
-                "defaultValue": "",
-                "type": "email",
-                "required": True,
-                "label": "Email",
-                "placeholder": "",
-                "instructions": "The email address you used to register with {platform_name}".format(
-                    platform_name=settings.PLATFORM_NAME
-                ),
-                "restrictions": {
-                    "min_length": EMAIL_MIN_LENGTH,
-                    "max_length": EMAIL_MAX_LENGTH
-                },
-                "errorMessages": {},
-                "supplementalText": "",
-                "supplementalLink": "",
-                "loginIssueSupportLink": "https://support.example.com/login-issue-help.html",
-            },
-            {
-                "name": "password",
-                "defaultValue": "",
-                "type": "password",
-                "required": True,
-                "label": "Password",
-                "placeholder": "",
-                "instructions": "",
-                "restrictions": {
-                    "max_length": DEFAULT_MAX_PASSWORD_LENGTH,
-                },
-                "errorMessages": {},
-                "supplementalText": "",
-                "supplementalLink": "",
-                "loginIssueSupportLink": "https://support.example.com/login-issue-help.html",
-            },
-        ])
+        assert form_desc['method'] == 'post'
+        assert form_desc['submit_url'] == reverse('user_api_login_session', kwargs={'api_version': 'v1'})
+        assert form_desc['fields'] == [{'name': 'email', 'defaultValue': '', 'type': 'email', 'exposed': True,
+                                        'required': True, 'label': 'Email', 'placeholder': '',
+                                        'instructions': 'The email address you used to register with {platform_name}'
+                                        .format(platform_name=settings.PLATFORM_NAME),
+                                        'restrictions': {'min_length': EMAIL_MIN_LENGTH,
+                                                         'max_length': EMAIL_MAX_LENGTH},
+                                        'errorMessages': {},
+                                        'supplementalText': '',
+                                        'supplementalLink': '',
+                                        'loginIssueSupportLink': 'https://support.example.com/login-issue-help.html'},
+                                       {'name': 'password',
+                                        'defaultValue': '',
+                                        'type': 'password',
+                                        'exposed': True,
+                                        'required': True,
+                                        'label': 'Password',
+                                        'placeholder': '',
+                                        'instructions': '',
+                                        'restrictions': {'max_length': DEFAULT_MAX_PASSWORD_LENGTH},
+                                        'errorMessages': {},
+                                        'supplementalText': '',
+                                        'supplementalLink': '',
+                                        'loginIssueSupportLink': 'https://support.example.com/login-issue-help.html'}]
 
     @ddt.data(True, False)
     @patch('openedx.core.djangoapps.user_authn.views.login.segment')

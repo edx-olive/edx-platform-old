@@ -97,6 +97,7 @@ class FormDescriptionTest(TestCase):
             placeholder="placeholder",
             instructions="instructions",
             required=True,
+            exposed=True,
             restrictions={
                 "min_length": 2,
                 "max_length": 10
@@ -108,31 +109,15 @@ class FormDescriptionTest(TestCase):
             supplementalText="",
         )
 
-        self.assertEqual(desc.to_json(), json.dumps({
-            "method": "post",
-            "submit_url": "/submit",
-            "fields": [
-                {
-                    "name": "name",
-                    "label": "label",
-                    "type": "text",
-                    "defaultValue": "default",
-                    "placeholder": "placeholder",
-                    "instructions": "instructions",
-                    "required": True,
-                    "restrictions": {
-                        "min_length": 2,
-                        "max_length": 10,
-                    },
-                    "errorMessages": {
-                        "required": "You must provide a value!"
-                    },
-                    "supplementalLink": "",
-                    "supplementalText": "",
-                    "loginIssueSupportLink": "https://support.example.com/login-issue-help.html",
-                }
-            ]
-        }))
+        assert desc.to_json() ==\
+               json.dumps({'method': 'post',
+                           'submit_url': '/submit',
+                           'fields': [{'name': 'name', 'label': 'label', 'type': 'text', 'defaultValue': 'default',
+                                       'placeholder': 'placeholder', 'instructions': 'instructions', 'exposed': True,
+                                       'required': True, 'restrictions': {'min_length': 2, 'max_length': 10},
+                                       'errorMessages': {'required': 'You must provide a value!'},
+                                       'supplementalLink': '', 'supplementalText': '',
+                                       'loginIssueSupportLink': 'https://support.example.com/login-issue-help.html'}]})
 
     def test_invalid_field_type(self):
         desc = FormDescription("post", "/submit")

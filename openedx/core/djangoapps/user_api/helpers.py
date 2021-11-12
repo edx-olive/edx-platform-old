@@ -135,8 +135,8 @@ class FormDescription(object):
         self._field_overrides = defaultdict(dict)
 
     def add_field(
-            self, name, label=u"", field_type=u"text", default=u"",
-            placeholder=u"", instructions=u"", required=True, restrictions=None,
+            self, name, label="", field_type="text", default="",
+            placeholder="", instructions="", exposed=None, required=True, restrictions=None,
             options=None, include_default_option=False, error_messages=None,
             supplementalLink=u"", supplementalText=u""
     ):
@@ -159,6 +159,9 @@ class FormDescription(object):
 
             instructions (unicode): Short instructions for using the field
                 (e.g. "This is the email address you used when you registered.")
+
+            exposed (boolean): Whether the field is shown if not required.
+                If the field is not set, the field will be visible if it's required.
 
             required (boolean): Whether the field is required or optional.
 
@@ -196,6 +199,9 @@ class FormDescription(object):
             )
             raise InvalidFieldError(msg)
 
+        if exposed is None:
+            exposed = required
+
         field_dict = {
             "name": name,
             "label": label,
@@ -203,6 +209,7 @@ class FormDescription(object):
             "defaultValue": default,
             "placeholder": placeholder,
             "instructions": instructions,
+            "exposed": exposed,
             "required": required,
             "restrictions": {},
             "errorMessages": {},
@@ -272,6 +279,7 @@ class FormDescription(object):
                     "label": "Cheese or Wine?",
                     "defaultValue": "cheese",
                     "type": "select",
+                    "exposed": True,
                     "required": True,
                     "placeholder": "",
                     "instructions": "",
@@ -287,6 +295,7 @@ class FormDescription(object):
                     "label": "comments",
                     "defaultValue": "",
                     "type": "text",
+                    "exposed": False,
                     "required": False,
                     "placeholder": "Any comments?",
                     "instructions": "Please enter additional comments here."
@@ -347,6 +356,7 @@ class LocalizedJSONEncoder(DjangoJSONEncoder):
     JSON handler that evaluates ugettext_lazy promises.
     """
     # pylint: disable=method-hidden
+
     def default(self, obj):
         """
         Forces evaluation of ugettext_lazy promises.

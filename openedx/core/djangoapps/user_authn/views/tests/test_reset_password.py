@@ -652,29 +652,18 @@ class PasswordResetViewTest(UserAPITestCase):
 
         # Verify that the form description matches what we expect
         form_desc = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(form_desc["method"], "post")
-        self.assertEqual(form_desc["submit_url"], reverse("password_change_request"))
-        self.assertEqual(form_desc["fields"], [
-            {
-                "name": "email",
-                "defaultValue": "",
-                "type": "email",
-                "required": True,
-                "label": "Email",
-                "placeholder": "username@domain.com",
-                "instructions": u"The email address you used to register with {platform_name}".format(
-                    platform_name=settings.PLATFORM_NAME
-                ),
-                "restrictions": {
-                    "min_length": EMAIL_MIN_LENGTH,
-                    "max_length": EMAIL_MAX_LENGTH
-                },
-                "errorMessages": {},
-                "supplementalText": "",
-                "supplementalLink": "",
-                "loginIssueSupportLink": "https://support.example.com/login-issue-help.html",
-            }
-        ])
+        assert form_desc['method'] == 'post'
+        assert form_desc['submit_url'] == reverse('password_change_request')
+        assert form_desc['fields'] ==\
+               [{'name': 'email', 'defaultValue': '', 'type': 'email', 'exposed': True,
+                 'required': True, 'label': 'Email', 'placeholder': 'username@domain.com',
+                 'instructions': 'The email address you used to register with {platform_name}'
+                .format(platform_name=settings.PLATFORM_NAME),
+                 'restrictions': {'min_length': EMAIL_MIN_LENGTH,
+                                  'max_length': EMAIL_MAX_LENGTH},
+                 'errorMessages': {}, 'supplementalText': '',
+                 'supplementalLink': '',
+                 'loginIssueSupportLink': 'https://support.example.com/login-issue-help.html'}]
 
 
 @skip_unless_lms
