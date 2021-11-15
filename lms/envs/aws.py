@@ -1022,3 +1022,6 @@ ICP_LICENSE = ENV_TOKENS.get('ICP_LICENSE', None)
 
 ############## Settings for CourseGraph ############################
 COURSEGRAPH_JOB_QUEUE = ENV_TOKENS.get('COURSEGRAPH_JOB_QUEUE', LOW_PRIORITY_QUEUE)
+
+############## History Saving setting needed for Webwork Xblock ######################
+HISTORY_SAVING_TYPES = ENV_TOKENS.get('HISTORY_SAVING_TYPES', HISTORY_SAVING_TYPES)

@@ -421,6 +421,9 @@ XQUEUE_WAITTIME_BETWEEN_REQUESTS = 5  # seconds
 RETRY_ACTIVATION_EMAIL_MAX_ATTEMPTS = 5
 RETRY_ACTIVATION_EMAIL_TIMEOUT = 0.5
 
+# Used for history saving
+HISTORY_SAVING_TYPES = ['problem']
+
 ############################# SET PATH INFORMATION #############################
 PROJECT_ROOT = path(__file__).abspath().dirname().dirname()  # /edx-platform/lms
 REPO_ROOT = PROJECT_ROOT.dirname()
