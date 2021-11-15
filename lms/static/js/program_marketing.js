@@ -4,7 +4,9 @@ function playVideo(src) {
     document.querySelector('#program_video iframe').style = 'display:block;';
     document.querySelector('#program_video iframe').src = src;
 }
-$('.instructor-image, .instructor-label').leanModal({closeButton: '.modal_close', top: '10%'});
+if($('.instructor-image, .instructor-label').length) {
+    $('.instructor-image, .instructor-label').leanModal({closeButton: '.modal_close', top: '10%'});
+}
 // Create MutationObserver which prevents the body of
 // the page from scrolling when a modal window is displayed
 var observer = new MutationObserver(function(mutations, obv) {
