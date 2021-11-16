@@ -8,6 +8,7 @@ import os
 
 from pytz import UTC
 from datetime import datetime
+from shutil import copy
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
@@ -17,6 +18,9 @@ from django.core.files import File
 from cms.djangoapps.contentstore.views.course import create_new_course
 from cms.djangoapps.contentstore.views.assets import update_course_run_asset
 from xmodule.modulestore.exceptions import DuplicateCourseError
+from opaque_keys.edx.keys import CourseKey
+from xmodule.modulestore.django import modulestore
+from cms.djangoapps.models.settings.course_metadata import CourseMetadata
 
 
 logger = logging.getLogger(__name__)
@@ -39,7 +43,8 @@ class Command(BaseCommand):
         path = options['file_path']
         user = User.objects.get(email='staff@example.com')
         rows_with_errors = []
-        media_files = os.listdir(settings.MEDIA_ROOT)
+        media_files = os.listdir(os.path.join(settings.MEDIA_ROOT, 'MxD VTC - Vendor Course Images/'))
+        media_path = os.path.join(settings.MEDIA_ROOT, 'MxD VTC - Vendor Course Images/')
         with open(path, 'r') as csv_file:
             csv_reader = csv.DictReader(csv_file)
             line_count = 0
@@ -85,7 +90,7 @@ class Command(BaseCommand):
                             }
                         )
                         if image_name:
-                            path = settings.MEDIA_ROOT + image_name
+                            path = media_path + image_name
                             with open(path, 'rb') as image:
                                 file_obj = File(image)
                                 # this is just a simple workaround, because update_course_run_asset
@@ -94,12 +99,11 @@ class Command(BaseCommand):
                                 file_obj.name = image_name
                                 file_obj.multiple_chunks = lambda: False
                                 update_course_run_asset(course.id, file_obj)
-                            os.remove(path)
                         else:
                             logger.error(
                                 f"Could not upload image for record {line_count + 1}, the image does not "
                                 f"exist in media directory (image name: {row['Picture Name']}, "
-                                f"media dir: {settings.MEDIA_ROOT})"
+                                f"media dir: {media_path})"
                             )
                     except DuplicateCourseError:
                         logger.error(
@@ -107,6 +111,32 @@ class Command(BaseCommand):
                             f"Course Number: {row['CourseAcronym']}, Course Run: 2021"
                         )
                         rows_with_errors.append(line_count + 1)
+                        if image_name:
+                            path = media_path + image_name
+                            copy(path, f'/edx/var/edxapp/data/{row["Vendor"]}/{row["CourseAcronym"]}/2021/')
+                            course_key = CourseKey.from_string(f'course-v1:{row["Vendor"]}+{row["CourseAcronym"]}+2021')
+                            course_module = modulestore().get_course(course_key, depth=0)
+                            is_valid, errors, updated_data = CourseMetadata.validate_and_update_from_json(
+                                course_module,
+                                {"course_image": {"value": image_name}},
+                                user=user,
+                            )
+                            if is_valid:
+                                modulestore().update_item(course_module, user.id)
+                                logger.info(
+                                    f'Uploaded image for course course-v1:{row["Vendor"]}+{row["CourseAcronym"]}+2021.'
+                                )
+                            else:
+                                logger.error(
+                                    f'Could not upload image for course course-v1:{row["Vendor"]}+{row["CourseAcronym"]}+2021. '
+                                    f'(is valid: {is_valid}, errors: {errors}, updated_date: {updated_data}),'
+                                )
+                        else:
+                            logger.error(
+                                f"Could not upload image for record {line_count + 1}, the image does not "
+                                f"exist in media directory (image name: {row['Picture Name']}, "
+                                f"media dir: {media_path})"
+                            )
                     line_count += 1
                     if line_count % 50 == 0:
                         logger.info(f'Processed {line_count} records')
