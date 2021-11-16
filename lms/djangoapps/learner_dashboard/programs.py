@@ -2,7 +2,7 @@
 Fragments for rendering programs.
 """
 
-from collections import Counter
+from collections import Counter, OrderedDict
 import json
 
 from django.http import Http404
@@ -94,10 +94,10 @@ class ProgramsFragmentView(EdxFragmentView):
             vendors = Counter([p['vendor'] for p in programs if p['vendor']])
             roles = Counter([p['role'] for p in programs if p['role']])
 
-            facets = {
-                'role': {'terms': dict(roles)},
-                'vendor': {'terms': dict(vendors)}
-            }
+            facets = OrderedDict({
+                'vendor': {'terms': dict(vendors)},
+                'role': {'terms': dict(roles)}
+            })
 
             if vendor_filter:
                 selected_facets['vendor'] = vendor_filter
