@@ -8,6 +8,7 @@ from django.conf import settings
 from django.template.context_processors import csrf
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -36,6 +37,7 @@ from openedx.features.discounts.utils import format_strikeout_price
 from common.djangoapps.student.models import CourseEnrollment
 from common.djangoapps.util.views import ensure_valid_course_key
 from xmodule.course_module import COURSE_VISIBILITY_PUBLIC, COURSE_VISIBILITY_PUBLIC_OUTLINE
+from xmodule.modulestore.django import modulestore
 
 from .. import (
     COURSE_ENABLE_UNENROLLED_ACCESS_FLAG,
@@ -65,6 +67,10 @@ class CourseHomeView(CourseTabView):
         """
         Displays the home page for the specified course.
         """
+        course_key = CourseKey.from_string(course_id)
+        if course_items := modulestore().get_items(course_key):
+            if marketing_url := course_items[0].marketing_url:
+                return redirect(marketing_url)
         return super(CourseHomeView, self).get(request, course_id, 'courseware', **kwargs)
 
     def render_to_fragment(self, request, course=None, tab=None, **kwargs):
