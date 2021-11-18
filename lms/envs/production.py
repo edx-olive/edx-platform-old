@@ -1010,3 +1010,6 @@ LOGIN_URL = "/auth/login/keycloak/?auth_entry=login"
 LOGOUT_URL = f"/auth/realms/{OIDC_CLIENT_ID}/protocol/openid-connect/logout?post_logout_redirect_uri={LMS_ROOT_URL}"
 
 HOMEPAGE_COURSE_MAX = ENV_TOKENS.get('HOMEPAGE_COURSE_MAX', HOMEPAGE_COURSE_MAX)
+
+COURSE_DISCOVERY_FILTERS = ['org', 'modes', 'language', ]
+COURSE_DISCOVERY_FACETS = {facet: {'size': 100} for facet in COURSE_DISCOVERY_FILTERS}
