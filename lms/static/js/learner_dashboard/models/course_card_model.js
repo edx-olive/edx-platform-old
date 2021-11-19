@@ -213,6 +213,7 @@ class CourseCardModel extends Backbone.Model {
         price: CourseCardModel.getCertificatePriceString(courseRun),
         course_title_link: courseTitleLink,
         is_mobile_only: courseRun.is_mobile_only || false,
+        vendor_course_marketing_url: courseRun.vendor_course_marketing_url,
       });
 
       // This is used to render the date for completed and in progress courses
