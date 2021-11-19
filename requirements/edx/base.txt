@@ -253,3 +253,5 @@ zipp==1.0.0               # via -c requirements/edx/../constraints.txt, -r requi
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
+
+-e git+https://github.com/Annoto/xblock-in-video-collaboration.git@v0.3.2.1#egg=xblock-in-video-collaboration==0.3.2.1
