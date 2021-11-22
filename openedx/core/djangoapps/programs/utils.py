@@ -581,6 +581,16 @@ class ProgramDataExtender(object):
     def _attach_course_run_is_mobile_only(self, run_mode):
         run_mode['is_mobile_only'] = self.mobile_only
 
+    def _attach_course_run_vendor_course_marketing_url(self, run_mode):
+        """
+        Custom field for marketing URL. If the marketing URL is set, user will be redirected to it.
+        """
+        if course_items := modulestore().get_items(self.course_run_key):
+            if vendor_course_marketing_url := course_items[0].marketing_url:
+                run_mode['vendor_course_marketing_url'] = vendor_course_marketing_url
+            else:
+                run_mode['vendor_course_marketing_url'] = None
+
     def _filter_out_courses_with_entitlements(self, courses):
         """
         Removes courses for which the current user already holds an applicable entitlement.
