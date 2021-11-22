@@ -582,6 +582,9 @@ class ProgramDataExtender(object):
         run_mode['is_mobile_only'] = self.mobile_only
 
     def _attach_course_run_vendor_course_marketing_url(self, run_mode):
+        """
+        Custom field for marketing URL. If the marketing URL is set, user will be redirected to it.
+        """
         if course_items := modulestore().get_items(self.course_run_key):
             if vendor_course_marketing_url := course_items[0].marketing_url:
                 run_mode['vendor_course_marketing_url'] = vendor_course_marketing_url
