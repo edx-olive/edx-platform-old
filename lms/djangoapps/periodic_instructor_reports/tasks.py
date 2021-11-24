@@ -68,7 +68,7 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
         try:
             course_ids.append(SlashSeparatedCourseKey.from_deprecated_string(course_id))
         except Exception as exc:
-            logger.error("cannot get course from key for %s: %s" % (course_id, str(exc)))
+            logger.error("Course not found for course id %s: %s" % (course_id, str(exc)))
 
     if include_related_ccx:
         custom_courses = CustomCourseForEdX.objects.filter(course_id__in=course_ids)
