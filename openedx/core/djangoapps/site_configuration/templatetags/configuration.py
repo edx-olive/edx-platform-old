@@ -65,3 +65,12 @@ def microsite_template_path(template_name):
     """
     template_name = theming_helpers.get_template_path(template_name)
     return template_name[1:] if template_name[0] == '/' else template_name
+
+
+@register.simple_tag(name="gtm_id")
+def gtm_id():
+    """
+    Django template tag that outputs the rg_ga_acct:
+    {% gtm_id %}
+    """
+    return configuration_helpers.get_value("GOOGLE_TAG_MANAGER_ID", getattr(settings, "GOOGLE_TAG_MANAGER_ID", None))
