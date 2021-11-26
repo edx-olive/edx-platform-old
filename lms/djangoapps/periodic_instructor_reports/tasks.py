@@ -62,10 +62,13 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
     use_folders_by_date = kwargs.get("use_folders_by_date", False)
     filename = kwargs.get("filename", None)
 
-    course_ids = [
-        SlashSeparatedCourseKey.from_deprecated_string(course_id)
-        for course_id in course_ids
-    ]
+    course_ids = []
+
+    for course_id in course_ids:
+        try:
+            course_ids.append(SlashSeparatedCourseKey.from_deprecated_string(course_id))
+        except Exception as exc:
+            logger.error("Course not found for course id %s: %s" % (course_id, str(exc)))
 
     if include_related_ccx:
         custom_courses = CustomCourseForEdX.objects.filter(course_id__in=course_ids)
