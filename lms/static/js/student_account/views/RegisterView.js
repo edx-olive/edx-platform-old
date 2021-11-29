@@ -266,7 +266,7 @@
                     // is a required checkbox field and the optional fields toggle is a cosmetic
                     // improvement so that we don't have to show all the optional fields.
                     // xss-lint: disable=javascript-jquery-insert-into-target
-                    $('.checkbox-optional_fields_toggle').insertAfter('.required-fields');
+                    $('.checkbox-optional_fields_toggle').insertBefore('.register-button');
                     if (!this.hasOptionalFields) {
                         $('.checkbox-optional_fields_toggle').addClass('hidden');
                     }
