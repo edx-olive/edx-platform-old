@@ -1125,14 +1125,25 @@
 
             okButton = document.getElementById('new-link-image-ok');
             cancelButton = document.getElementById('new-link-image-cancel');
+            var isFileUploadOnchange = false;
 
-            okButton.onclick = function() { return close(false); };
+            okButton.onclick = function() {
+                if (imageUploadHandler && isFileUploadOnchange) {
+                    fileInput = document.getElementById('file-upload');
+                    imageUploadHandler(fileInput, urlInput);
+                    $(urlInput).attr('readonly', false);
+                    isFileUploadOnchange = false;
+                    startUploadHandler();
+                }
+                setTimeout(function() { return close(false); }, 1000);
+            };
             cancelButton.onclick = function() { return close(true); };
-
             if (imageUploadHandler) {
                 var startUploadHandler = function() {
                     document.getElementById('file-upload').onchange = function() {
-                        imageUploadHandler(this, urlInput);
+                        isFileUploadOnchange = true;
+                        $(urlInput).attr('value', this.files.item(0).name);
+                        $(urlInput).attr('readonly', true);
                         urlInput.focus();
 
                         // Ensures that a user can update their file choice.
