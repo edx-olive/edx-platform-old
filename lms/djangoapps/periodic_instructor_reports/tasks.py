@@ -62,11 +62,11 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
     use_folders_by_date = kwargs.get("use_folders_by_date", False)
     filename = kwargs.get("filename", None)
 
-    course_ids = []
+    target_course_ids = []
 
     for course_id in course_ids:
         try:
-            course_ids.append(SlashSeparatedCourseKey.from_deprecated_string(course_id))
+            target_course_ids.append(SlashSeparatedCourseKey.from_deprecated_string(course_id))
         except Exception as exc:
             logger.error("Course not found for course id %s: %s" % (course_id, str(exc)))
 
@@ -75,11 +75,11 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
         ccx_course_ids = list({ccx.locator for ccx in custom_courses})
 
         if only_ccx:
-            course_ids = ccx_course_ids
+            target_course_ids = ccx_course_ids
         else:
-            course_ids.extend(ccx_course_ids)
+            target_course_ids.extend(ccx_course_ids)
 
-    for course_id in course_ids:
+    for course_id in target_course_ids:
         task_kwargs = {}
 
         if filename:
