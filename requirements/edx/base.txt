@@ -255,3 +255,6 @@ zipp==1.0.0               # via -c requirements/edx/../constraints.txt, -r requi
 # setuptools
 
 -e git+https://github.com/Annoto/xblock-in-video-collaboration.git@v0.3.2.1#egg=xblock-in-video-collaboration==0.3.2.1
+
+# Single beat for configuring a single celerybeat scheduler
+single-beat==0.4.2
