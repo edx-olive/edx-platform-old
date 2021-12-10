@@ -71,7 +71,7 @@ def periodic_task_wrapper(course_ids, *args, **kwargs):
             logger.error("Course not found for course id %s: %s" % (course_id, str(exc)))
 
     if include_related_ccx:
-        custom_courses = CustomCourseForEdX.objects.filter(course_id__in=course_ids)
+        custom_courses = CustomCourseForEdX.objects.filter(course_id__in=target_course_ids)
         ccx_course_ids = list({ccx.locator for ccx in custom_courses})
 
         if only_ccx:
