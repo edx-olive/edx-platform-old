@@ -117,6 +117,8 @@ module.exports = Merge.smart({
 
             AnnouncementsView: './openedx/features/announcements/static/announcements/jsx/Announcements.jsx',
             CookiePolicyBanner: './common/static/js/src/CookiePolicyBanner.jsx',
+            CustomFooter: './common/static/js/src/CustomFooter.jsx',
+            CustomHeader: './common/static/js/src/CustomHeader.jsx',
 
             // Common
             ReactRenderer: './common/static/js/src/ReactRenderer.jsx',
