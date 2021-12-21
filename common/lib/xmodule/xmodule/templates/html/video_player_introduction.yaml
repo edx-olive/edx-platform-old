@@ -1,0 +1,12 @@
+---
+metadata:
+    display_name: Narrative
+    editor: raw
+data: |
+
+      <h1><span style="color: #00ccff;"><strong>How to use the Video Player</strong></span></h1>
+      <p style="font-size: 16px;"><span color="#000000" style="color: #000000;">One of the great features of Appliedx is it's ability to embed videos into the course content. The native Appliedx video player has some great features, some of which you may be familiar with, but let's go over them just in case. Below is an image of the player with a few key buttons highlighted.</span></p>
+      <p style="font-size: 16px;"><span color="#000000" style="color: #000000;"><img src="http://appliedx.amat.com/static/introduction/video_1.PNG" type="saveimage" target="[object Object]" width="611" height="414" /></span></p>
+      <p style="font-size: 16px;"><span color="#000000" style="color: #000000;">Playing the video is pretty standard, you can click on the screen or the play button in the lower left corner. From here you have lots of options. You can adjust the speed of playback if you are in a bit of a time crunch and don't mind it sounding a bit like Alvin and the Chipmunks, just click the speed button and select your speed. Once you select a speed, Appliedx will remember that for all following videos and default them to that selection unless you change it again. There is a volume control next to that. The icon with two boxes enables you to expand the video into full screen mode for better viewing. The last icon with the CC is used to show the transcripts. In some cases we may have options for multiple languages so that you can read along in your native language. Once you have it in transcript mode you can also scroll down the transcript to find a certain part of the narrative you want to skip to if you are reviewing the video for a second time. To do this, simply find the line you want to skip to and click on it, the video will jump to that time-stamp.&nbsp;</span></p>
+      <p style="font-size: 16px;"><span color="#000000" style="color: #000000;"><img src="http://appliedx.amat.com/static/introduction/video_2.PNG" type="saveimage" target="[object Object]" width="633" height="388" /></span></p>
+      <p></p>

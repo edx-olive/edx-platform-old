@@ -1,0 +1,15 @@
+---
+metadata:
+    display_name: Narrative
+    editor: raw
+data: |
+
+      <h1><span style="color: #00ccff;"><strong>How do the quiz problems work?<br /></strong></span></h1>
+      <p>In most appliedx courses you will see one of three types of quiz questions.</p>
+      <ul>
+      <li>checkbox: A question where you must choose all of the potential answers that are correct.</li>
+      <li>multiple choice: A question where you need to select the single best answer.</li>
+      <li>true/false: A statement which you must determine whether that statement is true or false.</li>
+      </ul>
+      <p>Each question will have a set number of tries in which you have to get the answer correct. Once you have either answered the question correctly or exhausted all of your tries, you will see the correct answer indicated along with a brief explanation for what that answer is correct.</p>
+      <p>The following video shows how to work the quiz questions.</p>

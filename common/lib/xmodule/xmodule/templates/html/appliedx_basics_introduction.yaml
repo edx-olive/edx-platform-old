@@ -1,0 +1,39 @@
+---
+metadata:
+    display_name: Narrative
+    editor: raw
+data: |
+
+      <h1><strong><span style="color: #00ccff;">Browser Requirements</span></strong></h1>
+      <p>Appliedx should be viewed in the Chrome browser. If you do not have Chrome installed, please contact IT to request to have it installed on your computer.</p>
+      <p></p>
+      <h1><span style="color: #00ccff;"><strong>Navigating appliedx</strong></span></h1>
+      <p>At the top of the screen you will notice a series of page tabs. Courseware, Progress, About the Course, Course Info and Yammer Discussion. Let&rsquo;s explore each of these&hellip;</p>
+      <p><img src="https://appliedx.amat.com/static/Eucalyptus Navigation 1.png" type="saveimage" target="[object Object]" width="1000" height="185" /></p>
+      <ul>
+      <ul>
+      <li>Courseware: This is where the course content resides, you are currently in the courseware page.</li>
+      <li>Progress: This is where you can track your progress in the course, it will show how you have done on each quiz question.&nbsp;</li>
+      <li>About the Course: This will open up the main about page for the course which has the course description and instructor information.</li>
+      <li>Course Info: Some courses use this page to make announcements about the course, this is usually used in instructor guided courses, not self-paced.</li>
+      <li>Yammer Discussion: This is a centralized feed of all Yammer discussions for this course. You will learn more about that below.</li>
+      </ul>
+      </ul>
+      <p>There are two types of content navigation. The first is the course outline on the left hand side. This enables you to see and move through the course sections and subsections as seen below.&nbsp;</p>
+      <p><img src="https://appliedx.amat.com/static/Eucalyptus Navigation 3.png" type="saveimage" target="[object Object]" width="1000" height="276" /></p>
+      <p>Appliedx courses contain three levels of content; section, subsection and unit. The units are the actual pages of content and can contain text, images, videos or problems. Note that some subsections may have a subscript below the title. This indicates that this subsection is graded and contains at least one unit containing problems.&nbsp;</p>
+      <p>The other form of navigation is the unit navigation. This is the ribbon bar located above the content.&nbsp;</p>
+      <p><img src="https://appliedx.amat.com/static/Eucalyptus Navigation 4.png" type="saveimage" target="[object Object]" width="1000" height="276" /></p>
+      <p>You will see arrow buttons which will move you to the corresponding unit. If you are on the first or last unit of a subsection it will jump to the previous or next subsection and start you on the unit you were last on in that subsection. If it is a new subsection it will start you on the first unit. The icons in the middle of the ribbon represent the units in that subsection. A video icon means that unit contains a video, the page icon represents standard content and the three lines and dots represent a unit containing problems.</p>
+      <p></p>
+      <h1><span style="color: #00ccff;"><strong>How to use Yammer</strong></span></h1>
+      <p>The Appliedx platform leverages our corporate implementation of Yammer to provide an interactive discussion tool. You can use Yammer to introduce yourself to other learners in the course or the instructors. You can also use it to ask specific questions about the course material or add your thoughts and insights. Each Yammer block is specific to the unit it appears in and discussion threads will only appear in the unit they were created in. That being said they all tie into a corresponding Yammer group for either the course. You can see all Yammer discussions by clicking the Yammer Discussions tab at the top as previously mentioned. This is also where you can post general course questions or comments.</p>
+      <p>Yammer is easy to use, to start a conversation simply type it into the text box as seen in the example below and click post.</p>
+      <p><img src="https://appliedx.amat.com/static/Eucalyptus Yammer.png" type="saveimage" target="[object Object]" width="1000" height="391" /></p>
+      <p></p>
+      <h1><span style="color: #00ccff;"><strong>Bookmarks</strong></span></h1>
+      <p>Appliedx now features bookmarks. This allows you to bookmark certain units that you find useful and might want to come back to quickly for reference. To bookmark a unit just click the button in the upper right below the navigation ribbon as seen in the image below.</p>
+      <p><img src="https://appliedx.amat.com/static/Eucalyptus Bookmark 1.png" type="saveimage" target="[object Object]" width="1000" height="339" /></p>
+      <p class="MsoNormal">When returning to a course or looking back through a course you can see all of your bookmarks in one place by clicking the bookmarks button at the top of the left navigation column as seen below.<o:p></o:p></p>
+      <p><img src="https://appliedx.amat.com/static/Eucalyptus Bookmark 2.png" type="saveimage" target="[object Object]" width="1000" height="370" /></p>
+

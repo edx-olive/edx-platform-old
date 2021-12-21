@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_http_methods
+from edx_django_utils.plugins import pluggable_override
 from edx_proctoring.api import (
     does_backend_support_onboarding,
     get_exam_by_content_id,
@@ -114,6 +115,7 @@ def _is_library_component_limit_reached(usage_key):
 @require_http_methods(("DELETE", "GET", "PUT", "POST", "PATCH"))
 @login_required
 @expect_json
+@pluggable_override('OVERRIDE_XBLOCK_HANDLER')
 def xblock_handler(request, usage_key_string):
     """
     The restful handler for xblock requests.

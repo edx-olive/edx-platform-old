@@ -41,6 +41,30 @@ define([
                 this.$('.button-new').click(function(event) {
                     self.outlineView.handleAddEvent(event);
                 });
+                this.$('.add-xblock-section').click(function(event) {
+                    var newintroductionsection = $('.new-introduction-section').is(':checked');
+                    var newyameersection = $('.new-yameer-section').is(':checked');
+                    var newcreditsection = $('.new-credit-section').is(':checked');
+                    var newsurveysection = $('.new-survey-section').is(':checked');
+                    var parent_value = $('.parent_value').val();
+                    if (newintroductionsection || newyameersection || newcreditsection || newsurveysection) {
+                        var section_info = {
+                            section_creation : true,
+                            newintroductionsection: newintroductionsection,
+                            newyameersection: newyameersection,
+                            newcreditsection: newcreditsection,
+                            newsurveysection: newsurveysection,
+                            parent_value: parent_value
+                        };
+                        XBlockViewUtils.addCommonXBlock(section_info).done(function(locator, courseKey) {
+                            // ViewUtils.redirect('/container/' + locator + '?action=new');
+                            ViewUtils.redirect('/course/' + courseKey);
+                        });
+                        $('.modal').css('display', 'none');
+                    } else {
+                        $('.modal').css('display', 'none');
+                    }
+                });
                 this.$('.button.button-reindex').click(function(event) {
                     self.handleReIndexEvent(event);
                 });
