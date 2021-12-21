@@ -5,7 +5,6 @@ For additional information and historical context, see:
 https://openedx.atlassian.net/wiki/display/TNL/User+API
 """
 
-
 import datetime
 import logging
 import uuid
@@ -79,7 +78,7 @@ from ..models import (
     UserRetirementStatus
 )
 from .api import get_account_settings, update_account_settings
-from .permissions import CanDeactivateUser, CanReplaceUsername, CanRetireUser
+from .permissions import CanDeactivateUser, CanGetAccountInfo, CanReplaceUsername, CanRetireUser
 from .serializers import UserRetirementPartnerReportSerializer, UserRetirementStatusSerializer
 from .signals import USER_RETIRE_LMS_CRITICAL, USER_RETIRE_LMS_MISC, USER_RETIRE_MAILINGS
 
@@ -109,6 +108,7 @@ def request_requires_username(function):
     Requires that a ``username`` key containing a truthy value exists in
     the ``request.data`` attribute of the decorated function.
     """
+
     @wraps(function)
     def wrapper(self, request):  # pylint: disable=missing-docstring
         username = request.data.get('username', None)
@@ -118,6 +118,7 @@ def request_requires_username(function):
                 data={'message': text_type('The user was not specified.')}
             )
         return function(self, request)
+
     return wrapper
 
 
@@ -280,7 +281,7 @@ class AccountViewSet(ViewSet):
     authentication_classes = (
         JwtAuthentication, BearerAuthenticationAllowInactiveUser, SessionAuthenticationAllowInactiveUser
     )
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, CanGetAccountInfo)
     parser_classes = (MergePatchParser,)
 
     def get(self, request):
@@ -292,10 +293,12 @@ class AccountViewSet(ViewSet):
     def list(self, request):
         """
         GET /api/user/v1/accounts?username={username1,username2}
-        GET /api/user/v1/accounts?email={user_email}
+        GET /api/user/v1/accounts?email={user_email} (Staff Only)
+        GET /api/user/v1/accounts?lms_user_id={lms_user_id} (Staff Only)
         """
         usernames = request.GET.get('username')
         user_email = request.GET.get('email')
+        lms_user_id = request.GET.get('lms_user_id')
         search_usernames = []
 
         if usernames:
@@ -307,9 +310,16 @@ class AccountViewSet(ViewSet):
             except (UserNotFound, User.DoesNotExist):
                 return Response(status=status.HTTP_404_NOT_FOUND)
             search_usernames = [user.username]
+        elif lms_user_id:
+            try:
+                user = User.objects.get(id=lms_user_id)
+            except (UserNotFound, User.DoesNotExist):
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            search_usernames = [user.username]
         try:
             account_settings = get_account_settings(
-                request, search_usernames, view=request.query_params.get('view'))
+                request, search_usernames, view=request.query_params.get('view')
+            )
         except UserNotFound:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -362,7 +372,7 @@ class AccountDeactivationView(APIView):
     Account deactivation viewset. Currently only supports POST requests.
     Only admins can deactivate accounts.
     """
-    authentication_classes = (JwtAuthentication, )
+    authentication_classes = (JwtAuthentication,)
     permission_classes = (permissions.IsAuthenticated, CanDeactivateUser)
 
     def post(self, request, username):
@@ -408,8 +418,8 @@ class DeactivateLogoutView(APIView):
     -  Log the user out
     - Create a row in the retirement table for that user
     """
-    authentication_classes = (JwtAuthentication, SessionAuthentication, )
-    permission_classes = (permissions.IsAuthenticated, )
+    authentication_classes = (JwtAuthentication, SessionAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
         """
@@ -1124,7 +1134,7 @@ class UsernameReplacementView(APIView):
     This API will be called first, before calling the APIs in other services as this
     one handles the checks on the usernames provided.
     """
-    authentication_classes = (JwtAuthentication, )
+    authentication_classes = (JwtAuthentication,)
     permission_classes = (permissions.IsAuthenticated, CanReplaceUsername)
 
     def post(self, request):
