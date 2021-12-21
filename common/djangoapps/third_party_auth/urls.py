@@ -1,5 +1,6 @@
 """Url configuration for the auth module."""
 
+from django.conf import settings
 from django.conf.urls import include, url
 
 from .views import (
@@ -21,3 +22,6 @@ urlpatterns = [
     url(r'^auth/saml/v0/', include('common.djangoapps.third_party_auth.samlproviderdata.urls')),
     url(r'^auth/saml/v0/', include('common.djangoapps.third_party_auth.saml_configuration.urls')),
 ]
+
+if settings.FEATURES.get('ENABLE_AMAT_SOCIAL_AUTH'):
+    urlpatterns = [url(r'^auth/', include('amat_edx_extensions.urls', namespace='amat_social'))] + urlpatterns
