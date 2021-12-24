@@ -58,9 +58,9 @@
 # qualityalltext <quality@alltext.co.il>, 2021
 # da4b3b3e32ebb4f0ec5430359fde7fbb, 2021
 # Danit Keren <danitK@mse.gov.il>, 2021
-# Hodaya Zada <hodayaz@mse.gov.il>, 2021
 # Oren Pardo <oren@campus.gov.il>, 2021
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2021
+# Hodaya Zada <hodayaz@mse.gov.il>, 2021
 # 
 msgid ""
 msgstr ""
@@ -68,7 +68,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
 "POT-Creation-Date: 2021-01-06 21:04+0000\n"
 "PO-Revision-Date: 2021-01-06 21:06+0000\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2021\n"
+"Last-Translator: Hodaya Zada <hodayaz@mse.gov.il>, 2021\n"
 "Language-Team: Hebrew (https://www.transifex.com/open-edx/teams/6205/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2184,7 +2184,7 @@ msgstr "נוסה"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Show Answer: Number of Attempts"
-msgstr ""
+msgstr "הצג תשובה: מספר ניסיונות מענה"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
@@ -2763,22 +2763,22 @@ msgstr "מיפוי נושאי דיון"
 msgid ""
 "Enter discussion categories in the following format: \"CategoryName\": "
 "{\"id\": \"i4x-InstitutionName-CourseNumber-course-CourseRun\"}. For "
-"example, one discussion category may be \"Lydian Mode\": {\"id\": \"i4x-"
-"UniversityX-MUS101-course-2015_T1\"}. The \"id\" value for each category "
-"must be unique. In \"id\" values, the only special characters that are "
-"supported are underscore, hyphen, and period. You can also specify a "
+"example, one discussion category may be \"Lydian Mode\": {\"id\": "
+"\"i4x-UniversityX-MUS101-course-2015_T1\"}. The \"id\" value for each "
+"category must be unique. In \"id\" values, the only special characters that "
+"are supported are underscore, hyphen, and period. You can also specify a "
 "category as the default for new posts in the Discussion page by setting its "
-"\"default\" attribute to true. For example, \"Lydian Mode\": {\"id\": \"i4x-"
-"UniversityX-MUS101-course-2015_T1\", \"default\": true}."
+"\"default\" attribute to true. For example, \"Lydian Mode\": {\"id\": "
+"\"i4x-UniversityX-MUS101-course-2015_T1\", \"default\": true}."
 msgstr ""
-"הכנס/י קטגוריות דיון בתבנית הבאה:  \"שם הקטגוריה\": {\"id\": \"i4x-"
-"InstitutionName-CourseNumber-course-CourseRun\"}. לדוגמא אחת קטגוריות דיון "
-"יכולה להיות \"Lydian Mode\": {\"id\": \"i4x-UniversityX-MUS101-course-"
-"2015_T1\"}. ערך ה \"id\" עבור כל קטגוריה חייב להיות יחודי. בערך ה \"id\", "
-"התווים היחודים  שניתן להשתמש בהם הם קו תחתון, מקף ונקודה. ניתן גם לציין "
-"קטגוריה כברירת מחדל עבור הודעות חדשות בדף הדיון על ידי הגדרת התכונה \"ברירת "
-"מחדל\" לאמת. לדוגמה,  \"Lydian Mode\": {\"id\": \"i4x-UniversityX-MUS101"
-"-course-2015_T1\", \"default\": true}."
+"הכנס/י קטגוריות דיון בתבנית הבאה:  \"שם הקטגוריה\": {\"id\": "
+"\"i4x-InstitutionName-CourseNumber-course-CourseRun\"}. לדוגמא אחת קטגוריות "
+"דיון יכולה להיות \"Lydian Mode\": {\"id\": \"i4x-UniversityX-"
+"MUS101-course-2015_T1\"}. ערך ה \"id\" עבור כל קטגוריה חייב להיות יחודי. "
+"בערך ה \"id\", התווים היחודים  שניתן להשתמש בהם הם קו תחתון, מקף ונקודה. "
+"ניתן גם לציין קטגוריה כברירת מחדל עבור הודעות חדשות בדף הדיון על ידי הגדרת "
+"התכונה \"ברירת מחדל\" לאמת. לדוגמה,  \"Lydian Mode\": {\"id\": "
+"\"i4x-UniversityX-MUS101-course-2015_T1\", \"default\": true}."
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Discussion Sorting Alphabetical"
@@ -4327,7 +4327,7 @@ msgstr "מכיוון שתאריך היעד כבר חלף, מטלה זו מוסת
 msgid ""
 "This section is a prerequisite. You must complete this section in order to "
 "unlock additional content."
-msgstr ""
+msgstr "פרק זה הינו תנאי מקדים. עליך להשלים את הפרק הזה, כדי להתקדם לפרק הבא."
 
 #: common/lib/xmodule/xmodule/seq_module.py
 msgid ""
@@ -5915,7 +5915,7 @@ msgstr "עזרה כספית"
 
 #: lms/djangoapps/courseware/courses.py
 msgid "Assignment"
-msgstr ""
+msgstr "מטלה"
 
 #: lms/djangoapps/courseware/courses.py
 msgid "Open Response Assessment"
@@ -6312,7 +6312,7 @@ msgstr ""
 #: lms/djangoapps/courseware/views/views.py
 #: openedx/features/course_experience/views/course_home_messages.py
 msgid "You must be enrolled in the course to see course content."
-msgstr ""
+msgstr "עליך להירשם לקורס כדי לראות את התוכן שלו."
 
 #: lms/djangoapps/courseware/views/views.py
 msgid "Invalid location."
@@ -7053,7 +7053,7 @@ msgstr ""
 
 #: lms/djangoapps/instructor/views/api.py
 msgid "Attachments archive is being created."
-msgstr ""
+msgstr "ארכיון הקבצים המצורפים נוצר."
 
 #: lms/djangoapps/instructor/views/api.py
 #: lms/djangoapps/instructor_task/api_helper.py
@@ -10149,6 +10149,8 @@ msgid ""
 "Usernames can only contain letters (A-Z, a-z), numerals (0-9), underscores "
 "(_), and hyphens (-)."
 msgstr ""
+"שם משתמש יכול להכיל אותיות אנגליות (A-Z, a-z), ספרות (0-9), קווים תחתונים "
+"(_) או מקפים (-). "
 
 #: openedx/core/djangoapps/user_api/accounts/__init__.py
 msgid ""
@@ -10788,14 +10790,14 @@ msgstr "שנת לידה"
 #. form used to select the country in which the user lives.
 #: openedx/core/djangoapps/user_authn/views/registration_form.py
 msgid "Country or Region of Residence"
-msgstr ""
+msgstr "ארץ או אזור מגורים:"
 
 #. Translators: These instructions appear on the registration form,
 #. immediately
 #. below a field meant to hold the user's country.
 #: openedx/core/djangoapps/user_authn/views/registration_form.py
 msgid "The country or region where you live."
-msgstr ""
+msgstr "מדינה או מחוז מגורים"
 
 #. Translators: This is a legal document users must agree to
 #. in order to register a new account.
@@ -12419,6 +12421,8 @@ msgid ""
 "You must complete the prerequisites for '{prereq_section_name}' to access "
 "this content."
 msgstr ""
+"עליך להשלים את התנאים המקדימים עבור '{prereq_section_name}' כדי לגשת לתוכן "
+"זה"
 
 #: lms/templates/_gated_content.html
 msgid "Go to Prerequisite Section"
@@ -12903,6 +12907,8 @@ msgid ""
 "We're sorry, this module is temporarily unavailable. Our staff is working to"
 " fix it as soon as possible. "
 msgstr ""
+"עמכם הסליחה, המודול הנ\"ל לא זמין זמנית. צוות האתר יתקן את הבעיה בהקדם "
+"האפשרי."
 
 #: lms/templates/module-error.html
 msgid "Raw data:"
@@ -14427,6 +14433,8 @@ msgid ""
 "Make sure you enter the information carefully. You will not receive "
 "notification for invalid usernames or email addresses."
 msgstr ""
+"אנא ודאו שהכנסתם מידע תקין. לא תקבלו התראה על שמות משתמשים או כתובות דוא\"ל "
+"לא חוקיים."
 
 #: lms/templates/ccx/enrollment.html
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
@@ -15090,6 +15098,8 @@ msgid ""
 "We're sorry, this module is temporarily unavailable. Our staff is working to"
 " fix it as soon as possible."
 msgstr ""
+"עמכם הסליחה, המודול הנ\"ל לא זמין זמנית. צוות האתר יתקן את הבעיה בהקדם "
+"האפשרי."
 
 #: lms/templates/courseware/courseware.html
 msgid "Course Search"
@@ -15335,7 +15345,7 @@ msgstr "צפה בתהליך מתן הציונים בסטודיו"
 
 #: lms/templates/courseware/progress.html
 msgid "Course Progress for '{username}' ({email})"
-msgstr ""
+msgstr "התקדמות הקורס עבור '{username}' ({email})"
 
 #: lms/templates/courseware/progress.html
 msgid "View Certificate"
@@ -16691,7 +16701,7 @@ msgstr ""
 #: lms/templates/header/navbar-authenticated.html
 #: themes/edx.org/lms/templates/header/navbar-authenticated.html
 msgid "Discover New"
-msgstr ""
+msgstr "קורסים"
 
 #. Translators: This is short for "System administration".
 #: lms/templates/header/navbar-authenticated.html
@@ -17087,6 +17097,9 @@ msgid ""
 "the problem. You also select a section or chapter to include results of all "
 "problems in that section or chapter."
 msgstr ""
+"כדי להוריד את כל תשובות הלומדים אשר השיבו על בעיה ספציפית, יש לבחור את הבעיה"
+" הרצויה ו- צור קובץ CSV You also select a section or chapter to include "
+"results of all problems in that section or chapter."
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 #: lms/templates/instructor/instructor_dashboard_2/data_download_2/problem_report.html
@@ -17101,6 +17114,9 @@ msgid ""
 "by-chapter, or problem-by-problem basis, or contact your site administrator "
 "to increase the limit."
 msgstr ""
+"הדו\"ח שנוצר מוגבל ל- {max_entries} תגובות. אם הדרישה היא לדו\"ח המכיל יותר "
+"מ- {max_entries} תגובות, ניתן לנסות להפיק את הדוח על בסיס פרק-פרק, או בעיה-"
+"לבעיה, או לפנות למנהל האתר שלכם כדי להגדיל את המגבלה על מספר התגובות."
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 #: lms/templates/instructor/instructor_dashboard_2/data_download_2/certificates.html
@@ -17149,11 +17165,11 @@ msgstr "צור דוח נתוני ORA."
 msgid ""
 "Click to generate a ZIP file that contains all submission texts and "
 "attachments."
-msgstr ""
+msgstr "כדי להוריד במרוכז את כל ההגשות והקבצים המצורפים לחץ - צור קובץ ZIP"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Generate Submission Files Archive"
-msgstr ""
+msgstr "יצירת ארכיון קבצי הגשה"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 #: lms/templates/instructor/instructor_dashboard_2/data_download_2.html
@@ -17165,7 +17181,7 @@ msgstr "דוחות זמינים להורדה"
 msgid ""
 "The reports listed below are available for download, identified by UTC date "
 "and time of generation."
-msgstr ""
+msgstr "הדוחות המפורטים להלן זמינים להורדה, מזוהים לפי תאריך UTC ושעת היצירה."
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid ""
@@ -17187,6 +17203,11 @@ msgid ""
 "store the files, in accordance with your institution's data security "
 "policies.{li_end}{ul_end}"
 msgstr ""
+"{strong_start}הערה{strong_end}: {ul_start}{li_start} כדי לשמור על אבטחת "
+"נתוני התלמידים, לא ניתן לשמור או לשלוח את הקישורים האלה באימייל בגישה ישירה."
+" התוקף של הקישורים שהעותקו יפוג בתום חמש דקות.{li_end}{li_start}קבצי הדוחות "
+"נמחקים 90 יום לאחר היצירה. אם תזדקק לגישה לדוחות ישנים, עליך להוריד ולשמור "
+"את הקבצים במחשב, בהתאם למדיניות אבטחת המידע של המוסד שלך.{li_end}{ul_end}"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download_2.html
 msgid ""
@@ -17245,6 +17266,9 @@ msgid ""
 "always taken; you cannot use this tool to make an assignment due earlier for"
 " a particular student."
 msgstr ""
+"בחלק זה, ניתן לתת הארכה על תתי-סעיפים ספציפיים ללומדים בודדים. יש לשים לב "
+"שהתאריך האחרון תמיד נלקח; אין אפשרות להשתמש בכלי הזה בשביל להקדים את המטלה "
+"ללומד מסוים."
 
 #: lms/templates/instructor/instructor_dashboard_2/extensions.html
 msgid ""
@@ -17258,7 +17282,7 @@ msgstr "כתובת דואר אלקטרוני או שם משתמש של הסטו�
 
 #: lms/templates/instructor/instructor_dashboard_2/extensions.html
 msgid "Choose the graded subsection:"
-msgstr ""
+msgstr "בחירת תת-פרק מדורג:"
 
 #. Translators: "format_string" is the string MM/DD/YYYY HH:MM, as that is the
 #. format the system requires.
@@ -17292,6 +17316,8 @@ msgid ""
 "Choose a graded subsection and click the button to obtain a list of all "
 "students who have extensions for the given subsection."
 msgstr ""
+"בחירת תת-סעיף מדורג ולחיצה על הכפתור כדי לקבל רשימה של כל התלמידים שיש להם "
+"הרחבות עבור תת-הסעיף הנתון."
 
 #: lms/templates/instructor/instructor_dashboard_2/extensions.html
 msgid "List all students with due date extensions"
@@ -17315,6 +17341,8 @@ msgid ""
 "on a particular subsection. This will revert the due date for the student "
 "back to the problem's original due date."
 msgstr ""
+"איפוס תאריך היעד של בעיה, יבטל גם הארכת זמן שניתנה ללומדים בתת פרק ספיצפי. "
+"פעולה זו תחזיר את תאריך היעד של הלומד לתאריך היעד המקורי של הבעיה."
 
 #: lms/templates/instructor/instructor_dashboard_2/extensions.html
 msgid "Reason for reset"
@@ -17874,7 +17902,7 @@ msgstr "הערה: תכונה זו זמינה רק לקורסים בעלי מספ
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "View a specific learner's enrollment status"
-msgstr ""
+msgstr "צפייה במצב מעורבות בקורס לפי לומד ספציפי."
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Learner's {platform_name} email address or username *"
@@ -17886,7 +17914,7 @@ msgstr "כתובת הדואר האלקטרוני או שם המשתמש של ה�
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "View Enrollment Status"
-msgstr ""
+msgstr "צפייה במצב מעורבות הלומדים בקורס שלך"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "View a specific learner's grades and progress"
@@ -17894,7 +17922,7 @@ msgstr "הצג ציונים והתקדמות של לומד ספציפי"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Learner's {platform_name} email address or username"
-msgstr ""
+msgstr "כתובת דואר אלקטרוני או שם משתמש {platform_name} של הלומד"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "View Progress Page"
@@ -17906,7 +17934,7 @@ msgstr "התאם ציון של תלמיד לבעיה ספציפית"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Location of problem in course"
-msgstr ""
+msgstr "מיקום הבעיה בקורס"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Example"
@@ -17944,16 +17972,16 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Score Override"
-msgstr ""
+msgstr "הקלדת ציון ידנית. "
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "For the specified problem, override the learner's score."
-msgstr ""
+msgstr "עבור בעיה ספציפית, יש להזין מחדש את ציון הלומד."
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid ""
 "New score for problem, out of the total points available for the problem"
-msgstr ""
+msgstr "ניקוד חדש לבעיה, מתוך סך הניקוד הזמין עבור אותה הבעיה"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Score"
@@ -17961,7 +17989,7 @@ msgstr "תוצאה"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Override Learner's Score"
-msgstr ""
+msgstr "הזנת ציונים ידנית"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Problem History"
@@ -18085,6 +18113,9 @@ msgid ""
 "answers to the problem. You also select a section or chapter to include"
 "         results of all problems in that section or chapter."
 msgstr ""
+"יש לבחור בעיה כלשהי כדי ליצור קובץ csv המפרט את כל תשובות הלומדים לאותה בעיה"
+" ספציפית. עליך גם לבחור מקטע או פרק כדי לכלול תוצאות של כל הבעיות המשוייכות "
+"לאותו מקטע או פרק."
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download_2/reports.html
 msgid ""
@@ -18476,7 +18507,7 @@ msgstr "אירעה שגיאת 500 בשרתי {platform_name}"
 
 #: lms/templates/static_templates/server-error.html
 msgid "Please wait a few seconds and then reload the page."
-msgstr ""
+msgstr "המתינו מספר שניות ולאחר מכן טענו מחדש את הדף."
 
 #: lms/templates/static_templates/server-overloaded.html
 msgid "Currently the {platform_name} servers are overloaded"
@@ -18949,7 +18980,7 @@ msgstr "חקור קורסים חדשים"
 
 #: openedx/features/learner_profile/templates/learner_profile/learner_profile.html
 msgid "View My Records"
-msgstr ""
+msgstr "צפו בתעודות שלכם (ניתן לשיתוף)"
 
 #: openedx/features/learner_profile/templates/learner_profile/learner_profile.html
 msgid "My Profile"
@@ -18958,7 +18989,7 @@ msgstr "הפרופיל שלי"
 #: openedx/features/learner_profile/templates/learner_profile/learner_profile.html
 msgid ""
 "Build out your profile to personalize your identity on {platform_name}."
-msgstr ""
+msgstr "צרו את הפרופיל שלכם כדי להתאים אישית את הזהות שלכם {platform_name}."
 
 #: openedx/features/learner_profile/templates/learner_profile/learner_profile.html
 msgid "An error occurred. Try loading the page again."
@@ -23835,6 +23866,8 @@ msgid ""
 "Once you have verified your identity and reviewed the exam guidelines in "
 "Proctortrack, you will be redirected back to this page."
 msgstr ""
+"לאחר אימות הזהות שלך וסקירת כללי הבחינה ב־Proctortrack, תתבצע הפניה לדף זה "
+"שוב."
 
 #: edx_proctoring_proctortrack/backends/proctortrack_rest.py
 msgid ""
@@ -23844,4 +23877,4 @@ msgstr ""
 
 #: edx_proctoring_proctortrack/backends/proctortrack_rest.py
 msgid "Click on the \"Start Proctored Exam\" button below to continue."
-msgstr ""
+msgstr "יש ללחוץ על הכפתור „התחלת מבחן תחת פיקוד” להלן כדי להמשיך."
