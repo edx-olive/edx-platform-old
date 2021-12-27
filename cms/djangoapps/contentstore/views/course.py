@@ -60,6 +60,7 @@ from common.djangoapps.util.milestones_helpers import (
 )
 from common.djangoapps.util.string_utils import _has_non_ascii_characters
 from common.djangoapps.xblock_django.api import deprecated_xblocks
+from edx_django_utils.plugins import pluggable_override
 from openedx.core import toggles as core_toggles
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.credit.api import get_credit_requirements, is_credit_course
@@ -937,6 +938,7 @@ def create_new_course(user, org, number, run, fields):
     return new_course
 
 
+@pluggable_override('OVERRIDE_UPDATE_FIELDS')
 def create_new_course_in_store(store, user, org, number, run, fields):
     """
     Create course in store w/ handling instructor enrollment, permissions, and defaulting the wiki slug.
