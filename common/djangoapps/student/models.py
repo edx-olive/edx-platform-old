@@ -620,6 +620,9 @@ class UserProfile(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d*$', message="Phone number can only contain numbers.")
     phone_number = models.CharField(validators=[phone_regex], blank=True, null=True, max_length=50)
 
+    # PingSSO employee id
+    employee_id = models.CharField(blank=True, null=True, unique=True, max_length=50)
+
     @property
     def has_profile_image(self):
         """
