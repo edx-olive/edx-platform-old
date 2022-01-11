@@ -5,9 +5,9 @@ export ANSIBLE_SSH_KEY=`cat /home/ubuntu/.ssh/id_rsa`
 chmod 600 ~/.ssh/id_rsa
 echo -e "Host gitlab.raccoongang.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 env
-git clone git@gitlab.raccoongang.com:Duck-Team/projects/campus/configuration-olive.git
+git clone git@gitlab.raccoongang.com:Duck-Team/projects/campus/configuration-olive.git configuration
 
-git clone git@gitlab.raccoongang.com:Duck-Team/projects/campus/deployment-packer.git
+git clone git@gitlab.raccoongang.com:Duck-Team/projects/campus/deployment-packer.git deployment
 
 if [ -z "$ANSIBLE_SSH_KEY" ]
 then
