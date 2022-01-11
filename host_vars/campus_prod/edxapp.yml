@@ -5,6 +5,7 @@ EDXAPP_SITE_NAME: "lms-campus-prod.raccoongang.com"
 EDXAPP_CMS_SITE_NAME: "cms-campus-prod.raccoongang.com"
 EDXAPP_PREVIEW_LMS_BASE: "preview-campus-prod.raccoongang.com"
 COMMON_HOSTNAME: "campus"
+EDXAPP_GOOGLE_TAG_MANAGER_ID: "GTM-T2HB8R7"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
 
