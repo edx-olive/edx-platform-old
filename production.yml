@@ -1,5 +1,5 @@
 - name: Deploy a full stack Edx
-  hosts: spectrum_prod
+  hosts: campus_prod
   become: true
 
   roles:

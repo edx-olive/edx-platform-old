@@ -1,7 +1,7 @@
 ---
 
 - name: Setup mongo
-  hosts: spectrum_mongo
+  hosts: campus_mongo
   become: True
   gather_facts: True
   roles:
@@ -19,7 +19,7 @@
     - role: mongo_3_6
 
 - name: Setup elasticsearch
-  hosts: spectrum_elasticsearch
+  hosts: campus_elasticsearch
   become: True
   gather_facts: True
   roles:

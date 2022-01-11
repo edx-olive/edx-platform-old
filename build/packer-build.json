@@ -1,11 +1,11 @@
 {
     "variables": {
-        "aws_access_key": "AKIAVRWO4S3VXDXK3J6L",
-        "aws_secret_key": "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",
-        "ami_name": "openedx-spectrum-ami",
-        "aws_region": "ap-south-1",
+        "aws_access_key": "AKIAVHHZWWVGG3EWIVIK",
+        "aws_secret_key": "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",
+        "ami_name": "openedx-campus-koa-ami",
+        "aws_region": "eu-west-1",
         "ssh_username": "ubuntu",
-        "vpc_id": "",
+        "vpc_id": "vpc-03f98aaa53a71024e",
         "subnet_id": ""
     },
     "builders": [{
@@ -13,18 +13,18 @@
         "access_key": "{{user `aws_access_key`}}",
         "secret_key": "{{user `aws_secret_key`}}",
         "region": "{{user `aws_region`}}",
-        "instance_type": "t2.medium",
+        "instance_type": "t3.medium",
         "force_deregister": "true",
         "ssh_username": "{{user `ssh_username`}}",
         "communicator": "ssh",
         "associate_public_ip_address": true,
         "subnet_id": "{{user `subnet_id`}}",
         "ami_name": "{{user `ami_name`}}",
-        "security_group_id": "sg-074bb4513a3daa3b6",
+        "security_group_id": "sg-0f9750f510cd8ca00",
         "launch_block_device_mappings": [
           {
             "device_name": "/dev/sda1",
-            "volume_size": 40,
+            "volume_size": 50,
             "volume_type": "gp2",
             "delete_on_termination": true
           }
@@ -35,7 +35,7 @@
                 "name": "Ubuntu Server 20.04 LTS",
                 "root-device-type": "ebs"
             },
-            "owners": ["381612234475"],
+            "owners": ["359153448268"],
             "most_recent": true
         },
         "run_tags": {

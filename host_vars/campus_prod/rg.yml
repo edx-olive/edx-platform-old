@@ -1,11 +1,11 @@
 ---
 project_environment: 'prod'
 project_team: 'hippoteam'
-project_name: 'spectrum'
+project_name: 'campus'
 project_support_package: 'Default'
 cloud_provider: 'aws'
 tenancy_type: 'multitenant'
-region_location: 'ap-south-1'
+region_location: 'eu-west-1'
 
 # TODO refactor roles/nginx, remove roles/rg-nginx
 use_raccoongang_ssl: no
@@ -42,19 +42,19 @@ NGINX_ADDITIONAL_SERVICES_CONFIG:
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
   - name: gamma
-    server_name: "gamma-spectrum.raccoongang.com"
+    server_name: "gamma-campus.raccoongang.com"
     nginx_port: 443
     nging_proxy_pass_port: 9000
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
   - name: notes-api
-    server_name: "notes-api-spectrum.raccoongang.com"
+    server_name: "notes-api-campus.raccoongang.com"
     nginx_port: 443
     nging_proxy_pass_port: 8120
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'
     nginx_ssl_certificate_key_path: '/etc/nginx/ssl/raccoongang-ssl.key'
   - name: enterprise
-    server_name: "enterprise-spectrum.raccoongang.com"
+    server_name: "enterprise-campus.raccoongang.com"
     nginx_port: 443
     nging_proxy_pass_port: 18160
     nginx_ssl_certificate_path: '/etc/nginx/ssl/raccoongang-ssl.crt'

@@ -1,0 +1,132 @@
+---
+
+edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
+EDXAPP_SITE_NAME: "lms-campus-prod.raccoongang.com"
+EDXAPP_CMS_SITE_NAME: "cms-campus-prod.raccoongang.com"
+EDXAPP_PREVIEW_LMS_BASE: "preview-campus-prod.raccoongang.com"
+COMMON_HOSTNAME: "campus"
+
+EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
+
+
+SWAPFILE_SIZE: ''
+MONGO_BIND_IP: '0.0.0.0'
+
+## extra
+ECOMMERCE_VERSION: 'koa-rg'
+DISCOVERY_VERSION: 'open-release/koa.master'
+ANALYTICS_API_VERSION: 'open-release/koa.master'
+INSIGHTS_VERSION: 'open-release/koa.master'
+NOTIFIER_VERSION: 'open-release/koa.master'
+CREDENTIALS_VERSION: 'koa-rg'
+SANDBOX_ENABLE_NOTES: True
+SANDBOX_ENABLE_BLOCKSTORE: False
+FORUM_VERSION: 'open-release/ironwood.master'
+COMMON_CONFIG_NO_LOGGING: False
+DEVPI_SERVER_VERSION: '5.4.0'
+DEVPI_WEB_VERSION: '3.5.2'
+DEVPI_CLIENT_VERSION: '5.1.1'
+EDX_NOTES_API_VERSION: 'open-release/koa.master'
+CERTS_VERSION: 'open-release/koa.master'
+COMMON_RETIREMENT_SERVICE_SETUP: false
+
+EDXAPP_REDIS_HOSTNAME: 'edxapp-redis.iuvune.0001.euw1.cache.amazonaws.com'
+EDXAPP_MEMCACHE: [ 'edxapp-memcache.iuvune.cfg.euw1.cache.amazonaws.com:11211' ]
+
+FORUM_MONGO_URL: "mongodb://{{ FORUM_MONGO_USER }}:{{ FORUM_MONGO_PASSWORD }}@{{ FORUM_MONGO_HOSTS }}:{{ FORUM_MONGO_PORT }}/{{ FORUM_MONGO_DATABASE }}?replicaSet=rs0"
+FORUM_RUBY_VERSION: "2.4.1"
+forum_services:
+  - {service: "elasticsearch", host: "{{ FORUM_ELASTICSEARCH_HOST }}", port: "{{ FORUM_ELASTICSEARCH_PORT }}"}
+
+EDX_PLATFORM_VERSION: "main"
+
+SITE_CONFIGURATION_STORAGE:
+    - domain: "{{ EDXAPP_SITE_NAME }}"
+      values:
+          COURSE_CATALOG_API_URL: https://discovery-uat-campus.raccoongang.com/api/v1
+          ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER: false
+          CAMPUS_SAML_PROVIDER_SLUG: moe-edu-idm
+          CONTACT_MAILING_ADDRESS: Campus@mail.gov.il
+          COURSE_ABOUT_VISIBILITY_PERMISSION: see_about_page
+          COURSE_CATALOG_VISIBILITY_PERMISSION: see_in_catalog
+          COURSE_EMAIL_FROM_ADDR: CampusIL <support@campus.gov.il>
+          COURSE_EMAIL_TEMPLATE_NAME: israelx
+          COURSE_HOMEPAGE_INVERT_TITLE: true
+          COURSE_HOMEPAGE_SHOW_ORG: false
+          COURSE_HOMEPAGE_SHOW_SUBTITLE: false
+          DAYS_PASSED_TO_ALERT_PROFILE_INCOMPLETION: -1
+          DEFAULT_FROM_EMAIL: campus@mse.gov.il
+          EDITABLE_SHORT_DESCRIPTION: true
+          EMAIL_FROM_ADDRESS: CampusIL <support@campus.gov.il>
+          ENABLE_EXTENDED_COURSE_DETAILS: true
+          ENABLE_FORUM_NOTIFICATIONS: true
+          ENABLE_MKTG_SITE: false
+          EXTENDED_PROFILE_FIELDS:
+              - first_name
+              - last_name
+              - city
+              - country
+          FIELDS_TO_CHECK_PROFILE_COMPLETION:
+              - name
+              - country
+              - level_of_education
+              - gender
+              - year_of_birth
+          HOMEPAGE_OVERLAY_HTML: ""
+          PLATFORM_NAME: IL קמפוס
+          REGISTRATION_EXTRA_FIELDS:
+              first_name: hidden
+              last_name: hidden
+              level_of_education: optional
+              gender: optional
+              year_of_birth: optional
+              mailing_address: hidden
+              goals: hidden
+              terms_of_service: required
+              honor_code: hidden
+              city: optional
+              country: optional
+              allow_marketing_emails: optional-exposed
+          REGISTRATION_FIELD_DEFAULTS:
+              country: IL
+          REGISTRATION_FIELD_ORDER:
+              - "email"
+              - "name"
+              - "first_name"
+              - "last_name"
+              - "username"
+              - "confirm_email"
+              - "password"
+              - "terms_of_service"
+              - "city"
+              - "state"
+              - "country"
+              - "gender"
+              - "year_of_birth"
+              - "level_of_education"
+              - "specialty"
+              - "profession"
+              - "company"
+              - "title"
+              - "mailing_address"
+              - "goals"
+              - "honor_code"
+          SHOW_HEADER_LANGUAGE_SELECTOR: true
+          STUDENT_PROFILE_DOWNLOAD_FIELDS:
+              - id
+              - username
+              - name
+              - email
+              - language
+              - location
+              - year_of_birth
+              - gender
+              - level_of_education
+              - mailing_address
+              - goals
+              - meta.first-name
+              - meta.last-name
+              - meta.city
+              - meta.country
+
+EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE }}"

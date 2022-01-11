@@ -1,0 +1,108 @@
+---
+
+EDXAPP_PLATFORM_NAME: "Campus IL"
+EDXAPP_LANG: "en_US.UTF-8"
+EDXAPP_LANGUAGE_CODE: "he-il"
+EDXAPP_TIME_ZONE: "Europe/Dublin"
+
+# to enable seamless auth between LMS, CMS, preview, discovery, credentials
+# all DNS names must be one level upper of EDXAPP_SESSION_COOKIE_DOMAIN
+# EDXAPP_SESSION_COOKIE_DOMAIN: ".project_name.domain.tld"
+EDXAPP_SESSION_COOKIE_DOMAIN: .raccoongang.com
+EDXAPP_LMS_SITE_NAME: "{{ EDXAPP_SITE_NAME }}"
+EDXAPP_LMS_BASE: "{{ EDXAPP_SITE_NAME }}"
+EDXAPP_CMS_BASE: "{{ EDXAPP_CMS_SITE_NAME }}"
+
+COMMON_HOSTNAME: "{{ EDXAPP_SITE_NAME }}"
+RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
+
+EDXAPP_LMS_BASE_SCHEME: "{{ 'https' if use_raccoongang_ssl else 'https' if use_letsencrypt else 'http' }}"
+EDXAPP_LMS_ROOT_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
+EDXAPP_SESSION_COOKIE_NAME: "{{ EDXAPP_LMS_SITE_NAME }}_edxapp"
+
+EDXAPP_CSRF_COOKIE_SECURE: true
+EDXAPP_SESSION_COOKIE_SECURE: true
+CONFIGURE_JWTS: true
+
+EDXAPP_USE_GIT_IDENTITY: true
+
+edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/campus/edx-platform.git"
+EDX_PLATFORM_VERSION: "main"
+
+FORUM_VERSION: "open-release/koa.master"
+ANALYTICS_API_VERSION: "open-release/koa.master"
+INSIGHTS_VERSION: "open-release/koa.master"
+CREDENTIALS_VERSION: 'koa-rg'
+
+EDXAPP_GRADE_STORAGE_TYPE_LOCAL: true
+EDXAPP_GRADE_STORAGE_TYPE: ''
+EDXAPP_GRADE_STORAGE_CLASS: "django.core.files.storage.FileSystemStorage"
+EDXAPP_GRADE_ROOT_PATH: "{{ edxapp_media_dir }}/grades"
+EDXAPP_GRADE_STORAGE_KWARGS:
+ base_url: "{{ EDXAPP_MEDIA_URL }}/grades"
+ location: "{{ edxapp_media_dir }}/grades"
+
+ELASTICSEARCH_CLUSTERED: false
+
+EDXAPP_FEATURES_OVERRIDE:
+ DISPLAY_COURSE_MODES_ON_DASHBOARD: true
+ ENABLE_COURSE_DISCOVERY: true
+ ENABLE_COURSE_FILENAME_CCX_SUFFIX: true
+ ENABLE_DASHBOARD_SEARCH: false
+ ENABLE_THIRD_PARTY_AUTH: true
+ ENABLE_UNICODE_USERNAME: true
+ ENABLE_VERIFIED_CERTIFICATES: true
+ ENABLE_XBLOCK_VIEW_ENDPOINT: true
+ # RG ANALYTICS
+ ENABLE_RG_INSTRUCTOR_ANALYTICS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
+ RG_ANALYTICS_GRADE_CRON_DOM: '*'
+ RG_ANALYTICS_GRADE_CRON_DOW: '*'
+ RG_ANALYTICS_GRADE_CRON_HOUR: '*'
+ RG_ANALYTICS_GRADE_CRON_MINUTE: '*/15'
+ RG_ANALYTICS_GRADE_CRON_MONTH: '*'
+ # RG ANALYTICS
+ RG_DELETE_RETIRED: "{{ COMMON_ENABLE_ACCOUNT_DELETION }}"
+
+EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=true) }}"
+
+EDXAPP_LMS_ENV_EXTRA:
+ # ORA2_FILEUPLOAD_BACKEND: 'django'
+ ADDL_INSTALLED_APPS:
+  - "custom_reg_form"
+ GOOGLE_TAG_MANAGER_ID: "{{ EDXAPP_GOOGLE_TAG_MANAGER_ID }}"
+ REGISTRATION_EXTENSION_FORM: "custom_reg_form.forms.ExtraInfoForm"
+ RG_SENTRY_ENVIRONMENT: "{{ COMMON_ENVIRONMENT }}"
+ THIRD_PARTY_AUTH_BACKENDS:
+  - "campus_social_auth.backends.oauth2.FacebookOAuth2Backend"
+  - "campus_social_auth.backends.oauth2.GoogleOAuth2Backend"
+  - "campus_social_auth.backends.saml.CampusSAMLAuthBackend"
+
+EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: true
+
+EDXAPP_PRIVATE_REQUIREMENTS:
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-social-auth.git@v1.1.1#egg=campus_social_auth"
+   extra_args: "-e"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.5#egg=extended_translations"
+   extra_args: "-e"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/custom-registration-form.git@v1.1.0#egg=custom_reg_form==1.1.0"
+   extra_args: "-e"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-sga.git@v0.17.3#egg=edx_sga==0.17.3"
+   extra_args: "-e"
+
+EDXAPP_EXTRA_REQUIREMENTS: "{{ _EDXAPP_EXTRA_REQUIREMENTS }}"
+
+_EDXAPP_EXTRA_REQUIREMENTS:
+ - name: "git+https://gitlab.com/opencraft/client/esme-learning/periodic-instructor-reports.git@v2.0.0#egg=periodic-instructor-reports==2.0.0"
+   extra_args: "-e"
+
+EDXAPP_CMS_ENV_EXTRA:
+ RG_SENTRY_ENVIRONMENT: "{{ COMMON_ENVIRONMENT }}"
+ # ORA2_FILEUPLOAD_BACKEND: 'django'
+
+EDXAPP_LMS_AUTH_EXTRA:
+ RG_SENTRY_DSN: "{{ COMMON_SENTRY_DSN }}"
+ # ORA2_FILEUPLOAD_BACKEND: 'django'
+
+EDXAPP_CMS_AUTH_EXTRA:
+ RG_SENTRY_DSN: "{{ COMMON_SENTRY_DSN }}"
+ # ORA2_FILEUPLOAD_BACKEND: 'django'
