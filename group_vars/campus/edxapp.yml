@@ -89,11 +89,11 @@ EDXAPP_PRIVATE_REQUIREMENTS:
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-sga.git@v0.17.3#egg=edx_sga==0.17.3"
    extra_args: "-e"
 
-EDXAPP_EXTRA_REQUIREMENTS: "{{ _EDXAPP_EXTRA_REQUIREMENTS }}"
-
-_EDXAPP_EXTRA_REQUIREMENTS:
- - name: "git+https://gitlab.com/opencraft/client/esme-learning/periodic-instructor-reports.git@v2.0.0#egg=periodic-instructor-reports==2.0.0"
-   extra_args: "-e"
+#EDXAPP_EXTRA_REQUIREMENTS: "{{ _EDXAPP_EXTRA_REQUIREMENTS }}"
+#
+#_EDXAPP_EXTRA_REQUIREMENTS:
+# - name: "git+https://gitlab.com/opencraft/client/esme-learning/periodic-instructor-reports.git@v2.0.0#egg=periodic-instructor-reports==2.0.0"
+#   extra_args: "-e"
 
 EDXAPP_CMS_ENV_EXTRA:
  RG_SENTRY_ENVIRONMENT: "{{ COMMON_ENVIRONMENT }}"
