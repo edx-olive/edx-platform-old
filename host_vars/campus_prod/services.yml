@@ -27,5 +27,5 @@ COMMON_ENABLE_SENTRY: False
 COMMON_ENABLE_ENTERPRISE: False
 mysql_host: edx-mysql.ci3ewl3onmj2.eu-west-1.rds.amazonaws.com
 memcached_host: edxapp-memcache.iuvune.cfg.euw1.cache.amazonaws.com
-mongo_hosts: "10.88.2.119"
+mongo_hosts: "10.88.2.121"
 elasticsearch_host: "10.88.1.80"
