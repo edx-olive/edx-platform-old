@@ -6,7 +6,7 @@
         "aws_region": "eu-west-1",
         "ssh_username": "ubuntu",
         "vpc_id": "vpc-03f98aaa53a71024e",
-        "subnet_id": ""
+        "subnet_id": "subnet-0d4ae2ffcd95d6c9f"
     },
     "builders": [{
         "type": "amazon-ebs",
