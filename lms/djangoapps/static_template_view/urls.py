@@ -5,6 +5,7 @@ URLs for static_template_view app
 
 from django.conf import settings
 from django.conf.urls import url
+from django.views.generic.base import RedirectView
 
 from lms.djangoapps.static_template_view import views
 
@@ -25,6 +26,9 @@ urlpatterns = [
     url(r'^press$', views.render, {'template': 'press.html'}, name="press"),
     url(r'^media-kit$', views.render, {'template': 'media-kit.html'}, name="media-kit"),
     url(r'^copyright$', views.render, {'template': 'copyright.html'}, name="copyright"),
+    url(r'^tos$', RedirectView.as_view(url=settings.FEATURES.get('CAMPUS_TOS_URL_OVERRIDE', 'https://campus.gov.il/en/terms-of-use/'), permanent=True)),
+    url(r'^privacy$', RedirectView.as_view(url=settings.FEATURES.get('CAMPUS_PRIVACY_URL_OVERRIDE', 'https://campus.gov.il/privacy-policy/'), permanent=True)),
+
 
     # Press releases
     url(r'^press/([_a-zA-Z0-9-]+)$', views.render_press_release, name='press_release'),
