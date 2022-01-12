@@ -44,6 +44,7 @@ class VideoBlock(HTMLSnippet):  # lint-amnesty, pylint: disable=abstract-method
     preview_view_js = {
         'js': [
             resource_string(__name__, 'js/src/video/10_main.js'),
+            resource_string(__name__, 'js/src/video/video_error.js'),
         ],
         'xmodule_js': resource_string(__name__, 'js/src/xmodule.js')
     }

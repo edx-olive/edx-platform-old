@@ -28,6 +28,7 @@ from xblock.completable import XBlockCompletionMode
 from xblock.core import XBlock
 from xblock.fields import ScopeIds
 from xblock.runtime import KvsFieldData
+from edx_django_utils.plugins import pluggable_override
 
 from openedx.core.djangoapps.video_config.models import HLSPlaybackEnabledFlag, CourseYoutubeBlockedFlag
 from openedx.core.djangoapps.video_pipeline.config.waffle import DEPRECATE_YOUTUBE, waffle_flags
@@ -264,11 +265,16 @@ class VideoBlock(
         shim_xmodule_js(fragment, 'Video')
         return fragment
 
+    @pluggable_override('OVERRIDE_GET_SOURCES')
+    def get_sources(self):
+        sources = [source for source in self.html5_sources if source]
+        return sources
+
     def get_html(self, view=STUDENT_VIEW):  # lint-amnesty, pylint: disable=arguments-differ, too-many-statements
 
         track_status = (self.download_track and self.track)
         transcript_download_format = self.transcript_download_format if not track_status else None
-        sources = [source for source in self.html5_sources if source]
+        sources = self.get_sources()
 
         download_video_link = None
         branding_info = None

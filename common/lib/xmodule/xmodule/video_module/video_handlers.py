@@ -11,8 +11,10 @@ import logging
 import math
 
 from django.core.files.base import ContentFile
+from django.utils.decorators import method_decorator
 from django.utils.timezone import now
 from edxval.api import create_external_video, create_or_update_video_transcript, delete_video_transcript
+from edx_django_utils.plugins import pluggable_override
 from opaque_keys.edx.locator import CourseLocator
 from webob import Response
 from xblock.core import XBlock
@@ -54,6 +56,7 @@ def to_boolean(value):
         return bool(value)
 
 
+@method_decorator(pluggable_override('OVERRIDE_TRANSLATION'), name='translation') 
 class VideoStudentViewHandlers:
     """
     Handlers for video module instance.
