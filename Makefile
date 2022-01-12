@@ -4,5 +4,5 @@ run:
 		-v $(PWD):/build \
 		-e ANSIBLE_SSH_KEY \
 		-e ANSIBLE_VAULT_KEY \
-                koa-olive \
+                registry-gitlab.raccoongang.com/edx/configuration:koa-rg-develop \
 		bash -c "cd /build && bash"
