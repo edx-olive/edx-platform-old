@@ -1,8 +1,8 @@
 """
 Views for course info API
 """
-
-
+from django.utils.decorators import method_decorator
+from edx_django_utils.plugins import pluggable_override
 from rest_framework import generics
 from rest_framework.response import Response
 
@@ -14,6 +14,7 @@ from ..decorators import mobile_course_access, mobile_view
 
 
 @mobile_view()
+@method_decorator(pluggable_override('OVERRIDE_COURSE_UPDATES_LIST_GET_QUERYSET'), name='get_queryset')
 class CourseUpdatesList(generics.ListAPIView):
     """
     **Use Case**
