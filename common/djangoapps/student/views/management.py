@@ -27,6 +27,7 @@ from django.views.decorators.http import require_GET, require_http_methods, requ
 from edx_ace import ace
 from edx_ace.recipient import Recipient
 from edx_django_utils import monitoring as monitoring_utils
+from edx_django_utils.plugins import pluggable_override
 from eventtracking import tracker
 from ipware.ip import get_client_ip
 # Note that this lives in LMS, so this dependency should be refactored.
@@ -258,6 +259,7 @@ def _update_email_opt_in(request, org):
 @transaction.non_atomic_requests
 @require_POST
 @outer_atomic(read_committed=True)
+@pluggable_override('OVERRIDE_CHANGE_ENROLLMENT')
 def change_enrollment(request, check_access=True):
     """
     Modify the enrollment status for the logged-in user.
