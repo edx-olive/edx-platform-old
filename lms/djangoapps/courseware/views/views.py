@@ -34,6 +34,7 @@ from django.views.decorators.http import require_GET, require_http_methods, requ
 from django.views.generic import View
 from edx_django_utils import monitoring as monitoring_utils
 from edx_django_utils.monitoring import set_custom_attribute, set_custom_attributes_for_course_key
+from edx_django_utils.plugins import pluggable_override
 from ipware.ip import get_client_ip
 from markupsafe import escape
 from opaque_keys import InvalidKeyError
@@ -1121,6 +1122,7 @@ def progress(request, course_id, student_id=None):
         return _progress(request, course_key, student_id)
 
 
+@pluggable_override("OVERRIDE_PROGRESS")
 def _progress(request, course_key, student_id):
     """
     Unwrapped version of "progress".
