@@ -32,7 +32,7 @@
         "source_ami_filter": {
             "filters": {
                 "virtualization-type": "hvm",
-                "name": "Ubuntu Server 20.04 LTS",
+                "name": "ubuntu/images/*ubuntu-focal-20.04-amd64-server-*",
                 "root-device-type": "ebs"
             },
             "owners": ["099720109477"],
