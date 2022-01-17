@@ -35,7 +35,7 @@
                 "name": "Ubuntu Server 20.04 LTS",
                 "root-device-type": "ebs"
             },
-            "owners": ["359153448268"],
+            "owners": ["099720109477"],
             "most_recent": true
         },
         "run_tags": {
