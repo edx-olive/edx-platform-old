@@ -34,6 +34,7 @@ COMMON_RETIREMENT_SERVICE_SETUP: false
 EDXAPP_REDIS_HOSTNAME: 'edxapp-koa-redis.iuvune.0001.euw1.cache.amazonaws.com'
 EDXAPP_MEMCACHE: [ 'edxapp-memcache.iuvune.cfg.euw1.cache.amazonaws.com:11211' ]
 
+EDXAPP_COMMENTS_SERVICE_URL: "http://openedx-koa-services-asg-1-1396875031.eu-west-1.elb.amazonaws.com:18080"
 FORUM_MONGO_URL: "mongodb://{{ FORUM_MONGO_USER }}:{{ FORUM_MONGO_PASSWORD }}@{{ FORUM_MONGO_HOSTS }}:{{ FORUM_MONGO_PORT }}/{{ FORUM_MONGO_DATABASE }}?replicaSet=rs0"
 FORUM_RUBY_VERSION: "2.4.1"
 forum_services:
@@ -44,7 +45,7 @@ EDX_PLATFORM_VERSION: "main"
 SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
       values:
-          COURSE_CATALOG_API_URL: https://discovery-uat-campus.raccoongang.com/api/v1
+          COURSE_CATALOG_API_URL: https://discovery-campus.raccoongang.com/api/v1
           ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER: false
           CAMPUS_SAML_PROVIDER_SLUG: moe-edu-idm
           CONTACT_MAILING_ADDRESS: Campus@mail.gov.il
