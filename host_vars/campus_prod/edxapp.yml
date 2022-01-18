@@ -1,13 +1,13 @@
 ---
 
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
-EDXAPP_SITE_NAME: "lms-campus-prod.raccoongang.com"
-EDXAPP_CMS_SITE_NAME: "cms-campus-prod.raccoongang.com"
-EDXAPP_PREVIEW_LMS_BASE: "preview-campus-prod.raccoongang.com"
+EDXAPP_SITE_NAME: "courses.koa.campus.gov.il"
+EDXAPP_CMS_SITE_NAME: "studio.koa.campus.gov.il"
+EDXAPP_PREVIEW_LMS_BASE: "preview.koa.campus.gov.il
 COMMON_HOSTNAME: "campus"
 EDXAPP_GOOGLE_TAG_MANAGER_ID: "GTM-T2HB8R7"
 
-EDXAPP_SESSION_COOKIE_DOMAIN: ".raccoongang.com"
+EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"
 
 
 SWAPFILE_SIZE: ''
@@ -45,7 +45,7 @@ EDX_PLATFORM_VERSION: "main"
 SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
       values:
-          COURSE_CATALOG_API_URL: https://discovery-campus.raccoongang.com/api/v1
+          COURSE_CATALOG_API_URL: https://discovery.koa.campus.gov.il/api/v1
           ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER: false
           CAMPUS_SAML_PROVIDER_SLUG: moe-edu-idm
           CONTACT_MAILING_ADDRESS: Campus@mail.gov.il
