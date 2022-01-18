@@ -3,7 +3,7 @@
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 EDXAPP_SITE_NAME: "courses.koa.campus.gov.il"
 EDXAPP_CMS_SITE_NAME: "studio.koa.campus.gov.il"
-EDXAPP_PREVIEW_LMS_BASE: "preview.koa.campus.gov.il
+EDXAPP_PREVIEW_LMS_BASE: "preview.koa.campus.gov.il"
 COMMON_HOSTNAME: "campus"
 EDXAPP_GOOGLE_TAG_MANAGER_ID: "GTM-T2HB8R7"
 
