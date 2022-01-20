@@ -7,6 +7,7 @@ import six.moves.urllib.parse as parse  # pylint: disable=import-error
 from django.conf import settings
 from django.contrib.auth import logout
 from django.utils.http import urlencode
+from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from oauth2_provider.models import Application
 from six.moves.urllib.parse import parse_qs, urlsplit, urlunsplit  # pylint: disable=import-error
@@ -37,6 +38,9 @@ class LogoutView(TemplateView):
         TODO: remove GET as an allowed method, and update all callers to use POST.
         """
         return self.get(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return redirect(self.default_target)
 
     @property
     def target(self):
