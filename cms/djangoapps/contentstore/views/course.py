@@ -918,6 +918,7 @@ def _create_or_rerun_course(request):
         )
 
 
+@pluggable_override('OVERRIDE_COURSE_CREATION')
 def create_new_course(user, org, number, run, fields):
     """
     Create a new course run.
