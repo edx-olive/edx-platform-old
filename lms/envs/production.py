@@ -1036,3 +1036,12 @@ if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
             )
 
 #RACCOONGANG
+############### Setting HISTORY_SAVING_TYPES #################
+# This can be used to extend which modules/XBlocks can save to
+# the "problem" submission history (old: courseware.StudentModuleHistory
+# new: coursewarehistoryextended.StudentModuleHistoryExtended) and view
+# the stored data when ENABLE_STUDENT_HISTORY_VIEW is enabled.
+
+# Take the default value from lms/env/common.py but prefer to use
+# a value set in the local env config file (lms.env.json).
+HISTORY_SAVING_TYPES = ENV_TOKENS.get('HISTORY_SAVING_TYPES', HISTORY_SAVING_TYPES)
