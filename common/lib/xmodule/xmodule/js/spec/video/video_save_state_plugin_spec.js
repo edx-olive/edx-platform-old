@@ -266,7 +266,7 @@ import * as Time from 'time.js';
                 speedchange: plugin.onSpeedChange,
                 autoadvancechange: plugin.onAutoAdvanceChange,
                 play: plugin.bindUnloadHandler,
-                'pause destroy': plugin.saveStateHandler,
+                pause: plugin.saveStateHandler,
                 'language_menu:change': plugin.onLanguageChange,
                 youtube_availability: plugin.onYoutubeAvailability
             });

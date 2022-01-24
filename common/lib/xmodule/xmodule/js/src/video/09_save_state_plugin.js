@@ -40,7 +40,7 @@
                     speedchange: this.onSpeedChange,
                     autoadvancechange: this.onAutoAdvanceChange,
                     play: this.bindUnloadHandler,
-                    'pause destroy': this.saveStateHandler,
+                    pause: this.saveStateHandler,
                     'language_menu:change': this.onLanguageChange,
                     youtube_availability: this.onYoutubeAvailability
                 };
