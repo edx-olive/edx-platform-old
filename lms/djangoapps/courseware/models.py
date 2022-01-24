@@ -186,6 +186,9 @@ class BaseStudentModuleHistory(models.Model):
     """
     objects = ChunkingManager()
     HISTORY_SAVING_TYPES = {'problem'}
+    if getattr(settings, 'HISTORY_SAVING_TYPES', False):
+        for hist_type in settings.HISTORY_SAVING_TYPES:
+            HISTORY_SAVING_TYPES.add(hist_type)
 
     class Meta(object):
         abstract = True

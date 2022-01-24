@@ -4207,3 +4207,12 @@ LOGO_URL_PNG = None
 LOGO_TRADEMARK_URL = None
 FAVICON_URL = None
 DEFAULT_EMAIL_LOGO_URL = 'https://edx-cdn.org/v3/default/logo.png'
+
+############### Setting HISTORY_SAVING_TYPES #################
+# This can be used to extend which modules/XBlocks can save to
+# the "problem" submission history (old: courseware.StudentModuleHistory
+# new: coursewarehistoryextended.StudentModuleHistoryExtended) and view
+# the stored data when ENABLE_STUDENT_HISTORY_VIEW is enabled.
+
+# The default is just 'problem' has access to these features.
+HISTORY_SAVING_TYPES = ['problem']
