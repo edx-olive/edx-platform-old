@@ -12,6 +12,8 @@ TO DO sync instructor and staff flags
 
 import logging
 
+from edx_django_utils.plugins import pluggable_override
+
 from lms.djangoapps.instructor.enrollment import enroll_email, get_email_params
 from openedx.core.djangoapps.django_comment_common.models import Role
 from common.djangoapps.student.roles import (
@@ -59,6 +61,7 @@ def revoke_access(course, user, level, send_email=True):
     _change_access(course, user, level, 'revoke', send_email)
 
 
+@pluggable_override('OVERRIDE_CHANGE_ACCESS')
 def _change_access(course, user, level, action, send_email=True):
     """
     Change access of user.
