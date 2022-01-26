@@ -4216,3 +4216,5 @@ DEFAULT_EMAIL_LOGO_URL = 'https://edx-cdn.org/v3/default/logo.png'
 
 # The default is just 'problem' has access to these features.
 HISTORY_SAVING_TYPES = ['problem']
+
+CAMPUS_SUPPORT_CONTACT_URL = 'https://campus.gov.il/en/contact_us/'
