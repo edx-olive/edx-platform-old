@@ -123,6 +123,7 @@ def get_user_email_language(user):
     return UserPreference.get_value(user, LANGUAGE_KEY)
 
 
+@pluggable_override('OVERRIDE_ENROLL_EMAIL')
 def enroll_email(course_id, student_email, auto_enroll=False, email_students=False, email_params=None, language=None):
     """
     Enroll a student by email.

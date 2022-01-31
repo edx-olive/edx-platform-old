@@ -222,6 +222,7 @@ def create_ccx(request, course, ccx=None):
 
     # Enroll the coach in the course
     email_params = get_email_params(course, auto_enroll=True, course_key=ccx_id, display_name=ccx.display_name)
+    email_params['message_type'] = 'enrolled_enroll_create_ccx'
     enroll_email(
         course_id=ccx_id,
         student_email=request.user.email,
