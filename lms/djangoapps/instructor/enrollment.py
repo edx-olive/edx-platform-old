@@ -19,6 +19,7 @@ from django.urls import reverse
 from django.utils.translation import override as override_language
 from edx_ace import ace
 from edx_ace.recipient import Recipient
+from edx_django_utils.plugins import pluggable_override
 from eventtracking import tracker
 from six import text_type
 from submissions import api as sub_api  # installed from the edx-submissions repository
@@ -387,6 +388,7 @@ def _fire_score_changed_for_block(
             )
 
 
+@pluggable_override('OVERRIDE_GET_EMAIL_PARAMS')
 def get_email_params(course, auto_enroll, secure=True, course_key=None, display_name=None):
     """
     Generate parameters used when parsing email templates.
