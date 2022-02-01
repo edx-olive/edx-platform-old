@@ -4219,3 +4219,16 @@ HISTORY_SAVING_TYPES = ['problem']
 
 CAMPUS_LOGO_URL = '/'
 CAMPUS_SUPPORT_CONTACT_URL = 'https://campus.gov.il/en/contact_us/'
+CAMPUS_DEFAULT_TOS_URL = 'https://campus.gov.il/en/terms-of-use/'
+
+CAMPUS_TOS_URLS = {
+    'en': 'https://campus.gov.il/en/terms-of-use/',
+    'he': 'https://campus.gov.il/privacy-policy/',
+    'ar': 'https://campus.gov.il/ar/سياسة-الخصوصية/',
+}
+
+CAMPUS_PRIVACY_URLS = {
+    'en': 'https://campus.gov.il/en/terms-of-use/',
+    'he': 'https://campus.gov.il/privacy-policy/',
+    'ar': 'https://campus.gov.il/ar/سياسة-الخصوصية/',
+}
