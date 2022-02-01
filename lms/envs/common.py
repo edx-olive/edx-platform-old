@@ -185,6 +185,9 @@ FEATURES = {
     # .. toggle_tickets: None
     'ENABLE_SYSADMIN_DASHBOARD': False,  # sysadmin dashboard, to see what courses are loaded, to delete & load courses
 
+    # Enable courses tab on the Sysadmin Dashboard page
+    'ENABLE_SYSADMIN_COURSES_TAB': False,
+
     'DISABLE_LOGIN_BUTTON': False,  # used in systems where login is automatic, eg MIT SSL
 
     # .. toggle_name: ENABLE_OAUTH2_PROVIDER
