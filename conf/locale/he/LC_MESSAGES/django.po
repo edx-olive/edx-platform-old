@@ -193,7 +193,7 @@ msgstr "יציאה"
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "Mode"
 msgstr "מצב"
-
+ 
 #: common/djangoapps/course_modes/admin.py
 #: lms/djangoapps/courseware/date_summary.py
 msgid "Verification Deadline"
