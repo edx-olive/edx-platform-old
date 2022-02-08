@@ -3422,12 +3422,12 @@ msgstr "בחר"
 #: common/static/bundles/ProblemBrowser.js
 #: lms/djangoapps/instructor/static/instructor/ProblemBrowser/components/Main/Main.jsx
 msgid "Select a section or problem"
-msgstr "נא לבחור מקטע או בעיה"
+msgstr "בחרו פרק או בעיה"
 
 #: common/static/bundles/ProblemBrowser.js
 #: lms/djangoapps/instructor/static/instructor/ProblemBrowser/components/Main/Main.jsx
 msgid "Create a report of problem responses"
-msgstr "יצירת דוח של תגובות לבעיה"
+msgstr "צרו דו\"ח של תגובות לבעיה"
 
 #: common/static/bundles/ProblemBrowser.js
 #: lms/djangoapps/instructor/static/instructor/ProblemBrowser/components/ReportStatus/ReportStatus.jsx
@@ -6724,12 +6724,12 @@ msgstr "ניקוד כללי"
 #: openedx/features/course_experience/static/course_experience/js/WelcomeMessage.js
 #: lms/templates/courseware/proctored-exam-status.underscore
 msgid "Show More"
-msgstr ""
+msgstr "הראה עוד"
 
 #: openedx/features/course_experience/static/course_experience/js/WelcomeMessage.js
 #: lms/templates/courseware/proctored-exam-status.underscore
 msgid "Show Less"
-msgstr ""
+msgstr "הראה פחות"
 
 #: openedx/features/course_search/static/course_search/js/views/search_results_view.js
 msgid "{total_results} result found for \"{search_term}\""
@@ -8523,11 +8523,11 @@ msgstr ""
 
 #: lms/templates/courseware/proctored-exam-status.underscore
 msgid "You are taking \"{exam_link}\" as {exam_type}. "
-msgstr ""
+msgstr "לפנייך \"{exam_link}\" as {exam_type}. "
 
 #: lms/templates/courseware/proctored-exam-status.underscore
 msgid "a timed exam"
-msgstr ""
+msgstr "המוגדר כמבחן מתוזמן"
 
 #: lms/templates/courseware/proctored-exam-status.underscore
 msgid "The timer on the right shows the time remaining in the exam."
@@ -9248,11 +9248,11 @@ msgstr "זקוקים לעזרה בהתחברות לאתר?"
 
 #: lms/templates/student_account/form_field.underscore
 msgid "Forgot my password"
-msgstr ""
+msgstr "שכחתי סיסמה"
 
 #: lms/templates/student_account/form_field.underscore
 msgid "Other sign-in issues"
-msgstr ""
+msgstr "פנייה לתמיכה טכנית"
 
 #: lms/templates/student_account/form_field.underscore
 msgid "Sign in with your company or school"
@@ -11827,3 +11827,16 @@ msgstr ""
 #: cms/templates/js/video/transcripts/messages/transcripts-use-existing.underscore
 msgid "Use Current Transcript"
 msgstr "השתמש בתמליל נוכחי"
+
+
+# Translation that I found on branch edx-proctoring
+# module: Proctored exams with time limits 
+#: templates/timed_exam/submitted.html
+msgid ""
+"\n"
+"                You have submitted your timed exam.\n"
+"            "
+msgstr ""
+"\n"
+"                הגשת את המבחן המתוזמן שלך.\n"
+"            "

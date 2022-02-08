@@ -1922,7 +1922,7 @@ msgstr "או"
 #: common/lib/capa/capa/responsetypes.py
 #: cms/templates/widgets/problem-edit.html
 msgid "Text Input"
-msgstr "שדה הכנסת הט"
+msgstr "שדה הכנסת טקסט"
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "error"
@@ -2335,6 +2335,7 @@ msgstr ""
 #: openedx/core/djangoapps/dark_lang/templates/dark_lang/preview-language-fragment.html
 #: openedx/core/djangoapps/theming/templates/theming/theming-admin-fragment.html
 #: themes/stanford-style/lms/templates/register-shib.html
+#: poll\public\handlebars\survey_results.handlebars
 msgid "Submit"
 msgstr "הגשה"
 
@@ -2386,28 +2387,28 @@ msgstr "תשובותיך נשמרו קודם. לחץ על  '{button_name}' כד�
 #, python-brace-format
 msgid "Incorrect ({progress} point)"
 msgid_plural "Incorrect ({progress} points)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "לא נכון ({progress} point)"
+msgstr[1] "לא נכון ({progress} point)"
+msgstr[2] "לא נכון ({progress} point)"
+msgstr[3] "לא נכון ({progress} point)"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #, python-brace-format
 msgid "Correct ({progress} point)"
 msgid_plural "Correct ({progress} points)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "נכון ({progress} point)"
+msgstr[1] "נכון ({progress} point)"
+msgstr[2] "נכון ({progress} point)"
+msgstr[3] "נכון ({progress} point)"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #, python-brace-format
 msgid "Partially correct ({progress} point)"
 msgid_plural "Partially correct ({progress} points)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "נכון חלקית ({progress} point)"
+msgstr[1] "נכון חלקית ({progress} point)"
+msgstr[2] "נכון חלקית ({progress} point)"
+msgstr[3] "נכון חלקית ({progress} point)"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Partially Correct"
@@ -6307,7 +6308,7 @@ msgstr "כניסה"
 msgid ""
 "You must be enrolled in the course to see course content."
 "                             {enroll_link_start}Enroll now{enroll_link_end}."
-msgstr ""
+msgstr "עליך להירשם לקורס כדי לראות את התוכן שלו"
 
 #: lms/djangoapps/courseware/views/views.py
 #: openedx/features/course_experience/views/course_home_messages.py
@@ -12982,10 +12983,10 @@ msgstr "הצגת התשובה"
 #: lms/templates/problem.html
 msgid "You have used {num_used} of {num_total} attempt"
 msgid_plural "You have used {num_used} of {num_total} attempts"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "השתמשת ב-{num_used} מתוך {num_total} ניסיונות"
+msgstr[1] "השתמשת ב-{num_used} מתוך {num_total} ניסיונות"
+msgstr[2] "השתמשת ב-{num_used} מתוך {num_total} ניסיונות"
+msgstr[3] "השתמשת ב-{num_used} מתוך {num_total} ניסיונות"
 
 #: lms/templates/problem.html
 msgid ""
@@ -14942,7 +14943,7 @@ msgstr "תוכן זה מקבל דירוג"
 
 #: lms/templates/courseware/course_about.html
 msgid "An error has occurred. Please ensure that you are logged in to enroll."
-msgstr ""
+msgstr "שגיאה התרחשה. יש לבדוק שאתם מחוברים לאתר, ולאחר מכן ניתן להירשם לקורס."
 
 #: lms/templates/courseware/course_about.html
 msgid "An error occurred. Please try again later."
@@ -17097,9 +17098,8 @@ msgid ""
 "the problem. You also select a section or chapter to include results of all "
 "problems in that section or chapter."
 msgstr ""
-"כדי להוריד את כל תשובות הלומדים אשר השיבו על בעיה ספציפית, יש לבחור את הבעיה"
-" הרצויה ו- צור קובץ CSV You also select a section or chapter to include "
-"results of all problems in that section or chapter."
+"צרו קובץ csv המכיל את כל תשובות הלומדים אשר השיבו על בעיה ספציפית. "
+"ביכולתכם לבחור פרק או בעיה בכדי לכלול את כלל התשובות בחלקים אלו "
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 #: lms/templates/instructor/instructor_dashboard_2/data_download_2/problem_report.html
@@ -17114,9 +17114,9 @@ msgid ""
 "by-chapter, or problem-by-problem basis, or contact your site administrator "
 "to increase the limit."
 msgstr ""
-"הדו\"ח שנוצר מוגבל ל- {max_entries} תגובות. אם הדרישה היא לדו\"ח המכיל יותר "
-"מ- {max_entries} תגובות, ניתן לנסות להפיק את הדוח על בסיס פרק-פרק, או בעיה-"
-"לבעיה, או לפנות למנהל האתר שלכם כדי להגדיל את המגבלה על מספר התגובות."
+"הדו\"ח שנוצר מוגבל ל- {max_entries} תגובות. אם אתם מצפים למספר גבוהה יותר "
+"מ- {max_entries} תגובות, יש לפצל את הדו\"ח לפי פרקים או בעיות ספציפיות, או "
+"לפנות לתמיכה בכדי להגדיל את המגבלה."
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 #: lms/templates/instructor/instructor_dashboard_2/data_download_2/certificates.html
@@ -17496,7 +17496,7 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Role of the users being enrolled."
-msgstr ""
+msgstr "המשתמשים הרשומים מעלה יהיו בתור"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -23878,3 +23878,66 @@ msgstr ""
 #: edx_proctoring_proctortrack/backends/proctortrack_rest.py
 msgid "Click on the \"Start Proctored Exam\" button below to continue."
 msgstr "יש ללחוץ על הכפתור „התחלת מבחן תחת פיקוד” להלן כדי להמשיך."
+
+# Transltion that I Found From branch origin/GlugovGrGlib-patch-1
+
+#All Xblocks:
+# Xblock-ORA:
+
+#: openassessment/templates/openassessmentblock/response/oa_response.html:91
+msgid ""
+"\n"
+"                        You can save your progress and return to complete your response at any time before the due date\n"
+"                      "
+msgstr ""
+
+#: openassessment/templates/openassessmentblock/response/oa_response.html:167
+msgid "Team Response "
+msgstr ""
+
+#: openassessment/templates/openassessmentblock/response/oa_response.html:169
+msgid "Your Response "
+msgstr ""
+
+#: openassessment/templates/openassessmentblock/response/oa_response.html:173
+#: openassessment/templates/openassessmentblock/response/oa_response.html:244
+msgid "(Required)"
+msgstr ""
+
+#: openassessment/templates/openassessmentblock/response/oa_response.html:175
+#: openassessment/templates/openassessmentblock/response/oa_response.html:246
+msgid "(Optional)"
+msgstr ""
+
+#: openassessment/templates/openassessmentblock/response/oa_response.html:242
+msgid "File Uploads "
+msgstr ""
+
+#: openassessment/templates/openassessmentblock/edit/oa_edit_basic_settings_list.html:84
+msgid ""
+"To add more file extensions, select Custom File Types and enter the full "
+"list of acceptable file extensions to be included."
+msgstr ""
+
+#: openassessment/templates/openassessmentblock/response/oa_response.html:278
+msgid "Supported file types: "
+msgstr ""
+
+# Xblock-OpenCraft-Poll:
+
+#: poll\public\handlebars\survey_results.handlebars
+msgid "Results gathered from {total} respondent"
+msgid_plural "Results gathered from {total} respondents."
+msgstr[0] "-תוצאות שנאספו מ{total} משיבים"
+msgstr[1] "-תוצאות שנאספו מ{total} משיבים"
+msgstr[2] "-תוצאות שנאספו מ{total} משיבים"
+msgstr[3] "-תוצאות שנאספו מ{total} משיבים"
+
+
+#: poll\public\handlebars\survey_results.handlebars
+msgid "Results"
+msgstr "תוצאות"
+
+#: poll/poll.py
+msgid "Survey"
+msgstr "סקר"
