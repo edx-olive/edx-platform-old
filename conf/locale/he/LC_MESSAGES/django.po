@@ -150,6 +150,7 @@ msgstr "יש בעיה עם קובץ התמליל הזה. נא לנסות להע�
 #: cms/djangoapps/contentstore/views/videos.py
 #: lms/djangoapps/instructor/views/api.py
 #: lms/templates/instructor/instructor_dashboard_2/generate_registarion_codes_modal.html
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Name"
 msgstr "שם"
 
@@ -1419,10 +1420,10 @@ msgstr[3] ""
 #, python-format
 msgid "Your password must contain at least %(min_alphabetic)d letter."
 msgid_plural "Your password must contain at least %(min_alphabetic)d letters."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "הסיסמה שלך חייבת להכיל לפחות עוד %(min_alphabetic)d אותיות."
+msgstr[1] "הסיסמה שלך חייבת להכיל לפחות עוד %(min_alphabetic)d אותיות."
+msgstr[2] "הסיסמה שלך חייבת להכיל לפחות עוד %(min_alphabetic)d אותיות."
+msgstr[3] "הסיסמה שלך חייבת להכיל לפחות עוד %(min_alphabetic)d אותיות."
 
 #: common/djangoapps/util/password_policy_validators.py
 #, python-format
@@ -2278,6 +2279,7 @@ msgstr ""
 "מרובים."
 
 #: common/lib/xmodule/xmodule/capa_base.py
+#: edx_sga/sga.py
 msgid "Problem Weight"
 msgstr "משקל הבעיה"
 
@@ -2336,6 +2338,8 @@ msgstr ""
 #: openedx/core/djangoapps/theming/templates/theming/theming-admin-fragment.html
 #: themes/stanford-style/lms/templates/register-shib.html
 #: poll\public\handlebars\survey_results.handlebars
+#: edx_sga/templates/staff_graded_assignment/show.html
+
 msgid "Submit"
 msgstr "הגשה"
 
@@ -3561,7 +3565,7 @@ msgstr ""
 #: common/lib/xmodule/xmodule/graders.py
 #, python-brace-format
 msgid "The lowest {drop_count} {section_type} scores are dropped."
-msgstr ""
+msgstr "ה-{drop_count} {section_type} עם הציונים הפחות טובים ירדו מהחישוב."
 
 #. Translators: "Homework Average = 0%"
 #: common/lib/xmodule/xmodule/graders.py
@@ -4454,6 +4458,7 @@ msgstr ""
 #: cms/templates/course-create-rerun.html cms/templates/index.html
 #: cms/templates/manage_users.html cms/templates/manage_users_lib.html
 #: cms/templates/videos_index_pagination.html
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Cancel"
 msgstr "בטל"
 
@@ -6891,6 +6896,7 @@ msgid "Language"
 msgstr "שפה"
 
 #: lms/djangoapps/instructor/views/api.py
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Location"
 msgstr "מיקום"
 
@@ -7059,7 +7065,7 @@ msgstr "ארכיון הקבצים המצורפים נוצר."
 #: lms/djangoapps/instructor/views/api.py
 #: lms/djangoapps/instructor_task/api_helper.py
 msgid "grade"
-msgstr ""
+msgstr "ציון"
 
 #: lms/djangoapps/instructor/views/api.py
 #: lms/djangoapps/instructor_task/api_helper.py
@@ -7461,6 +7467,7 @@ msgstr "נשלח בדואר אלקטרוני "
 #. Translators: This is a past-tense verb that is inserted into task progress
 #. messages as {action}.
 #: lms/djangoapps/instructor_task/tasks.py
+#: cms/templates/js/course-outline.underscore
 msgid "graded"
 msgstr "דורג"
 
@@ -7811,6 +7818,7 @@ msgid "Find information related to a learner's program enrollments"
 msgstr ""
 
 #: lms/djangoapps/support/views/manage_user.py lms/templates/tracking_log.html
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "username"
 msgstr "שם משתמש"
 
@@ -8415,6 +8423,8 @@ msgid ""
 "If you are not redirected within 5 seconds, {start_anchor}click here to go "
 "to the home page{end_anchor}."
 msgstr ""
+"במידה ולא הועברת לדף הבית וחלפו יותר 5 שניות, {start_anchor} יש ללחוץ כאן "
+"{end_anchor} כדי לעבור לעמוד הראשי."
 
 #: lms/templates/main_django.html cms/templates/base.html
 #: lms/templates/main.html
@@ -10355,6 +10365,7 @@ msgstr "הצלחה"
 
 #: openedx/core/djangoapps/user_api/admin.py
 #: lms/templates/staff_problem_info.html
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Actions"
 msgstr "פעולות"
 
@@ -10558,7 +10569,7 @@ msgid ""
 "To protect your account, it’s been temporarily locked. Try again in "
 "{locked_out_period} minutes.{li_start}To be on the safe side, you can reset "
 "your password {link_start}here{link_end} before you try again."
-msgstr ""
+msgstr "כדי להגן על החשבון שלך, הוא ננעל זמנית. "
 
 #: openedx/core/djangoapps/user_authn/views/login.py
 #, python-brace-format
@@ -10566,6 +10577,8 @@ msgid ""
 "To protect your account, it’s been temporarily locked. Try again in {locked_out_period} minutes.\n"
 "To be on the safe side, you can reset your password {link_start}here{link_end} before you try again.\n"
 msgstr ""
+"כדי להגן על החשבון שלך, הוא ננעל באופן זמני למשך {locked_out_period} דקות.\n"
+"ליתר בטחון, באפשרותך לאפס את הסיסמה שלך {link_start}heכאן{link_end}.\n"
 
 #: openedx/core/djangoapps/user_authn/views/login.py
 msgid "Too many failed login attempts. Try again later."
@@ -10925,6 +10938,7 @@ msgid ""
 msgstr "רישיון מגדיר כיצד ניתן לשתף ולעשות שימוש חוזר בתוכן של בלוק זה."
 
 #: openedx/core/lib/xblock_builtin/xblock_discussion/xblock_discussion/__init__.py
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Category"
 msgstr "קטגוריה"
 
@@ -11137,7 +11151,7 @@ msgstr "ביקורות"
 #: openedx/features/course_experience/views/course_home_messages.py
 #, python-brace-format
 msgid "{sign_in_link} or {register_link} and then enroll in this course."
-msgstr ""
+msgstr "נדרש לבצע {sign_in_link} או {register_link} ולאחר מכן רישום לקורס."
 
 #: openedx/features/course_experience/views/course_home_messages.py
 #, python-brace-format
@@ -11879,6 +11893,7 @@ msgstr "מוכן"
 
 #. Translators: This is the status for a video that is uploaded completely
 #: cms/djangoapps/contentstore/views/videos.py
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Uploaded"
 msgstr "הועלה"
 
@@ -12099,6 +12114,7 @@ msgstr "תוכן"
 #: lms/templates/wiki/includes/article_menu.html
 #: wiki/templates/wiki/includes/article_menu.html
 #: wiki/templates/wiki/settings.html
+#: edx_sga/templates/staff_graded_assignment/edit.html
 msgid "Settings"
 msgstr "הגדרות"
 
@@ -13166,6 +13182,7 @@ msgid "Inactive Groups"
 msgstr "קבוצות לא פעילות"
 
 #: lms/templates/staff_problem_info.html
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Staff Debug Info"
 msgstr "מידע לצוות איתור באגים "
 
@@ -13179,11 +13196,7 @@ msgstr "{platform_name} הערכת איכות תוכן"
 
 #: lms/templates/staff_problem_info.html
 msgid "Comment"
-msgstr "הערה"
-
-#: lms/templates/staff_problem_info.html
-msgid "comment"
-msgstr "הערה"
+msgstr "הערכת הבודק"
 
 #: lms/templates/staff_problem_info.html
 msgid "Tag"
@@ -13202,8 +13215,9 @@ msgid "Add comment"
 msgstr "הוסף הערה"
 
 #: lms/templates/staff_problem_info.html
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Staff Debug:"
-msgstr ""
+msgstr "צוות איתור באגים"
 
 #: lms/templates/staff_problem_info.html
 msgid "Score (for override only)"
@@ -13233,6 +13247,7 @@ msgid "Override Score"
 msgstr ""
 
 #: lms/templates/staff_problem_info.html
+#: edx_sga/templates/staff_graded_assignment/show.html
 msgid "Module Fields"
 msgstr "שדות מודולרים"
 
@@ -13474,11 +13489,11 @@ msgstr ""
 #: lms/templates/vert_module.html
 #: openedx/features/course_experience/templates/course_experience/course-outline-fragment.html
 msgid "{subsection_format} due {{date}}"
-msgstr ""
+msgstr "{subsection_format} תאריך הגשה {{date}}"
 
 #: lms/templates/vert_module.html
 msgid "Due {date}"
-msgstr ""
+msgstr "תאריך הגשה: {date}"
 
 #: lms/templates/video.html
 msgid "Loading video player"
@@ -17616,7 +17631,7 @@ msgstr "הוסף צוות"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Admin"
-msgstr "מינהל"
+msgstr "מנהל"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -17665,6 +17680,11 @@ msgid ""
 "moderation roles to manage course team membership. Only enrolled users can "
 "be added as Discussion Admins."
 msgstr ""
+"מנהלי דיונים יכולים לערוך או למחוק כל פוסט, להסיר דגלים ששומשו לרעה,"
+" לסגור ולפתוח מחדש שרשורים, לאשר תגובות ולראות פוסטים מכל הקבוצות "
+"הפוסטים שלהם מסומנים כ'צוות'."
+"הם יכולים גם להוסיף ולהסיר את תפקידי ניהול הדיון כדי לנהל את החברות בצוות הקורס."
+"ניתן להוסיף רק משתמשים רשומים כמנהלי דיון."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Discussion Admin"
@@ -17672,15 +17692,15 @@ msgstr "הוסף מנהל הדיון"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Course Data Researcher"
-msgstr ""
+msgstr "מנתח נתונים"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Course Data Researchers can access the data download tab."
-msgstr ""
+msgstr "מנתחי נתוני הקורס יכולים לגשת ללשונית הורדת הנתונים."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Course Data Researcher"
-msgstr ""
+msgstr "הוסף מנתח נתונים"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Discussion Moderators"
@@ -17694,6 +17714,11 @@ msgid ""
 " by adding or removing discussion moderation roles. Only enrolled users can "
 "be added as Discussion Moderators."
 msgstr ""
+" מנחי דיונים יכולים לערוך או למחוק כל פוסט,"
+" הסיר דגלים ששומשו לרעה, לסגור ולפתוח מחדש שרשורים, "
+"לאשר תגובות ולראות פוסטים מכל הקבוצות."
+" הפוסטים שלהם מסומנים כ'צוות'. הם לא יכולים לנהל את חברי צוות הקורס על ידי הוספה או "
+"הסרה של מנחי דיונים. ניתן להוסיף רק משתמשים רשומים כמנחי דיונים."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Moderator"
@@ -17701,7 +17726,7 @@ msgstr "הוסף מנחה"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Group Community TA"
-msgstr ""
+msgstr "ראש קבוצת דיון"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -17715,7 +17740,7 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Group Community TA"
-msgstr ""
+msgstr "הוסף ראש קבוצה"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -17725,6 +17750,11 @@ msgid ""
 "open threads, and endorse responses. Their posts are marked as 'Community "
 "TA'. Only enrolled learners can be added as Community TAs."
 msgstr ""
+"עוזרי הוראה קיהלתיים הם חברים בקהילה שעוזרת לצוות הקורס לנהל דיונים. "
+"הם יכולים לראות פוסטים של לומדים בקבוצה שהוקצתה להם או במסלול ההרשמה,"
+"יכולים לערוך או למחוק פוסטים, להסיר דגלים, לסגור או לפתוח מחדש שרשורים ולאשר תגובות"
+"הפוסטים שלהם מסומנים כ'עוזרי הוראה'."
+"ניתן להוסיף רק לומדים רשומים כעוזרי הוראה קהילתיים."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Community TA"
@@ -23879,11 +23909,11 @@ msgstr ""
 msgid "Click on the \"Start Proctored Exam\" button below to continue."
 msgstr "יש ללחוץ על הכפתור „התחלת מבחן תחת פיקוד” להלן כדי להמשיך."
 
-# Transltion that I Found From branch origin/GlugovGrGlib-patch-1
+#. Eden: All Xblocks:
+#. Eden: Transltion that I Found From GitHub ( by Google search: ' edx: "some-translation-string" po ') 
 
-#All Xblocks:
-# Xblock-ORA:
-
+#. Eden: Xblock-ORA:
+#. Referance: origin/GlugovGrGlib-patch-1 branch
 #: openassessment/templates/openassessmentblock/response/oa_response.html:91
 msgid ""
 "\n"
@@ -23923,8 +23953,12 @@ msgstr ""
 msgid "Supported file types: "
 msgstr ""
 
-# Xblock-OpenCraft-Poll:
+#: lms/templates/learner_dashboard/_dashboard_incomplete_profile_notification.html
+msgid "Your profile has missing fields!"
+msgstr "חסרים מספר נתונים בהגדרת החשבון שלך!"
 
+#. Eden: Xblock poll:
+#. Referance: OpenCraft-Pol repo
 #: poll\public\handlebars\survey_results.handlebars
 msgid "Results gathered from {total} respondent"
 msgid_plural "Results gathered from {total} respondents."
@@ -23933,7 +23967,6 @@ msgstr[1] "-תוצאות שנאספו מ{total} משיבים"
 msgstr[2] "-תוצאות שנאספו מ{total} משיבים"
 msgstr[3] "-תוצאות שנאספו מ{total} משיבים"
 
-
 #: poll\public\handlebars\survey_results.handlebars
 msgid "Results"
 msgstr "תוצאות"
@@ -23941,3 +23974,189 @@ msgstr "תוצאות"
 #: poll/poll.py
 msgid "Survey"
 msgstr "סקר"
+
+#. Eden: Xblock-Staf-Graded-Assigment
+#. Referance: edx-sga repo (Mit office of digital Learning)
+#: edx_sga/sga.py edx_sga/templates/staff_graded_assignment/show.html
+
+#: edx_sga/sga.py edx_sga/templates/staff_graded_assignment/show.html
+msgid "Staff Graded Assignment"
+msgstr "קביעת דירוג למטלה"
+
+#: edx_sga/sga.py edx_sga/templates/staff_graded_assignment/show.html
+msgid "Download all submissions"
+msgstr "הורדת כל ההגשות"
+
+#: edx_sga/sga.py
+msgid "This name appears in the horizontal navigation at the top of the page."
+msgstr ""
+
+#: edx_sga/sga.py
+msgid ""
+"Defines the number of points each problem is worth. If the value is not set,"
+" the problem is worth the sum of the option point values."
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "Maximum score"
+msgstr "ציון מקסימלי"
+
+#: edx_sga/sga.py
+msgid "Maximum grade score given to assignment by staff."
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "Score assigned by non-instructor staff"
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "Score will need to be approved by instructor before being published."
+msgstr ""
+
+#: edx_sga/sga.py edx_sga/templates/staff_graded_assignment/show.html
+msgid "Instructor comment"
+msgstr "הערות הבודק"
+
+#: edx_sga/sga.py
+msgid "Feedback given to student by instructor."
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "Annotated SHA1"
+msgstr ""
+
+#: edx_sga/sga.py
+msgid ""
+"sha1 of the annotated file uploaded by the instructor for this assignment."
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "Annotated file name"
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "The name of the annotated file uploaded for this assignment."
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "Mime type of annotated file"
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "The mimetype of the annotated file uploaded for this assignment."
+msgstr ""
+
+#: edx_sga/sga.py
+msgid "Timestamp"
+msgstr "חותמת זמן"
+
+#: edx_sga/sga.py
+msgid "When the annotated file was uploaded"
+msgstr ""
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "File uploaded"
+msgstr "הקובץ שהועלה"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "No file has been uploaded."
+msgstr "אף קובץ לא נבחר להעלאה"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+#, python-format
+msgid "Your score is %(graded_score)s / %(max_score)s"
+msgstr "הציון שלך %(graded_score)s / %(max_score)s"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Annotated file from instructor"
+msgstr "מצורף קובץ עם הערות ה בודק"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "This assignment has not yet been graded."
+msgstr "טרם הוגדר ציון למטלה זו"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Upload your assignment"
+msgstr "העלאת מטלה"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Select a file"
+msgstr "בחירת קובץ"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Filename"
+msgstr "שם הקובץ"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Instructor's comments"
+msgstr "הערות מנחה כיתה"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Annotated"
+msgstr "הערות הבודק"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Awaiting instructor approval"
+msgstr "בהמתנה לאישור מנחה הכיתה"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Approve grade"
+msgstr "אישור ציון"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Upload annotated file"
+msgstr "העלאת הגשה עם הערות בודק"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Grade Submissions"
+msgstr "דירוג הגשות"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Loading..."
+msgstr "בטענה..."
+
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "is_released"
+msgstr ""
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Enter Grade"
+msgstr "קבע ציון"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+#, python-format
+msgid "Grade for %(student_name)s"
+msgstr "ציון עבור %(student_name)"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Grade:"
+msgstr "ציון"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Comment:"
+msgstr "הערכת הבודק:"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Remove grade"
+msgstr "מחק ציון"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Upload a different file"
+msgstr "העלה קובץ אחר"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "This assignment has not yet been graded."
+msgstr "טרם התקבל ציון להגשה זו"
+
+#: edx_sga/templates/staff_graded_assignment/show.html
+msgid "Your score is"
+msgstr "הציון שלך הוא"
+
+#. Eden: xblock-drag-and-drop-v2
+#. Referance: xblock-drag-and-drop-v2/drag_and_drop_v2/translations/ru/LC_MESSAGES/text.po
+
+#: utils.py:56
+#, python-brace-format
+msgid "Your highest score is {score}"
+msgstr "הציון הגבוהה ביותר הוא {score}"
