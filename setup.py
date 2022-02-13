@@ -33,6 +33,7 @@ setup(
             "pdf_textbooks = lms.djangoapps.courseware.tabs:PDFTextbookTabs",
             "progress = lms.djangoapps.courseware.tabs:ProgressTab",
             "static_tab = xmodule.tabs:StaticTab",
+            "video = xmodule.tabs:StaticTab",
             "syllabus = lms.djangoapps.courseware.tabs:SyllabusTab",
             "teams = lms.djangoapps.teams.plugins:TeamsTab",
             "textbooks = lms.djangoapps.courseware.tabs:TextbookTabs",
