@@ -9,6 +9,7 @@ from django.conf import settings
 from django.urls import resolve
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
+from edx_django_utils.plugins import pluggable_override
 from eventtracking import tracker
 from search.search_engine_base import SearchEngine
 
@@ -590,8 +591,9 @@ class CourseAboutSearchIndexer(CoursewareSearchIndexer):
         AboutInfo("catalog_visibility", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
+    @pluggable_override('OVERRIDE_INDEX_ABOUT_INFORMATION')
     @classmethod
-    def index_about_information(cls, modulestore, course):
+    def index_about_information(cls, modulestore, course, ext_about_info: list = [], ext_course_info: dict = None):
         """
         Add the given course to the course discovery index
 
@@ -612,6 +614,9 @@ class CourseAboutSearchIndexer(CoursewareSearchIndexer):
             'image_url': course_image_url(course),
         }
 
+        if ext_course_info:
+            course_info.update(ext_course_info)
+
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
             item.location.block_id: item.data
@@ -623,7 +628,11 @@ class CourseAboutSearchIndexer(CoursewareSearchIndexer):
             "about_dictionary": about_dictionary,
         }
 
-        for about_information in cls.ABOUT_INFORMATION_TO_INCLUDE:
+        about_info_to_include = cls.ABOUT_INFORMATION_TO_INCLUDE
+        if ext_about_info:
+            about_info_to_include += ext_about_info
+
+        for about_information in about_info_to_include:
             # Broad exception handler so that a single bad property does not scupper the collection of others
             try:
                 section_content = about_information.get_value(**about_context)
