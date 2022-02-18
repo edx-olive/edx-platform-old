@@ -7,6 +7,7 @@ import logging
 import re
 
 from django.conf import settings
+from edx_django_utils.plugins import pluggable_override
 
 from openedx.core.djangolib.markup import HTML
 from openedx.core.lib.courses import course_image_url
@@ -17,7 +18,7 @@ from xmodule.modulestore.exceptions import ItemNotFoundError
 # This list represents the attribute keys for a course's 'about' info.
 # Note: The 'video' attribute is intentionally excluded as it must be
 # handled separately; its value maps to an alternate key name.
-ABOUT_ATTRIBUTES = [
+DEFAULT_ABOUT_ATTRIBUTES = [
     'syllabus',
     'title',
     'subtitle',
@@ -33,10 +34,21 @@ ABOUT_ATTRIBUTES = [
 ]
 
 
+@pluggable_override('OVERRIDE_GET_ABOUT_ATTRIBUTES')
+def get_about_attributes(add_about_attributes: list = []) -> list:
+    """Compose a list of about attributes."""
+    return DEFAULT_ABOUT_ATTRIBUTES + add_about_attributes
+
+
+ABOUT_ATTRIBUTES = get_about_attributes()
+
+
 class CourseDetails:
     """
     An interface for extracting course information from the modulestore.
     """
+
+    @pluggable_override('OVERRIDE_INIT_COURSE_DETAILS')
     def __init__(self, org, course_id, run):
         # still need these for now b/c the client's screen shows these 3
         # fields
