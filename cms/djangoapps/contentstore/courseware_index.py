@@ -9,7 +9,6 @@ from django.conf import settings
 from django.urls import resolve
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
-from edx_django_utils.plugins import pluggable_override
 from eventtracking import tracker
 from search.search_engine_base import SearchEngine
 
@@ -591,9 +590,8 @@ class CourseAboutSearchIndexer(CoursewareSearchIndexer):
         AboutInfo("catalog_visibility", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
-    @pluggable_override('OVERRIDE_INDEX_ABOUT_INFORMATION')
     @classmethod
-    def index_about_information(cls, modulestore, course, ext_about_info: list = [], ext_course_info: dict = None):
+    def index_about_information(cls, modulestore, course):
         """
         Add the given course to the course discovery index
 
@@ -613,6 +611,11 @@ class CourseAboutSearchIndexer(CoursewareSearchIndexer):
             'content': {},
             'image_url': course_image_url(course),
         }
+
+        ext_course_info, ext_about_info = None, []
+        if settings.FEATURES.get("ENABLE_AMAT_EXTENSIONS", False):
+            from custom_views.utils import amat_index_about_information
+            ext_course_info, ext_about_info = amat_index_about_information(course)
 
         if ext_course_info:
             course_info.update(ext_course_info)
