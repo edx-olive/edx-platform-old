@@ -73,7 +73,6 @@ from openedx.core.djangolib.js_utils import (
         <%include file="widgets/header.html" args="online_help_token=online_help_token" />
 
       <div id="page-alert">
-      <%block name="page_alert">
         <div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement">
           <div class="alert announcement has-actions">
             <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
@@ -245,7 +244,7 @@ from openedx.core.djangolib.js_utils import (
 
           isShowFreezeNotification();
         </script>
-      </%block>
+      <%block name="page_alert"></%block>
       </div>
 
       <main id="main" aria-label="Content" tabindex="-1">
