@@ -1,5 +1,8 @@
 <%page expression_filter="h"/>
-<%! from openedx.core.djangolib.markup import HTML %>
+<%! 
+    from openedx.core.djangolib.markup import HTML 
+    from django.utils.translation import ugettext as _
+%>
 <% doinline = "inline" if inline else "" %>
 
 <div id="inputtype_${id}" class="${'text-input-dynamath' if do_math else ''} capa_inputtype ${doinline} textline">
@@ -38,7 +41,10 @@
 
 <%include file="status_span.html" args="status=status, status_id=id"/>
 
-<p id="answer_${id}" class="answer"></p>
+<span style="display: none;">
+    <strong class="answer-label">${_("Answer")}: </strong>
+    <span id="answer_${id}" class="answer-value"></span>
+</span>
 
 % if do_math:
     <div id="display_${id}" class="equation">`{::}`</div>
