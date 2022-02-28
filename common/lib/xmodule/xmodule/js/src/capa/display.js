@@ -721,9 +721,16 @@
                 $.each(answers, function(key, value) {
                     var safeKey = key.replace(':', '\\:'); // fix for courses which use url_names with colons, e.g. problem:question1
                     var answer;
+                    let answerParent;
                     if (!$.isArray(value)) {
+                        // find elements
                         answer = that.$('#answer_' + safeKey + ', #solution_' + safeKey);
+                        answerParent = answer[0] ? answer[0].parentElement : null;
+
+                        // set and show values
                         edx.HtmlUtils.setHtml(answer, edx.HtmlUtils.HTML(value));
+                        if (answerParent) answerParent.style["display"] = "inline";
+
                         Collapsible.setCollapsibles(answer);
 
                         // Sometimes, `value` is just a string containing a MathJax formula.
