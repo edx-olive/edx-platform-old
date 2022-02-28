@@ -1,9 +1,5 @@
 <%page expression_filter="h"/>
-<%! 
-    from openedx.core.djangolib.markup import HTML 
-    from django.utils.translation import ugettext as _
-%>
-
+<%! from openedx.core.djangolib.markup import HTML %>
 <% doinline = 'style="display:inline-block;vertical-align:top"' if inline else "" %>
 <div id="formulaequationinput_${id}" class="inputtype formulaequationinput" ${doinline | n, decode.utf8}>
     <div class="${status.classname}">
@@ -23,11 +19,8 @@
         <span class="trailing_text" id="trailing_text_${id}">${trailing_text}</span>
 
         <%include file="status_span.html" args="status=status, status_id=id"/>
-        
-        <span style="display: none;">
-            <strong class="answer-label">${_("Answer")}: </strong>
-            <span id="answer_${id}" class="answer-value"></span>
-        </span>
+
+        <p id="answer_${id}" class="answer"></p>
 
         <div id="input_${id}_preview" class="equation">
             \(\)

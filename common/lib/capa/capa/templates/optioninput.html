@@ -1,8 +1,5 @@
 <%page expression_filter="h"/>
-<%! 
-  from openedx.core.djangolib.markup import HTML 
-  from django.utils.translation import ugettext as _
-%>
+<%! from openedx.core.djangolib.markup import HTML %>
 <% doinline = "inline" if inline else "" %>
 
 <div class="inputtype option-input ${doinline}">
@@ -28,10 +25,7 @@
   <div class="indicator-container">
     <%include file="status_span.html" args="status=status, status_id=id"/>
   </div>
-  <span style="display: none;">
-    <strong class="answer-label">${_("Answer")}: </strong>
-    <span id="answer_${id}" class="answer-value"></span>
-  </span>
+  <p class="answer" id="answer_${id}"></p>
   % if msg:
       <span class="message" aria-describedby="label_${id}" tabindex="-1">${HTML(msg)}</span>
   % endif
