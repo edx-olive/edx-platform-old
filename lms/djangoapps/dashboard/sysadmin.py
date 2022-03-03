@@ -30,6 +30,7 @@ from io import BytesIO
 
 import lms.djangoapps.dashboard.git_import as git_import
 from common.djangoapps.track import views as track_views
+from lms.djangoapps.dashboard.decorators import redirect_sysadmin_url
 from lms.djangoapps.dashboard.git_import import GitImportError
 from lms.djangoapps.dashboard.models import CourseImportLog
 from common.djangoapps.edxmako.shortcuts import render_to_response
@@ -38,6 +39,7 @@ from openedx.core.djangolib.markup import HTML
 from common.djangoapps.student.models import CourseEnrollment, Registration, UserProfile
 from common.djangoapps.student.roles import CourseInstructorRole, CourseStaffRole
 from xmodule.modulestore.django import modulestore
+
 
 log = logging.getLogger(__name__)
 
@@ -232,6 +234,7 @@ class Users(SysadminDashboardView):
         return render_to_response(self.template_name, context)
 
 
+@method_decorator(redirect_sysadmin_url, name='get')
 class Courses(SysadminDashboardView):
     """
     This manages adding/updating courses from git, deleting courses, and

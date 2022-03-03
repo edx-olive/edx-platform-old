@@ -185,6 +185,9 @@ FEATURES = {
     # .. toggle_tickets: None
     'ENABLE_SYSADMIN_DASHBOARD': False,  # sysadmin dashboard, to see what courses are loaded, to delete & load courses
 
+    # Enable courses tab on the Sysadmin Dashboard page
+    'ENABLE_SYSADMIN_COURSES_TAB': False,
+
     'DISABLE_LOGIN_BUTTON': False,  # used in systems where login is automatic, eg MIT SSL
 
     # .. toggle_name: ENABLE_OAUTH2_PROVIDER
@@ -4216,3 +4219,19 @@ DEFAULT_EMAIL_LOGO_URL = 'https://edx-cdn.org/v3/default/logo.png'
 
 # The default is just 'problem' has access to these features.
 HISTORY_SAVING_TYPES = ['problem']
+
+CAMPUS_LOGO_URL = '/'
+CAMPUS_SUPPORT_CONTACT_URL = 'https://campus.gov.il/en/contact_us/'
+CAMPUS_DEFAULT_TOS_URL = 'https://campus.gov.il/en/terms-of-use/'
+
+CAMPUS_TOS_URLS = {
+    'en': 'https://campus.gov.il/en/terms-of-use/',
+    'he': 'https://campus.gov.il/privacy-policy/',
+    'ar': 'https://campus.gov.il/ar/سياسة-الخصوصية/',
+}
+
+CAMPUS_PRIVACY_URLS = {
+    'en': 'https://campus.gov.il/en/terms-of-use/',
+    'he': 'https://campus.gov.il/privacy-policy/',
+    'ar': 'https://campus.gov.il/ar/سياسة-الخصوصية/',
+}

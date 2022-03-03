@@ -1,12 +1,13 @@
 define(['js/views/validation',
     'underscore',
+    'gettext',
     'jquery',
     'jquery.ui',
     'js/views/settings/grader',
     'edx-ui-toolkit/js/utils/string-utils',
     'edx-ui-toolkit/js/utils/html-utils'
 ],
-    function(ValidatingView, _, $, ui, GraderView, StringUtils, HtmlUtils) {
+    function(ValidatingView, _, gettext, $, ui, GraderView, StringUtils, HtmlUtils) {
         var GradingView = ValidatingView.extend({
     // Model class is CMS.Models.Settings.CourseGradingPolicy
             events: {
@@ -259,7 +260,7 @@ define(['js/views/validation',
         // When a grade is removed, keep the remaining grades consistent.
                 var _this = this;
                 if (_this.descendingCutoffs.length === 1 && _this.descendingCutoffs[0].designation === _this.GRADES[0]) {
-                    _this.descendingCutoffs[0].designation = 'Pass';
+                    _this.descendingCutoffs[0].designation = gettext('Pass');
                     _this.setTopGradeLabel();
                 } else {
                     _.each(_this.descendingCutoffs, function(cutoff, index) {
@@ -352,7 +353,7 @@ define(['js/views/validation',
             },
 
             failLabel: function() {
-                if (this.descendingCutoffs.length === 1) return 'Fail';
+                if (this.descendingCutoffs.length === 1) return gettext('Fail');
                 else return 'F';
             },
             setFailLabel: function() {

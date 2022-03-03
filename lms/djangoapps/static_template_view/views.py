@@ -14,12 +14,14 @@ from django.shortcuts import redirect
 from django.template import TemplateDoesNotExist
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic.base import RedirectView
 from mako.exceptions import TopLevelLookupException
 
 from common.djangoapps.edxmako.shortcuts import render_to_response, render_to_string
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from common.djangoapps.util.cache import cache_if_anonymous
 from common.djangoapps.util.views import fix_crum_request
+from lms.djangoapps.static_template_view.utils import get_current_tos_privacy_url
 
 valid_templates = []
 
@@ -101,3 +103,21 @@ def render_404(request, exception):
 @fix_crum_request
 def render_500(request):
     return HttpResponseServerError(render_to_string('static_templates/server-error.html', {}, request=request))
+
+
+class CampusTOSRedirectView(RedirectView):
+
+    permanent = True
+
+    def get_redirect_url(self, *args, **kwargs):
+
+        return get_current_tos_privacy_url('tos')
+
+
+class CampusPrivacyRedirectView(RedirectView):
+
+    permanent = True
+
+    def get_redirect_url(self, *args, **kwargs):
+
+        return get_current_tos_privacy_url('privacy')

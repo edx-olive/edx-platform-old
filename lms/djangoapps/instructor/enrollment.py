@@ -19,6 +19,7 @@ from django.urls import reverse
 from django.utils.translation import override as override_language
 from edx_ace import ace
 from edx_ace.recipient import Recipient
+from edx_django_utils.plugins import pluggable_override
 from eventtracking import tracker
 from six import text_type
 from submissions import api as sub_api  # installed from the edx-submissions repository
@@ -122,6 +123,7 @@ def get_user_email_language(user):
     return UserPreference.get_value(user, LANGUAGE_KEY)
 
 
+@pluggable_override('OVERRIDE_ENROLL_EMAIL')
 def enroll_email(course_id, student_email, auto_enroll=False, email_students=False, email_params=None, language=None):
     """
     Enroll a student by email.
@@ -387,6 +389,7 @@ def _fire_score_changed_for_block(
             )
 
 
+@pluggable_override('OVERRIDE_GET_EMAIL_PARAMS')
 def get_email_params(course, auto_enroll, secure=True, course_key=None, display_name=None):
     """
     Generate parameters used when parsing email templates.
@@ -486,6 +489,7 @@ def send_mail_to_student(student, param_dict, language=None):
     param_dict['dashboard_url'] = message_context["dashboard_url"]
     param_dict['platform_name'] = message_context["platform_name"]
     param_dict['contact_email'] = message_context["contact_email"]
+    param_dict['support_contact_url'] = message_context["support_contact_url"]
 
     # see if there is an activation email template definition available as configuration,
     # if so, then render that

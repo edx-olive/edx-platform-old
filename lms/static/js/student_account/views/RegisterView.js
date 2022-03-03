@@ -132,10 +132,10 @@
 
                     html = this.renderFields(requiredFields, 'required-fields');
 
-                    html.push.apply(html, this.renderFields(exposedOptionalFields, 'exposed-optional-fields'));
                     html.push.apply(html, this.renderFields(
                       optionalFields, `optional-fields ${!this.enableCoppaCompliance ? '' : 'full-length-fields'}`
                     ));
+                    html.push.apply(html, this.renderFields(exposedOptionalFields, 'exposed-optional-fields'));
 
                     this.render(html.join(''));
                 },

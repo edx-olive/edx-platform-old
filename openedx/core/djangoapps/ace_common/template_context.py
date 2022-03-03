@@ -47,4 +47,5 @@ def get_base_template_context(site):
             lms_url_root=get_config_value_from_site_or_settings('LMS_ROOT_URL', site=site),
             theme_dir=theme_dir
         ),
+        'support_contact_url': getattr(settings, 'CAMPUS_SUPPORT_CONTACT_URL', ''),
     }
