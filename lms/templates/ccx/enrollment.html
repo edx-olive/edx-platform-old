@@ -54,8 +54,10 @@ from openedx.core.djangolib.markup import HTML, Text
   </div>
 
   <div>
-    <input type="submit" name="enrollment-button" class="enrollment-button" value="${pgettext('someone','Enroll')}">
-    <input type="submit" name="enrollment-button" class="enrollment-button" value="${_("Unenroll")}">
+    <input type="submit" name="enrollment-button" class="enrollment-button enroll" style="display: none" value="Enroll">
+    <input type="submit" name="enrollment-button" class="enrollment-button unenroll" style="display: none" value="Unenroll">
+    <button type="enroll" class="enroll-button">${pgettext('someone','Enroll')}</button>
+    <button type="unenroll" class="unenroll-button">${_("Unenroll")}</button>
   </div>
   <div class="request-response"></div>
   <div class="request-response-error"></div>
@@ -100,3 +102,14 @@ from openedx.core.djangolib.markup import HTML, Text
   </div>
   </form>
 </div>
+
+<script>
+  $('.enroll-button').click(function(e){
+    e.preventDefault();
+    $('.enroll').click();
+  });
+  $('.unenroll-button').click(function(e){
+    e.preventDefault();
+    $('.unenroll').click();
+  });
+</script>
