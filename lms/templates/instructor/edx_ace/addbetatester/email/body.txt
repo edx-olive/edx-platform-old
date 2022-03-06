@@ -1,6 +1,6 @@
 {% load i18n %}{% autoescape off %}{% blocktrans %}Dear {{ full_name }}{% endblocktrans %}
 
-{% blocktrans %}You have been invited to be a beta tester for {{ course_name }} at {{ site_name }} by a member of the course staff.{% endblocktrans %}
+{% blocktrans %}You have been invited to be a beta tester for the course {{ course_name }}{% endblocktrans %}
 {% if auto_enroll %}
 {% blocktrans %}To start accessing course materials, please visit {{ course_url }}{% endblocktrans %}
 {% elif course_about_url is not None %}
@@ -9,4 +9,4 @@
 {% blocktrans %}Visit {{ site_name }} to enroll in this course and begin the beta test.{% endblocktrans %}
 {% endif %}
 ----
-{% blocktrans %}This email was automatically sent from {{ site_name }} to {{ email_address }}{% endblocktrans %}{% endautoescape %}
+{% blocktrans %}This message was automatically sent by {{ site_name }}, after a campus.il account with this email address {{ email_address }} was created.{% endblocktrans %}{% endautoescape %}
