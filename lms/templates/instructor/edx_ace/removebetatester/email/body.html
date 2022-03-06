@@ -8,34 +8,34 @@
         <td>
             <h1>
                 {% filter force_escape %}
-                {% blocktrans %}You have been removed as a beta tester for {{ course_name }} at {{ site_name }}{% endblocktrans %}
+                {% blocktrans %}You have been removed from the position of beta tester in the course {{ course_name }}{% endblocktrans %}
                 {% endfilter %}
             </h1>
 
-            <p style="color: rgba(0,0,0,.75);">
+            <!-- <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
                 {% blocktrans %}You have been removed as a beta tester for {{ course_name }} at {{ site_name }} by a member of the course staff.{% endblocktrans %}
                 {% endfilter %}
                 <br />
-            </p>
+            </p> -->
 
             <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
-                {% blocktrans %}This course will remain on your dashboard, but you will no longer be part of the beta testing group.{% endblocktrans %}
+                {% blocktrans %}The course's staff has removed you from this important position. This course will remain displayed on your "My Courses" list and will remain open for learning.{% endblocktrans %}
                 {% endfilter %}
                 <br />
             </p>
 
-            <p style="color: rgba(0,0,0,.75);">
+            <!-- <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
                 {% blocktrans %}Your other courses have not been affected.{% endblocktrans %}
                 {% endfilter %}
                 <br />
-            </p>
+            </p> -->
 
             <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
-                {% blocktrans %}This email was automatically sent from {{ site_name }} to {{ email_address }}{% endblocktrans %}
+                {% blocktrans %}This message was automatically sent by {{ site_name }}, after a campus.il account with this email address was created{% endblocktrans %}
                 {% endfilter %}
                 <br />
             </p>
