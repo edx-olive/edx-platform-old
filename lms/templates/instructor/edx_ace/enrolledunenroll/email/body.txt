@@ -1,8 +1,6 @@
 {% load i18n %}{% autoescape off %}{% blocktrans %}Dear {{ full_name }}{% endblocktrans %}
 
-{% blocktrans %}You have been unenrolled from {{ course_name }} at {{ site_name }} by a member of the course staff. This course will no longer appear on your {{ site_name }} dashboard.{% endblocktrans %}
-
-{% blocktrans %}Your other courses have not been affected.{% endblocktrans %}
+{% blocktrans %}The course's staff has removed your name from the list of learners. This course will no longer be displayed under your "My Courses" list.{% endblocktrans %}
 
 ----
-{% blocktrans %}This email was automatically sent from {{ site_name }} to {{ full_name }}{% endblocktrans %}{% endautoescape %}
+{% blocktrans %}This message was automatically sent by {{ site_name }}, after a campus.il account with this email address was created.{% endblocktrans %}{% endautoescape %}

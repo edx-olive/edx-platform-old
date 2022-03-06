@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}You have been unenrolled from {{ course_name }}{% endblocktrans %}
+{% blocktrans %}Your enrollment for the course ({{ course_name }}) has been cancelled.{% endblocktrans %}
 {% endautoescape %}
