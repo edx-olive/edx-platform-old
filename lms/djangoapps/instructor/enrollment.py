@@ -488,6 +488,7 @@ def send_mail_to_student(student, param_dict, language=None):
     param_dict['homepage_url'] = message_context["homepage_url"]
     param_dict['dashboard_url'] = message_context["dashboard_url"]
     param_dict['platform_name'] = message_context["platform_name"]
+    param_dict['platform_name_tag'] = message_context["platform_name_tag"]
     param_dict['contact_email'] = message_context["contact_email"]
     param_dict['support_contact_url'] = message_context["support_contact_url"]
 
