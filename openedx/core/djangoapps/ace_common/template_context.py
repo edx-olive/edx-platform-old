@@ -7,6 +7,7 @@ from django.conf import settings
 from django.urls import NoReverseMatch, reverse
 
 from common.djangoapps.edxmako.shortcuts import marketing_link
+from openedx.core.djangolib.markup import HTML
 from openedx.core.djangoapps.theming.helpers import get_config_value_from_site_or_settings
 
 
@@ -27,15 +28,20 @@ def get_base_template_context(site):
     if site is not None and site.themes.first() is not None:
         theme_dir = getattr(site.themes.first(), 'theme_dir_name')
 
+    platform_name = get_config_value_from_site_or_settings(
+        'PLATFORM_NAME',
+        site=site,
+        site_config_name='platform_name',
+    )
+
     return {
         # Platform information
         'homepage_url': marketing_link('ROOT'),
         'dashboard_url': dashboard_url,
         'template_revision': getattr(settings, 'EDX_PLATFORM_REVISION', None),
-        'platform_name': get_config_value_from_site_or_settings(
-            'PLATFORM_NAME',
-            site=site,
-            site_config_name='platform_name',
+        'platform_name': platform_name,
+        'platform_name_tag': HTML("<span dir='ltr'>{platform_name}</span>").format(
+            platform_name=platform_name
         ),
         'contact_email': get_config_value_from_site_or_settings(
             'CONTACT_EMAIL', site=site, site_config_name='contact_email'),
