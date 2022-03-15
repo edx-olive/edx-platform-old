@@ -795,7 +795,7 @@ msgstr ""
 msgid ""
 "This account has been temporarily locked due to excessive login failures. "
 "Try again later."
-msgstr "חשבון זה ננעל כתוצאה ממספר רב של נסיונות התחברות. אנא נסה מאוחר יותר."
+msgstr "חשבון זה ננעל כתוצאה ממספר רב של נסיונת, באפשרותך לאפס את הסיסמה כדי להתחבר לחשבון."
 
 #: common/djangoapps/student/views.py
 msgid ""
