@@ -73,7 +73,6 @@ from openedx.core.djangolib.js_utils import (
         <%include file="widgets/header.html" args="online_help_token=online_help_token" />
 
       <div id="page-alert">
-      <%block name="page_alert">
         <div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement">
           <div class="alert announcement has-actions">
             <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
@@ -173,12 +172,12 @@ from openedx.core.djangolib.js_utils import (
             const _notifications = [ // !!!! TODO: move to configuration of Admin panel !!!!
               { 
                 id: 1,
-                startDate: new Date('2022-02-27T00:00:00'),
-                stopDate: new Date('2022-03-05T00:00:00'),
+                startDate: new Date('2022-03-08T00:00:00'),
+                stopDate: new Date('2022-03-14T23:59:59'),
                 text: {
-                  title: "הקפאת פעילות בסטודיו קמפוס IL מתאריך 6.3",
+                  title: "הקפאת פעילות בסטודיו קמפוסIL מתאריך 15.3",
                   body: [
-                    "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 6.3 – 9.3 לא ניתן יהיה לבצע שינויים או לפתח קורסים באמצעות הסטודיו. החל מה- 10.3 נעבור לעבוד בסטודיו בגרסת Koa. לקראת ההקפאה והמעבר מומלץ לגבות את עבודתכם.",
+                    "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 18.3 – 15.3 לא ניתן יהיה לבצע שינויים או לפתח קורסים באמצעות הסטודיו. החל מה- 20.3 נעבור לעבוד בסטודיו בגרסת Koa. לקראת ההקפאה והמעבר מומלץ לגבות את עבודתכם.",
                     "",
                     "לפרטים נוספים היכנסו לסביבת הבדיקות, ולקורס ההכרות עם תהליך השדרוג.",
                     "או פנו אלינו במייל: <a url='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
@@ -187,14 +186,13 @@ from openedx.core.djangolib.js_utils import (
               },
               { 
                 id: 2,
-                startDate: new Date('2022-03-06T00:00:00'),
-                stopDate: new Date('2022-03-09T00:00:00'),
+                startDate: new Date('2022-03-15T00:00:00'),
+                stopDate: new Date('2022-03-19T23:59:59'),
                 text: {
                   title: "הקפאת פעילות בסטודיו קמפוסIL",
                   body: [
-                    "הקפאת פעילות בסטודיו קמפוסIL",
-                    "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 6.3 – 9.3 לא ניתן לעבוד בסטודיו קמפוסIL.",
-                    "החל מה- 10.3 נעבור לעבוד בסטודיו בגרסת Koa.",
+                    "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 19.3 – 15.3 לא ניתן לעבוד בסטודיו קמפוסIL.",
+                    "החל מה- 20.3 נעבור לעבוד בסטודיו בגרסת Koa.",
                     "",
                     "לפרטים נוספים היכנסו <a href='https://courses.koastage.campus.gov.il/courses'>לסביבת הבדיקות</a>, ול<a href='https://courses.koastage.campus.gov.il/courses/course-v1:CampusIL+koa-release-notes-he+2022_1/about'>קורס ההכרות</a> עם תהליך השדרוג.",
                     "או פנו אלינו במייל: <a url='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
@@ -203,15 +201,15 @@ from openedx.core.djangolib.js_utils import (
               },
               { 
                 id: 3,
-                startDate: new Date('2022-03-10T00:00:00'),
-                stopDate: new Date('2022-03-23T00:00:00'),
+                startDate: new Date('2022-03-20T00:00:00'),
+                stopDate: new Date('2022-04-06T23:59:59'),
                 text: {
                   title: "עברנו לסטודיו החדש!",
                   body: [
-                    "שימו לב! אתם נמצאים כרגע בסטודיו הישן. כל שינוי שתבצעו בקורסים כאן ימחק ב- 24.3, ולא יועבר לסטודיו החדש!",
-                    "להמשך פיתוח הקורס שלכם היכנסו לסטודיו החדש: (להכניס כאן את הכתובת של הסטודיו החדש- יהיה לנו בעתיד).",
+                    "שימו לב! אתם נמצאים כרגע בסטודיו הישן. כל שינוי שתבצעו בקורסים כאן לא יועבר לסטודיו החדש ב07.04!",
+                    "להמשך פיתוח הקורס שלכם היכנסו לסטודיו החדש: {URL}.",
                     "",
-                    "לפרטים נוספים היכנסו לקורס ההכרות עם תהליך השדרוג (להעתיק את הקורס לסביבת הפרודקשן החדשה ולשים כאן קישור- יקרה בעתיד).",
+                    "לפרטים נוספים היכנסו לקורס ההכרות עם תהליך השדרוג {URL}.",
                     "או פנו אלינו במייל: <a url='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
                   ]
                 }
@@ -220,7 +218,7 @@ from openedx.core.djangolib.js_utils import (
               // { 
               //   id: 4,
               //   startDate: new Date('2022-03-10T00:00:00'),
-              //   stopDate: new Date('2022-03-23T00:00:00'),
+              //   stopDate: new Date('2022-03-23T23:59:59'),
               //   text: {
               //     title: "ברוכים הבאים לסטודיו החדש של קמפוסIL!",
               //     body: [
@@ -228,7 +226,7 @@ from openedx.core.djangolib.js_utils import (
               //       "ניתן להמשיך ולפתח כאן את הקורסים. מומלץ לגבות את עבודתכם מעת לעת.",
               //       "שימו לב! שינויים שתפורסמו יהיו גלויים ללומדים רק החל ממועד השדרוג ב- 24.3.",
               //       "",
-              //       "לפרטים נוספים היכנסו לקורס ההכרות עם תהליך השדרוג (להעתיק את הקורס לסביבת הפרודקשן החדשה ולשים כאן קישור).",
+              //       "לפרטים נוספים היכנסו לקורס ההכרות עם תהליך השדרוג {URL}.",
               //       "או פנו אלינו במייל: <a url='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
               //     ]
               //   }
@@ -245,7 +243,7 @@ from openedx.core.djangolib.js_utils import (
 
           isShowFreezeNotification();
         </script>
-      </%block>
+      <%block name="page_alert"></%block>
       </div>
 
       <main id="main" aria-label="Content" tabindex="-1">
