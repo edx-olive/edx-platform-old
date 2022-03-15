@@ -73,6 +73,7 @@ from openedx.core.djangolib.js_utils import (
         <%include file="widgets/header.html" args="online_help_token=online_help_token" />
 
       <div id="page-alert">
+        <!-- Start temporary notification: after update to KOA no need in this code -->
         <div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement">
           <div class="alert announcement has-actions">
             <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
@@ -243,6 +244,8 @@ from openedx.core.djangolib.js_utils import (
 
           isShowFreezeNotification();
         </script>
+
+        <!-- Stop temporary notification -->
       <%block name="page_alert"></%block>
       </div>
 
