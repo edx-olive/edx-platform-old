@@ -31,7 +31,7 @@ def get_base_template_context(site):
     platform_name = get_config_value_from_site_or_settings(
         'PLATFORM_NAME',
         site=site,
-        site_config_name='platform_name',
+        site_config_name='PLATFORM_NAME',
     )
 
     return {
