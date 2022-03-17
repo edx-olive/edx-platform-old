@@ -30,7 +30,7 @@ def get_default_time_display(dtime):
     if dtime.tzinfo is not None:
         try:
             timezone = " " + dtime.tzinfo.tzname(dtime)  # lint-amnesty, pylint: disable=redefined-outer-name
-        except NotImplementedError:
+        except (NotImplementedError, TypeError):
             timezone = dtime.strftime('%z')
     else:
         timezone = " UTC"
