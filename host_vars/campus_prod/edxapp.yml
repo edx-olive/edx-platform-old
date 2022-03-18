@@ -3,7 +3,7 @@ EDXAPP_SITE_NAME: "courses.koa.campus.gov.il"
 EDXAPP_CMS_SITE_NAME: "studio.koa.campus.gov.il"
 EDXAPP_PREVIEW_LMS_BASE: "preview.koa.campus.gov.il"
 
-EDX_PLATFORM_VERSION: "main"
+EDX_PLATFORM_VERSION: "campus-prod-release-2022-03-17"
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"
