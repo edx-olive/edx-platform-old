@@ -13,6 +13,8 @@ EDXAPP_LMS_SITE_NAME: "{{ EDXAPP_SITE_NAME }}"
 EDXAPP_LMS_BASE: "{{ EDXAPP_SITE_NAME }}"
 EDXAPP_CMS_BASE: "{{ EDXAPP_CMS_SITE_NAME }}"
 
+COMMON_LMS_BASE_URL: "{{ EDXAPP_LMS_BASE_SCHEME }}://{{ EDXAPP_LMS_BASE }}"
+
 COMMON_HOSTNAME: "{{ EDXAPP_SITE_NAME }}"
 RG_ADD_HOSTNAME_TO_HOSTS_FILE: true
 
@@ -49,10 +51,85 @@ EDXAPP_FEATURES_OVERRIDE:
  ENABLE_COURSE_DISCOVERY: true
  ENABLE_COURSE_FILENAME_CCX_SUFFIX: true
  ENABLE_DASHBOARD_SEARCH: false
+ ADVANCED_SECURITY: false
+ ALLOW_ALL_ADVANCED_COMPONENTS: true
+ ALLOW_COURSE_RERUNS: true
+ ALLOW_COURSE_STAFF_GRADE_DOWNLOADS: true
+ ALLOW_UNICODE_COURSE_ID: true
+ AUTH_USE_OPENID_PROVIDER: true
+ CERTIFICATES_ENABLED: true
+ CERTIFICATES_HTML_VIEW: true
+ CERTIFICATES_INSTRUCTOR_GENERATION: true
+ CUSTOM_CERTIFICATE_TEMPLATES_ENABLED: true
+ CUSTOM_COURSES_EDX: true
+ DISABLE_STUDIO_SSO_OVER_LMS: true
+ DISABLE_COURSE_CREATION: true
+ DISPLAY_ANALYTICS_DEMOGRAPHICS: false
+ DISPLAY_ANALYTICS_ENROLLMENTS: false
+ DISPLAY_SENSITIVE_DATA_MSG_FOR_DOWNLOADS: true
+ EDITABLE_SHORT_DESCRIPTION: false
+ EMBARGO: true
+ ENABLE_ACCOUNT_DELETION: true
+ ENABLE_ANALYTICS_ACTIVE_COUNT: true
+ ENABLE_ASYNC_ANSWER_DISTRIBUTION: true
+ ENABLE_CCX_ANALYTICS_DASHBOARD_URL: true
+ ENABLE_COMBINED_LOGIN_REGISTRATION: true
+ ENABLE_CONTENT_LIBRARIES: true
+ ENABLE_CORS_HEADERS: true
+ ENABLE_COUNTRY_ACCESS: true
+ ENABLE_CREATOR_GROUP: false
+ ENABLE_CROSS_DOMAIN_CSRF_COOKIE: false
+ ENABLE_DEBUG_RUN_PYTHON: false
+ ENABLE_DISCUSSION_EMAIL_DIGEST: true
+ ENABLE_DISCUSSION_HOME_PANEL: true
+ ENABLE_DISCUSSION_SERVICE: true
+ ENABLE_DJANGO_ADMIN_SITE: true
+ ENABLE_EXTENDED_COURSE_DETAILS: true
+ ENABLE_EDXNOTES: true
+ ENABLE_FEEDBACK_SUBMISSION: true
+ ENABLE_FINANCIAL_ASSISTANCE_FORM: true
+ ENABLE_FOOTER_MOBILE_APP_LINKS: true
+ ENABLE_INSTRUCTOR_ANALYTICS: true
+ ENABLE_INSTRUCTOR_BETA_DASHBOARD: true
+ ENABLE_INSTRUCTOR_EMAIL: true
+ ENABLE_INSTRUCTOR_LEGACY_DASHBOARD: false
+ ENABLE_JWT_AUTH: true
+ ENABLE_MAX_FAILED_LOGIN_ATTEMPTS: true
+ ENABLE_MKTG_EMAIL_OPT_IN: false
+ ENABLE_MKTG_SITE: false
+ ENABLE_MOBILE_REST_API: true
+ ENABLE_OAUTH2_PROVIDER: true
+ ENABLE_PAID_COURSE_REGISTRATION: false
+ ENABLE_PEARSON_HACK_TEST: false
+ ENABLE_PREREQUISITE_COURSES: true
+ ENABLE_GRADE_DOWNLOADS: true
+ ENABLE_SERVICE_STATUS: false
+ ENABLE_SHOPPING_CART: false
+ ENABLE_SPECIAL_EXAMS: true
+ ENABLE_SYSADMIN_DASHBOARD: true
  ENABLE_THIRD_PARTY_AUTH: true
  ENABLE_UNICODE_USERNAME: true
  ENABLE_VERIFIED_CERTIFICATES: true
+ ENABLE_VIDEO_ABSTRACTION_LAYER_API: true
+ ENABLE_VIDEO_BUMPER: true
+ ENABLE_VIDEO_UPLOAD_PIPELINE: true
  ENABLE_XBLOCK_VIEW_ENDPOINT: true
+ ENFORCE_PASSWORD_POLICY: false
+ IS_EDX_DOMAIN: true
+ LICENSING: true
+ MILESTONES_APP: true
+ ORGANIZATIONS_APP: true
+ PREVENT_CONCURRENT_LOGINS: false
+ REQUIRE_COURSE_EMAIL_AUTH: false
+ SEPARATE_VERIFICATION_FROM_PAYMENT: true
+ SQUELCH_PII_IN_LOGS: true
+ STORE_BILLING_INFO: true
+ STUDIO_REQUEST_EMAIL: studio-request@campus.gov.il
+ USE_MICROSITES: false
+ ENABLE_CSMH_EXTENDED: true
+ ENABLE_READING_FROM_MULTIPLE_HISTORY_TABLES: false
+ ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER: false
+ ENABLE_OTHER_COURSE_SETTINGS: true
  # RG ANALYTICS
  ENABLE_RG_INSTRUCTOR_ANALYTICS: "{{ COMMON_RG_INSTRUCTOR_ANALYTICS_ENABLE }}"
  RG_ANALYTICS_GRADE_CRON_DOM: '*'
@@ -65,35 +142,64 @@ EDXAPP_FEATURES_OVERRIDE:
 
 EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recursive=true) }}"
 
+EDXAPP_GOOGLE_TAG_MANAGER_ID: ""
+EDXAPP_FACEBOOK_PIXEL_ID: ""
+CAMPUS_ANALYTICS_URL: ""
+CAMPUS_MARKETING_SITE_ROOT: "{{ EDXAPP_LMS_ROOT_URL }}/dashboard"
+EDXAPP_DEFAULT_FROM_EMAIL: "CampusIL <no-reply@campus.gov.il>"
+EDXAPP_BULK_EMAIL_DEFAULT_FROM_EMAIL: "no-reply@campus.gov.il"
+EDXAPP_PRESS_EMAIL: press@campus.gov.il
+EDXAPP_PARTNER_SUPPORT_EMAIL: partner-support@campus.gov.il
+EDXAPP_PAYMENT_SUPPORT_EMAIL: billing@campus.gov.il
+EDXAPP_FEEDBACK_SUBMISSION_EMAIL: bugs@campus.gov.il
+EDXAPP_FINANCE_EMAIL: finance@campus.gov.il
+
+NGINX_EDXAPP_LMS_APP_EXTRA: |
+  # Redirect all requests starting with /home to the marketing site
+  rewrite ^(/home)(.*)$ {{ CAMPUS_MARKETING_SITE_ROOT }}$2 redirect;
+  rewrite ^/?$ {{ CAMPUS_MARKETING_SITE_ROOT }} redirect;
+
 EDXAPP_LMS_ENV_EXTRA:
  # ORA2_FILEUPLOAD_BACKEND: 'django'
  ADDL_INSTALLED_APPS:
   - "custom_reg_form"
  GOOGLE_TAG_MANAGER_ID: "{{ EDXAPP_GOOGLE_TAG_MANAGER_ID }}"
+ FACEBOOK_PIXEL_ID: "{{ EDXAPP_FACEBOOK_PIXEL_ID }}"
  REGISTRATION_EXTENSION_FORM: "custom_reg_form.forms.ExtraInfoForm"
  RG_SENTRY_ENVIRONMENT: "{{ COMMON_ENVIRONMENT }}"
  THIRD_PARTY_AUTH_BACKENDS:
   - "campus_social_auth.backends.oauth2.FacebookOAuth2Backend"
   - "campus_social_auth.backends.oauth2.GoogleOAuth2Backend"
   - "campus_social_auth.backends.saml.CampusSAMLAuthBackend"
+ HISTORY_SAVING_TYPES:
+  - "problem"
+  - "webwork"
+ CAMPUS_LOGO_URL: "{{ EDXAPP_LMS_ROOT_URL }}/courses"
+ ANALYTICS_DASHBOARD_URL: "{{ CAMPUS_ANALYTICS_URL }}"
 
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: true
 
 EDXAPP_PRIVATE_REQUIREMENTS:
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-social-auth.git@v1.1.1#egg=campus_social_auth"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.5#egg=extended_translations"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.12#egg=extended_translations==0.0.12"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/custom-registration-form.git@v1.1.0#egg=custom_reg_form==1.1.0"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-sga.git@v0.17.3#egg=edx_sga==0.17.3"
    extra_args: "-e"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v2.0.2#egg=periodic-instructor-reports==2.0.2"
+   extra_args: "-e"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@main#egg=campus-edx-extensions"
+   extra_args: "-e"
 
-#EDXAPP_EXTRA_REQUIREMENTS: "{{ _EDXAPP_EXTRA_REQUIREMENTS }}"
-#
-#_EDXAPP_EXTRA_REQUIREMENTS:
-# - name: "git+https://gitlab.com/opencraft/client/esme-learning/periodic-instructor-reports.git@v2.0.0#egg=periodic-instructor-reports==2.0.0"
-#   extra_args: "-e"
+EDXAPP_EXTRA_REQUIREMENTS:
+ - name: "git+https://github.com/ubc/ubcpi.git@1.0.0#egg=ubcpi==1.0.0"
+ - name: "git+https://github.com/Annoto/xblock-in-video-collaboration.git@v0.3.2.1#egg=xblock-in-video-collaboration==0.3.2.1"
+   extra_args: "-e"
+ - name: "git+https://github.com/edx/xblock-in-video-quiz.git@release/v0.1.8#egg=xblock-in-video-quiz==0.1.8"
+ - name: "git+https://github.com/QueriumCorp/geogebra_xblock.git@lilac.master#egg=geogebra-xblock==lilac.master" # QueriumCorp/geogebra_xblock
+ - name: "git+https://github.com/Technion-WeBWorK/xblock-webwork.git@master#egg=xblock-webwork"
 
 EDXAPP_CMS_ENV_EXTRA:
  RG_SENTRY_ENVIRONMENT: "{{ COMMON_ENVIRONMENT }}"

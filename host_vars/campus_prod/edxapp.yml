@@ -1,14 +1,17 @@
 ---
-
-edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 EDXAPP_SITE_NAME: "courses.koa.campus.gov.il"
 EDXAPP_CMS_SITE_NAME: "studio.koa.campus.gov.il"
 EDXAPP_PREVIEW_LMS_BASE: "preview.koa.campus.gov.il"
-COMMON_HOSTNAME: "campus"
-EDXAPP_GOOGLE_TAG_MANAGER_ID: "GTM-T2HB8R7"
+
+EDX_PLATFORM_VERSION: "main"
+edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"
 
+COMMON_HOSTNAME: "campus"
+EDXAPP_GOOGLE_TAG_MANAGER_ID: "GTM-T2HB8R7"
+
+COMMON_DEFAULT_FROM_EMAIL: "CampusIL <no-reply@campus.gov.il>"
 
 SWAPFILE_SIZE: ''
 MONGO_BIND_IP: '0.0.0.0'
@@ -35,12 +38,10 @@ EDXAPP_REDIS_HOSTNAME: 'edxapp-koa-redis.iuvune.0001.euw1.cache.amazonaws.com'
 EDXAPP_MEMCACHE: [ 'edxapp-memcache.iuvune.cfg.euw1.cache.amazonaws.com:11211' ]
 
 EDXAPP_COMMENTS_SERVICE_URL: "http://openedx-koa-services-asg-1-1396875031.eu-west-1.elb.amazonaws.com:18080"
-FORUM_MONGO_URL: "mongodb://{{ FORUM_MONGO_USER }}:{{ FORUM_MONGO_PASSWORD }}@{{ FORUM_MONGO_HOSTS }}:{{ FORUM_MONGO_PORT }}/{{ FORUM_MONGO_DATABASE }}?replicaSet=rs0"
-FORUM_RUBY_VERSION: "2.4.1"
-forum_services:
-  - {service: "elasticsearch", host: "{{ FORUM_ELASTICSEARCH_HOST }}", port: "{{ FORUM_ELASTICSEARCH_PORT }}"}
 
-EDX_PLATFORM_VERSION: "main"
+
+EDXAPP_FACEBOOK_PIXEL_ID: hwcacnnpfrdpuk8bvavf94s4321rmn
+CAMPUS_ANALYTICS_URL: "https://insights.koa.campus.gov.il"
 
 SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
@@ -132,3 +133,195 @@ SITE_CONFIGURATION_STORAGE:
               - meta.country
 
 EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE }}"
+
+EDXAPP_AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
+EDXAPP_AWS_QUERYSTRING_AUTH: false
+EDXAPP_AWS_S3_CUSTOM_DOMAIN: stage-olivex-uploads.s3.amazonaws.com
+EDXAPP_AWS_SECRET_ACCESS_KEY: "{{ AWS_SECRET_ACCESS_KEY }}"
+EDXAPP_AWS_STORAGE_BUCKET_NAME: stage-olivex-uploads
+EDXAPP_AWS_SES_REGION_ENDPOINT: email.eu-west-1.amazonaws.com
+EDXAPP_AWS_SES_REGION_NAME: eu-west-1
+EDXAPP_BLOCK_STRUCTURES_SETTINGS:
+    COURSE_PUBLISH_TASK_DELAY: 30
+    DIRECTORY_PREFIX: courses/
+    PRUNING_ACTIVE: true
+    STORAGE_CLASS: storages.backends.s3boto.S3BotoStorage
+    STORAGE_KWARGS:
+        bucket: stage-olivex-edxapp-course-block-structures
+    TASK_DEFAULT_RETRY_DELAY: 30
+    TASK_MAX_RETRIES: 5
+EDXAPP_DEFAULT_FILE_STORAGE: storages.backends.s3boto.S3BotoStorage
+EDXAPP_DJFS:
+    bucket: stage-olivex-storage
+    prefix: stage-olivex/
+    type: s3fs
+EDXAPP_XBLOCK_FS_STORAGE_BUCKET: stage-olivex-storage
+EDXAPP_XBLOCK_FS_STORAGE_PREFIX: stage-olivex/
+EDXAPP_IMPORT_EXPORT_BUCKET: stage-olivex-edxapp-import-export
+EDXAPP_FILE_UPLOAD_STORAGE_BUCKET_NAME: stage-olivex-uploads
+EDXAPP_FILE_UPLOAD_STORAGE_PREFIX: submissions_attachments
+
+EDXAPP_GRADES_DOWNLOAD:
+    BUCKET: ''
+    ROOT_PATH: ''
+    STORAGE_CLASS: storages.backends.s3boto.S3BotoStorage
+    STORAGE_KWARGS:
+        bucket: stage-olivex-student-grades
+        custom_domain: null
+        default_acl: private
+        gzip: true
+        location: stage
+        querystring_auth: true
+        querystring_expire: 300
+    STORAGE_TYPE: ''
+EDXAPP_VIDEO_IMAGE_SETTINGS:
+    DIRECTORY_PREFIX: video-images/
+    STORAGE_KWARGS:
+        base_url: /media/
+        location: edx/var/edxapp/media/
+    VIDEO_IMAGE_MAX_BYTES: 2097152
+    VIDEO_IMAGE_MIN_BYTES: 2048
+EDXAPP_VIDEO_TRANSCRIPTS_SETTINGS:
+    DIRECTORY_PREFIX: video-transcripts/
+    STORAGE_KWARGS:
+        base_url: /media/
+        location: edx/var/edxapp/media/
+    VIDEO_TRANSCRIPTS_MAX_BYTES: 3145728
+EDXAPP_VIDEO_UPLOAD_PIPELINE:
+    BUCKET: edx-videos
+    CONCURRENT_UPLOAD_LIMIT: 4
+    ROOT_PATH: stage-olivex/unprocessed
+
+EDXAPP_FINANCIAL_REPORTS:
+    BUCKET: stage-olivex-financial-reports
+    ROOT_PATH: ""
+    STORAGE_TYPE: s3
+
+EDXAPP_GRADE_STORAGE_CLASS: 'storages.backends.s3boto.S3BotoStorage'
+EDXAPP_GRADE_STORAGE_KWARGS:
+    bucket: 'stage-olivex-student-grades'
+    custom_domain: null
+    location: 'stage'
+    querystring_expire: 300
+    querystring_auth: true
+    gzip: true
+    default_acl: "private"
+
+EDXAPP_PROFILE_IMAGE_BACKEND:
+    class: storages.backends.s3boto.S3BotoStorage
+    options:
+        bucket: stage-olivex-profile-images
+        custom_domain: stage-olivex-profile-images.s3.amazonaws.com
+        headers:
+            Cache-Control: max-age-{{ EDXAPP_PROFILE_IMAGE_MAX_AGE }}
+EDXAPP_PROFILE_IMAGE_SECRET_KEY: "oK9s3pJ7nY%9vX..nb2nWT#WV8yzh=`"
+
+
+EDXAPP_MONGO_HOSTS: 'stage-mongo-koa-openedx.cluster-ci3ewl3onmj2.eu-west-1.docdb.amazonaws.com'
+FORUM_MONGO_HOSTS:
+ - "{{ EDXAPP_MONGO_HOSTS }}"
+FORUM_MONGO_URL: "mongodb://{{ FORUM_MONGO_USER }}:{{ FORUM_MONGO_PASSWORD }}@{{ EDXAPP_MONGO_HOSTS }}:27017/{{ FORUM_MONGO_DATABASE }}?replicaSet={{ MONGO_REPL_SET }}&readPreference=secondaryPreferred&retryWrites=false"
+MONGO_ADMIN_USER: "root"
+mongo_admin_password: "{{ MONGO_ADMIN_PASSWORD }}"
+EDXAPP_MONGO_USE_SSL: False
+MONGO_REPL_SET: "rs0"
+
+EDXAPP_AWS_SES_REGION_NAME: "eu-west-1"
+EDXAPP_AWS_SES_REGION_ENDPOINT: "email.eu-west-1.amazonaws.com"
+
+FORUM_RUBY_VERSION: "2.4.1"
+forum_services:
+  - {service: "elasticsearch", host: "{{ FORUM_ELASTICSEARCH_HOST }}", port: "{{ FORUM_ELASTICSEARCH_PORT }}"}
+
+COMMON_OBJECT_STORE_LOG_SYNC_BUCKET: koa-campus-uat-tracking-logs
+COMMON_OBJECT_STORE_LOG_SYNC: True
+COMMON_OBJECT_STORE_LOG_SYNC_PREFIX: "logs/tracking/"
+COMMON_OBJECT_STORE_LOG_SYNC_SCRIPT: "{{ COMMON_BIN_DIR }}/send-logs-to-object-store"
+COMMON_OBJECT_STORE_LOG_SYNC_ON_EXIT: "{{ COMMON_BIN_DIR }}/sync-logs-on-exit"
+
+edxlocal_database_users:
+  - {
+      db: "{{ ECOMMERCE_DATABASE_NAME | default(None) }}",
+      user: "{{ ECOMMERCE_DATABASE_USER | default(None) }}",
+      pass: "{{ ECOMMERCE_DATABASE_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ INSIGHTS_DATABASE_NAME | default(None) }}",
+      user: "{{ INSIGHTS_DATABASE_USER | default(None) }}",
+      pass: "{{ INSIGHTS_DATABASE_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ XQUEUE_MYSQL_DB_NAME | default(None) }}",
+      user: "{{ XQUEUE_MYSQL_USER | default(None) }}",
+      pass: "{{ XQUEUE_MYSQL_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ EDXAPP_MYSQL_DB_NAME | default(None) }}",
+      user: "{{ EDXAPP_MYSQL_USER | default(None) }}",
+      pass: "{{ EDXAPP_MYSQL_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ EDXAPP_MYSQL_CSMH_DB_NAME | default(None) }}",
+      user: "{{ EDXAPP_MYSQL_CSMH_USER | default(None) }}",
+      pass: "{{ EDXAPP_MYSQL_CSMH_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ ANALYTICS_PIPELINE_OUTPUT_DATABASE_NAME | default(None) }}",
+      user: "{{ ANALYTICS_PIPELINE_DB_USER | default(None) }}",
+      pass: "{{ ANALYTICS_PIPELINE_DB_PASS | default(None) }}"
+    }
+  - {
+      db: "{{ ANALYTICS_API_DEFAULT_DB_NAME | default(None) }}",
+      user: "{{ ANALYTICS_API_DEFAULT_DB_USER | default(None) }}",
+      pass: "{{ ANALYTICS_API_DEFAULT_DB_PASS | default(None) }}"
+    }
+  - {
+      db: "{{ ANALYTICS_API_REPORTS_DB_NAME | default(None) }}",
+      user: "{{ ANALYTICS_API_REPORTS_DB_USER | default(None) }}",
+      pass: "{{ ANALYTICS_API_REPORTS_DB_PASS | default(None) }}"
+    }
+  - {
+      db: "{{ HIVE_METASTORE_DATABASE_NAME | default(None) }}",
+      user: "{{ HIVE_METASTORE_DATABASE_USER | default(None) }}",
+      pass: "{{ HIVE_METASTORE_DATABASE_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ BLOCKSTORE_DEFAULT_DB_NAME | default(None) }}",
+      user: "{{ BLOCKSTORE_DATABASE_USER | default(None) }}",
+      pass: "{{ BLOCKSTORE_DATABASE_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ CREDENTIALS_DEFAULT_DB_NAME | default(None) }}",
+      user: "{{ CREDENTIALS_MYSQL_USER | default(None) }}",
+      pass: "{{ CREDENTIALS_MYSQL_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ DISCOVERY_DEFAULT_DB_NAME | default(None) }}",
+      user: "{{ DISCOVERY_MYSQL_USER | default(None) }}",
+      pass: "{{ DISCOVERY_MYSQL_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ VEDA_WEB_FRONTEND_DEFAULT_DB_NAME | default(None) }}",
+      user: "{{ VEDA_WEB_FRONTEND_MYSQL_USER | default(None) }}",
+      pass: "{{ VEDA_WEB_FRONTEND_MYSQL_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ REGISTRAR_DEFAULT_DB_NAME | default(None) }}",
+      user: "{{ REGISTRAR_MYSQL_USER | default(None) }}",
+      pass: "{{ REGISTRAR_MYSQL_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ NOTIFIER_DATABASE_NAME | default(None) }}",
+      user: "{{ NOTIFIER_DATABASE_USER | default(None) }}",
+      pass: "{{ NOTIFIER_DATABASE_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ GAMMA_DB_NAME | default(None) }}",
+      user: "{{ GAMMA_DB_USER | default(None) }}",
+      pass: "{{ GAMMA_DB_PASSWORD | default(None) }}"
+    }
+  - {
+      db: "{{ ENTERPRISE_CATALOG_DEFAULT_DB_NAME | default(None) }}",
+      user: "{{ ENTERPRISE_CATALOG_MYSQL_USER | default(None) }}",
+      pass: "{{ ENTERPRISE_CATALOG_MYSQL_PASSWORD | default(None) }}"
+    }

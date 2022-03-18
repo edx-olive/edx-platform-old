@@ -54,3 +54,14 @@ discovery_cronjob_auto:
     name: "discovery first_job_update"
     filename: "update_discovery.sh"
     minute: "*/10"
+
+DISCOVERY_PARLER_DEFAULT_LANGUAGE_CODE: en
+DISCOVERY_PARLER_LANGUAGES:
+    1:
+    -   code: en
+    2:
+    -   code: he-il
+    default:
+        fallbacks:
+        - en
+        hide_untranslated: 'False'
