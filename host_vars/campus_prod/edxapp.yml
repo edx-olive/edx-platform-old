@@ -217,7 +217,7 @@ EDXAPP_PROFILE_IMAGE_BACKEND:
 EDXAPP_PROFILE_IMAGE_SECRET_KEY: "oK9s3pJ7nY%9vX..nb2nWT#WV8yzh=`"
 
 
-EDXAPP_MONGO_HOSTS: 'stage-mongo-koa-openedx.cluster-ci3ewl3onmj2.eu-west-1.docdb.amazonaws.com'
+EDXAPP_MONGO_HOSTS: 'prod-mongo-koa-openedx.cluster-ci3ewl3onmj2.eu-west-1.docdb.amazonaws.com'
 FORUM_MONGO_HOSTS:
  - "{{ EDXAPP_MONGO_HOSTS }}"
 FORUM_MONGO_URL: "mongodb://{{ FORUM_MONGO_USER }}:{{ FORUM_MONGO_PASSWORD }}@{{ EDXAPP_MONGO_HOSTS }}:27017/{{ FORUM_MONGO_DATABASE }}?replicaSet={{ MONGO_REPL_SET }}&readPreference=secondaryPreferred&retryWrites=false"
