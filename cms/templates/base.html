@@ -97,6 +97,26 @@ from openedx.core.djangolib.js_utils import (
 
         <script type="text/javascript">
 
+          const _jsonConfigFileUrl = "https://api.npoint.io/b9000ffbcc3c506ca699";
+          const _today = new Date();
+          var _notifications = [
+            { 
+              id: 3,
+              startDateStr: "03-19-2022 00:00:00 UTC+02:00",
+              stopDateStr: "04-07-2022 23:59:59 UTC+03:00",
+              text: {
+                title: "עברנו לסטודיו החדש!",
+                body: [
+                  "שימו לב! אתם נמצאים כרגע בסטודיו הישן. אין לבצע כאן כל שינוי בקורסים.",
+                  "להמשך פיתוח הקורס שלכם, ולהתאמת קורס קיים לסביבת koa היכנסו לסטודיו החדש: <a href='https://courses.koa.campus.gov.il'>courses.koa.campus.gov.il</a>.",
+                  "החל מה- 8.4 נחזור לפעילות רגילה בסטודיו ובגרסה החדשה.",
+                  "לפרטים נוספים פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>",
+                  "או הצטרפו לשעות הקבלה שלנו בימים שני וחמשי בשעות 10-11 <a href='https://midlink-il.zoom.us/j/87915254146'>קישור</a>"
+                ]
+              }
+            },
+          ];
+            
           // ttl in milliseconds
           function setWithExpiry(key, value, ttl) {
             const now = new Date()
@@ -169,26 +189,13 @@ from openedx.core.djangolib.js_utils import (
           };
 
           function isShowFreezeNotification() {
-            const _today = new Date();
-            const _notifications = [ // !!!! TODO: move to configuration of Admin panel !!!!
-              { 
-                id: 3,
-                startDate: new Date("03-19-2022 00:00:00 UTC+02:00"),
-                stopDate: new Date("04-07-2022 23:59:59 UTC+03:00"),
-                text: {
-                  title: "עברנו לסטודיו החדש!",
-                  body: [
-                    "שימו לב! אתם נמצאים כרגע בסטודיו הישן. אין לבצע כאן כל שינוי בקורסים.",
-                    "להמשך פיתוח הקורס שלכם, ולהתאמת קורס קיים לסביבת koa היכנסו לסטודיו החדש: <a href='https://courses.koa.campus.gov.il'>courses.koa.campus.gov.il</a>.",
-                    "החל מה- 8.4 נחזור לפעילות רגילה בסטודיו ובגרסה החדשה.",
-                    "לפרטים נוספים פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>",
-                    "או הצטרפו לשעות הקבלה שלנו בימים שני וחמשי בשעות 10-11 <a href='https://midlink-il.zoom.us/j/87915254146'>קישור</a>"
-                  ]
-                }
-              },
-            ];
-
             _notifications.forEach(element => {
+
+              // create date objects
+              element.startDate = new Date(element.startDateStr);
+              element.stopDate = new Date(element.stopDateStr);
+
+              // check the date objects
               if (element.startDate <= _today && element.stopDate > _today) {
                 //return !showFreezeNotification(10000, element.text);      // show this notification once per 10 sec
                 return !showFreezeNotification(3600000, element.text);    // show this notification once per 1 hour
@@ -196,9 +203,17 @@ from openedx.core.djangolib.js_utils import (
             });
           }
 
-          isShowFreezeNotification();
-        </script>
+          fetch(_jsonConfigFileUrl)
+            .then(response => {
+              return response.json();
+            })
+            .then(jsondata => {
+                _notifications = jsondata.notifications;
+                debugger
+                isShowFreezeNotification();
+            });
 
+        </script>
         <!-- Stop temporary notification -->
       <%block name="page_alert"></%block>
       </div>
