@@ -78,7 +78,7 @@ from openedx.core.djangolib.js_utils import (
         <div class="alert announcement has-actions">
           <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
 
-          <div class="copy" style="direction: rtl;">
+          <div class="copy" style="direction: rtl; text-align: right;">
             <h2 class="title title-3 title-text"></h2>
 
             <p class="body-text"></p>
@@ -98,6 +98,9 @@ from openedx.core.djangolib.js_utils import (
       <script type="text/javascript">
 
         const _jsonConfigFileUrl = "https://api.npoint.io/b9000ffbcc3c506ca699";
+        const _showFreezeNotification = "_showFreezeNotification";
+        //const _ttl = 10000; // 10 sec
+        const _ttl = 3600000; // show this notification once per 1 hour
         const _today = new Date();
         const _notificationDefault =
         { 
@@ -155,13 +158,15 @@ from openedx.core.djangolib.js_utils import (
           // toggle the notification
           if (isShow)
             $el.addClass('is-shown');
-          else 
+          else {
             $el.removeClass('is-shown');
+
+            // in case user don't want to see the message again --> set flag for message dissapear
+            setWithExpiry(_showFreezeNotification, 1, _ttl); // add to localstorage
+          }
         }
 
         function showFreezeNotification(ttl, text) {
-          const _showFreezeNotification = "_showFreezeNotification";
-
           let _isExist = getWithExpiry(_showFreezeNotification);
           if (_isExist == null) {
             let _freezeNotif = $('#freeze-notification');
@@ -177,7 +182,6 @@ from openedx.core.djangolib.js_utils import (
               else _body.append('<div>' + bodyRow + '</div>');
             });
 
-            setWithExpiry(_showFreezeNotification, 1, ttl); // add to localstorage
             toggleNotification(_freezeNotif, true);         // hide show notification
 
             return true;
@@ -193,8 +197,7 @@ from openedx.core.djangolib.js_utils import (
 
             // check the date objects
             if (element.startDate <= _today && element.stopDate > _today) {
-              //return !showFreezeNotification(10000, element.text);      // show this notification once per 10 sec
-              return !showFreezeNotification(3600000, element.text);    // show this notification once per 1 hour
+              return !showFreezeNotification(_ttl, element.text);    
             }
           });
         }
