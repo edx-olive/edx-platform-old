@@ -73,149 +73,155 @@ from openedx.core.djangolib.js_utils import (
         <%include file="widgets/header.html" args="online_help_token=online_help_token" />
 
       <div id="page-alert">
-        <!-- Start temporary notification: after update to KOA no need in this code -->
-        <div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement">
-          <div class="alert announcement has-actions">
-            <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
+      <!-- Start temporary notification: after update to KOA no need in this code -->
+      <div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement">
+        <div class="alert announcement has-actions">
+          <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
 
-            <div class="copy" style="direction: rtl;">
-              <h2 class="title title-3 title-text"></h2>
+          <div class="copy" style="direction: rtl;">
+            <h2 class="title title-3 title-text"></h2>
 
-              <p class="body-text"></p>
-            </div>
-
-            <ul>
-              <li class="action-dismiss">
-                <div class="button" onclick="toggleNotification(null, 'freeze-notification', false)">
-                  <span class="icon fa fa-times-circle" aria-hidden="true"></span>
-                  <span class="button-copy">${_("Hide")}</span>
-                </div>
-              </li>
-            </ul>
+            <p class="body-text"></p>
           </div>
+
+          <ul>
+            <li class="action-dismiss">
+              <div class="button" onclick="toggleNotification(null, 'freeze-notification', false)">
+                <span class="icon fa fa-times-circle" aria-hidden="true"></span>
+                <span class="button-copy">${_("Hide")}</span>
+              </div>
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <script type="text/javascript">
+      <script type="text/javascript">
 
-          const _jsonConfigFileUrl = "https://api.npoint.io/b9000ffbcc3c506ca699";
-          const _today = new Date();
-          var _notifications = [
-            { 
-              id: 3,
-              startDateStr: "03-19-2022 00:00:00 UTC+02:00",
-              stopDateStr: "04-07-2022 23:59:59 UTC+03:00",
-              text: {
-                title: "עברנו לסטודיו החדש!",
-                body: [
-                  "שימו לב! אתם נמצאים כרגע בסטודיו הישן. אין לבצע כאן כל שינוי בקורסים.",
-                  "להמשך פיתוח הקורס שלכם, ולהתאמת קורס קיים לסביבת koa היכנסו לסטודיו החדש: <a href='https://courses.koa.campus.gov.il'>courses.koa.campus.gov.il</a>.",
-                  "החל מה- 8.4 נחזור לפעילות רגילה בסטודיו ובגרסה החדשה.",
-                  "לפרטים נוספים פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>",
-                  "או הצטרפו לשעות הקבלה שלנו בימים שני וחמשי בשעות 10-11 <a href='https://midlink-il.zoom.us/j/87915254146'>קישור</a>"
-                ]
-              }
-            },
-          ];
-            
-          // ttl in milliseconds
-          function setWithExpiry(key, value, ttl) {
-            const now = new Date()
-
-            // `item` is an object which contains the original value
-            // as well as the time when it's supposed to expire
-            const item = {
-              value: value,
-              expiry: now.getTime() + ttl,
-            }
-            localStorage.setItem(key, JSON.stringify(item))
+        const _jsonConfigFileUrl = "https://api.npoint.io/b9000ffbcc3c506ca699";
+        const _today = new Date();
+        const _notificationDefault =
+        { 
+          id: 0,
+          startDateStr: "03-01-2022 00:00:00 UTC+02:00",
+          stopDateStr: "04-01-2030 23:59:59 UTC+03:00",
+          text: {
+            title: "לא הצלחנו לטעון את תוכן ההודעה.",
+            body: [
+              "ניתן לפנות לתמיכה במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>",
+            ]
           }
+        };
+        var _notifications = [];
+          
+        // ttl in milliseconds
+        function setWithExpiry(key, value, ttl) {
+          const now = new Date()
 
-          function getWithExpiry(key) {
-            const itemStr = localStorage.getItem(key)
-            // if the item doesn't exist, return null
-            if (!itemStr) {
-              return null
-            }
-            const item = JSON.parse(itemStr)
-            const now = new Date()
-            // compare the expiry time of the item with the current time
-            if (now.getTime() > item.expiry) {
-              // If the item is expired, delete the item from storage
-              // and return null
-              localStorage.removeItem(key)
-              return undefined
-            }
-            return item.value
+          // `item` is an object which contains the original value
+          // as well as the time when it's supposed to expire
+          const item = {
+            value: value,
+            expiry: now.getTime() + ttl,
           }
+          localStorage.setItem(key, JSON.stringify(item))
+        }
 
-          function toggleNotification($el, id, isShow) {
-            // prepare element in case element is not provided
-            if (!$el) $el = $('#' + id);
-            
-            // toggle in case status is not provided
-            if (isShow == null || isShow == undefined)
-              isShow = !$el.hasClass('is-shown');
-
-            // toggle the notification
-            if (isShow)
-              $el.addClass('is-shown');
-            else 
-              $el.removeClass('is-shown');
+        function getWithExpiry(key) {
+          const itemStr = localStorage.getItem(key)
+          // if the item doesn't exist, return null
+          if (!itemStr) {
+            return null
           }
-
-          function showFreezeNotification(ttl, text) {
-            const _showFreezeNotification = "_showFreezeNotification";
-
-            let _isExist = getWithExpiry(_showFreezeNotification);
-            if (_isExist == null) {
-              let _freezeNotif = $('#freeze-notification');
-              let _title = $('#freeze-notification .title-text');
-              let _body = $('#freeze-notification .body-text');
-
-              // set title text
-              _title.html('<div>' + text.title + '</div><br/>');
-
-              // set body text(s)
-              text.body.forEach(bodyRow => {
-                if (!bodyRow) _body.append('<br/>');
-                else _body.append('<div>' + bodyRow + '</div>');
-              });
-
-              setWithExpiry(_showFreezeNotification, 1, ttl); // add to localstorage
-              toggleNotification(_freezeNotif, true);         // hide show notification
-
-              return true;
-            }
-          };
-
-          function isShowFreezeNotification() {
-            _notifications.forEach(element => {
-
-              // create date objects
-              element.startDate = new Date(element.startDateStr);
-              element.stopDate = new Date(element.stopDateStr);
-
-              // check the date objects
-              if (element.startDate <= _today && element.stopDate > _today) {
-                //return !showFreezeNotification(10000, element.text);      // show this notification once per 10 sec
-                return !showFreezeNotification(3600000, element.text);    // show this notification once per 1 hour
-              }
-            });
+          const item = JSON.parse(itemStr)
+          const now = new Date()
+          // compare the expiry time of the item with the current time
+          if (now.getTime() > item.expiry) {
+            // If the item is expired, delete the item from storage
+            // and return null
+            localStorage.removeItem(key)
+            return undefined
           }
+          return item.value
+        }
 
-          fetch(_jsonConfigFileUrl)
-            .then(response => {
-              return response.json();
-            })
-            .then(jsondata => {
-                _notifications = jsondata.notifications;
-                isShowFreezeNotification();
-            }).catch(function(error) {
-              console.log(error);
+        function toggleNotification($el, id, isShow) {
+          // prepare element in case element is not provided
+          if (!$el) $el = $('#' + id);
+          
+          // toggle in case status is not provided
+          if (isShow == null || isShow == undefined)
+            isShow = !$el.hasClass('is-shown');
+
+          // toggle the notification
+          if (isShow)
+            $el.addClass('is-shown');
+          else 
+            $el.removeClass('is-shown');
+        }
+
+        function showFreezeNotification(ttl, text) {
+          const _showFreezeNotification = "_showFreezeNotification";
+
+          let _isExist = getWithExpiry(_showFreezeNotification);
+          if (_isExist == null) {
+            let _freezeNotif = $('#freeze-notification');
+            let _title = $('#freeze-notification .title-text');
+            let _body = $('#freeze-notification .body-text');
+
+            // set title text
+            _title.html('<div>' + text.title + '</div><br/>');
+
+            // set body text(s)
+            text.body.forEach(bodyRow => {
+              if (!bodyRow) _body.append('<br/>');
+              else _body.append('<div>' + bodyRow + '</div>');
             });
 
-        </script>
-        <!-- Stop temporary notification -->
+            setWithExpiry(_showFreezeNotification, 1, ttl); // add to localstorage
+            toggleNotification(_freezeNotif, true);         // hide show notification
+
+            return true;
+          }
+        };
+
+        function isShowFreezeNotification() {
+          _notifications.forEach(element => {
+
+            // create date objects
+            element.startDate = new Date(element.startDateStr);
+            element.stopDate = new Date(element.stopDateStr);
+
+            // check the date objects
+            if (element.startDate <= _today && element.stopDate > _today) {
+              //return !showFreezeNotification(10000, element.text);      // show this notification once per 10 sec
+              return !showFreezeNotification(3600000, element.text);    // show this notification once per 1 hour
+            }
+          });
+        }
+
+        fetch(_jsonConfigFileUrl)
+          .then(response => {
+            return response.json();
+          })
+          .then(jsondata => {
+            // set notifications data
+            _notifications = jsondata.notifications;
+
+            // show notification
+            isShowFreezeNotification();
+          }).catch(function(error) {
+            // set the default notification message
+            _notifications.push(_notificationDefault);
+
+            // show notification
+            isShowFreezeNotification();
+
+            // add error to logs
+            console.log(error);
+          });
+
+      </script>
+      <!-- Stop temporary notification -->
       <%block name="page_alert"></%block>
       </div>
 
