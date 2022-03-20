@@ -197,15 +197,14 @@ EDXAPP_FINANCIAL_REPORTS:
     ROOT_PATH: ""
     STORAGE_TYPE: s3
 
+EDXAPP_GRADE_STORAGE_TYPE: 's3'
 EDXAPP_GRADE_STORAGE_CLASS: 'storages.backends.s3boto.S3BotoStorage'
+EDXAPP_GRADE_BUCKET: stage-olivex-student-grades
 EDXAPP_GRADE_STORAGE_KWARGS:
-    bucket: 'stage-olivex-student-grades'
-    custom_domain: null
+    base_url: /media/
     location: 'stage'
-    querystring_expire: 300
-    querystring_auth: true
-    gzip: true
-    default_acl: "private"
+
+EDXAPP_S3_HOST: "s3.amazonaws.com"
 
 EDXAPP_PROFILE_IMAGE_BACKEND:
     class: storages.backends.s3boto.S3BotoStorage
