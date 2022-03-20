@@ -171,35 +171,6 @@ from openedx.core.djangolib.js_utils import (
           function isShowFreezeNotification() {
             const _today = new Date();
             const _notifications = [ // !!!! TODO: move to configuration of Admin panel !!!!
-              //{ 
-              //  id: 1,
-              //  startDate: new Date('2022-03-08T00:00:00'),
-              //  stopDate: new Date('2022-03-14T23:59:59'),
-              //  text: {
-              //    title: "הקפאת פעילות בסטודיו קמפוסIL מתאריך 15.3",
-              //    body: [
-              //      "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 18.3 – 15.3 לא ניתן יהיה לבצע שינויים או לפתח קורסים באמצעות הסטודיו. החל מה- 20.3 נעבור לעבוד בסטודיו בגרסת Koa. לקראת ההקפאה והמעבר מומלץ לגבות את עבודתכם.",
-              //      "",
-              //      "לפרטים נוספים היכנסו לסביבת הבדיקות, <a href='https://courses.koastage.campus.gov.il/courses/course-v1:CampusIL+koa-release-notes-he+2022_1/about'>ולקורס ההכרות עם תהליך השדרוג</a>.",
-              //      "או פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
-              //    ]
-              //  }
-              //},
-              //{ 
-              //  id: 2,
-              //  startDate: new Date('2022-03-15T00:00:00'),
-              //  stopDate: new Date('2022-03-19T23:59:59'),
-              //  text: {
-              //    title: "הקפאת פעילות בסטודיו קמפוסIL",
-              //    body: [
-              //      "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 19.3 – 15.3 לא ניתן לעבוד בסטודיו קמפוסIL.",
-              //      "החל מה- 20.3 נעבור לעבוד בסטודיו בגרסת Koa.",
-              //      "",
-              //      "לפרטים נוספים היכנסו <a href='https://courses.koastage.campus.gov.il/courses'>לסביבת הבדיקות</a>, ול<a href='https://courses.koastage.campus.gov.il/courses/course-v1:CampusIL+koa-release-notes-he+2022_1/about'>קורס ההכרות</a> עם תהליך השדרוג.",
-              //      "או פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
-              //    ]
-              //  }
-              //},
               { 
                 id: 3,
                 startDate: new Date("03-19-2022 00:00:00 UTC+02:00"),
@@ -208,30 +179,13 @@ from openedx.core.djangolib.js_utils import (
                   title: "עברנו לסטודיו החדש!",
                   body: [
                     "שימו לב! אתם נמצאים כרגע בסטודיו הישן. אין לבצע כאן כל שינוי בקורסים.",
-                    "להמשך פיתוח הקורס שלכם, ולהתאמת קורס קיים לסביבת koa היכנסו לסטודיו החדש: <a href='https://koaprod.campus.gov.il'>koaprod.campus.gov.il</a>.",
+                    "להמשך פיתוח הקורס שלכם, ולהתאמת קורס קיים לסביבת koa היכנסו לסטודיו החדש: <a href='https://courses.koa.campus.gov.il'>courses.koa.campus.gov.il</a>.",
                     "החל מה- 8.4 נחזור לפעילות רגילה בסטודיו ובגרסה החדשה.",
                     "לפרטים נוספים פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>",
                     "או הצטרפו לשעות הקבלה שלנו בימים שני וחמשי בשעות 10-11 <a href='https://midlink-il.zoom.us/j/87915254146'>קישור</a>"
                   ]
                 }
               },
-              // },
-              // { 
-              //   id: 4,
-              //   startDate: new Date('2022-03-10T00:00:00'),
-              //   stopDate: new Date('2022-03-23T23:59:59'),
-              //   text: {
-              //     title: "ברוכים הבאים לסטודיו החדש של קמפוסIL!",
-              //     body: [
-              //       "ברוכים הבאים, מוזמנים להתרשם מהשינויים והשיפורים לסטודיו קמפוסIL.",
-              //       "ניתן להמשיך ולפתח כאן את הקורסים. מומלץ לגבות את עבודתכם מעת לעת.",
-              //       "שימו לב! שינויים שתפורסמו יהיו גלויים ללומדים רק החל ממועד השדרוג ב- 24.3.",
-              //       "",
-              //       "לפרטים נוספים היכנסו לקורס ההכרות עם תהליך השדרוג {URL}.",
-              //       "או פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
-              //     ]
-              //   }
-              // },
             ];
 
             _notifications.forEach(element => {
