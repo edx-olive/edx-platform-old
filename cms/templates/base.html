@@ -171,20 +171,20 @@ from openedx.core.djangolib.js_utils import (
           function isShowFreezeNotification() {
             const _today = new Date();
             const _notifications = [ // !!!! TODO: move to configuration of Admin panel !!!!
-              { 
-                id: 1,
-                startDate: new Date('2022-03-08T00:00:00'),
-                stopDate: new Date('2022-03-14T23:59:59'),
-                text: {
-                  title: "הקפאת פעילות בסטודיו קמפוסIL מתאריך 15.3",
-                  body: [
-                    "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 18.3 – 15.3 לא ניתן יהיה לבצע שינויים או לפתח קורסים באמצעות הסטודיו. החל מה- 20.3 נעבור לעבוד בסטודיו בגרסת Koa. לקראת ההקפאה והמעבר מומלץ לגבות את עבודתכם.",
-                    "",
-                    "לפרטים נוספים היכנסו לסביבת הבדיקות, <a href='https://courses.koastage.campus.gov.il/courses/course-v1:CampusIL+koa-release-notes-he+2022_1/about'>ולקורס ההכרות עם תהליך השדרוג</a>.",
-                    "או פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
-                  ]
-                }
-              },
+              //{ 
+              //  id: 1,
+              //  startDate: new Date('2022-03-08T00:00:00'),
+              //  stopDate: new Date('2022-03-14T23:59:59'),
+              //  text: {
+              //    title: "הקפאת פעילות בסטודיו קמפוסIL מתאריך 15.3",
+              //    body: [
+              //      "שימו לב! לקראת שדרוג אתר הלמידה והסטודיו, בין התאריכים 18.3 – 15.3 לא ניתן יהיה לבצע שינויים או לפתח קורסים באמצעות הסטודיו. החל מה- 20.3 נעבור לעבוד בסטודיו בגרסת Koa. לקראת ההקפאה והמעבר מומלץ לגבות את עבודתכם.",
+              //      "",
+              //      "לפרטים נוספים היכנסו לסביבת הבדיקות, <a href='https://courses.koastage.campus.gov.il/courses/course-v1:CampusIL+koa-release-notes-he+2022_1/about'>ולקורס ההכרות עם תהליך השדרוג</a>.",
+              //      "או פנו אלינו במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>"
+              //    ]
+              //  }
+              //},
               //{ 
               //  id: 2,
               //  startDate: new Date('2022-03-15T00:00:00'),
@@ -202,8 +202,8 @@ from openedx.core.djangolib.js_utils import (
               //},
               { 
                 id: 3,
-                startDate: new Date('2022-03-19T00:00:00'),
-                stopDate: new Date('2022-04-07T23:59:59'),
+                startDate: new Date("03-19-2022 00:00:00 UTC+02:00"),
+                stopDate: new Date("04-07-2022 23:59:59 UTC+02:00"),
                 text: {
                   title: "עברנו לסטודיו החדש!",
                   body: [
@@ -214,7 +214,7 @@ from openedx.core.djangolib.js_utils import (
                     "או הצטרפו לשעות הקבלה שלנו בימים שני וחמשי בשעות 10-11 <a href='https://midlink-il.zoom.us/j/87915254146'>קישור</a>"
                   ]
                 }
-              }
+              },
               // },
               // { 
               //   id: 4,
