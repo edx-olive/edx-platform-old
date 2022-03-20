@@ -209,8 +209,9 @@ from openedx.core.djangolib.js_utils import (
             })
             .then(jsondata => {
                 _notifications = jsondata.notifications;
-                debugger
                 isShowFreezeNotification();
+            }).catch(function(error) {
+              console.log(error);
             });
 
         </script>
