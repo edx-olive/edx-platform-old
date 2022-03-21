@@ -25,7 +25,7 @@ COMMON_ENABLE_BACKUPS_AZURE_RECOVERY_VAULT: False
 COMMON_ENABLE_FILEBEAT: False
 COMMON_ENABLE_SENTRY: False
 COMMON_ENABLE_ENTERPRISE: False
-mysql_host: edx-mysql.ci3ewl3onmj2.eu-west-1.rds.amazonaws.com
+mysql_host: koa-prod-openedx.ci3ewl3onmj2.eu-west-1.rds.amazonaws.com
 memcached_host: edxapp-memcache.iuvune.cfg.euw1.cache.amazonaws.com
 mongo_hosts: "prod-mongo-koa-openedx.cluster-ci3ewl3onmj2.eu-west-1.docdb.amazonaws.com"
 elasticsearch_host: "vpc-koa-prod-elasticsearch-meeo5jg7tjii4eqmufo6dwljhm.eu-west-1.es.amazonaws.com"
