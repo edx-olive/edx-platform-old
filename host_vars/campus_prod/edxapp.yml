@@ -136,9 +136,9 @@ EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE }}"
 
 EDXAPP_AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
 EDXAPP_AWS_QUERYSTRING_AUTH: false
-EDXAPP_AWS_S3_CUSTOM_DOMAIN: stage-olivex-uploads.s3.amazonaws.com
+EDXAPP_AWS_S3_CUSTOM_DOMAIN: prod-olivex-uploads.s3.amazonaws.com
 EDXAPP_AWS_SECRET_ACCESS_KEY: "{{ AWS_SECRET_ACCESS_KEY }}"
-EDXAPP_AWS_STORAGE_BUCKET_NAME: stage-olivex-uploads
+EDXAPP_AWS_STORAGE_BUCKET_NAME: prod-olivex-uploads
 EDXAPP_AWS_SES_REGION_ENDPOINT: email.eu-west-1.amazonaws.com
 EDXAPP_AWS_SES_REGION_NAME: eu-west-1
 EDXAPP_BLOCK_STRUCTURES_SETTINGS:
@@ -147,18 +147,18 @@ EDXAPP_BLOCK_STRUCTURES_SETTINGS:
     PRUNING_ACTIVE: true
     STORAGE_CLASS: storages.backends.s3boto.S3BotoStorage
     STORAGE_KWARGS:
-        bucket: stage-olivex-edxapp-course-block-structures
+        bucket: prod-olivex-edxapp-course-block-structures
     TASK_DEFAULT_RETRY_DELAY: 30
     TASK_MAX_RETRIES: 5
 EDXAPP_DEFAULT_FILE_STORAGE: storages.backends.s3boto.S3BotoStorage
 EDXAPP_DJFS:
-    bucket: stage-olivex-storage
-    prefix: stage-olivex/
+    bucket: prod-olivex-storage
+    prefix: prod-olivex/
     type: s3fs
-EDXAPP_XBLOCK_FS_STORAGE_BUCKET: stage-olivex-storage
-EDXAPP_XBLOCK_FS_STORAGE_PREFIX: stage-olivex/
-EDXAPP_IMPORT_EXPORT_BUCKET: stage-olivex-edxapp-import-export
-EDXAPP_FILE_UPLOAD_STORAGE_BUCKET_NAME: stage-olivex-uploads
+EDXAPP_XBLOCK_FS_STORAGE_BUCKET: prod-olivex-storage
+EDXAPP_XBLOCK_FS_STORAGE_PREFIX: prod-olivex/
+EDXAPP_IMPORT_EXPORT_BUCKET: prod-olivex-edxapp-import-export
+EDXAPP_FILE_UPLOAD_STORAGE_BUCKET_NAME: prod-olivex-uploads
 EDXAPP_FILE_UPLOAD_STORAGE_PREFIX: submissions_attachments
 
 EDXAPP_GRADES_DOWNLOAD:
@@ -166,11 +166,11 @@ EDXAPP_GRADES_DOWNLOAD:
     ROOT_PATH: ''
     STORAGE_CLASS: storages.backends.s3boto.S3BotoStorage
     STORAGE_KWARGS:
-        bucket: stage-olivex-student-grades
+        bucket: prod-olivex-student-grades
         custom_domain: null
         default_acl: private
         gzip: true
-        location: stage
+        location: prod
         querystring_auth: true
         querystring_expire: 300
     STORAGE_TYPE: ''
@@ -190,30 +190,30 @@ EDXAPP_VIDEO_TRANSCRIPTS_SETTINGS:
 EDXAPP_VIDEO_UPLOAD_PIPELINE:
     BUCKET: edx-videos
     CONCURRENT_UPLOAD_LIMIT: 4
-    ROOT_PATH: stage-olivex/unprocessed
+    ROOT_PATH: prod-olivex/unprocessed
 
 EDXAPP_FINANCIAL_REPORTS:
-    BUCKET: stage-olivex-financial-reports
+    BUCKET: prod-olivex-financial-reports
     ROOT_PATH: ""
     STORAGE_TYPE: s3
 
 EDXAPP_GRADE_STORAGE_TYPE: 's3'
 EDXAPP_GRADE_STORAGE_CLASS: 'storages.backends.s3boto.S3BotoStorage'
-EDXAPP_GRADE_BUCKET: stage-olivex-student-grades
+EDXAPP_GRADE_BUCKET: prod-olivex-student-grades
 EDXAPP_GRADE_STORAGE_KWARGS:
     base_url: /media/
-    location: 'stage'
+    location: 'prod'
 
 EDXAPP_S3_HOST: "s3.amazonaws.com"
 
 EDXAPP_PROFILE_IMAGE_BACKEND:
     class: storages.backends.s3boto.S3BotoStorage
     options:
-        bucket: stage-olivex-profile-images
-        custom_domain: stage-olivex-profile-images.s3.amazonaws.com
+        bucket: prod-olivex-profile-images
+        custom_domain: prod-olivex-profile-images.s3.amazonaws.com
         headers:
             Cache-Control: max-age-{{ EDXAPP_PROFILE_IMAGE_MAX_AGE }}
-EDXAPP_PROFILE_IMAGE_SECRET_KEY: "oK9s3pJ7nY%9vX..nb2nWT#WV8yzh=`"
+EDXAPP_PROFILE_IMAGE_SECRET_KEY: "5WGU|ZyFg{I7eYUU:6]w"
 
 
 EDXAPP_MONGO_HOSTS: 'prod-mongo-koa-openedx.cluster-ci3ewl3onmj2.eu-west-1.docdb.amazonaws.com'
