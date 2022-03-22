@@ -26,14 +26,14 @@ NGINX_ADDITIONAL_SERVICES_CONFIG:
     nginx_port: 80
     nging_proxy_pass_port: "{{ DISCOVERY_NGINX_PORT | default('18381') }}"
   - name: gamma
-    server_name: "gamma.koa.campus.gov.il"
+    server_name: "gamma-koaprod.campus.gov.il"
     nginx_port: 80
     nging_proxy_pass_port: 9000
   - name: notes-api
-    server_name: "notes-api.koa.campus.gov.il"
+    server_name: "notes-api-koaprod.campus.gov.il"
     nginx_port: 80
     nging_proxy_pass_port: 8120
   - name: enterprise
-    server_name: "enterprise.koa.campus.gov.il"
+    server_name: "enterprise-koaprod.campus.gov.il"
     nginx_port: 443
     nging_proxy_pass_port: 18160

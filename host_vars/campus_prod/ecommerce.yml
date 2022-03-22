@@ -17,7 +17,7 @@ ECOMMERCE_DATABASE_HOST: localhost
 ECOMMERCE_DATABASE_NAME: ecommerce
 ECOMMERCE_DATABASE_USER: ecomm001
 ECOMMERCE_DJANGO_SETTINGS_MODULE: ecommerce.settings.production
-ECOMMERCE_BASE: "ecommerce.koa.campus.gov.il"
+ECOMMERCE_BASE: "ecommerce-koaprod.campus.gov.il"
 ECOMMERCE_ECOMMERCE_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ ECOMMERCE_BASE }}"
 EDXAPP_ECOMMERCE_API_URL: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}/api/v2"
 EDXAPP_ECOMMERCE_PUBLIC_URL_ROOT: "{{ ECOMMERCE_ECOMMERCE_URL_ROOT }}"
@@ -40,10 +40,10 @@ ECOMMERCE_NGINX_PORT: 18130
 
 #LiqPay sub 1
 ecommerce_subsite_service_name: ecommerce-subsite-sso
-ECOMMERCE_SUBSITE1_LMS_ROOT_URL: "https://site.koa.campus.gov.il"
+ECOMMERCE_SUBSITE1_LMS_ROOT_URL: "https://site.koaprod.campus.gov.il"
 ECOMMERCE_SUBSITE1_URL_ROOT: "{{ EDXAPP_LMS_BASE_SCHEME | default('https') }}://{{ ECOMMERCE_SUBSITE1_BASE }}"
 
-ECOMMERCE_SUBSITE1_BASE: "ecommerce-site.koa.campus.gov.il"
+ECOMMERCE_SUBSITE1_BASE: "ecommerce-site.ecommerce-koaprod.campus.gov.il"
 ECOMMERCE_SUBSITE1_LIQPAY_CANCEL_CHECKOUT_PATH: "/checkout/cancel-checkout/"
 ECOMMERCE_SUBSITE1_LIQPAY_ERROR_PATH: "/checkout/error/"
 ECOMMERCE_SUBSITE1_LIQPAY_HOST: "https://www.liqpay.ua/api/"
@@ -116,7 +116,7 @@ ecommerce_post_migrate_commands:
       --site-name {{ ECOMMERCE_BASE }}
       --partner-code edx
       --partner-name "OpenEdx LMS"
-      --payment-processors=paypal,liqpay,stripe 
+      --payment-processors=paypal,liqpay,stripe
       --client-side-payment-processor=stripe
       --lms-url-root {{ EDXAPP_LMS_ROOT_URL }}
       --sso-client-id {{ ECOMMERCE_SOCIAL_AUTH_EDX_OAUTH2_KEY }}
@@ -135,8 +135,8 @@ ecommerce_post_migrate_commands:
       ./manage.py waffle_flag enable_client_side_checkout
       --everyone
       --staff
-      --superusers 
-      --authenticated 
+      --superusers
+      --authenticated
       --create
     when: True
   - command: >
