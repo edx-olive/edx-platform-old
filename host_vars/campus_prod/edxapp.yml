@@ -197,13 +197,6 @@ EDXAPP_FINANCIAL_REPORTS:
     ROOT_PATH: ""
     STORAGE_TYPE: s3
 
-EDXAPP_GRADE_STORAGE_TYPE: 's3'
-EDXAPP_GRADE_STORAGE_CLASS: 'storages.backends.s3boto.S3BotoStorage'
-EDXAPP_GRADE_BUCKET: prod-olivex-student-grades
-EDXAPP_GRADE_STORAGE_KWARGS:
-    base_url: /media/
-    location: 'prod'
-
 EDXAPP_S3_HOST: "s3.amazonaws.com"
 
 EDXAPP_PROFILE_IMAGE_BACKEND:
