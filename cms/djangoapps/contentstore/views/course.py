@@ -30,6 +30,7 @@ from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locator import BlockUsageLocator
 from six import text_type
 from six.moves import filter
+from edx_django_utils.plugins import pluggable_override
 
 from cms.djangoapps.course_creators.views import add_user_with_status_unrequested, get_course_creator_status
 from cms.djangoapps.models.settings.course_grading import CourseGradingModel
@@ -1324,6 +1325,7 @@ def _refresh_course_tabs(request, course_module):
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT"))
 @expect_json
+@pluggable_override('OVERRIDE_ADVANCED_SETTINGS_HANDLER')
 def advanced_settings_handler(request, course_key_string):
     """
     Course settings configuration
