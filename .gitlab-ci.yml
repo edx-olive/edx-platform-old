@@ -1,4 +1,5 @@
 stages:
+  - build
   - deploy
 
 image: alpine
@@ -6,8 +7,9 @@ image: alpine
 #before_script:
 #  - apk add git
 
-deploy_openedx:
-  stage: deploy
+build:
+  stage: build
+  environment: prod
   script:
     - echo "Fetching packer"
     - wget https://releases.hashicorp.com/packer/1.5.5/packer_1.5.5_linux_amd64.zip
@@ -22,4 +24,37 @@ deploy_openedx:
       - master
   except:
       - tags
-  allow_failure: true
+
+deploy:
+  stage: deploy
+  image: 
+    name:  amazon/aws-cli
+    entrypoint: [""]
+  environment: prod
+  script:
+    - >
+      AMI_IMAGE_ID=$(
+        aws ec2 describe-images --filters Name=name,Values=openedx-campus-koa-ami --query 'Images[*].[ImageId]' --output text
+        )
+
+      declare -a LAUNCH_TEMPLATES=(
+        "openedx-koa-services-template" "openedx-koa-workers" "openedx-koa-lms-cms-template"
+        )
+
+      for i in "${LAUNCH_TEMPLATES[@]}" ; do
+
+        DEFAULT_VERSION_NUMBER=$(aws ec2 describe-launch-templates --launch-template-names ${i} --query 'LaunchTemplates[*].[DefaultVersionNumber]' --output text)
+
+        LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --launch-template-names ${i}  --query 'LaunchTemplates[*].[LaunchTemplateId]' --output text)
+
+        aws ec2 create-launch-template-version --launch-template-id ${LAUNCH_TEMPLATE_ID} \
+          --source-version ${DEFAULT_VERSION_NUMBER} --launch-template-data "ImageId=${AMI_IMAGE_ID}" 2>&1 > /dev/null
+      done
+
+    - aws autoscaling start-instance-refresh --auto-scaling-group-name openedx-koa-services-asg 2>&1 > /dev/null
+    - aws autoscaling start-instance-refresh --auto-scaling-group-name openedx-koa-workers-asg 2>&1 > /dev/null
+    - aws autoscaling start-instance-refresh --auto-scaling-group-name openedx-koa-lms-cms-asg 2>&1 > /dev/null
+  only:
+      - master
+  except:
+      - tags
