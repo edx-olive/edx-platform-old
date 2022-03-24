@@ -53,3 +53,7 @@ deploy:
     - aws autoscaling start-instance-refresh --auto-scaling-group-name openedx-koa-services-asg 2>&1 > /dev/null
     - aws autoscaling start-instance-refresh --auto-scaling-group-name openedx-koa-workers-asg 2>&1 > /dev/null
     - aws autoscaling start-instance-refresh --auto-scaling-group-name openedx-koa-lms-cms-asg 2>&1 > /dev/null
+  only:
+      - master
+  except:
+      - tags
