@@ -37,5 +37,13 @@ NGINX_ADDITIONAL_SERVICES_CONFIG:
     server_name: "enterprise-koaprod.campus.gov.il"
     nginx_port: 443
     nging_proxy_pass_port: 18160
+  - name: insights
+    server_name: "{{ INSIGHTS_DOMAIN }}"
+    nginx_port: 80
+    nging_proxy_pass_port: "18110"
+  - name: analytics
+    server_name: "{{ ANALYTICS_API_DOMAIN }}"
+    nginx_port: 80
+    nging_proxy_pass_port: "18100"
 
 NGINX_FORWARDED_FOR_BEHIND_PROXY: true
