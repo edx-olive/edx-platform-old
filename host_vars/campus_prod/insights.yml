@@ -30,3 +30,10 @@ INSIGHTS_SOCIAL_AUTH_REDIRECT_IS_HTTPS: true
 INSIGHTS_SUPPORT_EMAIL: campus@mail.gov.il
 INSIGHTS_THEME_SCSS: sass/themes/edx.scss
 ANALYTICS_API_DOMAIN: "analytics-koaprod.campus.gov.il"
+INSIGHTS_REPOS:
+  - PROTOCOL: 'https'
+    DOMAIN: "{{ COMMON_GIT_MIRROR }}"
+    PATH: "edx-olive"
+    REPO: edx-analytics-dashboard.git
+    VERSION: "{{ INSIGHTS_VERSION }}"
+    DESTINATION: "{{ insights_code_dir }}"
