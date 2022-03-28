@@ -3,7 +3,7 @@ EDXAPP_SITE_NAME: "courses-koaprod.campus.gov.il"
 EDXAPP_CMS_SITE_NAME: "studio-koaprod.campus.gov.il"
 EDXAPP_PREVIEW_LMS_BASE: "preview-koaprod.campus.gov.il"
 
-EDX_PLATFORM_VERSION: "campus-prod-release-2022-03-17"
+EDX_PLATFORM_VERSION: "campus-prod-release-2022-03-28"
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"
@@ -61,6 +61,7 @@ SITE_CONFIGURATION_STORAGE:
           DEFAULT_FROM_EMAIL: campus@mse.gov.il
           EDITABLE_SHORT_DESCRIPTION: true
           EMAIL_FROM_ADDRESS: CampusIL <support@campus.gov.il>
+          email_from_address: CampusIL <support@campus.gov.il>
           ENABLE_EXTENDED_COURSE_DETAILS: true
           ENABLE_FORUM_NOTIFICATIONS: true
           ENABLE_MKTG_SITE: false
@@ -76,6 +77,7 @@ SITE_CONFIGURATION_STORAGE:
               - gender
               - year_of_birth
           HOMEPAGE_OVERLAY_HTML: ""
+          platform_name: IL קמפוס
           PLATFORM_NAME: IL קמפוס
           REGISTRATION_EXTRA_FIELDS:
               first_name: hidden
@@ -196,6 +198,16 @@ EDXAPP_FINANCIAL_REPORTS:
     BUCKET: prod-olivex-financial-reports
     ROOT_PATH: ""
     STORAGE_TYPE: s3
+
+EDXAPP_GRADE_STORAGE_CLASS: 'storages.backends.s3boto.S3BotoStorage'
+EDXAPP_GRADE_STORAGE_KWARGS:
+    bucket: 'prod-olivex-student-grades'
+    custom_domain: null
+    location: 'prod'
+    querystring_expire: 300
+    querystring_auth: true
+    gzip: true
+    default_acl: "private"
 
 EDXAPP_S3_HOST: "s3.amazonaws.com"
 
