@@ -34,13 +34,16 @@ def get_base_template_context(site):
         site_config_name='PLATFORM_NAME',
     )
 
+    lms_url_root = get_config_value_from_site_or_settings('LMS_ROOT_URL', site=site)
+
     return {
         # Platform information
         'homepage_url': marketing_link('ROOT'),
         'dashboard_url': dashboard_url,
         'template_revision': getattr(settings, 'EDX_PLATFORM_REVISION', None),
         'platform_name': platform_name,
-        'platform_name_tag': HTML("<span dir='ltr'>{platform_name}</span>").format(
+        'platform_name_tag': HTML("<a href='{lms_url_root}'><span dir='ltr'>{platform_name}</span></a>").format(
+            lms_url_root=lms_url_root,
             platform_name=platform_name
         ),
         'contact_email': get_config_value_from_site_or_settings(
@@ -50,7 +53,7 @@ def get_base_template_context(site):
         'social_media_urls': get_config_value_from_site_or_settings('SOCIAL_MEDIA_FOOTER_URLS', site=site),
         'mobile_store_urls': get_config_value_from_site_or_settings('MOBILE_STORE_URLS', site=site),
         'logo_url': '{lms_url_root}/static/{theme_dir}/images/'.format(
-            lms_url_root=get_config_value_from_site_or_settings('LMS_ROOT_URL', site=site),
+            lms_url_root=lms_url_root,
             theme_dir=theme_dir
         ),
         'support_contact_url': getattr(settings, 'CAMPUS_SUPPORT_CONTACT_URL', ''),

@@ -149,11 +149,13 @@ def send_password_reset_email_for_user(user, request, preferred_email=None):
     site_name = settings.LOGISTRATION_MICROFRONTEND_DOMAIN if should_redirect_to_logistration_mircrofrontend() \
         else configuration_helpers.get_value('SITE_NAME', settings.SITE_NAME)
     platform_name = configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
+    lms_root_url = configuration_helpers.get_value('LMS_ROOT_URL', settings.LMS_ROOT_URL)
     message_context.update({
         'request': request,  # Used by google_analytics_tracking_pixel
         # TODO: This overrides `platform_name` from `get_base_template_context` to make the tests passes
         'platform_name': platform_name,
-        'platform_name_tag': HTML("<span dir='ltr'>{platform_name}</span>").format(
+        'platform_name_tag': HTML("<a href='{lms_root_url}'><span dir='ltr'>{platform_name}</span></a>").format(
+            lms_root_url=lms_root_url,
             platform_name=platform_name
         ),
         'reset_link': '{protocol}://{site}{link}?track=pwreset'.format(
