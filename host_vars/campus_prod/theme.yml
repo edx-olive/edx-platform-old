@@ -1,5 +1,5 @@
 ---
- edxapp_theme_version: 'campus-prod-release-2022-03-28'
+ edxapp_theme_version: 'campus-prod-release-2022-03-29'
  EDXAPP_THEME_VERSION: '{{ edxapp_theme_version }}'
  edxapp_theme_source_repo: 'git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-theme.git'
  edxapp_theme_name: '{{ edxapp_theme_version }}'
