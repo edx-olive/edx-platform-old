@@ -326,3 +326,5 @@ edxlocal_database_users:
       user: "{{ ENTERPRISE_CATALOG_MYSQL_USER | default(None) }}",
       pass: "{{ ENTERPRISE_CATALOG_MYSQL_PASSWORD | default(None) }}"
     }
+
+EDXAPP_X_FRAME_OPTIONS: SAMEORIGIN
