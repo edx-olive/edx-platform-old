@@ -1342,6 +1342,9 @@ def advanced_settings_handler(request, course_key_string):
         if settings.FEATURES.get('DISABLE_MOBILE_COURSE_AVAILABLE', False):
             advanced_dict.get('mobile_available')['deprecated'] = True
 
+        if settings.FEATURES.get('DISABLE_STUDENT_NOTES_SETTINGS', False):
+            advanced_dict.get('edxnotes')['deprecated'] = True
+
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             publisher_enabled = configuration_helpers.get_value_for_org(
                 course_module.location.org,
