@@ -21,6 +21,7 @@ from operator import itemgetter
 
 from django.conf import settings
 from edx_django_utils.cache import RequestCache
+from edx_django_utils.plugins import pluggable_override
 from lxml import etree
 from opaque_keys.edx.locator import AssetLocator
 from web_fragments.fragment import Fragment
@@ -610,7 +611,7 @@ class VideoBlock(
             'translation'
         ).rstrip('/?')
         editable_fields['handout']['type'] = 'FileUploader'
-
+        editable_fields['component_location_id']['value'] = self.location.html_id()
         return editable_fields
 
     @classmethod
@@ -788,6 +789,7 @@ class VideoBlock(
         else:
             return ''
 
+    @pluggable_override('OVERRIDE_VIDEO_COMPONENT_CONTEXT')
     def get_context(self):
         """
         Extend context by data for transcript basic tab.
