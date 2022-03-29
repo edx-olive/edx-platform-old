@@ -239,7 +239,7 @@ def _handle_failed_authentication(user, authenticated_user):
                                                  '{link_start}here{link_end} to reset.{li_end}'
                                                  ))
                                           .format(
-                        link_start=HTML('<a http="#login" class="form-toggle" data-type="password-reset">'),
+                        link_start=HTML('<a http="/reset" class="form-toggle" data-type="password-reset">'),
                         link_end=HTML('</a>'),
                         li_start=HTML('<li>'),
                         li_end=HTML('</li>'),
@@ -253,7 +253,7 @@ def _handle_failed_authentication(user, authenticated_user):
                                                  ))
                                           .format(
                         quote=HTML("'"),
-                        link_start=HTML('<a href="/reset" >'),
+                        link_start=HTML('<a href="#" class="field-link form-toggle" data-type="password-reset">'),
                         link_end=HTML('</a>'),
                         remaining_attempts=remaining_attempts))
             else:
