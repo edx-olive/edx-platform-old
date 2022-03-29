@@ -3,7 +3,7 @@ EDXAPP_SITE_NAME: "courses-koaprod.campus.gov.il"
 EDXAPP_CMS_SITE_NAME: "studio-koaprod.campus.gov.il"
 EDXAPP_PREVIEW_LMS_BASE: "preview-koaprod.campus.gov.il"
 
-EDX_PLATFORM_VERSION: "campus-prod-release-2022-03-28"
+EDX_PLATFORM_VERSION: "campus-prod-release-2022-03-29"
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"
@@ -48,6 +48,7 @@ SITE_CONFIGURATION_STORAGE:
       values:
           COURSE_CATALOG_API_URL: https://discovery-koaprod.campus.gov.il/api/v1
           ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER: false
+          ACTIVATION_EMAIL_SUPPORT_LINK: "Campus@mail.gov.il"
           CAMPUS_SAML_PROVIDER_SLUG: moe-edu-idm
           CONTACT_MAILING_ADDRESS: Campus@mail.gov.il
           COURSE_ABOUT_VISIBILITY_PERMISSION: see_about_page
@@ -136,6 +137,11 @@ SITE_CONFIGURATION_STORAGE:
 
 EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE }}"
 
+EDXAPP_LMS_NGINX_TIMEOUT: '900s' # 900s = 15m
+EDXAPP_CMS_NGINX_TIMEOUT: '900s' # 900s = 15m
+EDXAPP_CORS_ORIGIN_WHITELIST:
+    - "https://campus.gov.il"
+
 EDXAPP_AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
 EDXAPP_AWS_QUERYSTRING_AUTH: false
 EDXAPP_AWS_S3_CUSTOM_DOMAIN: prod-olivex-uploads.s3.amazonaws.com
@@ -215,9 +221,10 @@ EDXAPP_PROFILE_IMAGE_BACKEND:
     class: storages.backends.s3boto.S3BotoStorage
     options:
         bucket: prod-olivex-profile-images
-        custom_domain: prod-olivex-profile-images.s3.amazonaws.com
+        custom_domain: d2zo26jerm2xra.cloudfront.net
         headers:
             Cache-Control: max-age-{{ EDXAPP_PROFILE_IMAGE_MAX_AGE }}
+        location: '/'
 EDXAPP_PROFILE_IMAGE_SECRET_KEY: "5WGU|ZyFg{I7eYUU:6]w"
 
 

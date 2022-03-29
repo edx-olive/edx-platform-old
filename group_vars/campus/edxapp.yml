@@ -3,7 +3,7 @@
 EDXAPP_PLATFORM_NAME: "Campus IL"
 EDXAPP_LANG: "en_US.UTF-8"
 EDXAPP_LANGUAGE_CODE: "he-il"
-EDXAPP_TIME_ZONE: "Europe/Dublin"
+EDXAPP_TIME_ZONE: "Asia/Jerusalem"
 
 # to enable seamless auth between LMS, CMS, preview, discovery, credentials
 # all DNS names must be one level upper of EDXAPP_SESSION_COOKIE_DOMAIN
@@ -63,6 +63,7 @@ EDXAPP_FEATURES_OVERRIDE:
  CUSTOM_CERTIFICATE_TEMPLATES_ENABLED: true
  CUSTOM_COURSES_EDX: true
  DISABLE_STUDIO_SSO_OVER_LMS: true
+ DISABLE_STUDENT_NOTES_SETTINGS: true
  DISABLE_COURSE_CREATION: true
  DISPLAY_ANALYTICS_DEMOGRAPHICS: false
  DISPLAY_ANALYTICS_ENROLLMENTS: false
@@ -145,7 +146,7 @@ EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recurs
 EDXAPP_GOOGLE_TAG_MANAGER_ID: ""
 EDXAPP_FACEBOOK_PIXEL_ID: ""
 CAMPUS_ANALYTICS_URL: ""
-CAMPUS_MARKETING_SITE_ROOT: "{{ EDXAPP_LMS_ROOT_URL }}/dashboard"
+CAMPUS_MARKETING_SITE_ROOT: https://campus.gov.il
 EDXAPP_DEFAULT_FROM_EMAIL: "CampusIL <no-reply@campus.gov.il>"
 EDXAPP_BULK_EMAIL_DEFAULT_FROM_EMAIL: "no-reply@campus.gov.il"
 EDXAPP_PRESS_EMAIL: press@campus.gov.il
@@ -155,9 +156,14 @@ EDXAPP_FEEDBACK_SUBMISSION_EMAIL: bugs@campus.gov.il
 EDXAPP_FINANCE_EMAIL: finance@campus.gov.il
 
 NGINX_EDXAPP_LMS_APP_EXTRA: |
+  add_header Content-Security-Policy "frame-ancestors 'self' https://*.campus.gov.il https://campus.gov.il";
   # Redirect all requests starting with /home to the marketing site
   rewrite ^(/home)(.*)$ {{ CAMPUS_MARKETING_SITE_ROOT }}$2 redirect;
   rewrite ^/?$ {{ CAMPUS_MARKETING_SITE_ROOT }} redirect;
+
+generic_cache_config: &default_generic_cache
+ BACKEND: "{{ EDXAPP_CACHE_BACKEND }}"
+ KEY_FUNCTION: 'util.memcache.safe_key'
 
 EDXAPP_LMS_ENV_EXTRA:
  # ORA2_FILEUPLOAD_BACKEND: 'django'
@@ -176,13 +182,47 @@ EDXAPP_LMS_ENV_EXTRA:
   - "webwork"
  CAMPUS_LOGO_URL: "{{ EDXAPP_LMS_ROOT_URL }}/courses"
  ANALYTICS_DASHBOARD_URL: "{{ CAMPUS_ANALYTICS_URL }}"
+ CACHES:
+  default:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'default'
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+   VERSION: "{{ EDXAPP_DEFAULT_CACHE_VERSION }}"
+  general:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'general'
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  mongo_metadata_inheritance:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'mongo_metadata_inheritance'
+   TIMEOUT: 300
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  staticfiles:
+   <<: *default_generic_cache
+   KEY_PREFIX: "staticfiles_general"
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  configuration:
+   <<: *default_generic_cache
+   KEY_PREFIX: "configuration"
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  celery:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'celery'
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+   TIMEOUT: "7200"
+  course_structure_cache:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'course_structure'
+   LOCATION: "{{ EDXAPP_CACHE_COURSE_STRUCTURE_MEMCACHE }}"
+   # Default to two hours
+   TIMEOUT: "7200"
 
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: true
 
 EDXAPP_PRIVATE_REQUIREMENTS:
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-social-auth.git@v1.1.1#egg=campus_social_auth==1.1.1"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.15#egg=extended_translations==0.0.15"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.16#egg=extended_translations==0.0.16"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/custom-registration-form.git@v1.1.0#egg=custom_reg_form==1.1.0"
    extra_args: "-e"
@@ -204,6 +244,40 @@ EDXAPP_EXTRA_REQUIREMENTS:
 EDXAPP_CMS_ENV_EXTRA:
  RG_SENTRY_ENVIRONMENT: "{{ COMMON_ENVIRONMENT }}"
  # ORA2_FILEUPLOAD_BACKEND: 'django'
+ CACHES:
+  default:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'default'
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+   VERSION: "{{ EDXAPP_DEFAULT_CACHE_VERSION }}"
+  general:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'general'
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  mongo_metadata_inheritance:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'mongo_metadata_inheritance'
+   TIMEOUT: 300
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  staticfiles:
+   <<: *default_generic_cache
+   KEY_PREFIX: "staticfiles_general"
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  configuration:
+   <<: *default_generic_cache
+   KEY_PREFIX: "configuration"
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+  celery:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'celery'
+   LOCATION: "{{ EDXAPP_MEMCACHE }}"
+   TIMEOUT: "7200"
+  course_structure_cache:
+   <<: *default_generic_cache
+   KEY_PREFIX: 'course_structure'
+   LOCATION: "{{ EDXAPP_CACHE_COURSE_STRUCTURE_MEMCACHE }}"
+   # Default to two hours
+   TIMEOUT: "7200"
 
 EDXAPP_LMS_AUTH_EXTRA:
  RG_SENTRY_DSN: "{{ COMMON_SENTRY_DSN }}"
