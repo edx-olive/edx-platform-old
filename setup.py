@@ -24,6 +24,7 @@ setup(
             "dates = lms.djangoapps.courseware.tabs:DatesTab",
             "discussion = lms.djangoapps.discussion.plugins:DiscussionTab",
             "edxnotes = lms.djangoapps.edxnotes.plugins:EdxNotesTab",
+            "notes = lms.djangoapps.edxnotes.plugins:EdxNotesTab",
             "external_discussion = lms.djangoapps.courseware.tabs:ExternalDiscussionCourseTab",
             "external_link = lms.djangoapps.courseware.tabs:ExternalLinkCourseTab",
             "html_textbooks = lms.djangoapps.courseware.tabs:HtmlTextbookTabs",
