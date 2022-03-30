@@ -224,7 +224,6 @@ EDXAPP_PROFILE_IMAGE_BACKEND:
         custom_domain: d2zo26jerm2xra.cloudfront.net
         headers:
             Cache-Control: max-age-{{ EDXAPP_PROFILE_IMAGE_MAX_AGE }}
-        location: '/'
 EDXAPP_PROFILE_IMAGE_SECRET_KEY: "5WGU|ZyFg{I7eYUU:6]w"
 
 
