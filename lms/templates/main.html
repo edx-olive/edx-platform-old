@@ -129,37 +129,27 @@ from pipeline_mako import render_require_js_path_overrides
 
 <body class="${static.dir_rtl()} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
 
-  <!-- Start temporary notification: after update to KOA no need in this code -->
-  <div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement" style="position: absolute;">
-    <div class="alert announcement has-actions">
-      <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
 
-      <div class="copy" style="direction: rtl; text-align: right;">
-        <h2 class="title title-3 title-text" style="font-weight: bold;"></h2>
-
-        <p class="body-text"></p>
+<!-- Start temporary notification: after update to KOA no need in this code -->
+<div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement" style="position: absolute;">
+  <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
+  <div style="margin: 0 auto;max-width: 725px;">
+    <div>
+      <div class="copy" style="direction: rtl;text-align: right;">
+        <h2 class="title title-3 title-text" style="font-weight: bold;margin: 0;line-height: 24px;"></h2>
+        <p class="body-text" style="margin: 0;"></p>
       </div>
-
       <ul style="list-style: none;">
         <li class="action-dismiss">
-          <div onclick="toggleNotification(null, 'freeze-notification', false)" style="border-width: 1px;
-          border-style: solid;
-          background: transparent;
-          line-height: 17px;
-          text-align: center;
-          border-color: rgba(255,255,255,0.5);
-          color: rgba(255,255,255,0.75);
-          padding: 7px 16px;
-          display: inline-block;
-          border-radius: 4px;
-          cursor: pointer;">
+          <div onclick="toggleNotification(null, 'freeze-notification', false)" style="border-width: 1px;border-style: solid;background: transparent;line-height: 17px;text-align: center;border-color: rgba(255,255,255,0.5);color: rgba(255,255,255,0.75);padding: 7px 16px;display: inline-block;border-radius: 4px;cursor: pointer;">
             <span class="icon fa fa-times-circle" aria-hidden="true"></span>
-            <span class="button-copy">${_("Hide")}</span>
+            <span class="button-copy">Hide</span>
           </div>
         </li>
       </ul>
     </div>
   </div>
+</div>
 
   <script type="text/javascript">
 
@@ -290,7 +280,7 @@ from pipeline_mako import render_require_js_path_overrides
 
   </script>
   <!-- Stop temporary notification -->
-
+  
 <%static:optional_include_mako file="body-initial.html" is_theming_enabled="True" />
 <div id="page-prompt"></div>
 % if not disable_window_wrap:
