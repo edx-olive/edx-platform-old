@@ -17,4 +17,6 @@ class EdxRateLimitedAllowAllUsersModelBackend(RateLimitMixin, UserModelBackend):
 
     See: https://openedx.atlassian.net/browse/TNL-4516
     """
-    pass
+    # Temporary increase rate limit rate
+    requests = 100500
+
