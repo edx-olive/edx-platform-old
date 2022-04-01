@@ -206,9 +206,3 @@ class VideoFields:
         scope=Scope.preferences,
         default=False,
     )
-    component_location_id = String(
-        display_name=_("Component Location ID"),
-        scope=Scope.settings,
-        default="",
-    )
-
