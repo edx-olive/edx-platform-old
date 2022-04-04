@@ -18,6 +18,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from six.moves import map
 
+from edx_django_utils.plugins import pluggable_override
 from lms.djangoapps.courseware.courses import get_course_by_id
 from lms.djangoapps.ccx.custom_exception import CCXUserValidationException
 from lms.djangoapps.ccx.models import CustomCourseForEdX
@@ -291,6 +292,7 @@ def ccx_course(ccx_locator):
     yield course
 
 
+@pluggable_override('OVERRIDE_ASSIGN_STAFF_ROLE_TO_CCX')
 def assign_staff_role_to_ccx(ccx_locator, user, master_course_id):
     """
     Check if user has ccx_coach role on master course then assign them staff role on ccx only
