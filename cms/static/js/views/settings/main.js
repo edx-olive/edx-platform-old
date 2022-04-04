@@ -98,6 +98,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    this.$el.find('#' + this.fieldToSelectorMap.description).val(this.model.get('description'));
 
                    this.$el.find('#' + this.fieldToSelectorMap.short_description).val(this.model.get('short_description'));
+                   this.$el.find('#' + this.fieldToSelectorMap.yammer_group_id).val(this.model.get('yammer_group_id'));
                    this.$el.find('#' + this.fieldToSelectorMap.about_sidebar_html).val(
                        this.model.get('about_sidebar_html')
                    );
@@ -183,7 +184,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    course_settings_learning_fields: 'course-settings-learning-fields',
                    add_course_learning_info: 'add-course-learning-info',
                    add_course_instructor_info: 'add-course-instructor-info',
-                   course_learning_info: 'course-learning-info'
+                   course_learning_info: 'course-learning-info',
+                   yammer_group_id: 'yammer-group-id',
                },
 
                addLearningFields: function() {
@@ -311,6 +313,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    case 'course-description':
                    case 'course-short-description':
                    case 'course-overview':
+                   case 'yammer-group-id':
                        this.setField(event);
                        break;
                    default: // Everything else is handled by datepickers and CodeMirror.

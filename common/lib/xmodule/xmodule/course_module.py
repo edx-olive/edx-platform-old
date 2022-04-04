@@ -1006,6 +1006,12 @@ class CourseFields:  # lint-amnesty, pylint: disable=missing-class-docstring
             "{ \"my_custom_setting\": \"value\", \"other_setting\": \"value\" }"
         ),
         scope=Scope.settings
+    ),
+    yammer_group_id = String(
+        display_name=_("Yammer Group ID"),
+        help=_("Provide the Yammer Group ID"),
+        scope=Scope.settings,
+        default=""
     )
 
 

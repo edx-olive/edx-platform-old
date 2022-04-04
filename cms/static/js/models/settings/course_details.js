@@ -35,7 +35,8 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 entrance_exam_minimum_score_pct: '50',
                 learning_info: [],
                 instructor_info: {},
-                self_paced: null
+                self_paced: null,
+                yammer_group_id: '',
             },
 
             validate: function(newattrs) {
