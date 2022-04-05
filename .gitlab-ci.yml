@@ -48,7 +48,7 @@ deploy:
         LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --launch-template-names ${i}  --query 'LaunchTemplates[*].[LaunchTemplateId]' --output text)
 
         aws ec2 create-launch-template-version --launch-template-id ${LAUNCH_TEMPLATE_ID} \
-          --source-version ${DEFAULT_VERSION_NUMBER} --launch-template-data "ImageId=${AMI_IMAGE_ID}" 2>&1 > /dev/null
+          --source-version ${DEFAULT_VERSION_NUMBER} --launch-template-data '{"IamInstanceProfile":{"Name":"Koa-prod-tracking-log-s3-export"},"ImageId":"'${AMI_IMAGE_ID}'"}' 2>&1 > /dev/null
       done
 
     - aws autoscaling start-instance-refresh --auto-scaling-group-name openedx-koa-services-asg 2>&1 > /dev/null

@@ -146,7 +146,7 @@ EDXAPP_FEATURES: "{{ _EDXAPP_FEATURES | combine(EDXAPP_FEATURES_OVERRIDE, recurs
 EDXAPP_GOOGLE_TAG_MANAGER_ID: ""
 EDXAPP_FACEBOOK_PIXEL_ID: ""
 CAMPUS_ANALYTICS_URL: ""
-CAMPUS_MARKETING_SITE_ROOT: https://campus.gov.il
+CAMPUS_MARKETING_SITE_ROOT: "https://campus.gov.il"
 EDXAPP_DEFAULT_FROM_EMAIL: "CampusIL <no-reply@campus.gov.il>"
 EDXAPP_BULK_EMAIL_DEFAULT_FROM_EMAIL: "no-reply@campus.gov.il"
 EDXAPP_PRESS_EMAIL: press@campus.gov.il
@@ -157,6 +157,7 @@ EDXAPP_FINANCE_EMAIL: finance@campus.gov.il
 
 NGINX_EDXAPP_LMS_APP_EXTRA: |
   add_header Content-Security-Policy "frame-ancestors 'self' https://*.campus.gov.il https://campus.gov.il";
+  add_header Access-Control-Allow-Origin "https://koaprod.campus.gov.il";
   # Redirect all requests starting with /home to the marketing site
   rewrite ^(/home)(.*)$ {{ CAMPUS_MARKETING_SITE_ROOT }}$2 redirect;
   rewrite ^/?$ {{ CAMPUS_MARKETING_SITE_ROOT }} redirect;
@@ -216,21 +217,22 @@ EDXAPP_LMS_ENV_EXTRA:
    LOCATION: "{{ EDXAPP_CACHE_COURSE_STRUCTURE_MEMCACHE }}"
    # Default to two hours
    TIMEOUT: "7200"
+ COURSE_EXPORT_DOWNLOAD_CHUNK_SIZE: 81920
 
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: true
 
 EDXAPP_PRIVATE_REQUIREMENTS:
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-social-auth.git@v1.1.1#egg=campus_social_auth==1.1.1"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.16#egg=extended_translations==0.0.16"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.18.1#egg=extended_translations==0.0.18.1"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/custom-registration-form.git@v1.1.0#egg=custom_reg_form==1.1.0"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-sga.git@v0.17.3#egg=edx_sga==0.17.3"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v1.1.1#egg=periodic-instructor-reports==1.1.1"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v2.0.3#egg=periodic-instructor-reports==2.0.3"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@campus-prod-release-2022-03-28#egg=campus-edx-extensions==1.0.0"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@campus-prod-release-2022-04-05#egg=campus-edx-extensions==1.0.0"
    extra_args: "-e"
 
 EDXAPP_EXTRA_REQUIREMENTS:

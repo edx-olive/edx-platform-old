@@ -25,8 +25,10 @@ COMMON_ENABLE_BACKUPS_AZURE_RECOVERY_VAULT: False
 COMMON_ENABLE_FILEBEAT: False
 COMMON_ENABLE_SENTRY: False
 COMMON_ENABLE_ENTERPRISE: False
+COMMON_ENABLE_NEWRELIC: True
+COMMON_ENABLE_NEWRELIC_APP: True
+COMMON_ENABLE_NEWRELIC_INFRASTRUCTURE: True
 
-FORUM_VERSION: "open-release/ironwood.master"
 mysql_host: koa-prod-openedx.ci3ewl3onmj2.eu-west-1.rds.amazonaws.com
 memcached_host: edxapp-memcache.iuvune.cfg.euw1.cache.amazonaws.com
 mongo_hosts: "prod-mongo-koa-openedx.cluster-ci3ewl3onmj2.eu-west-1.docdb.amazonaws.com"
@@ -43,11 +45,3 @@ FORUM_ELASTICSEARCH_HOST: "{{ EDXAPP_SEARCH_HOST }}"
 FORUM_ELASTICSEARCH_PORT: "{{ EDXAPP_SEARCH_PORT }}"
 
 EDXAPP_CELERYBEAT_SCHEDULER: 'djcelery.schedulers.DatabaseScheduler'
-
-EDXAPP_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/nginx/access.log /edx/var/log/nginx/error.log /edx/var/log/cms/edx.log /edx/var/log/supervisor/cms-stderr.log /edx/var/log/supervisor/cms-stdout.lo /edx/var/log/supervisor/lms-stderr.log /edx/var/log/supervisor/lms-stdout.lo /edx/var/log/tracking/tracking.lo /edx/var/log/supervisor/supervisord.lo /edx/var/log/aws/s3-log-sync.log"
-WORKER_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/supervisor/cms_default_1-stderr.log /edx/var/log/supervisor/cms_default_1-stdout.log /edx/var/log/supervisor/cms_high_1-stderr.log /edx/var/log/supervisor/cms_high_1-stdout.log /edx/var/log/supervisor/cms_low_1-stderr.log /edx/var/log/supervisor/cms_low_1-stdout.log /edx/var/log/supervisor/lms_default_1-stderr.log /edx/var/log/supervisor/lms_default_1-stdout.log /edx/var/log/supervisor/lms_high_1-stderr.log /edx/var/log/supervisor/lms_high_1-stdout.log /edx/var/log/supervisor/lms_high_mem_1-stderr.log /edx/var/log/supervisor/lms_high_mem_1-stdout.log /edx/var/log/supervisor/lms_low_1-stderr.log /edx/var/log/supervisor/lms_low_1-stdout.log"
-ANALYTIC_API_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/analytics-api/edx.log /edx/var/log/supervisor/analytics_api-stderr.log /edx/var/log/supervisor/analytics_api-stdout.log"
-CREDENTIAlS_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/credentials/edx.log /edx/var/log/supervisor/credentials-stderr.log /edx/var/log/supervisor/credentials-stdout.log"
-FORUM_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/supervisor/forum-stderr.log /edx/var/log/supervisor/forum-stdout.log"
-DISCOVERY_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/discovery/edx.log /edx/var/log/supervisor/discovery-stderr.log /edx/var/log/supervisor/discovery-stdout.log"
-INSIGHT_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/insights/edx.log /edx/var/log/supervisor/insights-stderr.log /edx/var/log/supervisor/insights-stdout.log"
