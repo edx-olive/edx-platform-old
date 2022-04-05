@@ -30,6 +30,7 @@ if settings.STATIC_GRAB:
         'server-down.html',
         'server-error.html'
         'server-overloaded.html',
+        'maintenance.html'
     ]
 
 
