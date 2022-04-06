@@ -4,9 +4,12 @@ Utility methods for instructor tasks
 
 
 from eventtracking import tracker
+from django.conf import settings
 
 from lms.djangoapps.instructor_task.models import ReportStore
 from common.djangoapps.util.file import course_filename_prefix_generator
+from edxmako.shortcuts import render_to_string
+
 
 REPORT_REQUESTED_EVENT_NAME = u'edx.instructor.report.requested'
 
@@ -44,6 +47,9 @@ def upload_csv_to_report_store(rows, csv_name, course_id, timestamp, config_name
         timestamp_str=timestamp.strftime("%Y-%m-%d-%H%M")
     )
 
+    if settings.FEATURES.get("ENABLE_SENSITIVE_DATA_MSG_FOR_DOWNLOADS"):
+        rows = [get_sensitive_message()] + rows
+
     report_store.store_rows(course_id, report_name, rows, parent_dir)
     tracker_emit(csv_name)
     return report_name
@@ -71,3 +77,12 @@ def tracker_emit(report_name):
     Emits a 'report.requested' event for the given report.
     """
     tracker.emit(REPORT_REQUESTED_EVENT_NAME, {"report_type": report_name, })
+
+
+def get_sensitive_message():
+    """
+    Return the message parsed from template.
+    """
+    template_message = 'instructor/instructor_dashboard_2/sensitive_data_download_msg.txt'
+    message = render_to_string(template_message, None)
+    return [message]

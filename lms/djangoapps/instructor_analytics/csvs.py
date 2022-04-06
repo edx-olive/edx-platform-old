@@ -9,7 +9,10 @@ import csv
 
 import six
 from six.moves import map
+from django.conf import settings
 from django.http import HttpResponse
+
+from lms.djangoapps.instructor_task.tasks_helper.utils import get_sensitive_message
 
 
 def create_csv_response(filename, header, datarows):
@@ -32,6 +35,9 @@ def create_csv_response(filename, header, datarows):
         quoting=csv.QUOTE_ALL)
 
     encoded_header = [six.text_type(s) for s in header]
+    if settings.FEATURES.get("ENABLE_SENSITIVE_DATA_MSG_FOR_DOWNLOADS"):
+        rows = get_sensitive_message() + encoded_header
+
     csvwriter.writerow(encoded_header)
 
     for datarow in datarows:
