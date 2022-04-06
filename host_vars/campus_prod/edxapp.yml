@@ -1,7 +1,7 @@
 ---
-EDXAPP_SITE_NAME: "courses-koaprod.campus.gov.il"
-EDXAPP_CMS_SITE_NAME: "studio-koaprod.campus.gov.il"
-EDXAPP_PREVIEW_LMS_BASE: "preview-koaprod.campus.gov.il"
+EDXAPP_SITE_NAME: "courses.koaprod.campus.gov.il"
+EDXAPP_CMS_SITE_NAME: "studio.koaprod.campus.gov.il"
+EDXAPP_PREVIEW_LMS_BASE: "preview.koaprod.campus.gov.il"
 
 EDX_PLATFORM_VERSION: "campus-prod-release-2022-04-05"
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
@@ -41,12 +41,12 @@ EDXAPP_COMMENTS_SERVICE_URL: "http://openedx-koa-services-asg-1-1396875031.eu-we
 
 
 EDXAPP_FACEBOOK_PIXEL_ID: hwcacnnpfrdpuk8bvavf94s4321rmn
-CAMPUS_ANALYTICS_URL: "https://insights-koaprod.campus.gov.il"
+CAMPUS_ANALYTICS_URL: "https://insights.koaprod.campus.gov.il"
 
 SITE_CONFIGURATION_STORAGE:
     - domain: "{{ EDXAPP_SITE_NAME }}"
       values:
-          COURSE_CATALOG_API_URL: https://discovery-koaprod.campus.gov.il/api/v1
+          COURSE_CATALOG_API_URL: https://discovery.koaprod.campus.gov.il/api/v1
           ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER: false
           ACTIVATION_EMAIL_SUPPORT_LINK: "Campus@mail.gov.il"
           CAMPUS_SAML_PROVIDER_SLUG: moe-edu-idm
