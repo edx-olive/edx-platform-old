@@ -16,7 +16,7 @@ def redirect_to_maintenance(absolute_url, path, user, course_id, course_key):
     """Redirect users who not enrolled in a course to a maintenance page."""
     from urllib import quote
     from django.shortcuts import redirect
-    from django.urls import reverse
+    from django.core.urlresolvers import reverse
     from student.models import (
         CourseEnrollment,
     )
@@ -24,10 +24,10 @@ def redirect_to_maintenance(absolute_url, path, user, course_id, course_key):
                        'course-v1:MSE+GOV_PsychometryHe+2018_1', 'course-v1:TAU+ACD_TAU_beat_viruses+2019_2',
                        'course-v1:TAU+ACD_TAU_chemistry101x+2019_3']
 
-    if path == reverse('maintenancepage') or path == '/login' or path.startswith(('/user_api/', '/api/', '/notifier_api/', '/oauth2/access_token')):
+    if path == reverse('maintenancepage') or path == '/login' or path == '/heartbeat' or path.startswith(('/user_api/', '/api/', '/notifier_api/', '/oauth2/access_token')):
         return None
 
-    if not user.is_authenticated:
+    if not user.is_authenticated():
         if course_key and course_id in list_of_courses:
             return redirect("/login" + "?next={url}".format(url=quote(absolute_url, safe='')))
         return redirect(reverse('maintenancepage'))
@@ -37,15 +37,15 @@ def redirect_to_maintenance(absolute_url, path, user, course_id, course_key):
 
         if course_key and course_id in list_of_courses:
             try:
-                enrollment = CourseEnrollment.objects.get(user=user, course_id=course_key)
+                enrollment = CourseEnrollment.objects.get(user=user.id, course_id=course_key)
                 if enrollment.is_active:
                     return None
             except CourseEnrollment.DoesNotExist:
-                redirect(reverse('maintenancepage'))
+                return redirect(reverse('maintenancepage'))
         else:
             list_of_course_keys = [CourseKey.from_string(id) for id in list_of_courses]
             enrollments = CourseEnrollment.objects.filter(
-                user=user, is_active=True, course_id__in=list_of_course_keys).values_list("course_id", flat=True)
+                user=user.id, is_active=True, course_id__in=list_of_course_keys).values_list("course_id", flat=True)
             if enrollments.count() > 0:
                 return None
 
@@ -60,7 +60,8 @@ class UserTagsEventContextMiddleware(object):
         """
         Add a user's tags to the tracking event context.
         """
-        match = COURSE_REGEX.match(request.build_absolute_uri())
+        from urllib import unquote
+        match = COURSE_REGEX.match(unquote(request.build_absolute_uri()))
         course_id = None
         if match:
             course_id = match.group('course_id')
