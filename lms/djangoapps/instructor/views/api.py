@@ -80,6 +80,7 @@ from lms.djangoapps.instructor.views.instructor_task_helpers import extract_emai
 from lms.djangoapps.instructor_task import api as task_api
 from lms.djangoapps.instructor_task.api_helper import AlreadyRunningError, QueueConnectionError
 from lms.djangoapps.instructor_task.models import ReportStore
+from lms.djangoapps.instructor_task.tasks_helper.utils import get_sensitive_message
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
 from openedx.core.djangoapps.django_comment_common.models import (
@@ -1402,6 +1403,10 @@ def get_anon_ids(request, course_id):
         # In practice, there should not be non-ascii data in this query,
         # but trying to do the right thing anyway.
         encoded = [text_type(s) for s in header]
+
+        if settings.FEATURES.get("ENABLE_SENSITIVE_DATA_MSG_FOR_DOWNLOADS"):
+            encoded = get_sensitive_message() + encoded
+
         writer.writerow(encoded)
         for row in rows:
             encoded = [text_type(s) for s in row]
