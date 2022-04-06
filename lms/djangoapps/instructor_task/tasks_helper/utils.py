@@ -79,7 +79,7 @@ def tracker_emit(report_name):
     tracker.emit(REPORT_REQUESTED_EVENT_NAME, {"report_type": report_name, })
 
 
-def get_sensitive_message(self):
+def get_sensitive_message():
     """
     Return the message parsed from template.
     """
