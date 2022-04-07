@@ -1,5 +1,5 @@
 ---
-INSIGHTS_DOMAIN: "insights.koaprod.campus.gov.il"
+INSIGHTS_DOMAIN: "insights.campus.gov.il"
 INSIGHTS_APPLICATION_NAME: Insights
 INSIGHTS_BASE: https://{{ INSIGHTS_DOMAIN }}
 INSIGHTS_BASE_URL: https://{{ INSIGHTS_DOMAIN }}
@@ -29,7 +29,7 @@ INSIGHTS_SESSION_COOKIE_NAME: sessionid
 INSIGHTS_SOCIAL_AUTH_REDIRECT_IS_HTTPS: true
 INSIGHTS_SUPPORT_EMAIL: campus@mail.gov.il
 INSIGHTS_THEME_SCSS: sass/themes/edx.scss
-ANALYTICS_API_DOMAIN: "analytics.koaprod.campus.gov.il"
+ANALYTICS_API_DOMAIN: "analytics.campus.gov.il"
 ANALYTICS_API_BASE_URL: https://{{ ANALYTICS_API_DOMAIN }}
 ANALYTICS_API_ENDPOINT: https://{{ ANALYTICS_API_DOMAIN }}/api/v0
 INSIGHTS_REPOS:
