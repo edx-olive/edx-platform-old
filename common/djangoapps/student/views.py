@@ -291,7 +291,12 @@ def get_course_enrollments(user, orgs_to_include, orgs_to_exclude):
         on the user's dashboard.
     """
     for enrollment in CourseEnrollment.enrollments_for_user_with_overviews_preload(user):
-
+        if str(enrollment.course_id) not in ['course-v1:TAU+ACD_TAU_psychology101x+2019_1',
+                                             'course-v1:TAU+ACD_TAU_misraelx+1_2020',
+                                             'course-v1:MSE+GOV_PsychometryHe+2018_1',
+                                             'course-v1:TAU+ACD_TAU_beat_viruses+2019_2',
+                                             'course-v1:TAU+ACD_TAU_chemistry101x+2019_3']:
+            continue
         # If the course is missing or broken, log an error and skip it.
         course_overview = enrollment.course_overview
         if not course_overview:
