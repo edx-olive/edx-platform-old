@@ -141,6 +141,7 @@ EDXAPP_LMS_NGINX_TIMEOUT: '900s' # 900s = 15m
 EDXAPP_CMS_NGINX_TIMEOUT: '900s' # 900s = 15m
 EDXAPP_CORS_ORIGIN_WHITELIST:
     - "https://campus.gov.il"
+    - "https://koaprod.campus.gov.il"
 
 EDXAPP_AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
 EDXAPP_AWS_QUERYSTRING_AUTH: false
