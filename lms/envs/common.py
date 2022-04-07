@@ -421,6 +421,7 @@ XQUEUE_WAITTIME_BETWEEN_REQUESTS = 5  # seconds
 RETRY_ACTIVATION_EMAIL_MAX_ATTEMPTS = 5
 RETRY_ACTIVATION_EMAIL_TIMEOUT = 0.5
 
+
 ############################# SET PATH INFORMATION #############################
 PROJECT_ROOT = path(__file__).abspath().dirname().dirname()  # /edx-platform/lms
 REPO_ROOT = PROJECT_ROOT.dirname()
@@ -2032,6 +2033,13 @@ INSTALLED_APPS = (
     'bulk_email',
     'branding',
     'lms.djangoapps.grades.apps.GradesConfig',
+    'lms.djangoapps.discussion.apps.DiscussionConfig',
+
+    # [SE-4238] TEMPORARY UNTIL PHASE 2
+    'periodic_instructor_reports',
+
+    # ace-common
+    'openedx.core.djangoapps.ace_common.apps.AceCommonConfig',
 
     # Student support tools
     'support',
@@ -2083,7 +2091,7 @@ INSTALLED_APPS = (
     'django_comment_client',
     'django_comment_common',
     'discussion_api',
-    'lms.djangoapps.discussion',
+    # 'lms.djangoapps.discussion',
 
     # Notes
     'notes',
@@ -3228,3 +3236,23 @@ COURSES_API_CACHE_TIMEOUT = 3600  # Value is in seconds
 
 ############## Settings for CourseGraph ############################
 COURSEGRAPH_JOB_QUEUE = LOW_PRIORITY_QUEUE
+
+############### Settings for the ace_common plugin #################
+ACE_ENABLED_CHANNELS = ['django_email']
+ACE_ENABLED_POLICIES = ['bulk_email_optout']
+ACE_CHANNEL_SAILTHRU_DEBUG = True
+ACE_CHANNEL_SAILTHRU_TEMPLATE_NAME = None
+ACE_ROUTING_KEY = 'edx.lms.core.default'
+ACE_CHANNEL_DEFAULT_EMAIL = 'django_email'
+ACE_CHANNEL_TRANSACTIONAL_EMAIL = 'django_email'
+ACE_CHANNEL_SAILTHRU_API_KEY = ""
+ACE_CHANNEL_SAILTHRU_API_SECRET = ""
+
+############### Setting HISTORY_SAVING_TYPES #################
+# This can be used to extend which modules/XBlocks can save to
+# the "problem" submission history (old: courseware.StudentModuleHistory
+# new: coursewarehistoryextended.StudentModuleHistoryExtended) and view
+# the stored data when ENABLE_STUDENT_HISTORY_VIEW is enabled.
+
+# The default is just 'problem' has access to these features.
+HISTORY_SAVING_TYPES = ['problem']

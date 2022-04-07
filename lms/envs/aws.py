@@ -275,6 +275,9 @@ RECALCULATE_GRADES_ROUTING_KEY = ENV_TOKENS.get('RECALCULATE_GRADES_ROUTING_KEY'
 # Queue to use for updating grades due to grading policy change
 POLICY_CHANGE_GRADES_ROUTING_KEY = ENV_TOKENS.get('POLICY_CHANGE_GRADES_ROUTING_KEY', LOW_PRIORITY_QUEUE)
 
+# Celerybeat scheduler
+CELERYBEAT_SCHEDULER = ENV_TOKENS.get('CELERYBEAT_SCHEDULER', 'celery.beat:PersistentScheduler')
+
 # Message expiry time in seconds
 CELERY_EVENT_QUEUE_TTL = ENV_TOKENS.get('CELERY_EVENT_QUEUE_TTL', None)
 
@@ -1019,3 +1022,13 @@ ICP_LICENSE = ENV_TOKENS.get('ICP_LICENSE', None)
 
 ############## Settings for CourseGraph ############################
 COURSEGRAPH_JOB_QUEUE = ENV_TOKENS.get('COURSEGRAPH_JOB_QUEUE', LOW_PRIORITY_QUEUE)
+
+############### Setting HISTORY_SAVING_TYPES #################
+# This can be used to extend which modules/XBlocks can save to
+# the "problem" submission history (old: courseware.StudentModuleHistory
+# new: coursewarehistoryextended.StudentModuleHistoryExtended) and view
+# the stored data when ENABLE_STUDENT_HISTORY_VIEW is enabled.
+
+# Take the default value from lms/env/common.py but prefer to use
+# a value set in the local env config file (lms.env.json).
+HISTORY_SAVING_TYPES = ENV_TOKENS.get('HISTORY_SAVING_TYPES', HISTORY_SAVING_TYPES)

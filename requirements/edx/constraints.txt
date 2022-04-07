@@ -1,0 +1,8 @@
+# Fix decorator Py2 issue
+decorator<5.0.0
+
+# Pin django-pipeline to not use new settings format
+django-pipeline<1.6.0
+
+# Pin django-braces to not use new reverse import
+django-braces<1.11.0

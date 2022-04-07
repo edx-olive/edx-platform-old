@@ -129,6 +129,158 @@ from pipeline_mako import render_require_js_path_overrides
 
 <body class="${static.dir_rtl()} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
 
+
+<!-- Start temporary notification: after update to KOA no need in this code -->
+<div id="freeze-notification" class="wrapper wrapper-alert wrapper-alert-announcement" style="position: absolute;">
+  <span class="feedback-symbol fa fa-bullhorn" aria-hidden="true"></span>
+  <div style="margin: 0 auto;max-width: 725px;">
+    <div>
+      <div class="copy" style="direction: rtl;text-align: right;">
+        <h2 class="title title-3 title-text" style="font-weight: bold;margin: 0;line-height: 24px;"></h2>
+        <p class="body-text" style="margin: 0;"></p>
+      </div>
+      <ul style="list-style: none;">
+        <li class="action-dismiss">
+          <div onclick="toggleNotification(null, 'freeze-notification', false)" style="border-width: 1px;border-style: solid;background: transparent;line-height: 17px;text-align: center;border-color: rgba(255,255,255,0.5);color: rgba(255,255,255,0.75);padding: 7px 16px;display: inline-block;border-radius: 4px;cursor: pointer;">
+            <span class="icon fa fa-times-circle" aria-hidden="true"></span>
+            <span class="button-copy">Hide</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  <script type="text/javascript">
+
+    const _jsonConfigFileUrl = "https://api.npoint.io/adc875fa4dad77e1effe";
+    const _showFreezeNotification = "_showFreezeNotification";
+    const _ttl = 86400000; // show this notification once per 24 hour
+    const _today = new Date();
+    const _notificationDefault =
+    { 
+      id: 0,
+      startDateStr: "03-01-2022 00:00:00 UTC+02:00",
+      stopDateStr: "04-01-2030 23:59:59 UTC+03:00",
+      text: {
+        title: "לא הצלחנו לטעון את תוכן ההודעה.",
+        body: [
+          "ניתן לפנות לתמיכה במייל: <a href='mailto:support.koa@campus.gov.il'>support.koa@campus.gov.il</a>",
+        ]
+      }
+    };
+    var _notifications = [];
+      
+    // ttl in milliseconds
+    function setWithExpiry(key, value, ttl) {
+      const now = new Date()
+
+      // `item` is an object which contains the original value
+      // as well as the time when it's supposed to expire
+      const item = {
+        value: value,
+        expiry: now.getTime() + ttl,
+      }
+      localStorage.setItem(key, JSON.stringify(item))
+    }
+
+    function getWithExpiry(key) {
+      const itemStr = localStorage.getItem(key)
+      // if the item doesn't exist, return null
+      if (!itemStr) {
+        return null
+      }
+      const item = JSON.parse(itemStr)
+      const now = new Date()
+      // compare the expiry time of the item with the current time
+      if (now.getTime() > item.expiry) {
+        // If the item is expired, delete the item from storage
+        // and return null
+        localStorage.removeItem(key)
+        return undefined
+      }
+      return item.value
+    }
+
+    function toggleNotification($el, id, isShow) {
+      // prepare element in case element is not provided
+      if (!$el) $el = $('#' + id);
+      
+      // toggle in case status is not provided
+      if (isShow == null || isShow == undefined)
+        isShow = !$el.hasClass('is-shown');
+
+      // toggle the notification
+      if (isShow)
+        $el.addClass('is-shown');
+      else {
+        $el.removeClass('is-shown');
+
+        // in case user don't want to see the message again --> set flag for message dissapear
+        setWithExpiry(_showFreezeNotification, 1, _ttl); // add to localstorage
+      }
+    }
+
+    function showFreezeNotification(ttl, text) {
+      let _isExist = getWithExpiry(_showFreezeNotification);
+      if (_isExist == null) {
+        let _freezeNotif = $('#freeze-notification');
+        let _title = $('#freeze-notification .title-text');
+        let _body = $('#freeze-notification .body-text');
+
+        // set title text
+        _title.html('<div>' + text.title + '</div><br/>');
+
+        // set body text(s)
+        text.body.forEach(bodyRow => {
+          if (!bodyRow) _body.append('<br/>');
+          else _body.append('<div>' + bodyRow + '</div>');
+        });
+
+        toggleNotification(_freezeNotif, true);         // hide show notification
+
+        return true;
+      }
+    };
+
+    function isShowFreezeNotification() {
+      _notifications.forEach(element => {
+
+        // create date objects
+        element.startDate = new Date(element.startDateStr);
+        element.stopDate = new Date(element.stopDateStr);
+
+        // check the date objects
+        if (element.startDate <= _today && element.stopDate > _today) {
+          return !showFreezeNotification(_ttl, element.text);    
+        }
+      });
+    }
+
+    fetch(_jsonConfigFileUrl)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsondata => {
+        // set notifications data
+        _notifications = jsondata.notifications;
+
+        // show notification
+        isShowFreezeNotification();
+      }).catch(function(error) {
+        // set the default notification message
+        _notifications.push(_notificationDefault);
+
+        // show notification
+        isShowFreezeNotification();
+
+        // add error to logs
+        console.log(error);
+      });
+
+  </script>
+  <!-- Stop temporary notification -->
+  
 <%static:optional_include_mako file="body-initial.html" is_theming_enabled="True" />
 <div id="page-prompt"></div>
 % if not disable_window_wrap:

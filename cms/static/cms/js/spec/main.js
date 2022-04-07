@@ -71,7 +71,7 @@
             'domReady': 'xmodule_js/common_static/js/vendor/domReady',
             'URI': 'xmodule_js/common_static/js/vendor/URI.min',
             'mock-ajax': 'xmodule_js/common_static/js/vendor/mock-ajax',
-            mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_SVG&delayStartupUntil=configured',   // eslint-disable-line max-len
+            mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML&delayStartupUntil=configured',   // eslint-disable-line max-len
             'youtube': '//www.youtube.com/player_api?noext',
             'coffee/src/ajax_prefix': 'xmodule_js/common_static/coffee/src/ajax_prefix',
             'js/spec/test_utils': 'js/spec/test_utils'
@@ -284,7 +284,6 @@
         'js/spec/views/modals/edit_xblock_spec',
         'js/spec/views/modals/move_xblock_modal_spec',
         'js/spec/views/modals/validation_error_modal_spec',
-        'js/spec/views/modals/weight_summary_modal_spec',
         'js/spec/views/move_xblock_spec',
         'js/spec/views/settings/main_spec',
         'js/spec/factories/xblock_validation_spec',
