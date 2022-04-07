@@ -34,7 +34,6 @@ mysql_replica_host: koa-prod-openedx-ro.ci3ewl3onmj2.eu-west-1.rds.amazonaws.com
 memcached_host: edxapp-memcache.iuvune.cfg.euw1.cache.amazonaws.com
 mongo_hosts: "prod-mongo-koa-openedx.cluster-ci3ewl3onmj2.eu-west-1.docdb.amazonaws.com"
 EDXAPP_MYSQL_REPLICA_HOST: "{{ mysql_replica_host }}"
-EDXAPP_MYSQL_CSMH_REPLICA_HOST: "{{ mysql_replica_host }}"
 EDXAPP_MONGO_CMS_READ_PREFERENCE: 'SECONDARY_PREFERRED'
 EDXAPP_MONGO_LMS_READ_PREFERENCE: 'SECONDARY_PREFERRED'
 elasticsearch_host: "vpc-koa-prod-elasticsearch-meeo5jg7tjii4eqmufo6dwljhm.eu-west-1.es.amazonaws.com"
