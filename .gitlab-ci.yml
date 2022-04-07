@@ -27,7 +27,7 @@ build:
 
 deploy:
   stage: deploy
-  image: 
+  image:
     name:  amazon/aws-cli
     entrypoint: [""]
   environment: prod
@@ -58,3 +58,4 @@ deploy:
       - master
   except:
       - tags
+  when: manual
