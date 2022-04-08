@@ -9,7 +9,6 @@ edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-pla
 EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"
 
 COMMON_HOSTNAME: "campus"
-EDXAPP_GOOGLE_TAG_MANAGER_ID: "GTM-T2HB8R7"
 
 COMMON_DEFAULT_FROM_EMAIL: "CampusIL <no-reply@campus.gov.il>"
 
@@ -339,7 +338,7 @@ edxlocal_database_users:
 
 EDXAPP_X_FRAME_OPTIONS: SAMEORIGIN
 
-EDXAPP_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/nginx/access.log /edx/var/log/nginx/error.log /edx/var/log/cms/edx.log /edx/var/log/supervisor/cms-stderr.log /edx/var/log/supervisor/cms-stdout.lo /edx/var/log/supervisor/lms-stderr.log /edx/var/log/supervisor/lms-stdout.lo /edx/var/log/tracking/tracking.lo /edx/var/log/supervisor/supervisord.lo /edx/var/log/aws/s3-log-sync.log"
+EDXAPP_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/nginx/access.log /edx/var/log/nginx/error.log /edx/var/log/cms/edx.log /edx/var/log/supervisor/cms-stderr.log /edx/var/log/supervisor/cms-stdout.log /edx/var/log/supervisor/lms-stderr.log /edx/var/log/supervisor/lms-stdout.log /edx/var/log/tracking/tracking.log /edx/var/log/supervisor/supervisord.log /edx/var/log/aws/s3-log-sync.log"
 WORKER_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/supervisor/cms_default_1-stderr.log /edx/var/log/supervisor/cms_default_1-stdout.log /edx/var/log/supervisor/cms_high_1-stderr.log /edx/var/log/supervisor/cms_high_1-stdout.log /edx/var/log/supervisor/cms_low_1-stderr.log /edx/var/log/supervisor/cms_low_1-stdout.log /edx/var/log/supervisor/lms_default_1-stderr.log /edx/var/log/supervisor/lms_default_1-stdout.log /edx/var/log/supervisor/lms_high_1-stderr.log /edx/var/log/supervisor/lms_high_1-stdout.log /edx/var/log/supervisor/lms_high_mem_1-stderr.log /edx/var/log/supervisor/lms_high_mem_1-stdout.log /edx/var/log/supervisor/lms_low_1-stderr.log /edx/var/log/supervisor/lms_low_1-stdout.log"
 ANALYTIC_API_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/analytics-api/edx.log /edx/var/log/supervisor/analytics_api-stderr.log /edx/var/log/supervisor/analytics_api-stdout.log"
 CREDENTIAlS_NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/credentials/edx.log /edx/var/log/supervisor/credentials-stderr.log /edx/var/log/supervisor/credentials-stdout.log"
