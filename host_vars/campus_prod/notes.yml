@@ -3,10 +3,10 @@
 EDXAPP_ENABLE_EDXNOTES: false
 EDX_NOTES_API_MYSQL_DB_USER: "edx_notes_api"
 EDX_NOTES_API_MYSQL_DB_NAME: "edx_notes_api"
-EDXAPP_EDXNOTES_PUBLIC_API: "https://notes-api-koaprod.campus.gov.il/api/v1"
+EDXAPP_EDXNOTES_PUBLIC_API: "https://notes-api.campus.gov.il/api/v1"
 EDXAPP_EDXNOTES_INTERNAL_API: "http://localhost:8120/api/v1"
 EDX_NOTES_API_ALLOWED_HOSTS:
 - localhost
 - lms-campus-prod.raccoongang.com
 - notes-api-campus-prod.raccoongang.com
-- notes-api-koaprod.campus.gov.il
+- notes-api.campus.gov.il
