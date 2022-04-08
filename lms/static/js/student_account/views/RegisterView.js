@@ -448,10 +448,12 @@
                 },
 
                 thirdPartyAuth: function(event) {
-                    var providerUrl = $(event.currentTarget).data('provider-url') || '';
+                    const el = $(event.currentTarget);
+                    const providerUrl = el.data('provider-url') || '';
+                    const isFromIframe = window.location !== window.parent.location;
 
                     if (providerUrl) {
-                        window.location.href = providerUrl;
+                        window.open(providerUrl,  isFromIframe ? '_blank' : '_self');
                     }
                 },
 
