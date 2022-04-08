@@ -24,7 +24,7 @@ def redirect_to_maintenance(absolute_url, path, user):
     if path == '/maintenancepage' or path == '/login' or path.startswith(('/user_api/', '/api/', '/notifier_api/', '/oauth2/access_token')):
         return None
 
-    if not user.is_authenticated():
+    if not user.is_authenticated:
         return redirect("/login" + "?next={url}".format(url=quote(absolute_url, safe='')))
     else:
         if user.is_superuser:
