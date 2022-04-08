@@ -7,6 +7,8 @@ EDX_PLATFORM_VERSION: "campus-prod-release-2022-04-06"
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"
+EDXAPP_CROSS_DOMAIN_CSRF_COOKIE_NAME: "csrftoken-marketing"
+EDXAPP_CROSS_DOMAIN_CSRF_COOKIE_DOMAIN: ".campus.gov.il"
 
 COMMON_HOSTNAME: "campus"
 
@@ -139,7 +141,8 @@ EDXAPP_SITE_CONFIGURATION: "{{ SITE_CONFIGURATION_STORAGE }}"
 EDXAPP_LMS_NGINX_TIMEOUT: '900s' # 900s = 15m
 EDXAPP_CMS_NGINX_TIMEOUT: '900s' # 900s = 15m
 EDXAPP_CORS_ORIGIN_WHITELIST:
-    - "https://campus.gov.il"
+    - "campus.gov.il"
+    - "*.campus.gov.il"
 
 EDXAPP_AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
 EDXAPP_AWS_QUERYSTRING_AUTH: false

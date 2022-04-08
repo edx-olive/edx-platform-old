@@ -79,7 +79,7 @@ EDXAPP_FEATURES_OVERRIDE:
  ENABLE_CORS_HEADERS: true
  ENABLE_COUNTRY_ACCESS: true
  ENABLE_CREATOR_GROUP: false
- ENABLE_CROSS_DOMAIN_CSRF_COOKIE: false
+ ENABLE_CROSS_DOMAIN_CSRF_COOKIE: true
  ENABLE_DEBUG_RUN_PYTHON: false
  ENABLE_DISCUSSION_EMAIL_DIGEST: true
  ENABLE_DISCUSSION_HOME_PANEL: true
@@ -158,8 +158,6 @@ EDXAPP_FINANCE_EMAIL: finance@campus.gov.il
 
 NGINX_EDXAPP_LMS_APP_EXTRA: |
   add_header Content-Security-Policy "frame-ancestors 'self' https://*.campus.gov.il https://campus.gov.il";
-  add_header Access-Control-Allow-Origin "https://campus.gov.il";
-  add_header Access-Control-Allow-Headers "accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with";
   # Redirect all requests starting with /home to the marketing site
   rewrite ^(/home)(.*)$ {{ CAMPUS_MARKETING_SITE_ROOT }}$2 redirect;
   rewrite ^/?$ {{ CAMPUS_MARKETING_SITE_ROOT }} redirect;
