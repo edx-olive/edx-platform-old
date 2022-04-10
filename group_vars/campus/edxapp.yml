@@ -230,7 +230,7 @@ EDXAPP_PRIVATE_REQUIREMENTS:
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-sga.git@v0.17.3#egg=edx_sga==0.17.3"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v2.0.3#egg=periodic-instructor-reports==2.0.3"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v2.0.4#egg=periodic-instructor-reports==2.0.4"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@campus-prod-release-2022-04-08#egg=campus-edx-extensions==1.0.0"
    extra_args: "-e"
