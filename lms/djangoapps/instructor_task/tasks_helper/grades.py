@@ -320,6 +320,7 @@ class _ProblemGradeReportContext(object):
         self.report_for_verified_only = problem_grade_report_verified_only(self.course_id)
         self.task_progress = TaskProgress(self.action_name, total=None, start_time=time())
         self.upload_filename = _task_input.get('filename', 'problem_grade_report')
+        self.upload_parent_dir = _task_input.get('upload_parent_dir', '')
         self.upload_dir = _task_input.get('upload_parent_dir', '')
 
     @lazy
