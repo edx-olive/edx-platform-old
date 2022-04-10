@@ -4221,7 +4221,7 @@ DEFAULT_EMAIL_LOGO_URL = 'https://edx-cdn.org/v3/default/logo.png'
 HISTORY_SAVING_TYPES = ['problem']
 
 CAMPUS_LOGO_URL = '/'
-CAMPUS_SUPPORT_CONTACT_URL = 'https://campus.gov.il/en/contact_us/'
+CAMPUS_SUPPORT_CONTACT_URL = 'https://campus.gov.il/contact-us/'
 CAMPUS_DEFAULT_TOS_URL = 'https://campus.gov.il/en/terms-of-service/'
 
 CAMPUS_TOS_URLS = {
