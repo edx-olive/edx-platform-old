@@ -187,9 +187,21 @@ class GradeReportBase(object):
         Creates and uploads a CSV for the given headers and rows.
         """
         date = datetime.now(UTC)
-        upload_csv_to_report_store(success_rows, context.upload_filename, context.course_id, date)
+        upload_csv_to_report_store(
+            success_rows,
+            context.upload_filename,
+            context.course_id,
+            date,
+            parent_dir=context.upload_parent_dir
+        )
         if len(error_rows) > 1:
-            upload_csv_to_report_store(error_rows, context.upload_filename + '_err', context.course_id, date)
+            upload_csv_to_report_store(
+                error_rows,
+                context.upload_filename + '_err',
+                context.course_id,
+                date,
+                parent_dir=context.upload_parent_dir
+            )
 
     def log_additional_info_for_testing(self, context, message):
         """
