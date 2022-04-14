@@ -299,6 +299,7 @@ def course_handler(request, course_key_string=None):
 @login_required
 @ensure_csrf_cookie
 @require_http_methods(["GET"])
+@pluggable_override('OVERRIDE_COURSE_RERUN_HANDLER')
 def course_rerun_handler(request, course_key_string):
     """
     The restful handler for course reruns.
@@ -844,6 +845,7 @@ def course_outline_initial_state(locator_to_show, course_structure):
 
 
 @expect_json
+@pluggable_override('OVERRIDE_CREATE_OR_RERUN_COURSE')
 def _create_or_rerun_course(request):
     """
     To be called by requests that create a new destination course (i.e., create_new_course and rerun_course)
