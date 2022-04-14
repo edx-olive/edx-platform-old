@@ -1,8 +1,8 @@
-define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui', 'js/utils/date_utils',
+define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 'jquery.ui', 'js/utils/date_utils',
     'js/models/uploads', 'js/views/uploads', 'js/views/license', 'js/models/license',
     'common/js/components/views/feedback_notification', 'jquery.timepicker', 'date', 'gettext',
     'js/views/learning_info', 'js/views/instructor_info', 'edx-ui-toolkit/js/utils/string-utils', 'tinymce'],
-       function(ValidatingView, CodeMirror, _, $, ui, DateUtils, FileUploadModel,
+       function(ValidatingView, tinymce, CodeMirror, _, $, ui, DateUtils, FileUploadModel,
                 FileUploadDialog, LicenseView, LicenseModel, NotificationView,
                 timepicker, date, gettext, LearningInfoView, InstructorInfoView, StringUtils) {
            var DetailsView = ValidatingView.extend({
@@ -22,7 +22,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    'blur :input': 'inputUnfocus',
                    'click .action-upload-image': 'uploadImage',
                    'click .add-course-learning-info': 'addLearningFields',
-                   'click .add-course-instructor-info': 'addInstructorFields'
+                   'click .add-course-instructor-info': 'addInstructorFields',
                },
 
                initialize: function(options) {
@@ -71,6 +71,23 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                        el: $('.course-instructor-details-fields'),
                        model: this.model
                    });
+                   this.$el.find('#' + this.fieldToSelectorMap['mobile']).val(this.model.get('mobile'));
+                   if(this.model.get('verified') == 'true')
+                       this.$el.find('#' + this.fieldToSelectorMap['verified']).attr('checked', true);
+                   if(this.model.get('pathway') == 'true')
+                       this.$el.find('#' + this.fieldToSelectorMap['pathway']).attr('checked', true);
+                   if(this.model.get('vr_enabled') == 'true')
+                       this.$el.find('#' + this.fieldToSelectorMap['vr_enabled']).attr('checked', true);
+                   this.$el.find('#' + this.fieldToSelectorMap['level']).val(this.model.get('level'));
+                   this.$el.find('#' + this.fieldToSelectorMap['availibility_status']).val(this.model.get('availibility_status'));
+                   this.$el.find('#' + this.fieldToSelectorMap['streams']).val(this.model.get('streams'));
+                   this.$el.find('#' + this.fieldToSelectorMap['tags']).val(this.model.get('tags'));
+                   this.$el.find('#' + this.fieldToSelectorMap['objectives']).val(this.model.get('objectives'));
+                   this.$el.find('#' + this.fieldToSelectorMap['course_prerequisites']).val(this.model.get('course_prerequisites'));
+                   this.$el.find('#' + this.fieldToSelectorMap['instructors']).val(this.model.get('instructors'));
+                   this.$el.find('#' + this.fieldToSelectorMap['instructor_designers']).val(this.model.get('instructor_designers'));
+                   this.$el.find('#' + this.fieldToSelectorMap['standard']).val(this.model.get('standard'));
+                   this.$el.find('#' + this.fieldToSelectorMap['price']).val(this.model.get('price'));
                },
 
                render: function() {
@@ -183,7 +200,22 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    course_settings_learning_fields: 'course-settings-learning-fields',
                    add_course_learning_info: 'add-course-learning-info',
                    add_course_instructor_info: 'add-course-instructor-info',
-                   course_learning_info: 'course-learning-info'
+                   course_learning_info: 'course-learning-info',
+                   mobile: 'appliedx-custom-mobile',
+                   pathway: 'appliedx-custom-pathway',
+                   verified: 'appliedx-custom-verified',
+                   vr_enabled: 'appliedx-custom-vr_enabled',
+                   yammer: 'appliedx-custom-yammer',
+                   level: 'appliedx-custom-level',
+                   availibility_status: 'appliedx-custom-availibility_status',
+                   streams: 'appliedx-custom-streams',
+                   tags: 'appliedx-custom-tags',
+                   objectives: 'appliedx-custom-objectives',
+                   course_prerequisites: 'appliedx-custom-course_prerequisites',
+                   instructors: 'appliedx-custom-instructors',
+                   instructor_designers: 'appliedx-custom-instructor_designers',
+                   standard: 'appliedx-custom-standard',
+                   price: 'appliedx-custom-price',
                },
 
                addLearningFields: function() {
@@ -311,7 +343,55 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                    case 'course-description':
                    case 'course-short-description':
                    case 'course-overview':
+                   case 'yammer-group-id':
                        this.setField(event);
+                       break;
+                   case 'appliedx-custom-streams':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-mobile':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-pathway':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-verified':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-vr_enabled':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-yammer':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-availibility_status':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-level':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-tags':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-objectives':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-course_prerequisites':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-instructors':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-instructor_designers':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-standard':
+                       this.setField(event);
+                       break;
+                   case 'appliedx-custom-price':
+                       this.setField(event);
+                       break;
+                   case 'course-overview-update-btn':
                        break;
                    default: // Everything else is handled by datepickers and CodeMirror.
                        break;
@@ -363,7 +443,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             // workflow. So in this case e = forcedTarget = null.
                        return;
                    }
-
+/*
                    if (!this.codeMirrors[thisTarget.id]) {
                        cachethis = this;
                        field = this.selectorToField[thisTarget.id];
@@ -381,28 +461,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                        cmTextArea.setAttribute('id', thisTarget.id + '-cm-textarea');
                    }
                },
-
-               tinymceInit: function (elem, model) {
-                   var self = this;
-                   var directionality = $('head').attr('dir');
-
-                   tinymce.init({
-                     selector: elem,
-                     directionality : directionality,
-                     theme: 'modern',
-                     plugins: 'link image lists code table media textcolor',
-                     toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright forecolor backcolor | blockquote link image | numlist bullist outdent indent',
-                     setup: function (ed) {
-                       ed.on('keyup change', function () {
-                         if (self.model.get(model) != ed.getContent()) {
-                           self.setAndValidate(model, ed.getContent())
-                         }
-                       });
-                     }
-                   });
-                 },
+*/
 
 
+/*
                revertView: function() {
         // Make sure that the CodeMirror instance has the correct
         // data from its corresponding textarea
@@ -425,7 +487,104 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                        silent: true
                    });
                },
-               setAndValidate: function(attr, value) {
+*/
+          if (!this.codeMirrors[thisTarget.id]) {
+            var cachethis = this;
+            var field = this.selectorToField[thisTarget.id];
+            this.codeMirrors[thisTarget.id]=thisTarget.id;
+            tinyMCE.baseURL = "" + baseUrl + "/js/vendor/tinymce/js/tinymce";
+            tinyMCE.suffix = ".min";
+            // this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
+               // mode: "text/html", lineNumbers: true, lineWrapping: true});
+            tinymce.init({ selector: '#' + thisTarget.id,
+                script_url: "" + baseUrl + "/js/vendor/tinymce/js/tinymce/tinymce.full.min.js",
+                theme: "modern",
+                skin: 'studio-tmce4',
+                schema: "html5",
+                convert_urls: false,
+                formats: {
+                    code: {
+                      inline: 'code'
+                   }
+                },
+                width: '100%',
+                height: '400px',
+                menubar: false,
+                statusbar: false,
+                visual: false,
+                plugins: "textcolor, link, image, codemirror",
+                codemirror: {
+                        path: "" + baseUrl + "/js/vendor"
+                },
+                image_advtab: true,
+                toolbar: "formatselect | fontselect | bold italic underline forecolor wrapAsCode | bullist numlist outdent indent blockquote | link unlink image | code",
+                init_instance_callback: function(editor){
+                        editor.on('SetContent', function(e){
+                        newVal = editor.getContent();
+                        cachethis.clearValidationErrors();
+                        if (cachethis.model.get(field) != newVal) {
+                                cachethis.setAndValidate(field, newVal); }
+                        });
+                        editor.on('KeyUp', function(e){
+                        newVal = editor.getContent();
+                        cachethis.clearValidationErrors();
+                        if (cachethis.model.get(field) != newVal) {
+                                cachethis.setAndValidate(field, newVal); }
+                        });
+                }
+            });
+            // tinymce.get(thisTarget)this.model.get
+            // this.codeMirrors[thisTarget.id].on('change', function (mirror) {
+                   // mirror.save();
+                   // cachethis.clearValidationErrors();
+                   // var newVal = mirror.getValue();
+                   // if (cachethis.model.get(field) != newVal) {
+                   // cachethis.setAndValidate(field, newVal);
+                    //}
+            //});
+          }
+        },
+                tinymceInit: function (elem, model) {
+                   var self = this;
+                   var directionality = $('head').attr('dir');
+
+                   tinymce.init({
+                     selector: elem,
+                     directionality : directionality,
+                     theme: 'modern',
+                     plugins: 'link image lists code table media textcolor',
+                     toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright forecolor backcolor | blockquote link image | numlist bullist outdent indent',
+                     setup: function (ed) {
+                       ed.on('keyup change', function () {
+                         if (self.model.get(model) != ed.getContent()) {
+                           self.setAndValidate(model, ed.getContent())
+                           }
+                         });
+                     }
+                   });
+               },
+        revertView: function() {
+        // Make sure that the CodeMirror instance has the correct
+        // data from its corresponding textarea
+        var self = this;
+        this.model.fetch({
+            success: function() {
+                self.render();
+                // _.each(self.codeMirrors, function(values,key) {
+                    // var ele = mirror.getTextArea();
+                    // var field = self.selectorToField[values];
+                    // var field = self.selectorToField[values];
+                     //tinymce.init({ selector : '#course-overview' };
+                    // tinymce.get(self.codeMirrors[values]).setContent(self.model.get(field));
+                    // mirror.setValue(self.model.get(field));
+                // });
+                self.licenseModel.setFromString(self.model.get("license"), {silent: true});
+                self.licenseView.render()
+            },
+            reset: true,
+            silent: true});
+        },
+            setAndValidate: function(attr, value) {
         // If we call model.set() with {validate: true}, model fields
         // will not be set if validation fails. This puts the UI and
         // the model in an inconsistent state, and causes us to not
