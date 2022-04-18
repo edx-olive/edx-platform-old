@@ -115,6 +115,7 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                    this.$el.find('#' + this.fieldToSelectorMap.description).val(this.model.get('description'));
 
                    this.$el.find('#' + this.fieldToSelectorMap.short_description).val(this.model.get('short_description'));
+                   this.$el.find('#' + this.fieldToSelectorMap.yammer_group_id).val(this.model.get('yammer_group_id'));
                    this.$el.find('#' + this.fieldToSelectorMap.about_sidebar_html).val(
                        this.model.get('about_sidebar_html')
                    );
@@ -216,6 +217,7 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                    instructor_designers: 'appliedx-custom-instructor_designers',
                    standard: 'appliedx-custom-standard',
                    price: 'appliedx-custom-price',
+                   yammer_group_id: 'yammer-group-id'
                },
 
                addLearningFields: function() {

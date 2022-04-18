@@ -50,7 +50,8 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 instructors : '',
                 instructor_designers : '',
                 standard : '',
-                price : ''
+                price : '',
+                yammer_group_id: ''
             },
 
             validate: function(newattrs) {

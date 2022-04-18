@@ -9,6 +9,7 @@ import re
 from django.conf import settings
 from edx_django_utils.plugins import pluggable_override
 
+from edx_django_utils.plugins import pluggable_override
 from openedx.core.djangolib.markup import HTML
 from openedx.core.lib.courses import course_image_url
 from xmodule.fields import Date
@@ -31,6 +32,7 @@ DEFAULT_ABOUT_ATTRIBUTES = [
     'entrance_exam_id',
     'entrance_exam_minimum_score_pct',
     'about_sidebar_html',
+    'yammer_group_id',
 ]
 
 
@@ -87,6 +89,7 @@ class CourseDetails:
         self.self_paced = None
         self.learning_info = []
         self.instructor_info = []
+        self.yammer_group_id = ""
 
     @classmethod
     def fetch_about_attribute(cls, course_key, attribute):
@@ -134,6 +137,7 @@ class CourseDetails:
         course_details.self_paced = course_descriptor.self_paced
         course_details.learning_info = course_descriptor.learning_info
         course_details.instructor_info = course_descriptor.instructor_info
+        course_details.yammer_group_id = course_descriptor.yammer_group_id
 
         # Default course license is "All Rights Reserved"
         course_details.license = getattr(course_descriptor, "license", "all-rights-reserved")
@@ -196,6 +200,7 @@ class CourseDetails:
         cls.update_about_item(course, 'video', recomposed_video_tag, user_id)
 
     @classmethod
+    @pluggable_override('OVERRIDE_UPDATE_DETAILS')
     def update_from_json(cls, course_key, jsondict, user):  # pylint: disable=too-many-statements
         """
         Decode the json into CourseDetails and save any changed attrs to the db
@@ -288,6 +293,10 @@ class CourseDetails:
 
         if 'language' in jsondict and jsondict['language'] != descriptor.language:
             descriptor.language = jsondict['language']
+            dirty = True
+
+        if 'yammer_group_id' in jsondict and jsondict['yammer_group_id'] != descriptor.yammer_group_id:
+            descriptor.yammer_group_id = jsondict['yammer_group_id']
             dirty = True
 
         if (descriptor.can_toggle_course_pacing
