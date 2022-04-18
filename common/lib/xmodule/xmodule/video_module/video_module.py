@@ -12,7 +12,6 @@ Examples of html5 videos for manual testing:
     https://s3.amazonaws.com/edx-course-videos/edx-intro/edX-FA12-cware-1_100.ogv
 """
 
-
 import copy
 import json
 import logging
@@ -21,6 +20,7 @@ from operator import itemgetter
 
 from django.conf import settings
 from edx_django_utils.cache import RequestCache
+from edx_django_utils.plugins import pluggable_override
 from lxml import etree
 from opaque_keys.edx.locator import AssetLocator
 from web_fragments.fragment import Fragment
@@ -61,6 +61,14 @@ from .transcripts_utils import (
 from .video_handlers import VideoStudentViewHandlers, VideoStudioViewHandlers
 from .video_utils import create_youtube_string, format_xml_exception_message, get_poster, rewrite_video_url
 from .video_xfields import VideoFields
+
+if settings.FEATURES.get("ENABLE_AMAT_EXTENSIONS", True):
+    try:
+        from amat_edx_extensions.models import VideoFieldsOverride
+
+        VideoFields = VideoFieldsOverride
+    except ImportError:
+        pass
 
 # The following import/except block for edxval is temporary measure until
 # edxval is a proper XBlock Runtime Service.
@@ -110,10 +118,10 @@ EXPORT_IMPORT_STATIC_DIR = 'static'
 
 @XBlock.wants('settings', 'completion', 'i18n', 'request_cache')
 class VideoBlock(
-        VideoFields, VideoTranscriptsMixin, VideoStudioViewHandlers, VideoStudentViewHandlers,
-        TabsEditingMixin, EmptyDataRawMixin, XmlMixin, EditingMixin,
-        XModuleDescriptorToXBlockMixin, XModuleToXBlockMixin, HTMLSnippet, ResourceTemplates, XModuleMixin,
-        LicenseMixin):
+    VideoFields, VideoTranscriptsMixin, VideoStudioViewHandlers, VideoStudentViewHandlers,
+    TabsEditingMixin, EmptyDataRawMixin, XmlMixin, EditingMixin,
+    XModuleDescriptorToXBlockMixin, XModuleToXBlockMixin, HTMLSnippet, ResourceTemplates, XModuleMixin,
+    LicenseMixin):
     """
     XML source example:
         <video show_captions="true"
@@ -389,7 +397,7 @@ class VideoBlock(
         # For autoadvance controls to be shown, both the feature flag and the course setting must be true.
         # This allows to enable the feature for certain courses only.
         autoadvance_enabled = settings.FEATURES.get('ENABLE_AUTOADVANCE_VIDEOS', False) and \
-            getattr(self, 'video_auto_advance', False)
+                              getattr(self, 'video_auto_advance', False)
 
         # This is the current status of auto-advance (not the control visibility).
         # But when controls aren't visible we force it to off. The student might have once set the preference to
@@ -471,7 +479,8 @@ class VideoBlock(
             'download_video_link': download_video_link,
             'track': track_url,
             'transcript_download_format': transcript_download_format,
-            'transcript_download_formats_list': self.fields['transcript_download_format'].values,  # lint-amnesty, pylint: disable=unsubscriptable-object
+            'transcript_download_formats_list': self.fields['transcript_download_format'].values,
+            # lint-amnesty, pylint: disable=unsubscriptable-object
             'license': getattr(self, "license", None),
         }
         return self.system.render_template('video.html', context)
@@ -610,7 +619,6 @@ class VideoBlock(
             'translation'
         ).rstrip('/?')
         editable_fields['handout']['type'] = 'FileUploader'
-
         return editable_fields
 
     @classmethod
@@ -625,7 +633,8 @@ class VideoBlock(
         for key, val in field_data.items():
             if key not in cls.fields:  # lint-amnesty, pylint: disable=unsupported-membership-test
                 continue  # parse_video_xml returns some old non-fields like 'source'
-            setattr(video_block, key, cls.fields[key].from_json(val))  # lint-amnesty, pylint: disable=unsubscriptable-object
+            setattr(video_block, key,
+                    cls.fields[key].from_json(val))  # lint-amnesty, pylint: disable=unsubscriptable-object
         # Don't use VAL in the new runtime:
         video_block.edx_video_id = None
         return video_block
@@ -788,6 +797,7 @@ class VideoBlock(
         else:
             return ''
 
+    @pluggable_override('OVERRIDE_VIDEO_COMPONENT_CONTEXT')
     def get_context(self):
         """
         Extend context by data for transcript basic tab.
@@ -949,7 +959,8 @@ class VideoBlock(
             else:
                 # We export values with json.dumps (well, except for Strings, but
                 # for about a month we did it for Strings also).
-                field_data[attr] = deserialize_field(cls.fields[attr], value)  # lint-amnesty, pylint: disable=unsubscriptable-object
+                field_data[attr] = deserialize_field(cls.fields[attr],
+                                                     value)  # lint-amnesty, pylint: disable=unsubscriptable-object
 
         course_id = getattr(id_generator, 'target_course_id', None)
         # Update the handout location with current course_id
@@ -1061,7 +1072,8 @@ class VideoBlock(
     @request_cached(
         request_cache_getter=lambda args, kwargs: args[1],
     )
-    def get_cached_val_data_for_course(cls, request_cache, video_profile_names, course_id):  # lint-amnesty, pylint: disable=unused-argument
+    def get_cached_val_data_for_course(cls, request_cache, video_profile_names,
+                                       course_id):  # lint-amnesty, pylint: disable=unused-argument
         """
         Returns the VAL data for the requested video profiles for the given course.
         """

@@ -612,6 +612,14 @@ class CourseAboutSearchIndexer(CoursewareSearchIndexer):
             'image_url': course_image_url(course),
         }
 
+        ext_course_info, ext_about_info = None, []
+        if settings.FEATURES.get("ENABLE_AMAT_EXTENSIONS", False):
+            from custom_views.utils import amat_index_about_information
+            ext_course_info, ext_about_info = amat_index_about_information(course)
+
+        if ext_course_info:
+            course_info.update(ext_course_info)
+
         # load data for all of the 'about' modules for this course into a dictionary
         about_dictionary = {
             item.location.block_id: item.data
@@ -623,7 +631,11 @@ class CourseAboutSearchIndexer(CoursewareSearchIndexer):
             "about_dictionary": about_dictionary,
         }
 
-        for about_information in cls.ABOUT_INFORMATION_TO_INCLUDE:
+        about_info_to_include = cls.ABOUT_INFORMATION_TO_INCLUDE
+        if ext_about_info:
+            about_info_to_include += ext_about_info
+
+        for about_information in about_info_to_include:
             # Broad exception handler so that a single bad property does not scupper the collection of others
             try:
                 section_content = about_information.get_value(**about_context)

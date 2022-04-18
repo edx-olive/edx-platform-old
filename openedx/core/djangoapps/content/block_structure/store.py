@@ -7,6 +7,7 @@ Module for the Storage of BlockStructure objects.
 from logging import getLogger
 
 from django.utils.encoding import python_2_unicode_compatible
+from edx_django_utils.plugins import pluggable_override
 
 from openedx.core.lib.cache_utils import zpickle, zunpickle
 
@@ -193,6 +194,7 @@ class BlockStructureStore:
 
         return bs_model.get_serialized_data()
 
+    @pluggable_override('OVERRIDE_BLOCK_STRUCTURE_SERIALIZE')
     def _serialize(self, block_structure):
         """
         Serializes the data for the given block_structure.

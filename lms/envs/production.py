@@ -32,6 +32,7 @@ from openedx.core.djangoapps.plugins.constants import ProjectType, SettingsType
 from openedx.core.lib.derived import derive_settings
 from openedx.core.lib.logsettings import get_logger_config
 from xmodule.modulestore.modulestore_settings import convert_module_store_setting_if_needed
+from xmodule.exceptions import NotFoundError
 
 from .common import *
 
@@ -1042,7 +1043,8 @@ if AUTH_TOKENS.get('RG_SENTRY_DSN', None):
             integrations=[DjangoIntegration(), CeleryIntegration()],
             environment=ENV_TOKENS.get('RG_SENTRY_ENVIRONMENT', ''),
             release=platform_git_commit,
-            send_default_pii=True
+            send_default_pii=True,
+            ignore_errors=[NotFoundError]
             )
 
 #RACCOONGANG

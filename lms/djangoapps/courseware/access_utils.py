@@ -87,8 +87,13 @@ def check_start_date(user, days_early_for_beta, start, course_key, display_error
         if now is None:
             now = datetime.now(UTC)
         effective_start = adjust_start_date(user, days_early_for_beta, start, course_key)
-        if now > effective_start:
-            return ACCESS_GRANTED
+        try:
+            if now > effective_start:
+                return ACCESS_GRANTED
+        except TypeError as e:
+            if isinstance(effective_start, bool) and effective_start is False:
+                return ACCESS_GRANTED
+            log.error(e)
 
         return StartDateError(start, display_error_to_user=display_error_to_user)
 

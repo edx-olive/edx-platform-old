@@ -36,7 +36,22 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 learning_info: [],
                 instructor_info: {},
                 self_paced: null,
-                yammer_group_id: '',
+                mobile: '',
+                pathway: '',
+	              verified : '',
+                vr_enabled : '',
+	              yammer : '',
+	              level: '',
+                availibility_status: '',
+                streams : '',
+                tags : '',
+                objectives: '',
+                course_prerequisites: '',
+                instructors : '',
+                instructor_designers : '',
+                standard : '',
+                price : '',
+                yammer_group_id: ''
             },
 
             validate: function(newattrs) {
