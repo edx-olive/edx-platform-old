@@ -23,6 +23,7 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                    'click .action-upload-image': 'uploadImage',
                    'click .add-course-learning-info': 'addLearningFields',
                    'click .add-course-instructor-info': 'addInstructorFields',
+                   'click #course-overview-update-btn': 'updateCourseOverview'
                },
 
                initialize: function(options) {
@@ -257,6 +258,104 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
             );
 
                    $(e.currentTarget).attr('title', currentTimeText);
+               },
+                updateCourseOverview: function(event){
+                 event.preventDefault();
+                 $("#new_course_overview_hidden").empty();
+                 let appliedx_services_base = $("#appliedx_services_base").data("url")
+                 var course_overview_description = this.model.get('short_description');
+                 var learning_objectives = JSON.parse(this.model.get('objectives'));
+                 var course_prerequisites = JSON.parse(this.model.get('course_prerequisites'));
+                 var instructors = JSON.parse(this.model.get('instructors'));
+                 var instructor_designers = JSON.parse(this.model.get('instructor_designers'));
+                 var new_course_overview = '<section class="course-description"><h2 class="main-header" style="font-family: helvetica;font-size: 1.5rem;color: #00ccff;"> About This Course </h2>'+course_overview_description+'</section><br>';
+                 if (learning_objectives != '' || learning_objectives.length != 0 )
+                 {
+                    var learning_objectives_html = '';
+                    $.each(learning_objectives, function( index, value ) {
+                      learning_objectives_html+='<li>'+value+'</li>'
+                    });
+                    new_course_overview+='<section class="learning-objectives"><h2 class="main-header" style="font-family: helvetica;font-size: 1.5rem;color: #00ccff;"> You Will Learn To</h2> <ul>'+learning_objectives_html+'</ul></section>';
+                                                                }
+                 if (course_prerequisites != '' || course_prerequisites.length != 0){
+                    var course_prerequisites_html = '';
+                    $.each(course_prerequisites, function( index, value ) {
+                      course_prerequisites_html+='<li>'+value+'</li>'
+                    });
+                    new_course_overview+='<section class="pre-requisites"> <h2 class="main-header" style="font-family: helvetica;font-size: 1.5rem;color: #00ccff;"> Pre-requisites </h2> <ul>'+course_prerequisites_html+' </ul></section>';
+                 }
+                 else{
+                    console.log("No pre-requisites");
+                 }
+                if((instructors != '' || instructors.length !=0) || (instructor_designers != '' || instructor_designers.length != 0)){
+		new_course_overview+='<section class="appliedx-course-staff"><h2 class="main-header" style="font-family: helvetica;font-size: 1.5rem;color: #00ccff;"> Course Staff </h2><section class="course-staff-instructor" style="display:none"><h3 class="sub-header" style="font-family: helvetica;font-size: 1rem;color: #00ccff;"> Instructors </h3></section><section class="course-staff-instructional-designer" style="display:none"><h3 class="sub-header" style="font-family: helvetica;font-size: 1rem;color: #00ccff;"> Instructional Designers </h3></section>';
+                  $("#new_course_overview_hidden").append(new_course_overview)
+                if(instructors != '' || instructors.length != 0 ){
+                $(".course-staff-instructor").css('display','block');
+                $.each( instructors, function( key, value ) {
+                  $.ajax({
+                    url: appliedx_services_base + "instructor_details/",
+                    type: "get", //send it through get method
+                    data: {
+                      name: value
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                      var instructor = response[0]
+                      var instructor_image = ( instructor.image_url == null || instructor.image_url == "" ) ? "https://cdn4.iconfinder.com/data/icons/ui-standard/96/People-512.png" : instructor.image_url;
+                      var instructor_html ='<div style="min-height:150px;margin-bottom:10px;"><span><img src="'+ instructor_image +'" style="max-width:150px;float:left;position:relative;margin-right:15px;"></span><span class="name" style="font-weight:600;font-size: 19px;">'+instructor.name+'</span><br><span class="description" style="font-size:16px;">'+instructor.description+'</span></div><hr></br>'
+                      $(".course-staff-instructor").append(instructor_html);
+                  new_course_overview = $("#new_course_overview_hidden").html()
+                  tinymce.get('course-overview').setContent(new_course_overview);
+                    },
+                    error: function(xhr) {
+                      console.log("Error in fetching instructors")
+                      console.log(xhr)
+                    }
+                  });
+                });
+                }
+               else{
+                   console.log("No Instructors");
+                  tinymce.get('course-overview').setContent(new_course_overview);
+               }
+               if (instructor_designers != '' || instructor_designers.length != 0){
+                $(".course-staff-instructional-designer").css('display','block');
+                $.each( instructor_designers, function( key, value ) {
+                  $.ajax({
+                    url: appliedx_services_base + "instructor_details/",
+                    type: "get", //send it through get method
+                    data: {
+                      name: value
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                      var instructor_designer = response[0]
+                      var instructor_designer_image = ( instructor_designer.image_url == null ||  instructor_designer.image_url == "" ) ? "https://cdn4.iconfinder.com/data/icons/ui-standard/96/People-512.png" : instructor_designer.image_url;
+                      var instructor_designer_html='<div style="min-height:150px;margin-bottom:10px;"><span><img src="'+instructor_designer_image +'" style="max-width:150px;float:left;position:relative;margin-right:15px;"></span><span class="name" style="font-weight:600;font-size: 19px;">'+instructor_designer.name+'</span><br><span class="description" style="font-size:16px;">'+instructor_designer.description+'</span></div><hr></br>'
+                      $(".course-staff-instructional-designer").append(instructor_designer_html);
+                    new_course_overview = $("#new_course_overview_hidden").html()
+                    tinymce.get('course-overview').setContent(new_course_overview);
+                    },
+                    error: function(xhr) {
+                      console.log("Error in fetching instructional designer")
+                      console.log(xhr)
+                    }
+                  });
+                });
+                }
+                else{
+                    console.log("No Instructors Designer");
+                }
+               }
+                  else{
+                  tinymce.get('course-overview').setContent(new_course_overview);
+                  }
+               function updateCourseStaff(event){
+                  event.preventDefault();
+                }
+                revrited_overview = tinymce.get('course-overview');
+                tinymce.get('course-overview').insertContent(revrited_overview.iframeHTML);
                },
 
                updateModel: function(event) {
