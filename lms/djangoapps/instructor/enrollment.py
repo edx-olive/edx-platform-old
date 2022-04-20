@@ -477,6 +477,8 @@ def send_mail_to_student(student, param_dict, language=None):
     elif 'course' in param_dict:
         param_dict['course_name'] = html.unescape(Text(param_dict['course'].display_name_with_default))
 
+    param_dict['course_name'] = str(param_dict['course_name']).replace("'","`")
+
     param_dict['site_name'] = configuration_helpers.get_value(
         'SITE_NAME',
         param_dict['site_name']
