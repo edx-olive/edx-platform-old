@@ -22,6 +22,7 @@ from django.http import Http404, HttpResponse, HttpResponseNotFound, StreamingHt
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_GET, require_http_methods
+from edx_django_utils.plugins import pluggable_override
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locator import LibraryLocator
 from path import Path as path
@@ -112,6 +113,7 @@ def _save_request_status(request, key, status):
     request.session.save()
 
 
+@pluggable_override('OVERRIDE_IMPORT_WRITE_CHUNKS')
 def _write_chunk(request, courselike_key):
     """
     Write the OLX file data chunk from the given request to the local filesystem.
