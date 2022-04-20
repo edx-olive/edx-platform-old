@@ -24,10 +24,22 @@ function(Backbone, BaseView, _, MetadataModel, AbstractEditor, FileUpload, Uploa
                 counter = 0,
                 locator = self.$el.closest('[data-locator]').data('locator'),
                 courseKey = self.$el.closest('[data-course-key]').data('course-key'),
-                attributes = {numEntries: this.collection.length, locator: locator};
+                attributes = {numEntries: this.collection.length, locator: locator},
+                custom_fields = new Set(['component_location_id']);
 
             this.template = this.loadTemplate('metadata-editor');
             this.$el.html(HtmlUtils.HTML(this.template(attributes)).toString());
+
+            function checkCustomField(field){
+              return custom_fields.has(field.attributes.field_name)
+            }
+            var custom_index = this.collection.models.findIndex(checkCustomField);
+            if (custom_index>=0) {
+              var custom_model = this.collection.models[custom_index];
+              this.collection.models.splice(custom_index, 1);
+              this.collection.models.splice(attributes.numEntries, 0, custom_model);
+            }
+
 
             this.collection.each(
                 function(model) {
