@@ -49,7 +49,3 @@ FORUM_ELASTICSEARCH_HOST: "{{ EDXAPP_SEARCH_HOST }}"
 FORUM_ELASTICSEARCH_PORT: "{{ EDXAPP_SEARCH_PORT }}"
 
 EDXAPP_CELERYBEAT_SCHEDULER: 'djcelery.schedulers.DatabaseScheduler'
-
-forum_env:
-  <<: *forum_base_env
-  MONGOID_READ_MODE: secondary_preferred
