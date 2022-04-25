@@ -15,6 +15,7 @@ from django.http import Http404, QueryDict
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from edx_django_utils.monitoring import function_trace
+from edx_django_utils.plugins import pluggable_override
 from fs.errors import ResourceNotFound
 from opaque_keys.edx.keys import UsageKey
 from path import Path as path
@@ -305,6 +306,7 @@ def find_file(filesystem, dirs, filename):
     raise ResourceNotFound(f"Could not find {filename}")
 
 
+@pluggable_override('OVERRIDE_ABOUT_INFO')
 def get_course_about_section(request, course, section_key):
     """
     This returns the snippet of html to be rendered on the course about page,
