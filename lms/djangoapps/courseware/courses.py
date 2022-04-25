@@ -306,7 +306,7 @@ def find_file(filesystem, dirs, filename):
     raise ResourceNotFound(f"Could not find {filename}")
 
 
-@pluggable_override('OVERRIDE_ABOUT_INFO')
+@pluggable_override('OVERRIDE_ABOUT_SECTIONS')
 def get_course_about_section(request, course, section_key):
     """
     This returns the snippet of html to be rendered on the course about page,
