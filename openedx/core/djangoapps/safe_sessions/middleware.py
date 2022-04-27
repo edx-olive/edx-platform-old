@@ -382,9 +382,6 @@ class SafeSessionMiddleware(SessionMiddleware, MiddlewareMixin):
         user_id_in_session = self.get_user_id_from_session(request)
         user_matches = self._verify_user_and_log_mismatch(request, response, user_id_in_session)  # Step 2
        
-        log.warning(u"user_id_in_session: {}".format(user_id_in_session))
-        log.warning(u"user_matches: {}".format(user_matches))
-
         # If the user changed *unexpectedly* between the beginning and end of
         # the request (as observed by this middleware) or doesn't match the
         # user in the session object, then something is likely terribly wrong.
@@ -393,7 +390,7 @@ class SafeSessionMiddleware(SessionMiddleware, MiddlewareMixin):
         # to various kinds of data corruption or arcane vulnerabilities. Forcing
         # a logout should fix it, at least.
         destroy_session = ENFORCE_SAFE_SESSIONS.is_enabled() and not user_matches
-        log.warning(u"destroy_session: {}".format(destroy_session))
+
         if not destroy_session and not _is_cookie_marked_for_deletion(request) and _is_cookie_present(response):
             try:
                 # Use the user_id marked in the session instead of the
@@ -509,7 +506,7 @@ class SafeSessionMiddleware(SessionMiddleware, MiddlewareMixin):
         Returns True if user matches in all places, False otherwise.
         """
         verify_user_results = SafeSessionMiddleware._verify_user_unchanged(request, response, userid_in_session)
-        log.warning(u"verify_user_results: {}".format(verify_user_results))
+
         if verify_user_results['user_unchanged'] is True:
             # all is well; no unexpected user change was found
 
@@ -546,15 +543,14 @@ class SafeSessionMiddleware(SessionMiddleware, MiddlewareMixin):
         # unpack results of an unexpected user change
         request_user_object_mismatch = verify_user_results['request_user_object_mismatch']
         session_user_mismatch = verify_user_results['session_user_mismatch']
-        log.warning(u"request_user_object_mismatch: {}".format(request_user_object_mismatch))
-        log.warning(u"session_user_mismatch: {}".format(session_user_mismatch))
+
         # Log accumulated information stored on request for each change of user
         extra_logs = []
 
         # Attach extra logging and metrics, but don't fail the request if there's a bug in here.
         try:
             response_session_id = getattr(getattr(request, 'session', None), 'session_key', None)
-            log.warning(u"response_session_id: {}".format(response_session_id))
+
             # A safe-session user mismatch could be caused by the
             # wrong session being retrieved from cache. This
             # additional logging should reveal any such mismatch
@@ -594,7 +590,6 @@ class SafeSessionMiddleware(SessionMiddleware, MiddlewareMixin):
                 user_ids_string = ','.join(str(user_id) for user_id in request.user_id_list)
                 set_custom_attribute('safe_sessions.user_id_list', user_ids_string)
                 
-                log.warning(u"LOG_REQUEST_USER_CHANGE_HEADERS.is_enabled(): {}".format(LOG_REQUEST_USER_CHANGE_HEADERS.is_enabled()))
                 if LOG_REQUEST_USER_CHANGE_HEADERS.is_enabled():
                     # cache the fact that we should continue logging request headers for these user ids
                     #   for future requests until the cache values timeout.
