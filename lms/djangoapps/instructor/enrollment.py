@@ -444,7 +444,7 @@ def get_email_params(course, auto_enroll, secure=True, course_key=None, display_
     }
     return email_params
 
-
+@pluggable_override('OVERRIDE_SEND_EMAIL_TO_STUDENT')
 def send_mail_to_student(student, param_dict, language=None):
     """
     Construct the email using templates and then send it.
