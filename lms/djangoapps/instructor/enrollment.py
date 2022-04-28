@@ -7,6 +7,7 @@ Does not include any access control, be sure to check access before calling.
 
 import json
 import logging
+import html
 from datetime import datetime
 
 import pytz
@@ -443,7 +444,7 @@ def get_email_params(course, auto_enroll, secure=True, course_key=None, display_
     }
     return email_params
 
-
+@pluggable_override('OVERRIDE_SEND_EMAIL_TO_STUDENT')
 def send_mail_to_student(student, param_dict, language=None):
     """
     Construct the email using templates and then send it.
@@ -470,11 +471,13 @@ def send_mail_to_student(student, param_dict, language=None):
     Returns a boolean indicating whether the email was sent successfully.
     """
 
-    # Add some helpers and microconfig subsitutions
+ # Add some helpers and microconfig subsitutions
     if 'display_name' in param_dict:
-        param_dict['course_name'] = param_dict['display_name']
+        param_dict['course_name'] = html.unescape(param_dict['display_name'])
     elif 'course' in param_dict:
-        param_dict['course_name'] = Text(param_dict['course'].display_name_with_default)
+        param_dict['course_name'] = html.unescape(Text(param_dict['course'].display_name_with_default))
+
+    param_dict['course_name'] = str(param_dict['course_name']).replace("'","`")
 
     param_dict['site_name'] = configuration_helpers.get_value(
         'SITE_NAME',
