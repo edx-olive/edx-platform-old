@@ -10,6 +10,7 @@ from crum import get_current_user
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+from edx_django_utils.plugins import pluggable_override
 from xblock.fields import Scope
 
 from cms.djangoapps.contentstore import toggles
@@ -72,9 +73,10 @@ class CourseMetadata:
         'default_tab',
         'highlights_enabled_for_messaging',
         'is_onboarding_exam',
-        'yammer_group_id',
     ]
 
+
+    @pluggable_override("OVERRIDE_EXCLUDED_LIST")
     @classmethod
     def get_exclude_list_of_fields(cls, course_key):
         """
