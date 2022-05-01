@@ -3,7 +3,7 @@ EDXAPP_SITE_NAME: "courses.campus.gov.il"
 EDXAPP_CMS_SITE_NAME: "studio.campus.gov.il"
 EDXAPP_PREVIEW_LMS_BASE: "preview.campus.gov.il"
 
-EDX_PLATFORM_VERSION: "campus-prod-release-2022-04-06"
+EDX_PLATFORM_VERSION: "campus-prod-release-2022-04-29"
 edx_platform_repo: "git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-platform.git"
 
 EDXAPP_SESSION_COOKIE_DOMAIN: ".campus.gov.il"

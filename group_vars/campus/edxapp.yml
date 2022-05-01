@@ -4,6 +4,10 @@ EDXAPP_PLATFORM_NAME: "Campus IL"
 EDXAPP_LANG: "en_US.UTF-8"
 EDXAPP_LANGUAGE_CODE: "he-il"
 EDXAPP_TIME_ZONE: "Asia/Jerusalem"
+EDXAPP_CERTIFICATE_TEMPLATE_LANGUAGES:
+ 'en': 'English'
+ 'ar': 'Arabic'
+ 'he': 'Hebrew'
 
 # to enable seamless auth between LMS, CMS, preview, discovery, credentials
 # all DNS names must be one level upper of EDXAPP_SESSION_COOKIE_DOMAIN
@@ -79,7 +83,7 @@ EDXAPP_FEATURES_OVERRIDE:
  ENABLE_CORS_HEADERS: true
  ENABLE_COUNTRY_ACCESS: true
  ENABLE_CREATOR_GROUP: false
- ENABLE_CROSS_DOMAIN_CSRF_COOKIE: true
+ ENABLE_CROSS_DOMAIN_CSRF_COOKIE: false
  ENABLE_DEBUG_RUN_PYTHON: false
  ENABLE_DISCUSSION_EMAIL_DIGEST: true
  ENABLE_DISCUSSION_HOME_PANEL: true
@@ -104,7 +108,6 @@ EDXAPP_FEATURES_OVERRIDE:
  ENABLE_PEARSON_HACK_TEST: false
  ENABLE_PREREQUISITE_COURSES: true
  ENABLE_GRADE_DOWNLOADS: true
- ENABLE_SENSITIVE_DATA_MSG_FOR_DOWNLOADS: true
  ENABLE_SERVICE_STATUS: false
  ENABLE_SHOPPING_CART: false
  ENABLE_SPECIAL_EXAMS: true
@@ -158,6 +161,7 @@ EDXAPP_FINANCE_EMAIL: finance@campus.gov.il
 
 NGINX_EDXAPP_LMS_APP_EXTRA: |
   add_header Content-Security-Policy "frame-ancestors 'self' https://*.campus.gov.il https://campus.gov.il";
+  add_header Access-Control-Allow-Origin "https://koaprod.campus.gov.il";
   # Redirect all requests starting with /home to the marketing site
   rewrite ^(/home)(.*)$ {{ CAMPUS_MARKETING_SITE_ROOT }}$2 redirect;
   rewrite ^/?$ {{ CAMPUS_MARKETING_SITE_ROOT }} redirect;
@@ -230,9 +234,9 @@ EDXAPP_PRIVATE_REQUIREMENTS:
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/edx-sga.git@v0.17.3#egg=edx_sga==0.17.3"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v2.0.4#egg=periodic-instructor-reports==2.0.4"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v2.0.5#egg=periodic-instructor-reports==2.0.5"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@campus-prod-release-2022-04-08#egg=campus-edx-extensions==1.0.0"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@campus-prod-release-2022-04-29#egg=campus-edx-extensions==1.0.0"
    extra_args: "-e"
 
 EDXAPP_EXTRA_REQUIREMENTS:
@@ -288,6 +292,3 @@ EDXAPP_LMS_AUTH_EXTRA:
 EDXAPP_CMS_AUTH_EXTRA:
  RG_SENTRY_DSN: "{{ COMMON_SENTRY_DSN }}"
  # ORA2_FILEUPLOAD_BACKEND: 'django'
-
-
-NEWRELIC_INFRASTRUCTURE_LOG_FILES: "/edx/var/log/nginx/access.log /edx/var/log/nginx/error.log /edx/var/log/cms/edx.log /edx/var/log/supervisor/cms-stderr.log /edx/var/log/supervisor/cms-stdout.log /edx/var/log/supervisor/lms-stderr.log /edx/var/log/supervisor/lms-stdout.log /edx/var/log/tracking/tracking.log /edx/var/log/supervisor/supervisord.log /edx/var/log/aws/s3-log-sync.log /edx/var/log/supervisor/cms_default_1-stderr.log /edx/var/log/supervisor/cms_default_1-stdout.log /edx/var/log/supervisor/cms_high_1-stderr.log /edx/var/log/supervisor/cms_high_1-stdout.log /edx/var/log/supervisor/cms_low_1-stderr.log /edx/var/log/supervisor/cms_low_1-stdout.log /edx/var/log/supervisor/lms_default_1-stderr.log /edx/var/log/supervisor/lms_default_1-stdout.log /edx/var/log/supervisor/lms_high_1-stderr.log /edx/var/log/supervisor/lms_high_1-stdout.log /edx/var/log/supervisor/lms_high_mem_1-stderr.log /edx/var/log/supervisor/lms_high_mem_1-stdout.log /edx/var/log/supervisor/lms_low_1-stderr.log /edx/var/log/supervisor/lms_low_1-stdout.log /edx/var/log/analytics-api/edx.log /edx/var/log/supervisor/analytics_api-stderr.log /edx/var/log/supervisor/analytics_api-stdout.log /edx/var/log/credentials/edx.log /edx/var/log/supervisor/credentials-stderr.log /edx/var/log/supervisor/credentials-stdout.log /edx/var/log/supervisor/forum-stderr.log /edx/var/log/supervisor/forum-stdout.log /edx/var/log/discovery/edx.log /edx/var/log/supervisor/discovery-stderr.log /edx/var/log/supervisor/discovery-stdout.log /edx/var/log/insights/edx.log /edx/var/log/supervisor/insights-stderr.log /edx/var/log/supervisor/insights-stdout.log"
