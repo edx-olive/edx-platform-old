@@ -83,7 +83,7 @@ EDXAPP_FEATURES_OVERRIDE:
  ENABLE_CORS_HEADERS: true
  ENABLE_COUNTRY_ACCESS: true
  ENABLE_CREATOR_GROUP: false
- ENABLE_CROSS_DOMAIN_CSRF_COOKIE: false
+ ENABLE_CROSS_DOMAIN_CSRF_COOKIE: true
  ENABLE_DEBUG_RUN_PYTHON: false
  ENABLE_DISCUSSION_EMAIL_DIGEST: true
  ENABLE_DISCUSSION_HOME_PANEL: true
@@ -228,7 +228,7 @@ EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: true
 EDXAPP_PRIVATE_REQUIREMENTS:
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-social-auth.git@v1.1.1#egg=campus_social_auth==1.1.1"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.18.1#egg=extended_translations==0.0.18.1"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.20#egg=extended_translations==0.0.20"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/custom-registration-form.git@v1.1.0#egg=custom_reg_form==1.1.0"
    extra_args: "-e"
