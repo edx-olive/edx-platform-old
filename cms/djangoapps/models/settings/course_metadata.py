@@ -145,6 +145,9 @@ class CourseMetadata:
         if not settings.PROCTORING_BACKENDS or settings.PROCTORING_BACKENDS.get('proctortrack') is None:
             exclude_list.append('proctoring_escalation_email')
 
+        if settings.FEATURES.get("ENABLE_AMAT_EXTENSIONS", False):
+            exclude_list.append('yammer_group_id')
+
         return exclude_list
 
     @classmethod
