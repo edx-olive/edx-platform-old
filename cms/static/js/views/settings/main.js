@@ -122,7 +122,25 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                    );
                    this.codeMirrorize(null, $('#course-about-sidebar-html')[0]);
 
-                   this.$el.find('.current-course-introduction-video iframe').attr('src', this.model.videosourceSample());
+                   if (this.model.get('intro_video').match(/https:\/\/\w+\.cloudfront\.net\//)) {
+                      $.ajax({
+                               type: "GET",
+                               url: "/sign_url",
+                               data: {
+                                 url: this.model.get('intro_video')
+                               },
+                               dataType: "text",
+                               success: function (response) {
+                                 $('#iframe-video').attr('src', response);
+                               },
+                               error: function(xhr) {
+                                 console.log('An error occurred while signing the video');
+                                 console.log(xhr);
+                               }
+                             });
+                   } else {
+                      this.$el.find('.current-course-introduction-video iframe').attr('src', this.model.videosourceSample());
+                   }
                    this.$el.find('#' + this.fieldToSelectorMap.intro_video).val(this.model.get('intro_video') || '');
                    if (this.model.has('intro_video')) {
                        this.$el.find('.remove-course-introduction-video').show();
@@ -423,7 +441,25 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                        var previewsource = this.model.set_videosource($(event.currentTarget).val());
                        clearTimeout(this.videoTimer);
                        this.videoTimer = setTimeout(_.bind(function() {
-                           this.$el.find('.current-course-introduction-video iframe').attr('src', previewsource);
+                           if (this.model.get('intro_video').match(/https:\/\/\w+\.cloudfront\.net\//)) {
+                             $.ajax({
+                               type: "GET",
+                               url: "/sign_url",
+                               data: {
+                                 url: this.model.get('intro_video')
+                               },
+                               dataType: "text",
+                               success: function (response) {
+                                 $('#iframe-video').attr('src', response);
+                               },
+                               error: function(xhr) {
+                                 console.log('An error occurred while signing the video');
+                                 console.log(xhr);
+                               }
+                             })
+                           } else {
+                             this.$el.find('.current-course-introduction-video iframe').attr('src', previewsource);
+                           }
                            if (this.model.has('intro_video')) {
                                this.$el.find('.remove-course-introduction-video').show();
                            } else {

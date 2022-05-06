@@ -323,6 +323,7 @@ class CourseDetails:
         return CourseDetails.fetch(course_key)
 
     @staticmethod
+    @pluggable_override('OVERRIDE_PARSE_VIDEO_TAG')
     def parse_video_tag(raw_video):
         """
         Because the client really only wants the author to specify the
@@ -345,6 +346,7 @@ class CourseDetails:
             return None
 
     @staticmethod
+    @pluggable_override('OVERRIDE_RECOMPOSE_VIDEO_TAG')
     def recompose_video_tag(video_key):
         """
         Returns HTML string to embed the video in an iFrame.

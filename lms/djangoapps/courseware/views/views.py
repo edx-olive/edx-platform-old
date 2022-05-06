@@ -888,6 +888,7 @@ class EnrollStaffView(View):
 @ensure_csrf_cookie
 @ensure_valid_course_key
 @cache_if_anonymous()
+@pluggable_override('OVERRIDE_COURSE_ABOUT')
 def course_about(request, course_id):
     """
     Display the course's about page.

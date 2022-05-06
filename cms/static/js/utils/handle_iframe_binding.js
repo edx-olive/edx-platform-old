@@ -26,14 +26,14 @@ define(['jquery'], function($) {
                         if (getQString[1].search('wmode=transparent') === -1) {
                             var oldString = getQString[1];
                             var newString = getQString[0];
-                            $(this).attr('src', newString + '?' + wmode + '&' + oldString);
+                            $(this).attr('src', newString + '?' + oldString);
                         }
                     }
                     // The TinyMCE editor is hosted in an iframe, and before the iframe is
                     // removed we execute this code. To avoid throwing an error when setting the
                     // attr, check that the source doesn't start with the value specified by TinyMCE ('javascript:""').
                     else if (ifr_source.lastIndexOf('javascript:', 0) !== 0) {
-                        $(this).attr('src', ifr_source + '?' + wmode);
+                        $(this).attr('src', ifr_source + '?');
                     }
                 }
             } else {
