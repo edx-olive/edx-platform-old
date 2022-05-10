@@ -225,10 +225,13 @@ EDXAPP_LMS_ENV_EXTRA:
 
 EDXAPP_INSTALL_PRIVATE_REQUIREMENTS: true
 
+CAMPUS_EDX_EXTENSIONS_VERSION: 'PLEASE-USE-RELEASE-YML'
+CAMPUS_EXTENDED_TRANSLATIONS_VERSION: 'PLEASE-USE-RELEASE-YML'
+
 EDXAPP_PRIVATE_REQUIREMENTS:
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-social-auth.git@v1.1.1#egg=campus_social_auth==1.1.1"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@campus-v0.0.20#egg=extended_translations==0.0.20"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/extended_translations.git@{{ CAMPUS_EXTENDED_TRANSLATIONS_VERSION }}#egg=extended_translations"
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/custom-registration-form.git@v1.1.0#egg=custom_reg_form==1.1.0"
    extra_args: "-e"
@@ -236,7 +239,7 @@ EDXAPP_PRIVATE_REQUIREMENTS:
    extra_args: "-e"
  - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/periodic-instructor-reports.git@v2.0.5#egg=periodic-instructor-reports==2.0.5"
    extra_args: "-e"
- - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@campus-prod-release-2022-04-29#egg=campus-edx-extensions==1.0.0"
+ - name: "git+git@gitlab.raccoongang.com:Duck-Team/projects/campus/campus-edx-extensions.git@{{ CAMPUS_EDX_EXTENSIONS_VERSION }}#egg=campus-edx-extensions"
    extra_args: "-e"
 
 EDXAPP_EXTRA_REQUIREMENTS:

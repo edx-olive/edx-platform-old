@@ -1,0 +1,18 @@
+# If service's configuration was placed here - it means source codebase is forked into Group.
+
+EDX_PLATFORM_VERSION: "campus-prod-release-2022-05-03"
+EDXAPP_THEME_VERSION: "campus-prod-release-2022-05-03"
+
+CAMPUS_EDX_EXTENSIONS_VERSION: "campus-prod-release-2022-04-27"
+CAMPUS_EXTENDED_TRANSLATIONS_VERSION: "campus-v0.0.20"
+
+# So in the PonyLand as a Release Manager to perform next Release I'd like to proceed as follows:
+
+# - tag updated service(s) repo (e.g. `edx-platform`)
+# - go to group's `deployment` repo and change this single file (update version(s) of updated service(s))
+# - tag this repo with `release tag` and add Release notes to it - this triggers Staging deployment.
+
+# Production deployment is triggered manually (current state).
+
+# If we are starting to customize another Edx tool (let's say `xqueue`) we fork/clone it into Group and add
+# its configuration version into this file.
