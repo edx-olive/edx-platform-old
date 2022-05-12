@@ -131,7 +131,9 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                                },
                                dataType: "text",
                                success: function (response) {
-                                 $('#iframe-video').attr('src', response);
+                                 $('#iframe-video').replaceWith("<video width=\"618\" height=\"350\" id=\"iframe-video\" controls> <source id=\"source-video\" src=\"\" type=\"video/mp4\"> </video>");
+                                 $('#source-video').attr('src', response);
+
                                },
                                error: function(xhr) {
                                  console.log('An error occurred while signing the video');
@@ -139,6 +141,7 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                                }
                              });
                    } else {
+                      $('#iframe-video').replaceWith("<iframe width=\"618\" height=\"350\" id=\"iframe-video\" title=\"${_('Course Introduction Video')}\" src=\"\" frameborder=\"0\" allowfullscreen></iframe>");
                       this.$el.find('.current-course-introduction-video iframe').attr('src', this.model.videosourceSample());
                    }
                    this.$el.find('#' + this.fieldToSelectorMap.intro_video).val(this.model.get('intro_video') || '');
@@ -450,7 +453,8 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                                },
                                dataType: "text",
                                success: function (response) {
-                                 $('#iframe-video').attr('src', response);
+                                 $('#iframe-video').replaceWith("<video width=\"618\" height=\"350\" id=\"iframe-video\" controls> <source id=\"source-video\" src=\"\" type=\"video/mp4\"> </video>");
+                                 $('#source-video').attr('src', response);
                                },
                                error: function(xhr) {
                                  console.log('An error occurred while signing the video');
@@ -458,6 +462,7 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                                }
                              })
                            } else {
+                             $('#iframe-video').replaceWith("<iframe width=\"618\" height=\"350\" id=\"iframe-video\" title=\"${_('Course Introduction Video')}\" src=\"\" frameborder=\"0\" allowfullscreen></iframe>");
                              this.$el.find('.current-course-introduction-video iframe').attr('src', previewsource);
                            }
                            if (this.model.has('intro_video')) {
@@ -558,6 +563,8 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                    if (this.model.has('intro_video')) {
                        this.model.set_videosource(null);
                        this.$el.find('.current-course-introduction-video iframe').attr('src', '');
+                       this.$el.find('.current-course-introduction-video source').attr('src', '');
+                       this.$el.find('.current-course-introduction-video video').css('visibility', 'hidden');
                        this.$el.find('#' + this.fieldToSelectorMap.intro_video).val('');
                        this.$el.find('.remove-course-introduction-video').hide();
                    }
