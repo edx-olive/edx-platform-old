@@ -91,9 +91,10 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                         'The certificate available date must be later than the course end date.'
                     );
                 }
+                // AMAT video customisation - AMATX-2278
                 if (newattrs.intro_video && newattrs.intro_video !== this.get('intro_video')
                   && !newattrs.intro_video.match(/https:\/\/\w+\.cloudfront\.net\//)) {
-                    if (this._videokey_illegal_chars.exec(newattrs.intro_video)) {
+                    if (newattrs.intro_video.match(/[^a-zA-Z0-9_-]/g)) {
                         errors.intro_video = gettext('For CloudFront video, key must be a valid URL. ' +
                           'For YouTube video’s ID, key should only contain letters, numbers, _, or -');
                     }

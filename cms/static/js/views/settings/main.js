@@ -122,6 +122,7 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                    );
                    this.codeMirrorize(null, $('#course-about-sidebar-html')[0]);
 
+                   // AMAT video customisation - AMATX-2278
                    if (this.model.get('intro_video').match(/https:\/\/\w+\.cloudfront\.net\//)) {
                       $.ajax({
                                type: "GET",
@@ -444,6 +445,7 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                        var previewsource = this.model.set_videosource($(event.currentTarget).val());
                        clearTimeout(this.videoTimer);
                        this.videoTimer = setTimeout(_.bind(function() {
+                           // AMAT video customisation - AMATX-2278
                            if (this.model.get('intro_video').match(/https:\/\/\w+\.cloudfront\.net\//)) {
                              $.ajax({
                                type: "GET",
