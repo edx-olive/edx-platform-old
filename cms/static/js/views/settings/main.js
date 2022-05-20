@@ -286,10 +286,10 @@ define(['js/views/validation', 'tinymce', 'codemirror', 'underscore', 'jquery', 
                  $("#new_course_overview_hidden").empty();
                  let appliedx_services_base = $("#appliedx_services_base").data("url")
                  var course_overview_description = this.model.get('short_description');
-                 var learning_objectives = JSON.parse(this.model.get('objectives'));
-                 var course_prerequisites = JSON.parse(this.model.get('course_prerequisites'));
-                 var instructors = JSON.parse(this.model.get('instructors'));
-                 var instructor_designers = JSON.parse(this.model.get('instructor_designers'));
+                 var learning_objectives = (this.model.get('objectives') ? JSON.parse(this.model.get('objectives')) : '');
+                 var course_prerequisites = (this.model.get('course_prerequisites') ? JSON.parse(this.model.get('course_prerequisites')) : '');
+                 var instructors = (this.model.get('instructors') ? JSON.parse(this.model.get('instructors')) : '');
+                 var instructor_designers = (this.model.get('instructor_designers') ? JSON.parse(this.model.get('instructor_designers')) : '');
                  var new_course_overview = '<section class="course-description"><h2 class="main-header" style="font-family: helvetica;font-size: 1.5rem;color: #00ccff;"> About This Course </h2>'+course_overview_description+'</section><br>';
                  if (learning_objectives != '' || learning_objectives.length != 0 )
                  {
