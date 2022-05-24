@@ -3,7 +3,7 @@
 EDX_PLATFORM_VERSION: "campus-prod-release-2022-04-29"
 EDXAPP_THEME_VERSION: "campus-prod-release-2022-05-18"
 
-CAMPUS_EDX_EXTENSIONS_VERSION: "campus-prod-release-2022-04-29"
+CAMPUS_EDX_EXTENSIONS_VERSION: "campus-prod-release-2022-05-24"
 CAMPUS_EXTENDED_TRANSLATIONS_VERSION: "campus-v0.0.20"
 
 # So in the PonyLand as a Release Manager to perform next Release I'd like to proceed as follows:
