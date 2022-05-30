@@ -9,28 +9,26 @@ $(function () {
     * Sends generic video error to /report_error enpoint.
     */
     var listenErrors = function () {
-      if (!document.querySelector('.studio-xblock-wrapper')) {
-        setTimeout(function () {
-          var videos = document.querySelectorAll('video')
-          videos.forEach(function (video) {
-            if (!$(video).parents('.image-explorer-hotspot').length) {
-              var sources = video.querySelectorAll('source')
-              sources.forEach(function (source) {
-                source = $(source)
-                if (!source.hasClass('err-listened')) {
-                  source.on('error', displayError)
-                  source.addClass('err-listened')
-                }
-              })
-              video = $(video)
-              if (!video.hasClass('err-listened')) {
-                video.on('error', displayError)
-                video.addClass('err-listened')
+      setTimeout(function () {
+        var videos = document.querySelectorAll('video')
+        videos.forEach(function (video) {
+          if (!$(video).parents('.image-explorer-hotspot-content-wrapper').length) {
+            var sources = video.querySelectorAll('source')
+            sources.forEach(function (source) {
+              source = $(source)
+              if (!source.hasClass('err-listened')) {
+                source.on('error', displayError)
+                source.addClass('err-listened')
               }
+            })
+            video = $(video)
+            if (!video.hasClass('err-listened')) {
+              video.on('error', displayError)
+              video.addClass('err-listened')
             }
-          })
-        }, 100)
-      }
+          }
+        })
+      }, 100)
     }
 
     var hide_all_transcripts = function () {
