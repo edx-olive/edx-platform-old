@@ -172,6 +172,9 @@ LOG_DIR = ENV_TOKENS['LOG_DIR']
 DATA_DIR = path(ENV_TOKENS.get('DATA_DIR', DATA_DIR))
 
 CACHES = ENV_TOKENS['CACHES']
+
+SESSION_CACHE_ALIAS = ENV_TOKENS.get('SESSION_CACHE_ALIAS', 'default')
+
 # Cache used for location mapping -- called many times with the same key/value
 # in a given request.
 if 'loc_cache' not in CACHES:
