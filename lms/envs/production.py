@@ -196,6 +196,9 @@ if ENV_TOKENS.get('SESSION_COOKIE_NAME', None):
     SESSION_COOKIE_NAME = str(ENV_TOKENS.get('SESSION_COOKIE_NAME'))
 
 CACHES = ENV_TOKENS['CACHES']
+
+SESSION_CACHE_ALIAS = ENV_TOKENS.get('SESSION_CACHE_ALIAS', 'default')
+
 # Cache used for location mapping -- called many times with the same key/value
 # in a given request.
 if 'loc_cache' not in CACHES:
