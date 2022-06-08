@@ -26,7 +26,12 @@ class SubsectionGradeBase(six.with_metaclass(ABCMeta, object)):
 
     def __init__(self, subsection):
         self.location = subsection.location
-        self.display_name = escape(block_metadata_utils.display_name_with_default(subsection))
+        try:
+            self.display_name = escape(block_metadata_utils.display_name_with_default(subsection))
+        except AttributeError:
+            log.warning('======The error with the display name in'
+                        f'subsection: {subsection.location}======')
+            self.display_name = "Subsection Name"
         self.url_name = block_metadata_utils.url_name_for_block(subsection)
 
         self.format = getattr(subsection, 'format', '')
