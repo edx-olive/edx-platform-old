@@ -27,6 +27,7 @@ from opaque_keys.edx.keys import CourseKey, UsageKey
 from web_fragments.fragment import Fragment
 
 from common.djangoapps.edxmako.shortcuts import render_to_response, render_to_string
+from edx_django_utils.plugins import pluggable_override
 from lms.djangoapps.courseware.exceptions import CourseAccessRedirect, Redirect
 from lms.djangoapps.experiments.utils import get_experiment_user_metadata_context
 from lms.djangoapps.gating.api import get_entrance_exam_score_ratio, get_entrance_exam_usage_key
@@ -567,6 +568,7 @@ class CoursewareIndex(View):
         return section_context
 
 
+@pluggable_override('OVERRIDE_RENDER_ACCORDION_VIEW')
 def render_accordion(request, course, table_of_contents):
     """
     Returns the HTML that renders the navigation for the given course.
