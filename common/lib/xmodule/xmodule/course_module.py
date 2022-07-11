@@ -1015,7 +1015,7 @@ class CourseFields:  # lint-amnesty, pylint: disable=missing-class-docstring
         help=_("Provide the Yammer Group ID"),
         scope=Scope.settings,
         default=""
-    ),
+    )
     get_credit_enabled = Boolean(
         display_name=_("Progress Page Get Credit Button Enabled"),
         help=_("Enter true or false. If true, students can see the “Get credit”/“Reset“ button in Progress page."),
