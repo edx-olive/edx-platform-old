@@ -1006,7 +1006,7 @@ class CourseFields:  # lint-amnesty, pylint: disable=missing-class-docstring
             "{ \"my_custom_setting\": \"value\", \"other_setting\": \"value\" }"
         ),
         scope=Scope.settings
-    ),
+    )
 
     # AMATX customizations
 
