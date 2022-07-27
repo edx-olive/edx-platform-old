@@ -12,9 +12,10 @@ If true, it:
 
 
 from django.conf import settings
+from edx_django_utils.plugins import pluggable_override
 from openedx.features.enterprise_support.api import insert_enterprise_pipeline_elements
 
-
+@pluggable_override('PIPELINE_OVERRIDE')
 def apply_settings(django_settings):
     """Set provider-independent settings."""
 
