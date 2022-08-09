@@ -161,6 +161,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
 
         self.modulestores = []
         self.mappings = {}
+        self.courses = {}
 
         for course_id, store_name in six.iteritems(mappings):
             try:
@@ -386,6 +387,25 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         store = self._get_modulestore_for_courselike(course_key)
         return store.make_course_usage_key(course_key)
 
+    def get_course_cache_key(self, course_key, depth=0):
+        """
+        Compose a course key depending on depth value.
+        """
+        return f'{course_key}:{depth}'
+
+    def clean_course_cache(self, course_key):
+        """
+        Remove a course structure from memory.
+        """
+        keys_to_delete = []
+
+        for k in self.courses:
+            if k.startswith(str(course_key)):
+                keys_to_delete.append(k)
+
+        for key in keys_to_delete:
+            del self.courses[key]
+
     @strip_key
     def get_course(self, course_key, depth=0, **kwargs):
         """
@@ -396,8 +416,15 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         """
         assert isinstance(course_key, CourseKey)
         store = self._get_modulestore_for_courselike(course_key)
+
         try:
-            return store.get_course(course_key, depth=depth, **kwargs)
+            course_cache_key = self.get_course_cache_key(course_key, depth)
+            if course := self.courses.get(course_cache_key):
+                return course
+
+            self.courses[course_cache_key] = store.get_course(course_key, depth=depth, **kwargs)
+
+            return self.courses[course_cache_key]
         except ItemNotFoundError:
             return None
 
@@ -440,6 +467,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         See xmodule.modulestore.__init__.ModuleStoreWrite.delete_course
         """
         assert isinstance(course_key, CourseKey)
+        self.clean_course_cache(course_key)
         store = self._get_modulestore_for_courselike(course_key)
         return store.delete_course(course_key, user_id)
 
@@ -456,6 +484,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         Returns:
             True if info save was successful, else False
         """
+        self.clean_course_cache(asset_metadata.asset_id.course_key)
         store = self._get_modulestore_for_courselike(asset_metadata.asset_id.course_key)
         return store.save_asset_metadata(asset_metadata, user_id, import_only)
 
@@ -475,6 +504,8 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         """
         if len(asset_metadata_list) == 0:
             return True
+        self.clean_course_cache(asset_metadata_list[0].asset_id.course_key)
+
         store = self._get_modulestore_for_courselike(asset_metadata_list[0].asset_id.course_key)
         return store.save_asset_metadata_list(asset_metadata_list, user_id, import_only)
 
@@ -528,6 +559,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         Returns:
             Number of asset metadata entries deleted (0 or 1)
         """
+        self.clean_course_cache(asset_key.course_key)
         store = self._get_modulestore_for_courselike(asset_key.course_key)
         return store.delete_asset_metadata(asset_key, user_id)
 
@@ -572,6 +604,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
             NotFoundError if no such item exists
             AttributeError is attr is one of the build in attrs.
         """
+        self.clean_course_cache(asset_key.course_key)
         store = self._get_modulestore_for_courselike(asset_key.course_key)
         return store.set_asset_metadata_attrs(asset_key, {attr: value}, user_id)
 
@@ -589,6 +622,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
             NotFoundError if no such item exists
             AttributeError is attr is one of the build in attrs.
         """
+        self.clean_course_cache(asset_key.course_key)
         store = self._get_modulestore_for_courselike(asset_key.course_key)
         return store.set_asset_metadata_attrs(asset_key, attr_dict, user_id)
 
@@ -659,6 +693,8 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         """
         # first make sure an existing course doesn't already exist in the mapping
         course_key = self.make_course_key(org, course, run)
+
+        self.clean_course_cache(course_key)
 
         log.info('Creating course run %s...', course_key)
         if course_key in self.mappings and self.mappings[course_key].has_course(course_key):
@@ -752,6 +788,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
             fields (dict): A dictionary specifying initial values for some or all fields
                 in the newly created block
         """
+        self.clean_course_cache(course_key)
         modulestore = self._verify_modulestore_support(course_key, 'create_item')
         return modulestore.create_item(user_id, course_key, block_type, block_id=block_id, fields=fields, **kwargs)
 
@@ -773,6 +810,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
             fields (dict): A dictionary specifying initial values for some or all fields
                 in the newly created block
         """
+        self.clean_course_cache(parent_usage_key.course_key)
         modulestore = self._verify_modulestore_support(parent_usage_key.course_key, 'create_child')
         return modulestore.create_child(user_id, parent_usage_key, block_type, block_id=block_id, fields=fields, **kwargs)
 
@@ -802,6 +840,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         Update the xblock persisted to be the same as the given for all types of fields
         (content, children, and metadata) attribute the change to the given user.
         """
+        self.clean_course_cache(xblock.location.course_key)
         store = self._verify_modulestore_support(xblock.location.course_key, 'update_item')
         return store.update_item(xblock, user_id, allow_not_found, **kwargs)
 
@@ -810,6 +849,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
         """
         Delete the given item from persistence. kwargs allow modulestore specific parameters.
         """
+        self.clean_course_cache(location.course_key)
         store = self._verify_modulestore_support(location.course_key, 'delete_item')
         return store.delete_item(location, user_id=user_id, **kwargs)
 
@@ -823,6 +863,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
 
         :raises InvalidVersionError: if no published version exists for the location specified
         """
+        self.clean_course_cache(location.course_key)
         store = self._verify_modulestore_support(location.course_key, 'revert_to_published')
         return store.revert_to_published(location, user_id)
 
@@ -864,6 +905,7 @@ class MixedModuleStore(ModuleStoreDraftAndPublished, ModuleStoreWriteBase):
             fields: :py:class `dict` field_name, value pairs for initializing the xblock fields. Values
                 should be the pythonic types not the json serialized ones.
         """
+        self.clean_course_cache(course_key)
         store = self._verify_modulestore_support(course_key, 'create_xblock')
         return store.create_xblock(runtime, course_key, block_type, block_id, fields or {}, **kwargs)
 
