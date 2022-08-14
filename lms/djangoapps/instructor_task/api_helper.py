@@ -447,11 +447,12 @@ def submit_task(request, task_type, task_class, course_key, task_input, task_key
     task_id = instructor_task.task_id
     task_args = [instructor_task.id, _get_xmodule_instance_args(request, task_id)]
     try:
-        queue = task_input.get('queue', '')
+        queue = task_input.get('queue')
         if queue is None:
             task_class.apply_async(task_args, task_id=task_id)
         else: 
             task_class.apply_async(task_args, queue=queue, task_id=task_id)
+            
     except Exception as error:
         _handle_instructor_task_failure(instructor_task, error)
 
