@@ -13,6 +13,7 @@ import logging
 from celery.result import AsyncResult
 from celery.states import FAILURE, READY_STATES, REVOKED, SUCCESS
 from django.utils.translation import ugettext as _
+from edx_django_utils.plugins import pluggable_override
 from opaque_keys.edx.keys import UsageKey
 import six
 from six import text_type
@@ -423,7 +424,7 @@ def encode_entrance_exam_and_student_input(usage_key, student=None):
 
     return task_input, task_key
 
-
+@pluggable_override('OVERRIDE_SUBMIT_TASK')
 def submit_task(request, task_type, task_class, course_key, task_input, task_key):
     """
     Helper method to submit a task.
@@ -447,12 +448,7 @@ def submit_task(request, task_type, task_class, course_key, task_input, task_key
     task_id = instructor_task.task_id
     task_args = [instructor_task.id, _get_xmodule_instance_args(request, task_id)]
     try:
-        queue = task_input.get('queue')
-        if queue is None:
-            task_class.apply_async(task_args, task_id=task_id)
-        else: 
-            task_class.apply_async(task_args, queue=queue, task_id=task_id)
-            
+        task_class.apply_async(task_args, task_id=task_id)
     except Exception as error:
         _handle_instructor_task_failure(instructor_task, error)
 
