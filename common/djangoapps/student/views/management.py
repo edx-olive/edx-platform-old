@@ -573,7 +573,7 @@ def activate_account_studio(request, key):
             }
         )
 
-
+@pluggable_override('OVERRIDE_VALIDATE_NEW_EMAIL')
 def validate_new_email(user, new_email):
     """
     Given a new email for a user, does some basic verification of the new address If any issues are encountered
@@ -586,7 +586,6 @@ def validate_new_email(user, new_email):
 
     if new_email == user.email:
         raise ValueError(_('Old email is the same as the new email.'))
-
 
 def validate_secondary_email(user, new_email):
     """
