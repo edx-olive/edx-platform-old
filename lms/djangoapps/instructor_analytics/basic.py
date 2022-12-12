@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count, Q
+from edx_django_utils.plugins import pluggable_override
 from django.urls import reverse
 from edx_proctoring.api import get_exam_violation_report
 from opaque_keys.edx.keys import CourseKey, UsageKey
@@ -82,7 +83,7 @@ def issued_certificates(course_key, features):
 
     return generated_certificates
 
-
+@pluggable_override('OVERRIDE_PERIODIC_TASK')
 def enrolled_students_features(course_key, features):
     """
     Return list of student features as dictionaries.
