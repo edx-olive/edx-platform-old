@@ -73,6 +73,7 @@ from common.djangoapps.student.text_me_the_app import TextMeTheAppFragmentView
 from common.djangoapps.util.db import outer_atomic
 from common.djangoapps.util.json_request import JsonResponse
 from xmodule.modulestore.django import modulestore
+from edx_django_utils.plugins import pluggable_override
 
 log = logging.getLogger("edx.student")
 
