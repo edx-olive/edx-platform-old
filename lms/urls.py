@@ -300,6 +300,14 @@ urlpatterns += [
         handle_xblock_callback_noauth,
         name='xblock_handler_noauth',
     ),
+    url(
+        r'^a/{course_key}/{usage_key}/(?P<handler>[^/]*)(?:/(?P<suffix>.*))?$'.format(
+            course_key=settings.COURSE_ID_PATTERN,
+            usage_key=settings.USAGE_ID_PATTERN,
+        ),
+        handle_xblock_callback_noauth,
+        name='xblock_handler_noauth',
+    ),
 
     # xblock View API
     # (unpublished) API that returns JSON with the HTML fragment and related resources
