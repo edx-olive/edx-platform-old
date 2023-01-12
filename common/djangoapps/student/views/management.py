@@ -73,6 +73,7 @@ from common.djangoapps.student.text_me_the_app import TextMeTheAppFragmentView
 from common.djangoapps.util.db import outer_atomic
 from common.djangoapps.util.json_request import JsonResponse
 from xmodule.modulestore.django import modulestore
+from edx_django_utils.plugins import pluggable_override
 
 log = logging.getLogger("edx.student")
 
@@ -573,7 +574,7 @@ def activate_account_studio(request, key):
             }
         )
 
-
+@pluggable_override('OVERRIDE_VALIDATE_NEW_EMAIL')
 def validate_new_email(user, new_email):
     """
     Given a new email for a user, does some basic verification of the new address If any issues are encountered
@@ -586,7 +587,6 @@ def validate_new_email(user, new_email):
 
     if new_email == user.email:
         raise ValueError(_('Old email is the same as the new email.'))
-
 
 def validate_secondary_email(user, new_email):
     """
