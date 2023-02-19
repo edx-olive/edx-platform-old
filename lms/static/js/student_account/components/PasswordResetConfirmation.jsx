@@ -89,6 +89,10 @@ class PasswordResetConfirmation extends React.Component {
               </span>
             </h2>
 
+            <p className="action-label" id="new_password_instructions_text">
+              {gettext('Please enter a new password, and be sure you will not forget this. It\'s too bad to go through this again :-)')}
+            </p>
+
             <p className="action-label" id="new_password_help_text">
               {gettext('Enter and confirm your new password.')}
             </p>
