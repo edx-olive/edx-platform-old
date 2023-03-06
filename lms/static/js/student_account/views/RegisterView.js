@@ -273,7 +273,7 @@
                     // xss-lint: disable=javascript-jquery-insert-into-target
                     $('.checkbox-honor_code').insertAfter('.optional-fields');
                     // xss-lint: disable=javascript-jquery-insert-into-target
-                    $('.checkbox-terms_of_service').insertAfter('.optional-fields');
+                    $('.checkbox-terms_of_service').insertAfter('.exposed-optional-fields');
 
                     // Clicking on links inside a label should open that link.
                     $('label a').click(function(ev) {
