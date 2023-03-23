@@ -168,8 +168,8 @@ def cohort_handler(request, course_key_string, cohort_id=None):
         cohort.
     """
     course_key = CourseKey.from_string(course_key_string)
-    if not has_course_author_access(request.user, course_key):
-        raise Http404('The requesting user does not have course author permissions.')
+    # if not has_course_author_access(request.user, course_key):
+    #     raise Http404('The requesting user does not have course author permissions.')
 
     course = get_course(course_key)
 
